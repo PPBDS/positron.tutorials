@@ -44,7 +44,7 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- DK: Revisit introduction and summary. -->
 
-This tutorial covers [Chapter 2 Workflow: basics](https://r4ds.hadley.nz/workflow-basics.html),  [Chapter 4 Workflow: code style](https://r4ds.hadley.nz/workflow-style.html), [Chapter 6  Workflow: scripts and projects](https://r4ds.hadley.nz/workflow-scripts.html), and some material from [Chapter 28  Quarto](https://r4ds.hadley.nz/quarto.html) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. You will learn how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents) and how to publish your work to the web using [Rpubs](https://rpubs.com/).
+In this tutorial you will learn how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents) and how to publish your work to the web using [Rpubs](https://rpubs.com/). Some material is from [Chapter 28  Quarto](https://r4ds.hadley.nz/quarto.html) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 ## Quarto 1
 ### 
