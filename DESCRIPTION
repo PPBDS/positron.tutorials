@@ -22,4 +22,5 @@ URL: https://ppbds.github.io/positron.tutorials/
 Imports:
     tutorial.helpers
 Suggests: 
+    rsconnect,
     testthat (>= 3.0.0)
