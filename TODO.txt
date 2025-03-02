@@ -1,6 +1,4 @@
-Add website
 
-Github actions
 
 Take .txt files and place them in tutorial in correct location 
 using four backticks.
