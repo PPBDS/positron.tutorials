@@ -1374,7 +1374,7 @@ The details of branching are beyond the scope of this package.
 
 Delete all the text in `index.qmd`. Replace it with (mostly) the same text as from Website 2.
 
-````
+````{verbatim}
 ---
 title: "My Home Page"
 execute: 
@@ -1383,7 +1383,7 @@ execute:
 
 ```{r}
 #| message: false
-#| label: setupx
+#| label: setup
 
 library(tidyverse)
 ```
@@ -1403,10 +1403,6 @@ diamonds |>
          y = "Price")
 ```
 ````
-
-<!-- DK: Fix this problem someday. -->
-
-Note that we purposely misspelled `setup` as `setupx` because of a bug in the **learnr** package. You should, of course, spell it correctly.
 
 From the Console, run
 
