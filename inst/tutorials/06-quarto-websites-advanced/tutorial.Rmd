@@ -1374,8 +1374,39 @@ The details of branching are beyond the scope of this package.
 
 Delete all the text in `index.qmd`. Replace it with (mostly) the same text as from Website 2.
 
-```{r file = "images/full_index.txt", echo = TRUE, eval = FALSE}
+````
+---
+title: "My Home Page"
+execute: 
+  echo: false
+---
+
+```{r}
+#| message: false
+#| label: setupx
+
+library(tidyverse)
 ```
+
+```{r}
+#| label: diamonds-plot
+
+diamonds |> 
+  filter(z != 0) |> 
+  filter(color == "D") |> 
+  ggplot(aes(x = carat, y = price, color = cut)) + 
+    geom_point() +
+    scale_y_continuous(labels = scales::dollar) +
+    labs(title = "Prices and Sizes for Diamonds of Color D",
+         subtitle = "'Round' carat values like 1, 1.5 and 2 are more common.",
+         x = "Carat",
+         y = "Price")
+```
+````
+
+<!-- DK: Fix this problem someday. -->
+
+Note that we purposely misspelled `setup` as `setupx` because of a bug in the **learnr** package. You should, of course, spell it correctly.
 
 From the Console, run
 
@@ -2044,15 +2075,6 @@ question_text(NULL,
 ```
 
 ### 
-
-Your answer should look like this:
-
-<!-- DK: Very annoying that we need this hack, but if you just include this text with four backticks, R still runs the R code, generating two failures: duplicate "setup" code chunk names and non-existent PNG file.  -->
-
-<!-- DK: Or maybe it is overkill to show what the answer looks like. Students mostly got it right anyway! -->
-
-```{r file = "images/index_example.txt", echo = TRUE, eval = FALSE}
-```
 
 There was nothing wrong, *per se* with having the plotting code in `index.qmd` rather than `make_plot.R`. The problem arises when that plotting code takes a long time to run, as it often will. We don't want to re-run all the code each time we make a small change to the website. It is much better to separate out the plotting code and only run it when we need to.
 

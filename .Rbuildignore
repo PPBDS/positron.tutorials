@@ -3,7 +3,7 @@
 ^positron\.tutorials\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
-TODO.txt
+^TODO.txt$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$

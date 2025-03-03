@@ -1,14 +1,14 @@
 ---
-title: RStudio and GitHub Introduction
+title: Positron and GitHub Introduction
 author: David Kane
 tutorial:
-  id: rstudio-and-github-introduction
+  id: positron-and-github-introduction
 output:
   learnr::tutorial:
     progressive: yes
     'allow_skip:': yes
 runtime: shiny_prerendered
-description: Introduction to RStudio, Git and GitHub.
+description: Introduction to Positron, Git and GitHub.
 ---
 
 ```{r setup, include = FALSE}

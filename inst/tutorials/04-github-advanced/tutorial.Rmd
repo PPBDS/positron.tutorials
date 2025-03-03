@@ -1,14 +1,14 @@
 ---
-title: RStudio and GitHub Advanced
+title: Positron and GitHub Advanced
 author: David Kane
 tutorial:
-  id: rstudio-and-github-advanced
+  id: positron-and-github-advanced
 output:
   learnr::tutorial:
     progressive: yes
     'allow_skip:': yes
 runtime: shiny_prerendered
-description: More practice with RStudio, Git and GitHub.
+description: More practice with Positron, Git and GitHub.
 ---
 
 ```{r setup, include = FALSE}
@@ -33,7 +33,7 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- Median time was 95 minutes, which is probably too long. Should split in two and add some material: rstudio-and-github-i and rstudio-and-github-ii. The first loses the second project. The second starts with the second project and adds one (the fork) or maybe two more. -->
+
 
 <!-- DK: Add some questions to load the needed libraries, like usethis, gert, and gitconfig at the beginning. -->
 
@@ -347,8 +347,13 @@ question_text(NULL,
 
 Your answer should look like:
 
-```{r file = "images/quarto-1-example.txt", echo = TRUE, eval = FALSE}
+````
+> tutorial.helpers::show_file("quarto-1.qmd", chunk = "Last")
+```{r}
+library(tidyverse)
+library(palmerpenguins)
 ```
+````
 
 ### 
 
@@ -737,8 +742,21 @@ There have been two commits in this repo. The first was generated automatically 
 
 Remove everything below the YAML header from `quarto-2.qmd`. Add the code chunks from the previous section:
 
-```{r file = "images/quarto-2-start.txt", echo = TRUE, eval = FALSE}
+````
+```{r}
+library(tidyverse)
+library(palmerpenguins)
 ```
+
+```{r}
+penguins |> 
+  ggplot(aes(x = body_mass_g, y = flipper_length_mm, color = species)) +
+    geom_point() +
+    labs(title = "Penguins Body Mass compared to Flipper Length", 
+         x = "Body Mass", 
+         y = "Flipper Length")
+```
+````
 
 Render the document. Copy-and-paste the "Warning" message which appears in `quarto-2.html`.
 
@@ -853,8 +871,33 @@ question_text(NULL,
 
 Your answer should look like:
 
-```{r file = "images/quarto-2-example.txt", echo = TRUE, eval = FALSE}
+````
+> tutorial.helpers::show_file("quarto-2.qmd")
+---
+title: "Quarto 2"
+author: "David Kane"
+format: html
+execute: 
+  echo: false
+---
+
+```{r}
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
 ```
+
+```{r}
+penguins |> 
+  ggplot(aes(x = body_mass_g, y = flipper_length_mm, color = species)) +
+    geom_point() +
+    labs(title = "Penguins Body Mass compared to Flipper Length", 
+         x = "Body Mass", 
+         y = "Flipper Length")
+```
+>
+````
 
 Render `quarto-2.qmd` to make sure everything still works. Fix anything which doesn't.
 
