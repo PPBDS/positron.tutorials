@@ -1,0 +1,43 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Edit ONLY this file if you need to make a change in README.md. But, after you edit it, you run `rmarkdown::render("README.Rmd")` in order to create the new README.md, which is the thing which is actually used. Must be a better way of doing this! -->
+
+```{r, include = FALSE}
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/README-",
+  out.width = "100%"
+)
+```
+
+# Positron Tutorials
+
+<!-- badges: start -->
+[![R build status](https://github.com/PPBDS/positron.tutorials/workflows/R-CMD-check/badge.svg)](https://github.com/PPBDS/positron.tutorials/actions)
+<!-- badges: end -->
+
+## About this package
+
+**positron.tutorials** is a collection of tutorials for working with Positron. Covers scripts, Quarto documents, git, Github, and Quarto websites. Makes extensive use of the tools in the **[tutorial.helpers](https://ppbds.github.io/tutorial.helpers/)** package. 
+
+## Installation
+
+To install the package from CRAN:
+
+``` r
+install.packages("positron.tutorials")
+```
+
+You can install the development version from [GitHub](https://github.com/) with:
+
+``` r
+remotes::install_github("PPBDS/positron.tutorials")
+```
+
+**positron.tutorials** is currently not avaible on CRAN.
+
+<!-- Add section with discussion of available tutorials. -->

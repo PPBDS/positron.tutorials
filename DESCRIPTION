@@ -1,6 +1,6 @@
 Package: positron.tutorials
 Title: Tutorials for Learning Positron and Related Tools
-Version: 0.0.0.9000
+Version: 0.0.1.9000
 Authors@R: 
     c(
     person(given = "David",
@@ -8,9 +8,9 @@ Authors@R:
            role = c("aut", "cre"),
            email = "dave.kane@gmail.com",
            comment = c(ORCID = "0000-0002-6660-3934")))    
-Description: Collection of tutorials for use with Preceptor's Primer for
-    Bayesian Data Science. Makes extensive use of the tools in 'tutorial.helpers'
-    package. 
+Description: Collection of tutorials for working with Positron. Covers scripts, 
+    Quarto documents, git, Github, and Quarto websites. Makes extensive use of 
+    the tools in the 'tutorial.helpers' package. 
 Depends: R (>= 3.5.0) 
 License: MIT + file LICENSE
 Encoding: UTF-8

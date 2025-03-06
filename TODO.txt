@@ -1,4 +1,14 @@
-Better homepage
+Copy over Terminal tutorial
+
+Add overview of the tutorials to README page.
+
+Clean up tutorial 2.
+Clean up tutorial 3.
+Clean up tutorial 4.
+Clean up tutorial 5.
+Clean up tutorial 6.
+
+Add tutorial about ellmer and other AI issues.
 
 
 ## Madhavan
@@ -6,3 +16,12 @@ Better homepage
 Do 01-code tutorial. 
     Submit your downloaded answers to me. 
     Submit a PR with fixes and comments.
+
+
+
+
+ ## AI Links
+
+https://ellmer.tidyverse.org/
+https://www.tidyverse.org/blog/2025/01/experiments-llm/
+

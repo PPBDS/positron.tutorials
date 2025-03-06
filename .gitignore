@@ -7,3 +7,5 @@
 **/*html
 **/.DS_Store
 docs
+
+/.quarto/

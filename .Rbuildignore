@@ -1,6 +1,5 @@
 ^renv$
 ^renv\.lock$
-^positron\.tutorials\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^TODO.txt$
@@ -8,3 +7,4 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^README.Rmd$
