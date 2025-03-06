@@ -1,7 +1,5 @@
 Better homepage
 
-Take .txt files and place them in tutorial in correct location 
-using four backticks.
 
 ## Madhavan
 
