@@ -1190,6 +1190,8 @@ Generative AI is the future of coding, and much else. Practice using it as much 
 ## Publishing
 ### 
 
+<!-- DK: In the olden days, it was possible to replace an Rpubs document on-the-file. That does not seem to work anymore. Once you upload something with slug X, then you can't change that html. You need to delete the page if you want to use slug X again. Since we don't use Rpubs once we learn Quarto websites, I am not going to worry about that. -->
+
 We'll be publishing our Quarto documents on the web by using [RPubs](https://rpubs.com/), a free web publishing service. RPubs is managed by [Posit](https://posit.co/) (formerly RStudio), a leading company in the data science world. You will need to create a free account. Do not give them your credit card number.
 
 ### Exercise 1
@@ -1236,11 +1238,44 @@ question_text(NULL,
 
 Along with other files, you should see a `quarto-4.html` file, which was generated after you rendered your QMD. (Note that the "qmd" file extension stands for **Q**uarto **M**arkdown **D**ocument.)
 
-### 
-
-We sometimes edit the YAML header to get rid of information like the date and title, as it sometimes looks bad in the final render. However, make sure not to mess with the rest of the YAML formatting because it is a very structurally sensitive language. You can learn more about YAML editing at [bookdown.org](https://bookdown.org/yihui/bookdown/r-markdown.html).
-
 ### Exercise 3
+
+The page is probably not as nice as it could be because the code for your plot is displayed. That is ugly. No one wants to see your code. Also, "My Fourth Quarto Document" is a somewhat stupid title.
+
+Change the YAML header to be:
+
+````
+title: Diamonds
+format: html
+execute: 
+  echo: false
+````
+
+Also, delete the `#| echo: false` from the first code chunk since it is no longer necessary. 
+
+In the Console, run:
+
+````
+tutorial.helpers::show_file("quarto-4.qmd", end = 6)
+````
+
+CP/CR.
+
+```{r publishing-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+`Cmd/Ctrl + Shift + K` to render the document to confirm the changes. It is good to make your page look as good as possible before putting it up on the web
+
+
+### Exercise 4
 
 From the Console, run:
 
@@ -1248,14 +1283,14 @@ From the Console, run:
 quarto::quarto_publish_doc(input = "quarto-4.qmd", server = "rpubs.com")
 ````
 
-This will render the document, specified with the `input` argument, locally in order to create an HTML which will ne sent to the `server`, which is RPubs.
+This will render the document, specified with the `input` argument, locally in order to create an HTML which will then sent to the `server`, which is RPubs.
 
 
 You will be taken to the RPubs website. (You may need to authorize Positron to open the Rpubs link. You may need to sign into your account.) 
 
 * By default, the "Title" of the document on Rpubs should be the same as the `title` in the YAML header. You can change it if you like. 
 
-* You can leave the description blank if you don't want to add one.
+* You can leave the description blank if you don't want to write one.
 
 * Add a meaningful slug (a unique website name that's often just the name of your project), otherwise you will end up with an ugly, long address you didn't choose and can't remember. We recommend `diamonds`.
 
@@ -1263,7 +1298,7 @@ Click "Continue."
 
 Put the link to your new RPubs page in the space below.
 
-```{r publishing-3}
+```{r publishing-4}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -1275,7 +1310,6 @@ question_text(NULL,
 ### 
 
 Keep in mind that this is now a website that can be found on the internet, for anyone to see.
-
 
 ## Summary
 ### 
