@@ -1,8 +1,6 @@
-Copy over Terminal tutorial
 
 Add overview of the tutorials to README page.
 
-Clean up tutorial 2.
 Clean up tutorial 3.
 Clean up tutorial 4.
 Clean up tutorial 5.

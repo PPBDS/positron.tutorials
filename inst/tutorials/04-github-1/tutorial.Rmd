@@ -8,7 +8,7 @@ output:
     progressive: yes
     'allow_skip:': yes
 runtime: shiny_prerendered
-description: Introduction to Positron, Git and GitHub.
+description: Introduction to Positron, git and GitHub.
 ---
 
 ```{r setup, include = FALSE}
@@ -33,7 +33,7 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- Median time was 95 minutes, which is probably too long. Should split in two and add some material: rstudio-and-github-i and rstudio-and-github-ii. The first loses the second project. The second starts with the second project and adds one (the fork) or maybe two more. -->
+
 
 <!-- DK: Add some questions to load the needed libraries, like usethis, gert, and gitconfig at the beginning. -->
 
@@ -48,7 +48,7 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- When we say, your answer should look like, we often don't include the command even though your actual answer started with the command, since the instruction was CP/CR. -->
 
-<!-- Took Jade 2 hours. -->
+
 
 <!-- KNOWLEDGE DROPS: -->
 
@@ -56,7 +56,6 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- The Quarto chapter has a bunch of individual sections. Surely, we can find a place to knowledge drop a little bit about each of them! -->
 
-<!-- Pull all the material out of r4ds-material-to-add.txt, especially everything in Chapter 29 section.  -->
 
 <!-- Should we be making much bigger use of the **gert** package? Allows you to execute most git commands. Or maybe we should only show students **usethis**, at least until the end of this tutorial. But I can't find **usethis** equivalents to functions like gert::git_log(). Maybe Terminal commands like git log are fine. -->
 
@@ -69,24 +68,20 @@ options(tutorial.exercise.timelimit = 60,
 ## Introduction
 ### 
 
-This tutorial mostly covers material which is not actually in [*R for Data Science (2e)*](https://r4ds.hadley.nz/quarto.html) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. But the material is in keeping with the spirit of that book, especially [Chapter 28 Quarto](https://r4ds.hadley.nz/quarto.html). The material covered in [Chapter 4 Workflow: code style](https://r4ds.hadley.nz/workflow-style.html) appears in the "RStudio and Code" tutorial in this package.
+This tutorial covers [git](https://git-scm.com/), a program for keeping track of changes in your code, and [GitHub](https://github.com/), the leading company for storing your code in the cloud. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
-Professionals store their work on Github, or a similar "source control" tool. If your computer blows up, you don't want to lose your work. Github is like Google Drive --- both live in the cloud --- but for your computational work rather than your documents.
-
-This tutorial will introduce you to Github and to Git, a program for keeping track of changes in your code.
-
-The most useful reference for Git/Github/RStudio is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
+The most useful reference for git/GitHub is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
 
 ## Terminal Overview
 ### 
 
-The RStudio [Terminal](https://docs.posit.co/ide/user/ide/guide/tools/terminal.html) is how you directly communicate with the computer using commands, whereas the RStudio [Console](https://docs.posit.co/ide/user/ide/guide/code/console.html) is how you talk to R.
+The Positron [Terminal](https://docs.posit.co/ide/user/ide/guide/tools/terminal.html) is how you directly communicate with the computer using commands, whereas the Positron [Console](https://docs.posit.co/ide/user/ide/guide/code/console.html) is how you talk to R.
 
 This section will help introduce you to the Terminal so that you'll be up to speed for the commands needed later.
 
 ### Exercise 1
 
-Start by clicking on the Terminal tab in RStudio. This is next to the Console tab, within the Console pane.
+Start by clicking on the Terminal tab in Positron. This is next to the Console tab, within the Console pane.
 
 You should see some text, which is a portion of the path to the current working directory, followed by a prompt such as a dollar sign. Copy (by highlighting, then right clicking and selecting the "copy" option) and paste the entire prompt into the box below.
 
@@ -140,13 +135,13 @@ Davids-MacBook-Pro:projects dkane$ pwd
 Davids-MacBook-Pro:projects dkane$ 
 ```
 
-Your answer will be different, not least because your username is unlikely to be `dkane`. This is the location on your computer where the R program started up when you opened RStudio.
+Your answer will be different, not least because your username is unlikely to be `dkane`. This is the location on your computer where the R program started up when you opened Positron.
 
 Going forward, make sure to pay special attention to whether given commands are supposed to be run in the *Console* or the *Terminal*.
 
 ### Exercise 3
 
-What are the names of the [four default panes](https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html) in RStudio?
+What are the names of the [four default panes](https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html) in Positron?
 
 ```{r terminal-overview-3}
 question_text(NULL,
@@ -172,6 +167,8 @@ That's all you need to know about the Terminal for this tutorial. The **r4ds.tut
 ## Setting up GitHub
 ### 
 
+Professionals store their work on GitHub, or a similar "source control" tool. If your computer blows up, you don't want to lose your work. GitHub is like Google Drive --- both live in the cloud --- but for your computational work rather than your documents.
+
 GitHub is an online drive for all your R code and projects. In the professional world, what you have on your GitHub account is more important than what you have on your resume. It is a verifiable demonstration of your abilities.
 
 ### Exercise 1
@@ -180,9 +177,9 @@ Install [Git](https://git-scm.com/) by following the instructions of the [Instal
 
 ### 
 
-After you install Git, you should quit and then restart RStudio so that it has a chance to "recognize" that Git is installed. (Note that restarting RStudio is **not** the same as restarting your R session **within** your RStudio instance. To quit RStudio you need to go to the `RStudio -> Quit RStudio` menu item.)
+After you install Git, you should quit and then restart Positron so that it has a chance to "recognize" that Git is installed. (Note that restarting Positron is **not** the same as restarting your R session **within** your Positron instance. To quit Positron you need to go to the `Positron -> Quit Positron` menu item.)
 
-After restarting RStudio, click on the Terminal tab. Run `git --version` in the Terminal to make sure that Git is installed and accessible. CP/CR.
+After restarting Positron, click on the Terminal tab. Run `git --version` in the Terminal to make sure that Git is installed and accessible. CP/CR.
 
 ```{r setting-up-github-1}
 question_text(NULL,
@@ -205,7 +202,7 @@ Davids-MacBook-Pro:r4ds.tutorials dkane$
 
 The details will differ. Don't worry if you have a different version of Git installed.
 
-[*Pro Git*](https://git-scm.com/book/en/v2) is the best reference book for Git and Github.
+[*Pro Git*](https://git-scm.com/book/en/v2) is the best reference book for Git and GitHub.
 
 ### Exercise 2
 
@@ -234,7 +231,7 @@ https://github.com/your-username
 
 ### Exercise 3
 
-Now that you have your GitHub account, you need to connect it to RStudio. The first step of doing this is to give RStudio your GitHub account user name and email.
+Now that you have your GitHub account, you need to connect it to Positron. The first step of doing this is to give Positron your GitHub account user name and email.
 
 ### 
 
@@ -300,7 +297,7 @@ Now, your GitHub username and email are stored so that your computer can automat
 
 ### Exercise 5
 
-**Note:** Make sure you received the expected outputs of the name and email associated with your Github account in the previous two exercises.
+**Note:** Make sure you received the expected outputs of the name and email associated with your GitHub account in the previous two exercises.
 
 If GitHub is your Google Drive, then GitHub repositories, or "repos," are the Google folders, the location in which we store our work. Let's make a practice repo!
 
@@ -339,7 +336,7 @@ Your answer should look like:
 github.com/davidkane9/First_Repo
 ```
 
-The "public" option means that anyone will be able to view the repository. But only you can edit it. You might have noticed "Add .gitignore" as another option, but we will never check this box because RStudio will automatically create a `.gitignore` file for us when we connect the Github repo to an R project on our computer.
+The "public" option means that anyone will be able to view the repository. But only you can edit it. You might have noticed "Add .gitignore" as another option, but we will never check this box because Positron will automatically create a `.gitignore` file for us when we connect the GitHub repo to an R project on our computer.
 
 Note that things work slightly differently on [Posit Cloud](https://posit.cloud/). See [our discussion](https://ppbds.github.io/tutorial.helpers/articles/cloud.html) if you are working there.
 
@@ -376,7 +373,7 @@ This link points to your project folder on GitHub. It is slightly different from
 
 ### Exercise 7
 
-To connect your Github repo to an R project, we first make a new project. While you are making a new project, you will not be able to access this tutorial.
+To connect your GitHub repo to an R project, we first make a new project. While you are making a new project, you will not be able to access this tutorial.
 
 **Read all instructions before making your project.**
 
@@ -390,13 +387,13 @@ To connect your Github repo to an R project, we first make a new project. While 
 
 -   Click on `Git`.
 
--   Paste the link you copied from GitHub into `Repository URL`. Make sure your project is in the `projects` directory you made in the "RStudio and Code" tutorial in order to maintain a single location in which you have placed all your R projects. If it is not, click on "Browse...", and select your `projects` folder.
+-   Paste the link you copied from GitHub into `Repository URL`. Make sure your project is in the `projects` directory you made in the "Positron and Code" tutorial in order to maintain a single location in which you have placed all your R projects. If it is not, click on "Browse...", and select your `projects` folder.
 
 -   Hit the `tab` key. This will copy the name of the repo into the box for the "Project directory name." It is a good idea for your repos and project names to be identical.
 
 -   Click "Create Project."
 
-This last step will cause RStudio to restart. Go ahead and follow these steps now. Then, return to the tutorial.
+This last step will cause Positron to restart. Go ahead and follow these steps now. Then, return to the tutorial.
 
 ### Exercise 8
 
@@ -428,7 +425,7 @@ origin  https://github.com/davidkane9/First_Repo.git (push)
 Davids-MBP:First_Repo dkane$ 
 ```
 
-Don't worry too much about the details. You've successfully linked a repo to an RStudio Project!
+Don't worry too much about the details. You've successfully linked a repo to an Positron Project!
 
 ### Exercise 9
 
@@ -456,13 +453,13 @@ Press "Generate Token" at the bottom of the page to finalize your PAT. If you ha
 
 ### Exercise 10
 
-Now that we've created our PAT, first temporarily copy it somewhere you have easy access to. We will need to store it somewhere so that RStudio can "see" it.
+Now that we've created our PAT, first temporarily copy it somewhere you have easy access to. We will need to store it somewhere so that Positron can "see" it.
 
 Run `gitcreds::gitcreds_set()` in the Console and follow the prompts, providing your token when asked.
 
 ### 
 
-Restart your R session with `Session -> Restart R`. (This is not the same thing as restarting RStudio.) You could also use `Cmd/Ctrl + Shift + 0` to restart R. Using the shortcut key is always a good idea. (On Windows, this would be `Ctrl + Shift + F10`.)
+Restart your R session with `Session -> Restart R`. (This is not the same thing as restarting Positron.) You could also use `Cmd/Ctrl + Shift + 0` to restart R. Using the shortcut key is always a good idea. (On Windows, this would be `Ctrl + Shift + F10`.)
 
 Run `usethis::git_sitrep()` in the Console. CP/CR.
 
@@ -477,7 +474,7 @@ question_text(NULL,
 
 ### 
 
-The key "Github user" section should look something like:
+The key "GitHub user" section should look something like:
 
 ```         
 ── GitHub user 
@@ -514,7 +511,7 @@ list.files()
 
 ### 
 
-In the "RStudio and Code" tutorial, we saw that an R project begins with just one file, the `Rproj` file, which is `First_Repo.Rproj` in this case. But, because this R project started by connecting to a Github repo --- and because we initialized that repo with a README --- we also have a `README.md` file.
+In the "Positron and Code" tutorial, we saw that an R project begins with just one file, the `Rproj` file, which is `First_Repo.Rproj` in this case. But, because this R project started by connecting to a GitHub repo --- and because we initialized that repo with a README --- we also have a `README.md` file.
 
 ### Exercise 2
 
@@ -645,7 +642,7 @@ Let's publish a file from our project onto the internet using [R Pubs](https://r
 
 ### Exercise 1
 
-First let's make a new Quarto document. Select `File -> New File -> Quarto Document ...`. Change the title to "Example". You are the author. Keep the other fields as the default values. Save the file with `Cmd/Ctrl + S` and name the file `example`. RStudio will automatically add the `.qmd` extension.
+First let's make a new Quarto document. Select `File -> New File -> Quarto Document ...`. Change the title to "Example". You are the author. Keep the other fields as the default values. Save the file with `Cmd/Ctrl + S` and name the file `example`. Positron will automatically add the `.qmd` extension.
 
 Run `list.files()`. CP/CR.
 
@@ -681,7 +678,7 @@ question_text(NULL,
 
 ### Exercise 3
 
-Notice the blue button at the top of your QMD. Click that and select RPubs. (If you completed the "RStudio and Code" tutorial, you should already have an RPubs account.) If you do not have an account, you will need to create one. Always choose the free option.
+Notice the blue button at the top of your QMD. Click that and select RPubs. (If you completed the "Positron and Code" tutorial, you should already have an RPubs account.) If you do not have an account, you will need to create one. Always choose the free option.
 
 Create a slug --- the file name for the last part of the URL --- like "my-project" and publish. Put the URL of your RPubs Page below:
 
@@ -704,7 +701,7 @@ In the Git tab in the top right corner, check the boxes next to "example.qmd", a
 
 ### 
 
-Now, press the `Push` button with the green arrow. Your changes have now been saved to Github! No need to worry about `example_files` right now. Quarto always creates a directory named `filename_files` and uses it for the tools/residues of the rendering process. Nothing in such files is worth saving.
+Now, press the `Push` button with the green arrow. Your changes have now been saved to GitHub! No need to worry about `example_files` right now. Quarto always creates a directory named `filename_files` and uses it for the tools/residues of the rendering process. Nothing in such files is worth saving.
 
 ### 
 
@@ -723,16 +720,14 @@ Nice work! You've created an RPubs page. All your work is backed up to GitHub.
 
 ### 
 
-We now understand the entire data science work cycle. Begin with Github repository, connect to an RStudio project, create a Quarto document (including a plot or other analysis), publish your results to RPubs, and, finally, commit/push all your work to Github. Let's practice these skills in some new projects.
+We now understand the entire data science work cycle. Begin with GitHub repository, connect to an Positron project, create a Quarto document (including a plot or other analysis), publish your results to RPubs, and, finally, commit/push all your work to GitHub. Let's practice these skills in some new projects.
 
 ## Summary
 ### 
 
-This tutorial mostly covered material which is not actually in [*R for Data Science (2e)*](https://r4ds.hadley.nz/quarto.html) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. But the material is in keeping with the spirit of that book, especially [Chapter 28 Quarto](https://r4ds.hadley.nz/quarto.html). The material covered in [Chapter 4 Workflow: code style](https://r4ds.hadley.nz/workflow-style.html) appears in the *RStudio and Code* tutorial in this package.
+This tutorial covered [git](https://git-scm.com/), a program for keeping track of changes in your code, and [GitHub](https://github.com/), the leading company for storing your code in the cloud. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
-You should now have Git working on your computer. You should have a Github account and know how to connect Github *repositories* to RStudio *projects*.
-
-The most useful reference for Git/Github/RStudio is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Bookmark it!
+The most useful reference for git/GitHub is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
 
 ```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
 ```
