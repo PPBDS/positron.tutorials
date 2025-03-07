@@ -847,7 +847,7 @@ question_text(NULL,
 
 ### 
 
-Because we have not added any code chunk options, we see the code in the HTML file, along with the title. But there is no output because assignment of a value does not result in printed output in R.
+Because we have not added any code chunk options, we see the code in the HTML, displayed in the Viewer, along with the title. But there is no output because assignment of a value does not result in printed output in R.
 
 Remember that variable names (those created by `<-` and those created by `mutate()`) should use only lowercase letters, numbers, and `_`. Use `_` to separate words within a name.
  
@@ -862,7 +862,7 @@ execute:
   echo: false
 ````
 
-to the bottom of the YAML header. This sets `echo` to `false` throughout the document. `Cmd/Ctrl + Shift + K`. The resulting HTML is empty, other than the title and author.
+to the bottom of the YAML header. This sets `echo` to `false` throughout the document. `Cmd/Ctrl + Shift + K`. The resulting HTML is empty, other than the title.
 
 In the Console, run:
 
@@ -885,9 +885,9 @@ question_text(NULL,
 
 If we are just using a code option for one or two code chunks, then we can just place them in the relevant code chunks, using the hash-pipe: `#|`. However, any code chunk option which applies to most/all code chunks should be placed in the YAML header under the `execute:` category.
 
-Be careful of the formatting of the YAML header. It is very fussy! For example, if you forget to indent the `echo: false` line, you will get an error.
+Be careful of the formatting in the YAML header. It is very fussy! For example, if you forget to indent the `echo: false` line, you will get an error.
 
-<!-- Add an exercise which demonstrates this error. -->
+<!-- DK: Add an exercise which demonstrates this error. -->
 
 ### Exercise 4
 
@@ -951,7 +951,7 @@ Replace the inline code in your sentence with
 r scales::comma(x)
 ````
 
-surrounded by backticks. `Cmd/Ctrl + Shift + K`. Notice that, strictly speaking, you do not need to save the document before you render it. With the usual default settings, RStudio will automatically save a document which you try to render. But it's always a good idea to hit save, just to be on the safe side. 
+surrounded by backticks. `Cmd/Ctrl + Shift + K`. Notice that, strictly speaking, you do not need to save the document before you render it. With the usual default settings, Positron will automatically save a document which you try to render. But it's always a good idea to hit save, just to be on the safe side. 
 
 Copy/paste the resulting HTML.
 
@@ -973,7 +973,7 @@ With *inline* code, we can insert R code of arbitrary complexity directly in the
 ## Quarto 4
 ### 
 
-Restart your R session. (Recall that we do this from the "Session" menu. This is not the same thing as restarting RStudio.) ***This will require you to Terminate this tutorial.*** And that is OK! All your work is saved. Just restart the tutorial from the Tutorial tab once your R session restarts.
+Restart your R session with `Cmd/Ctrl + Shift + 0`. As always, you are doing this work your *other* Positron window, the one in which this tutorial is *not* running. If you mistakenly restart R in this window, this tutorial will quit. Which is OK! You can just restart it with `learnr::run_tutorial(name = "02-quarto", package = "positron.tutorials")`.
 
 ### Exercise 1
 
@@ -999,7 +999,7 @@ The shortcut key to restart R is `Cmd/Ctrl + Shift + 0`. You should restart your
 
 ### Exercise 2
 
-Make a new Quarto document. The title is "My Fourth Quarto Document". You are the author. Name the document `quarto-4.qmd`, and instead of creating the document as normal, hit "Create Empty Document", in the bottom left corner of the "New Quarto Document" box. Delete the `editor: visual` line from the YAML header if necessary.
+Make a new Quarto document. The title is "My Fourth Quarto Document". Name the document `quarto-4.qmd`.
 
 Save the document as `quarto-4.qmd`. 
 
@@ -1067,7 +1067,7 @@ question_text(NULL,
 
 The output of the call to `search()` should include the strings `package:tidyverse` and  `package:knitr`, indicating that both **tidyverse** and **knitr** are loaded.
 
-The key lesson is that we are operating in two worlds simultaneously: QMD World and Console World. We are responsible for keeping them in sync with tools like `Cmd/Ctrl + Enter`.
+The key lesson is that we are operating in two worlds simultaneously: QMD World and Console World. We are responsible for keeping them in sync with commands like `Cmd/Ctrl + Enter`.
 
 ### Exercise 4
 
@@ -1099,7 +1099,7 @@ There is a great pair of keyboard shortcuts that will work together to make sure
 
 We collectively use this pattern hundreds of times a week.
 
-Alternatively, if you don’t use keyboard shortcuts, you can go to `Session > Restart R` and then press the "Render" button.
+Alternatively, if you don’t use keyboard shortcuts, you can press the "Restart console" button.
 
 ### Exercise 5
 
