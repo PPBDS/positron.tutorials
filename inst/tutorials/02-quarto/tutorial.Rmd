@@ -28,18 +28,12 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- Consider getting rid of advice to use code chunk labels since they no longer (?) show up when the code is run, nor do they serve any other purpose. -->
 
-<!-- Delete these next comments once we figure out how best to handle publishing from Positron. -->
 
-<!-- Dealing with RPubs versus Quarto Pub versus Posit Cloud is annoying!  -->
 
 <!-- RPubs works well, just as it always has! It works from the publish button, which is nice for the initial learning. It produces a nice URL, which you can edit. The main page of your account is a nice portfolio of work. The only reason to move away is a fear that Rpubs will be going away. With luck, it isn't!-->
 
-<!-- Posit Cloud is available from the Publish button in RStudio. That is convenient! But sharing it more broadly is annoying. You have to click on the circle with three dots in the center, located in the upper right. Select the "Open Solo" option. This produces a super long and weird url, which does work for anyone. I can't find anyway to give someone a url for your main account, which they could then go to and see lots of your work. -->
-
-<!-- Quarto Pub is not available from the Publish button. Nor does the quarto package currently supporting publishing. -->
-
+<!-- Posit Cloud works much less well. No reason to switch to this anytime soon.  I could not get quartopub.com to work at all. -->
 
 ## Introduction
 ### 
@@ -1038,17 +1032,17 @@ We are going to make a `setup` code chunk, where you can load your libraries.
 
 Add a new code chunk. In the first line, write `#| label: setup` in order to give the code chunk the label/name `setup`.
 
-Put `library(tidyverse)` and `library(knitr)` in the code chunk.
+Put `library(tidyverse)` in the code chunk.
 
 ### 
 
-**Notice the sloppy language!** There are two ways in which we can "load" **tidyverse** and **knitr**, corresponding to the two worlds we are working in simultaneous: QMD World and Console World.
+**Notice the sloppy language!** There are two ways in which we can "load" **tidyverse** corresponding to the two worlds we are working in simultaneous: QMD World and Console World.
 
 ### 
 
-Putting the character strings `library(tidyverse)` and `library(knitr)` inside the `setup` code chunk is enough to "load" these packages in QMD World because, whenever we render a file, every line of code in the file is sent to R for processing. Those characters, however, have no connection to Console World until we explicitly execute them by hand, generally with `Cmd/Ctrl + Enter`, run once for each line of R code we want executed in the Console.
+Putting the character string `library(tidyverse)` inside the `setup` code chunk is enough to "load" this package in QMD World because, whenever we render a file, every line of code in the file is sent to R for processing. Those characters, however, have no connection to Console World until we explicitly execute them by hand, generally with `Cmd/Ctrl + Enter`, run once for each line of R code we want executed in the Console.
 
-Do that now. Place the cursor next to the `library()` calls and hit `Cmd/Ctrl + Enter` twice.
+Do that now. Place the cursor next to the `library(tidyverse)` call and hit `Cmd/Ctrl + Enter`.
 
 ### 
 
@@ -1065,7 +1059,7 @@ question_text(NULL,
 
 ### 
 
-The output of the call to `search()` should include the strings `package:tidyverse` and  `package:knitr`, indicating that both **tidyverse** and **knitr** are loaded.
+The output of the call to `search()` should include the string `package:tidyverse`, indicating that the **tidyverse** package is loaded.
 
 The key lesson is that we are operating in two worlds simultaneously: QMD World and Console World. We are responsible for keeping them in sync with commands like `Cmd/Ctrl + Enter`.
 
@@ -1107,10 +1101,10 @@ Make a new header with the title "Diamonds Histogram". Remember we do this using
 
 ### 
 
-In your new code chunk, use the function `knitr::include_graphics()`. Set the argument to the name of your PNG. Remember to use quotes. The command should look like
+In your new code chunk, add
 
 ````
-knitr::include_graphics("diamonds.png")
+diamonds
 ````
 
 `Cmd/Ctrl + Shift + K`. 
@@ -1135,7 +1129,63 @@ question_text(NULL,
 
 ### 
 
-This should cause the graphic to appear in the HTML file. If you get an error, make sure that you have a file called `diamonds.png` in your working directory.
+This should cause the top of the `diamonds` tibble to be printed out in the HTML.
+
+### Exercise 6
+
+Give your favorite generative AI program (Grok, ChatGPT, Claude, DeepSeek, et cetera) these instructions:
+
+> Produce some R code which, using the ggplot2 package, produces a beautiful graphic using the diamonds tibble. You may assume that the command library(tidyverse) has already been issued. 
+
+Replace `diamonds` in the code chunk with this code. `Cmd/Ctrl + Shift + K`. (If rendering the document fails, show your AI the error and ask it to fit the code.) If you can't get it to work, just stop with the last version, even if it fails.
+
+In the Console, run:
+
+````
+tutorial.helpers::show_file("quarto-4.qmd", chunk = "Last")
+````
+
+CP/CR.
+
+```{r quarto-4-6}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+Grok [gave us](https://grok.com/chat/287b4a5b-6560-42f6-ae5f-05fa953ea0b4) this answer:
+
+````
+ggplot(diamonds, aes(x = carat, y = price, color = clarity)) +
+  geom_point(alpha = 0.5, size = 1.5) +
+  scale_color_viridis_d(option = "plasma") +
+  facet_wrap(~cut, ncol = 2) +
+  labs(
+    title = "Diamond Prices by Carat and Cut",
+    subtitle = "Colored by Clarity Grade",
+    x = "Carat Weight",
+    y = "Price (USD)",
+    color = "Clarity",
+    caption = "Source: diamonds dataset"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 12, hjust = 0.5),
+    plot.caption = element_text(size = 8, color = "grey50"),
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold")
+  ) +
+  scale_y_continuous(labels = scales::dollar_format())
+````
+
+Generative AI is the future of coding, and much else. Practice using it as much as you can.
 
 ## Publishing
 ### 
@@ -1164,12 +1214,12 @@ question_text(NULL,
 
 ### 
 
-There are other free (and paid) services for publishing on the web. We make use of [Quarto Pub](https://quartopub.com/) in other tutorials in this package.
+There are other free (and paid) services for publishing on the web. In the website tutorials in this package, we use [GitHub Pages](https://pages.github.com/).
 
 
 ### Exercise 2
 
-Render the `quarto-4.qmd` file. By rendering, you are generating an HTML file, which is what is actually published on the web.
+Render the `quarto-4.qmd` file to ensure that it works. (If you never got a diamonds plot working, just go back to simply printing out the `diamonds` tibble)
 
 Run `list.files()` in the Console. CP/CR.
 
@@ -1184,7 +1234,7 @@ question_text(NULL,
 
 ### 
 
-You should see a `quarto-4.html` file, which was generated after you rendered your QMD. (Note that the "qmd" file extension stands for **Q**uarto **M**arkdown **D**ocument.)
+Along with other files, you should see a `quarto-4.html` file, which was generated after you rendered your QMD. (Note that the "qmd" file extension stands for **Q**uarto **M**arkdown **D**ocument.)
 
 ### 
 
@@ -1192,29 +1242,28 @@ We sometimes edit the YAML header to get rid of information like the date and ti
 
 ### Exercise 3
 
-Notice a blue icon in the upper right-hand corner of your Quarto document. It should look like the image below.
+From the Console, run:
 
-```{r}
-include_graphics("images/publish_button.png")
-```
+````
+quarto::quarto_publish_doc(input = "quarto-4.qmd", server = "rpubs.com")
+````
 
-Press that button.
+This will render the document, specified with the `input` argument, locally in order to create an HTML which will ne sent to the `server`, which is RPubs.
 
-You will be asked whether you want to publish to RPubs or to Posit Connect. Use RPubs. (Posit Connect costs money.) You will get a reminder that all documents you publish on RPubs are publicly visible. Click "Publish".
 
-```{r}
-include_graphics("images/rpubs-6.png")
-```
+You will be taken to the RPubs website. (You may need to authorize Positron to open the Rpubs link. You may need to sign into your account.) 
 
-### Exercise 4
+* By default, the "Title" of the document on Rpubs should be the same as the `title` in the YAML header. You can change it if you like. 
 
-This will take you to the RPubs website. You may need to sign into your account. 
+* You can leave the description blank if you don't want to add one.
 
-Add document details. Name your document. Add a meaningful slug (a unique website name that's often just the name of your project), otherwise you will end up with an ugly, long address you didn't choose and can't remember. You can leave the description blank if you don't want to add one.
+* Add a meaningful slug (a unique website name that's often just the name of your project), otherwise you will end up with an ugly, long address you didn't choose and can't remember. We recommend `diamonds`.
+
+Click "Continue."
 
 Put the link to your new RPubs page in the space below.
 
-```{r publishing-4}
+```{r publishing-3}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -1226,6 +1275,7 @@ question_text(NULL,
 ### 
 
 Keep in mind that this is now a website that can be found on the internet, for anyone to see.
+
 
 ## Summary
 ### 
