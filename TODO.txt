@@ -10,6 +10,7 @@ Clean up tutorial 6.
 
 Add tutorial about ellmer and other AI issues.
 
+Update R CMD check YAML to be more like tutorial.helpers, using renv and multiple OS's.
 
 ## Madhavan
 

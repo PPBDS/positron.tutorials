@@ -30,6 +30,8 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- Consider getting rid of advice to use code chunk labels since they no longer (?) show up when the code is run, nor do they serve any other purpose. -->
 
+<!-- Delete these next comments once we figure out how best to handle publishing from Positron. -->
+
 <!-- Dealing with RPubs versus Quarto Pub versus Posit Cloud is annoying!  -->
 
 <!-- RPubs works well, just as it always has! It works from the publish button, which is nice for the initial learning. It produces a nice URL, which you can edit. The main page of your account is a nice portfolio of work. The only reason to move away is a fear that Rpubs will be going away. With luck, it isn't!-->
@@ -42,9 +44,7 @@ options(tutorial.exercise.timelimit = 60,
 ## Introduction
 ### 
 
-<!-- DK: Revisit introduction and summary. -->
-
-In this tutorial you will learn how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents) and how to publish your work to the web using [Rpubs](https://rpubs.com/). Some material is from [Chapter 28  Quarto](https://r4ds.hadley.nz/quarto.html) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This tutorial covers how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents) and how to publish your work to the web using [Rpubs](https://rpubs.com/). Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 ## Quarto 1
 ### 
@@ -57,7 +57,7 @@ Always do your data science work in a project. From the Positron menu, select `F
 
 Select "R Project" and click "Next."
 
-Set the "Project Name" to `tutorial-2` and ensure that the "Parent Directory" is set to your `project` directory. 
+Set the "Project Name" to `tutorial-2` and ensure that the "Parent Directory" is set to your `projects` directory. 
 
 Click "Next" and then "Create."
 
@@ -141,7 +141,7 @@ question_text(NULL,
 
 ### 
 
-There will probably just be one file, `quarto-1.qmd`, the file you just made!
+There will probably just be one file, `quarto-1.qmd`, the file you just made.
 
 ### Exercise 4
 
@@ -166,10 +166,8 @@ question_text(NULL,
 
 The argument `end = 2` to `show_file()` causes just the first two lines of `quarto-1.qmd` to be printed.
 
-Again, there is no necessary connection between the **title** of a Quarto document --- which is “My First Quarto Document” in this case --- and the **name** of the file --- which is `quarto-1.qmd`.
+Again, there is no necessary connection between the **title** of a Quarto document --- which is “My First Quarto Document” in this case --- and the **name** of the file --- which here is `quarto-1.qmd`.
 
-
-<!-- DK: There is a visual edit mode, which I don't think is worth teaching about here. -->
 
 ### Exercise 5
 
@@ -218,7 +216,7 @@ Quarto documents utilize Markdown (an easy-to-write plain text format), which ca
 
 ### 
 
-The [YAML header](https://bookdown.org/yihui/rmarkdown-cookbook/rmarkdown-anatomy.html) is everything between the dashed lines at the top of the file, including the dashed lines themselves. Copy-and-paste the YAML header of the file below.
+The [YAML header](https://bookdown.org/yihui/rmarkdown-cookbook/rmarkdown-anatomy.html) is everything between the dashed lines at the top of the file, including the dashed lines themselves. Copy-and-paste the YAML header from the file below.
 
 ```{r quarto-1-5}
 question_text(NULL,
@@ -271,7 +269,7 @@ In the Explorer, you should see a new file, `quarto-1.html`. This is the file cr
 
 ### 
 
-You should also see a new directory: `quarto-1_files`. Anytime you render a Quarto document, you create a directory like this, with the same name as the file plus `_files`. Quarto uses this directory to store intermediate work products associated with the creation of the associated HTML files.
+You should also see a new directory: `quarto-1_files`. Anytime you render a Quarto document, you create a directory like this, with the same name as the file plus `_files`. Quarto uses this directory to store intermediate work products associated with the creation of the associated output file.
 
 
 ### Exercise 7
@@ -289,6 +287,8 @@ Then, choose `Insert Code Cell`, selecting `r` from the list of options. Within 
 ```{r}
 include_graphics("images/add-numbers.png")
 ```
+
+You can also insert a code cell with the shortcut key: `Cmd/Ctrl + Option/Alt + i`. (The `Option` key on the Mac is the same as the `Alt` key on Windows.)
 
 Save the file. Render it again.
 
@@ -312,9 +312,13 @@ question_text(NULL,
 
 ### 
 
-This should return a single character vector with `"6 + 3"`, the line which you added to the code cell. Apologies for the complexity of the call needed to pull out that line.
+This should return a single character vector with `"6 + 3"`, the line which you added to the code cell. Apologies for the complexity of the call needed to pull out just that line.
 
-Strictly speaking, you did not need to save the file before rendering it. Clicking the "Render" button saves the file automatically. Nevertheless, you should make a habit of saving your work before running (if you come across some software that *doesn't* autosave upon running, you'll be running old code and wondering why something still doesn't work when you just fixed it). 
+Strictly speaking, you did not need to save the file before rendering it. Clicking the "Preview" button saves the file automatically. Nevertheless, you should make a habit of saving your work before running (if you come across some software that *doesn't* autosave upon running, you'll be running old code and wondering why something still doesn't work when you just fixed it).
+
+###
+
+The "Preview" button does two things. First, it renders the document. Second, it places the output document in the Viewer tab in the Secondary Side Bar.
 
 ### Exercise 8
 
@@ -347,15 +351,15 @@ In readLines("quarto-1.qmd") :
   incomplete final line found on 'quarto-1.qmd'
 </span>
 
-The solution is to add an empty line to the end of the file. This is always a good idea! Don't be stingy with whitespace. 
+The solution is to add an empty line to the end of the file. This is (almost) always a good idea! Don't be stingy with whitespace. 
 
 ### Exercise 9
 
-Render the document. It is good to get in the practice of using the shortcut key `Cmd/Ctrl + Shift + K` instead of the Render button. Efficient people use shortcut keys. They don't press buttons.
+Render the document. It is good to get in the practice of using the shortcut key `Cmd/Ctrl + Shift + K` instead of the "Preview" button. Efficient people use shortcut keys. They don't press buttons.
 
 This will rewrite the current `quarto-1.html` file, both in the current directory and in the Viewer pane.
 
-In the following box, copy all of the text from your rendered Quarto document, from the Viewer tab within the Output pane.
+In the following box, copy all of the text from your rendered Quarto document, from the Viewer tab.
 
 
 ```{r quarto-1-9}
@@ -384,7 +388,7 @@ In Quarto documents, you can use [Markdown syntax](https://quarto.org/docs/autho
 
 ### 
 
-Replace the one sentence in `quarto-1.qmd` with `## My Header`. Skip a line and add this text. 
+Replace the one sentence already in `quarto-1.qmd` with `## My Header`. Skip a line and add this text. 
 
 ````
 You can do a lot of cool things in Quarto like **bold** and *italic* text.
@@ -416,58 +420,26 @@ question_text(NULL,
 
 You can find a full list of Markdown formatting styles and commands [here](https://www.markdownguide.org/basic-syntax/).
 
-### Exercise 11
+To encourage the use of shortcut keys going forward, we will start using them directly in our instructions to you. So, instead of writing "Render the document," we will just write `Cmd/Ctrl + Shift + K`. 
 
-In the top left corner of the Source pane, you should be able to see two buttons: "Source" and "Visual". "Source" shows you all the code while "Visual" shows you (mostly) how the document will look after being rendered. You can edit a Quarto document while in either "Source" or "Visual" mode.
-
-### 
-
-We are going to switch to "Visual" and explore how we can edit while still in "Visual". Switch to "Visual" by clicking on it.
-
-### 
-
-Type `I made this through Quarto.` below `## My Header` while still in "Visual" mode. Copy and paste everything in your document except the YAML header --- while still in "Visual" mode --- into the box below.
-
-```{r quarto-1-11}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 5)
-```
-
-### 
-
-Render the document, just to make sure it worked. Note that rendering automatically causes the document to be saved. To encourage the use of shortcut keys going forward, we will start using them directly in our instructions to you. So, instead of writing "Render the document," we will just write `Cmd/Ctrl + Shift + K`. 
-
-### 
-
-For the most part, we work in "Source" mode because it is easier to see how things work. "Visual" mode is most useful when you are adding images to the document.
-
-If Positron continues to insert `editor: visual` in the YAML header of new documents, you can try to [edit the option by hand](https://rstudio.github.io/visual-markdown-editing/options.html): 
-
-* Click `Tools -> Global Options...` to bring up the "Options" box. 
-
-```{r}
-include_graphics("images/visual-editing-options.jpg")
-```
-
-* Select "R Markdown" from the left-column choices. 
-* Select the "Visual" tab from the top four choices.
-* At the top of the Visual tab, uncheck the box next to "Use visual editor by default for new documents."
-
+<!-- DK: Is what happens in the Console tab whenever we render a document confusing? -->
 
 ## Quarto 2
 ### 
 
-Restart your R session. (Recall that we do this from the "Session" menu. This is not the same thing as restarting RStudio.) This will require you to Terminate this tutorial. And that is OK! All your work is saved. Just restart the tutorial from the Tutorial tab once your R session restarts.
+Restart your R session. The best way to do this is with the shortcut key `Cmd/Ctrl + Shift + 0`. There is also a "Restart console" button in the upper right portion of the Console tab. 
+
+```{r}
+include_graphics("images/add-numbers.png")
+```
+
+Restarting the Console just means restarting R.
 
 Let's create another Quarto document so that we can explore how to include R code within the document.
 
 ### Exercise 1
 
-Follow the same procedure as last time to create a new Quarto document. `File -> New File -> Quarto Document...`. Use "My Second Quarto Document" as the title and your name for the author. Save the document as `quarto-2.qmd`. `Cmd/Ctrl + Shift + K`
+Follow the same procedure as last time to create a new Quarto document. `File -> New File -> Quarto Document...`. Use "My Second Quarto Document" as the title. Save the document as `quarto-2.qmd`. `Cmd/Ctrl + Shift + K`
 
 Run `list.files()`. CP/CR.
 
@@ -484,44 +456,11 @@ question_text(NULL,
 
 The listing should include `quarto-2.qmd`, `quarto-2.html` and the `quarto-2_files` directory. 
 
+
+
 ### Exercise 2
 
-Delete everything in `quarto-2.qmd` except for the YAML header. Do not delete the dashes which provide the border for the YAML header. The file should look like this:
-
-````
----
-title: "My Second Quarto Document"
-author: "Your Name"
-format: html
----
-````
-
-In the Console, run:
-
-````
-tutorial.helpers::show_file("quarto-2.qmd", end = 6)
-````
-
-CP/CR.
-
-
-```{r quarto-2-2}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 6)
-```
-
-### 
-
-If you have unchecked the "Editor: Use visual markdown editor" box at the bottom of the "New Quarto Document" box, then the `editor: visual` line will not appear in the initial YAML header. If it did appear, delete it.
-
-
-### Exercise 3
-
-Add a code chunk either by pressing the Add Chunk command at the top of the Source pane on the right (the green C button with a plus sign next to it) or by using the shortcut key combination: `Cmd/Ctrl + Option/Alt + I`. (In other words, on the Mac, the shortcut key is `Cmd + Option + I` while on Windows it is `Ctrl + Alt + I`.)
+Add a code cell by using the shortcut key combination: `Cmd/Ctrl + Option/Alt + I`. (In other words, on the Mac, the shortcut key is `Cmd + Option + i` while on Windows it is `Ctrl + Alt + I`.)
 
 The newly created code chunk will be empty, looking like:
 
@@ -542,7 +481,7 @@ tutorial.helpers::show_file("quarto-2.qmd")
 CP/CR.
 
 
-```{r quarto-2-3}
+```{r quarto-2-2}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -558,12 +497,12 @@ Note the curly braces `{}` at the top of the chunk, with an `r` inside. The `r` 
 In this tutorial, we will only include R code within our code chunks. But code chunks can have any programming language in them, from common ones like Python, Java, and C, to esoteric ones like INTERCAL and Whitespace. All you need to do is indicate the language in the curly braces (e.g., `{py}`, `{ruby}`, etc). 
 
 
-### Exercise 4
+### Exercise 3
 
 Put `2 * 2` within the code chunk. `Cmd/Ctrl + Shift + K`. Copy and paste the entire HTML document, as it appears in the Viewer tab, below. (This allows us to confirm that your HTML file is correct.)
 
 
-```{r quarto-2-4}
+```{r quarto-2-3}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -576,7 +515,7 @@ question_text(NULL,
 
 We see both the code itself and the result of the code. This is an example of a "reproducible" analysis. We can re-render the document anytime we like, thereby confirming our results.
 
-### Exercise 5
+### Exercise 4
 
 You can add options to executable code. For example, add `#| echo: false` within the code chunk, above the `2 * 2` calculation. It should look like:
 
@@ -591,7 +530,7 @@ You can add options to executable code. For example, add `#| echo: false` within
 
 `Cmd/Ctrl + Shift + K`. Copy/paste the HTML below.
 
-```{r quarto-2-5}
+```{r quarto-2-4}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -602,15 +541,17 @@ question_text(NULL,
 
 ### 
 
-`echo: false` prevents code, but not the results, from appearing in the finished file. Use this when writing reports aimed at people who don’t want to see the underlying R code. Note that this same example appears in the bottom of the default for new Quarto documents.
+`echo: false` prevents the code, but not the results, from appearing in the finished file. Use this when writing reports aimed at people who don’t want to see the underlying R code. 
 
-### Exercise 6
+### Exercise 5
 
-Code chunk options are always preceded by `#|` -- pronounced "hash-pipe". This is followed by an option/value pair, separated by a colon.
+Code cells are also referred to as code chunks. (The cell terminology is more common in Python.)
+
+In Quarto, Code chunk options are always preceded by `#|` -- pronounced "hash-pipe". This is followed by an option/value pair, separated by a colon.
 
 Add another code option for this code chunk: `#| label: calculation`. You can have multiple code chunk options for a single code chunk. The order does not matter, but each belongs on its own line and must be proceeded by `#|`. `Cmd/Ctrl + Shift + K`. Copy/paste the HTML below.
 
-```{r quarto-2-6}
+```{r quarto-2-5}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -624,12 +565,12 @@ question_text(NULL,
 The `label` option has no effect on the output. Your chunk labels should be short but evocative and should not contain spaces. We recommend using dashes (`-`) to separate words (instead of underscores, `_`) and avoiding other special characters in chunk labels.
 
 
-### Exercise 7
+### Exercise 6
 
 Delete the current code chunk. Add a new one. In this new code chunk, put `library(tidyverse)`. `Cmd/Ctrl + Shift + K`. A message about "Attaching core tidyverse packages" should appear in the HTML file. Copy/paste that message below.
 
 
-```{r quarto-2-7}
+```{r quarto-2-6}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -642,11 +583,11 @@ question_text(NULL,
 
 We will include the **tidyverse** package in almost every Quarto document which we create. Indeed, the top of most Quarto documents includes a code chunk which loads all the packages which we use in the analysis.
 
-### Exercise 8
+### Exercise 7
 
 Add `#| message: false` to the code chunk. `Cmd/Ctrl + Shift + K`. Copy/paste the entire HTML file below.
 
-```{r quarto-2-8}
+```{r quarto-2-7}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -659,11 +600,11 @@ question_text(NULL,
 
 We want to make our Quarto HTML files beautiful. That means we will almost always "mask" ugly messages like this. Our readers don't care about such a**R**cana. They care about our analysis.
 
-### Exercise 9
+### Exercise 8
 
-Add another code chunk option: `echo: false`. Don't forget to preface with the hash-pipe: `#|`. `Cmd/Ctrl + Shift + K`. Copy/paste the HTML below.
+Add another code chunk option: `echo: false`. Don't forget to proceed it with the hash-pipe: `#|`. `Cmd/Ctrl + Shift + K`. Copy/paste the HTML below.
 
-```{r quarto-2-9}
+```{r quarto-2-8}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -674,18 +615,18 @@ question_text(NULL,
 
 ### 
 
-The HTML is empty, except for the title and author.
+The HTML is empty, except for the title.
 
 `echo: false` prevents the code from being "echoed," from appearing in the final document. We generally want this because most readers don't know R and don't care about our code. 
 
 
-### Exercise 10
+### Exercise 9
 
 Add another code chunk option: `label: setup`. Don't forget to preface with the hash-pipe: `#|`. It is conventional to label the code chunk which loads libraries and takes care of other housekeeping as the "setup" code chunk.
 
 `Cmd/Ctrl + Shift + K`. Copy/paste the HTML below.
 
-```{r quarto-2-10}
+```{r quarto-2-9}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -700,9 +641,9 @@ You are generally free to label your chunk however you like, but there is one ch
 
 Chunk labels cannot be duplicated. Each chunk label must be unique.
 
-### Exercise 11
+### Exercise 10
 
-**Important Point**: There are two different "worlds" with which we are dealing. First is the world of the Quarto document, the QMD file. Second is the world of the Console in our current RStudio session. **These worlds only connect when we connect them**. Something written in a Quarto document --- or an R script --- is not, by default, part of our current R session.
+**Important Point**: There are two different "worlds" with which we are dealing. First is the world of the Quarto document, the QMD file. Second is the world of the Console in our current Positron window. **These worlds only connect when we connect them**. Something written in a Quarto document --- or an R script --- is not, by default, part of our current R session.
 
 ### 
 
@@ -712,11 +653,11 @@ Right now, the **tidyverse** package has not been loaded into the current R sess
 
 * `Cmd/Ctrl + Enter` will run just the code at the line in which the cursor is located.
 
-* Pressing the small green triangle --- hover to see its name, which is "Run Current Chunk" --- at the upper right of the code chunk will run all the code in the chunk.
+* Press the small triangle --- labeled "Run Cell" --- directly above the code chunk. This runs all the code in the chunk/cell. (Again, the terms cell and chunk are used interchangeably.)
 
-Run the code chunk. Run `pull(mtcars, 1)` in the Console. CP/CR.
+Run the code chunk. Then, run `pull(mtcars, 1)` in the Console. CP/CR.
 
-```{r quarto-2-11}
+```{r quarto-2-10}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -729,7 +670,7 @@ question_text(NULL,
 
 If you run this command without running `library(tidyverse)` in the Console, you will get an error about not finding the "pull" function. The fact that `library(tidyverse)` exists in the QMD, and that you have "used" it there by rendering the document, has no bearing on the world of the Console.
 
-### Exercise 12
+### Exercise 11
 
 Let's create the following scatterplot in our Quarto document:
 
@@ -771,7 +712,7 @@ tutorial.helpers::show_file("quarto-2.qmd", chunk = "Last")
 CP/CR.
 
 
-```{r quarto-2-12}
+```{r quarto-2-11}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -784,7 +725,7 @@ question_text(NULL,
 
 Make sure to format your code so that it looks neat and tidy. Specifically:
 
-* Put spaces on either side of mathematical operators apart from `^` (i.e. `+`, `-`, `==`, `<`, …), and around the assignment operator (`<-`).
+* Put spaces on either side of mathematical operators apart from `^` (i.e. `+`, `-`, `==`, `<`, `…`), and around the assignment operator (`<-`).
 
 * Don’t put spaces inside or outside parentheses for regular function calls. Always put a space after a comma, just like in standard English.
 
@@ -794,9 +735,8 @@ Make sure to format your code so that it looks neat and tidy. Specifically:
 
 A good resource on neat code is the [Tidyverse Style Guide](https://style.tidyverse.org/syntax.html). 
 
-<!-- Maybe split the above points up into separate knowledge drops. -->
 
-### Exercise 13
+### Exercise 12
 
 To add a geom layer, add `geom_point()` to your plot. Render the file again. Now our plot isn't empty! It shows a scatterplot!
 
@@ -810,7 +750,7 @@ tutorial.helpers::show_file("quarto-2.qmd", chunk = "Last")
 
 CP/CR.
 
-```{r quarto-2-13}
+```{r quarto-2-12}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -821,13 +761,13 @@ question_text(NULL,
 
 ### 
 
-RStudio automatically saves the contents of the editor when you quit, and automatically reloads it when you re-open. Nevertheless, it’s a good idea to avoid Untitled1, Untitled2, Untitled3, and so on. Instead, save your documents and give them informative names.
+Positron automatically saves the contents of the Editor when you quit, and automatically reloads it when you re-open. Nevertheless, it’s a good idea to avoid Untitled-1, Untitled-2, Untitled-3, and so on. Instead, save your documents and give them informative names.
 
-### Exercise 14
+### Exercise 13
 
 We just built the basic graph, but it still looks a little ugly. Labels are important for adding context to the graph and making it easier to understand.
 
-Use the `labs()` function to add appropriate title and axis labels to the graph.
+Use the `labs()` function to add an appropriate title and some axis labels to the graph.
 
 Reminder, this is what our plot should look like:
 
@@ -849,7 +789,7 @@ tutorial.helpers::show_file("quarto-2.qmd", chunk = "Last")
 
 CP/CR.
 
-```{r quarto-2-14}
+```{r quarto-2-13}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -860,7 +800,11 @@ question_text(NULL,
 
 ### 
 
-We recommend you always start your Quarto documents with the packages you need. That way, if you share your code with others, they can easily see which packages they need to install. Note, however, that you should never include `install.packages()` in a Quarto document or R script which you share. It’s inconsiderate to hand off something that will change something on their computer if they’re not being careful!
+We recommend you always start your Quarto documents with the packages you need. That way, if you share your code with others, they can easily see which packages they need to install. 
+
+**You should never include `install.packages()` in a Quarto document or R script which you share.** Be careful since generative AI tools will often suggest this.
+
+It’s inconsiderate to hand off something that will change something on their computer if they’re not being careful!
 
 ## Quarto 3
 ### 
@@ -884,36 +828,15 @@ question_text(NULL,
 
 ### 
 
-The files `quarto-3.qmd` and `quarto-3.html` should appear in this list.  
-
+The files `quarto-3.qmd` and `quarto-3.html` should appear in this list, along with the `quarto-3_files` directory.  
+ 
 ### Exercise 2
 
-Look at all the default material in the Quarto document. Note the section headers, each defined with two hash hmarks: `##`. This is an example of the [markdown syntax](https://quarto.org/docs/authoring/markdown-basics.html) which is supported by Quarto. 
-
-Copy/paste the last sentence of the HTML file here.
-
-```{r quarto-3-2}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 3)
-```
-
-### 
-
-Remember that variable names (those created by `<-` and those created by `mutate()`) should use only lowercase letters, numbers, and `_`. Use `_` to separate words within a name.
- 
-As a general rule of thumb, it’s better to prefer long, descriptive names that are easy to understand rather than concise names that are fast to type but hard to understand. 
- 
-### Exercise 3
-
-We are now going to learn how to include the results of R calculations *inline*, that is in the middle of sentence. But, first, delete everything in `quarto-3.qmd` after the YAML header. Add a new code chunk. Add `x <- 123456789` to that code chunk. `Cmd/Ctrl + Shift + K`.
+Add a new code chunk. Add `x <- 123456789` to that code chunk. `Cmd/Ctrl + Shift + K`.
 
 Copy/paste the HTML file below.
 
-```{r quarto-3-3}
+```{r quarto-3-2}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -924,9 +847,13 @@ question_text(NULL,
 
 ### 
 
-Because we have not added any code chunk options, we see the code in the HTML file, along with the title and author. But there is no output because assignment of a value does not result in printed output in R.
+Because we have not added any code chunk options, we see the code in the HTML file, along with the title. But there is no output because assignment of a value does not result in printed output in R.
 
-### Exercise 4
+Remember that variable names (those created by `<-` and those created by `mutate()`) should use only lowercase letters, numbers, and `_`. Use `_` to separate words within a name.
+ 
+As a general rule of thumb, it’s better to prefer long, descriptive names that are easy to understand rather than concise names that are fast to type but hard to understand. 
+
+### Exercise 3
 
 Instead of using the `echo: false` code chunk option in every code chunk in a document, we can set this option in the YAML header itself. Add
 
@@ -945,7 +872,7 @@ tutorial.helpers::show_file("quarto-3.qmd", start = -5)
 
 CP/CR.
 
-```{r quarto-3-4}
+```{r quarto-3-3}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -962,7 +889,7 @@ Be careful of the formatting of the YAML header. It is very fussy! For example, 
 
 <!-- Add an exercise which demonstrates this error. -->
 
-### Exercise 5
+### Exercise 4
 
 Below the code chunk, add the following sentence to `quarto-3.qmd`: `The value of x is ?, a surprisingly high value.` `Cmd/Ctrl + Shift + K`.
 
@@ -974,7 +901,7 @@ tutorial.helpers::show_file("quarto-3.qmd", start = -6)
 
 CP/CR.
 
-```{r quarto-3-5}
+```{r quarto-3-4}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -987,7 +914,7 @@ question_text(NULL,
 
 We want the actual value of `x` to appear in the document, in place of the `?`. To do so, we need to make use of *inline* code.
 
-### Exercise 6
+### Exercise 5
 
 <!-- Formatting this in this Rmd is very tricky. If you try to include the inline code in the middle of a sentence, all hell breaks loose, even if you comment out that line! So, we hack. -->
 
@@ -1001,7 +928,7 @@ surrounded by backticks. They `r` tells Quarto that you want to evaluate the cod
 
 Copy/paste the resulting HTML.
 
-```{r quarto-3-6}
+```{r quarto-3-5}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1016,7 +943,7 @@ This *inline* code has the desired effect. It "looks up" the value of `x` define
 
 But, depending on your system and settings, the result is often ugly. I get "1.2345679^{8}", which makes use of scientific notation.
 
-### Exercise 7
+### Exercise 6
 
 Replace the inline code in your sentence with 
 
@@ -1028,7 +955,7 @@ surrounded by backticks. `Cmd/Ctrl + Shift + K`. Notice that, strictly speaking,
 
 Copy/paste the resulting HTML.
 
-```{r quarto-3-7}
+```{r quarto-3-6}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1303,7 +1230,7 @@ Keep in mind that this is now a website that can be found on the internet, for a
 ## Summary
 ### 
 
-This tutorial covered [Chapter 2 Workflow: basics](https://r4ds.hadley.nz/workflow-basics.html),  [Chapter 4 Workflow: code style](https://r4ds.hadley.nz/workflow-style.html), [Chapter 6 Workflow: scripts and projects](https://r4ds.hadley.nz/workflow-scripts.html), and some material in [Chapter 28 Quarto](https://r4ds.hadley.nz/quarto.html) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. You learned how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents) and how to publish your work to the web using [Rpubs](https://rpubs.com/).
+This tutorial covered how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents) and how to publish your work to the web using [Rpubs](https://rpubs.com/). Some material was from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 
 ```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
