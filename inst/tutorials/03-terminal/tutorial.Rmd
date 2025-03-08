@@ -1857,7 +1857,7 @@ This is the location for the R package which contains this tutorial. Click on th
 
 Click on the "Download raw file" symbol to download the `TODO.txt` file to your computer.  
 
-```{r files-3}
+```{r}
 knitr:: include_graphics("images/download-file.png")
 ```
 
