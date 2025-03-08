@@ -1,3 +1,5 @@
+Just added those .txt files on 03-terminal/images. Is that a good place for them? We don't (?) want them to be in the actual package. Should we add them to .RBuildignore?
+
 
 Add overview of the tutorials to README page.
 
@@ -24,3 +26,9 @@ Do 01-code tutorial.
 https://ellmer.tidyverse.org/
 https://www.tidyverse.org/blog/2025/01/experiments-llm/
 
+
+## Other tutorials
+
+Maybe we need another tutorial about putting large projects together. Might cover things like the **here** package. Cover material in book titled something like R Stuff that it is not in the manual.
+
+Maybe a different tutorial which walked through a bunch of different Quarto project types, not because we are especially interested in Dashboards, but because we want to give students more practice dealing with projects with lots of different files doing different things.

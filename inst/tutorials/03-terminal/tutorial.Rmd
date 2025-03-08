@@ -28,33 +28,24 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- Put a text file in images/ instead of using TODO.txt file. -->
+<!-- Changing this around so that now there are two files, which live in images/, which the student will download and then use in the tutorial. The first, download.txt, just teaches them how to download a file. The second, example.txt, is just used for grepping practice. We are removing the use of $R_HOME because that variable does not exist outside the R session. -->
+
+<!-- Might be useful to add a test which confirms that those files exist, before we ask students to download them. Of course, that will only work if we have web access. -->
 
 <!-- I should better understand what the RTools environment looks like. Maybe I should just assume that they have done so (and check that they did) and then only worry about the minor differences between it and Mac/Linux.  -->
 
-<!-- See the Files section. It requires students to download the TODO.txt file. It is somewhat dangerous that this file is not guaranteed to always exist. But using DESCRIPTION was annoying because a .txt suffix was added when I, at least, download the file. Maybe add a test to ensure that TODO.txt exists? Just download.file() . . . -->
+<!-- Get rid of lots of the translation nonsense, like forward/backward slashes. -->
 
-<!-- Consider adding another files download exercise and/or making the current one more like the actual work that students do on this topic, which generally involves an R project, making data/ directory, putting a new file there and so on. -->
+<!-- Add a brief discussion of environment variables? -->
+
+<!-- Consider adding a third files download exercise and/or making the current one more like the actual work that students do on this topic, which generally involves an R project, making data/ directory, putting a new file there and so on. -->
 
 <!-- Make sure that everything makes sense to a student using Windows. Note all the DK comments which mention adding Windows explanations. Do more to make Windows users more comfortable. They shouldn't have to translate! -->
-
-<!-- Several discussions about `..` are redundant. -->
-
-<!-- Double discussion of / versus \. -->
-
-<!-- Lots of opportunities for knowledge drops. See Chapter 7 in R4DS. -->
-
-<!-- Consider using and teaching the **here** package. -->
 
 <!-- Consider adding a bunch more images. Might be very useful in the paths section, especially taking images from the Explorer and showing how they correspond to the commands. -->
 
 <!-- Always showing the correct answer afterwards is a good idea. But there are a score of questions in which we have failed to do this. Fix this. -->
 
-<!-- Oh no! Looks like $R_HOME does not exist in the Terminal in Positron! I suspect that this is because R_HOME is only created within R. So Sys.getenv("R_HOME") works from the Console, but `echo $R_HOME` produces nothing from the Terminal. Need to do something about this! -->
-
-<!-- R RHOME from the terminal does give us the R home directory. Cross-platorm, I think. Useful? I could also create the R_HOME environment variable by hand at the start of the tutorial. Or could create it in .RProfile. -->
-
-<!-- Is working with the R home directory worthwhile? Is there some other file that exists on Mac and Windows?  Maybe we could use R.home() to determine the location and then require the student to create the entire path by hand? Or we could just download another file from the repo. Don't forget to include it in .Rbuildignore -->
 
 ## Introduction
 ### 
@@ -628,7 +619,7 @@ Davids-MacBook-Pro-2:lessons dkane$
 
 ### Exercise 11
 
-Use `mv` to **m**o**v**e the file `does-not-belong` from the `fruits` directory to the `tbd` directory by running `mv fruits/does-not-belong tbd`. Run `ls tbd` to confirm. (Again, change forward slashes to backward slashes if you are using Windows.)
+Use `mv` to **m**o**v**e the file `does-not-belong` from the `fruits` directory to the `tbd` directory by running `mv fruits/does-not-belong tbd`. Run `ls tbd` to confirm. 
 
 CP/CR.
 
@@ -721,9 +712,7 @@ In olden times, professional programmers would spend a lot of time learning the 
 ## Important symbols
 ### 
 
-<!-- DK: Worth including environmental variables? Change name to "Variables"? Is .. a variable? -->
-
-We have seen two important symbols --- `..` and `.` --- already. This section will explore those along with `~`.  The most common English terms for these symbols are "dot" or `.`, "dot dot" for `..`, and "tilde" for `~`. The `.` symbol indicates the current directory. The `..` symbol is for the directory one above the current directory. The `~` symbol is for your "home" directory.
+We have seen two important symbols --- `..` and `.` --- already. This section will explore those along with `~`.  The most common English terms for these symbols are "dot" for `.`, "dot dot" for `..`, and "tilde" for `~`. The `.` symbol indicates the current directory. The `..` symbol is for the directory one above the current directory. The `~` symbol is for your "home" directory.
 
 
 ### Exercise 1
@@ -968,7 +957,7 @@ Davids-MacBook-Pro-2:averages dkane$ rm -rf symbols
 Davids-MacBook-Pro-2:averages dkane$ 
 ````
 
-Note that `rm -rf symbols` and `rm -rf symbols/`, with the trailing forward slash, have the same effect. Except in unusual circumstances, including the trailing slash in the name of a directory has no effect.
+Note that `rm -rf symbols` and `rm -rf symbols/`, with the trailing slash, have the same effect. Except in unusual circumstances, including the trailing slash in the name of a directory has no effect.
 
 ## Options
 ### 
@@ -1176,9 +1165,11 @@ This is an example of a situation in which `$R_HOME` and `$R_HOME/` produce diff
 
 ### Exercise 9
 
+<!-- DK: Delete this question. -->
+
 <!-- DK: Is the behavior for the above and this question different on Windows? -->
 
-Run `ls -l $R_HOME/`. Just adding the trailing backward slash (or forward slash in Windows?) changes the output.  CP/CR.
+Run `ls -l $R_HOME/`. Just adding the trailing forward slash (or backward slash in Windows?) changes the output.  CP/CR.
 
 
 ```{r options-9}
