@@ -28,11 +28,9 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- Changing this around so that now there are two files, which live in images/, which the student will download and then use in the tutorial. The first, download.txt, just teaches them how to download a file. The second, example.txt, is just used for grepping practice. We are removing the use of $R_HOME because that variable does not exist outside the R session. -->
-
 <!-- Might be useful to add a test which confirms that those files exist, before we ask students to download them. Of course, that will only work if we have web access. -->
 
-<!-- I should better understand what the RTools environment looks like. Maybe I should just assume that they have done so (and check that they did) and then only worry about the minor differences between it and Mac/Linux.  -->
+<!-- By default, RTools leaves Windows users using the Powershell. I have some notes in tutorial.helpers about changing this in "Tutorials in Positron." If we did this, then we could simplify a lot of the code below and stop with all the translation nonsense.  -->
 
 <!-- Get rid of lots of the translation nonsense, like forward/backward slashes. -->
 
@@ -40,11 +38,13 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- Consider adding a third files download exercise and/or making the current one more like the actual work that students do on this topic, which generally involves an R project, making data/ directory, putting a new file there and so on. -->
 
-<!-- Make sure that everything makes sense to a student using Windows. Note all the DK comments which mention adding Windows explanations. Do more to make Windows users more comfortable. They shouldn't have to translate! -->
+<!-- Make sure that everything makes sense to a student using Windows. Note all the comments which mention adding Windows explanations. Do more to make Windows users more comfortable. They shouldn't have to translate! -->
 
 <!-- Consider adding a bunch more images. Might be very useful in the paths section, especially taking images from the Explorer and showing how they correspond to the commands. -->
 
 <!-- Always showing the correct answer afterwards is a good idea. But there are a score of questions in which we have failed to do this. Fix this. -->
+
+<!-- Could have test cases which confirm that these commands match what I think they should, I think. -->
 
 
 ## Introduction
@@ -707,7 +707,7 @@ Davids-MacBook-Pro-2:averages dkane$
 
 In olden times, professional programmers would spend a lot of time learning the various options to commands like `rm`. Now, we just ask ChatGPT or a similar tool.
 
-<!-- DK: Could have them ask ChatGPT to do something and then do it. -->
+<!-- Could have them ask ChatGPT to do something and then do it. -->
 
 ## Important symbols
 ### 
@@ -886,7 +886,7 @@ Davids-MacBook-Pro-2:~ dkane$
 
 In Mac/Linux, the most common location for a user's home directory is within the `Users` directory. Note how, after we run `cd`, the prompt changes to report `~` as the current working directory. `~` is the symbol for the current user's home directory.
 
-<!-- DK: Add stuff like whoami? -->
+<!-- Add stuff like whoami? -->
 
 ### Exercise 7
 
@@ -1117,31 +1117,23 @@ question_text(NULL,
 
 ### 
 
-There are many different environmental variables. You can also make your own.
+There are many different environmental variables. You can also make your own. My anwer looks like:
 
-### Exercise 7
-
-Use `pwd` to confirm that you are still in `options`. Use `ls` to see what is inside `R_HOME` by running `ls $R_HOME`. CP/CR.
-
-```{r options-7}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 3)
-```
-
-### 
+````
+Davids-MacBook-Pro-2:options dkane$ ls $HOME
+AppData         Desktop         Downloads       Movies          Pictures        miniconda3
+Applications    Documents       Library         Music           Public          temp
+Davids-MacBook-Pro-2:options dkane$ 
+````
 
 Don't worry about the details of these files. Our main point is that environmental variables are very handy because they make it easy to refer to a specific location on a computer, like where R is installed, even though the absolute path to this location is different on every person's computer.
 
-### Exercise 8
+### Exercise 7
 
-Run `ls -l $R_HOME`, so that we can see more information in a **l**ong list.  CP/CR.
+In the Terminal, run `ls -l $HOME`, so that we can see more information in a **l**ong list.  CP/CR.
 
 
-```{r options-8}
+```{r options-7}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -1155,24 +1147,39 @@ question_text(NULL,
 My answer looks like this:
 
 ````
-Davids-MacBook-Pro-2:options dkane$ ls -l $R_HOME
-lrwxrwxr-x  1 root  admin  26 Nov 27 11:20 /Library/Frameworks/R.framework/Resources -> Versions/Current/Resources
-Davids-MacBook-Pro-2:options dkane$
+Davids-MacBook-Pro-2:options dkane$ ls -l $HOME
+total 0
+drwxr-xr-x@   3 dkane  staff    96 Feb 25 11:05 AppData
+drwx------@   4 dkane  staff   128 Sep  9 10:14 Applications
+drwx------@  11 dkane  staff   352 Mar  8 15:46 Desktop
+drwx------+  23 dkane  staff   736 Feb 23 18:20 Documents
+drwx------@ 125 dkane  staff  4000 Mar  4 16:45 Downloads
+drwx------@ 103 dkane  staff  3296 May 14  2024 Library
+drwx------    6 dkane  staff   192 May 17  2022 Movies
+drwx------+   4 dkane  staff   128 Aug 19  2023 Music
+drwx------+   4 dkane  staff   128 Dec  6  2021 Pictures
+drwxr-xr-x+   4 dkane  staff   128 Dec  6  2021 Public
+drwxr-xr-x   18 dkane  staff   576 Mar  7 16:02 miniconda3
+drwxr-xr-x    2 dkane  staff    64 Aug 30  2022 temp
+Davids-MacBook-Pro-2:options dkane$ 
 ````
 
-This is an example of a situation in which `$R_HOME` and `$R_HOME/` produce different results, as we will see in the next exercise. When the location pointed to be an environmental variable is a link, as in this case, using `ls -l $R_HOME` just gives us back the link.   
+In a long list, names are in the last column and file type is in the first: if the string in the first column begins with `d` it is a **d**irectory; if it begins with `-` it is a file; if it begins with `l` it is a **l**ink to another file or directory on the computer. The middle columns give, from left to right, the number of files, author, permission, file size (in bytes), and the date/time last modified.
 
 
-### Exercise 9
-
-<!-- DK: Delete this question. -->
-
-<!-- DK: Is the behavior for the above and this question different on Windows? -->
-
-Run `ls -l $R_HOME/`. Just adding the trailing forward slash (or backward slash in Windows?) changes the output.  CP/CR.
 
 
-```{r options-9}
+### Exercise 8
+
+Let's download a copy of the `AUTHORS` document from the R source code. It is available at:
+
+````
+https://github.com/wch/r-source/blob/trunk/doc/AUTHORS
+````
+
+Press the "Download raw file" button. This should place a copy of the file in your `Downloads` directory. At the Terminal, run `ls ~/Downloads/A*`. CP/CR.
+
+```{r options-8}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -1181,28 +1188,47 @@ question_text(NULL,
     rows = 3)
 ```
 
-### 
-
-My answer looks like:
+My answer looks like this:
 
 ````
-Davids-MacBook-Pro-2:options dkane$ ls -l $R_HOME/
-total 200
--rw-rw-r--    1 root  admin  18011 Oct 31 21:02 COPYING
--rw-rw-r--    1 root  admin    488 Oct 31 21:02 Info.plist
-lrwxrwxr-x    1 root  admin      5 Nov 27 11:20 R -> bin/R
--rwxrwxr-x    1 root  admin  70944 Oct 31 21:04 Rscript
--rw-rw-r--    1 root  admin     46 Oct 31 21:02 SVN-REVISION
-drwxrwxr-x   28 root  admin    896 Nov 27 11:20 bin
-drwxrwxr-x   23 root  admin    736 Nov 27 11:20 doc
-...
+Davids-MacBook-Pro-2:options dkane$ ls ~/Downloads/A*
+/Users/dkane/Downloads/AUTHORS.txt
+Davids-MacBook-Pro-2:options dkane$ 
 ````
 
-In a long list, names are in the last column and file type is in the first: if the string in the first column begins with `d` it is a **d**irectory; if it begins with `-` it is a file; if it begins with `l` it is a **l**ink to another file or directory on the computer. The middle columns give, from left to right, the number of files, author, permission, file size (in bytes), and the date/time last modified.
+Note how my computer has added a `.txt` suffix to the file. Your computer might or might not do the same. Many operating systems think that every file should have a suffix which describes what it is, and so they add one if it is not present.
+
+### Exercise 9
+
+Move the `AUTHORS` file to the current directory, which is `options`, using `mv`. Check with `ls` to confirm that it has worked. CP/CR.
+
+For me, this looks like:
+
+````
+Davids-MacBook-Pro-2:options dkane$ mv /Users/dkane/Downloads/AUTHORS.txt .
+Davids-MacBook-Pro-2:options dkane$ ls
+AUTHORS.txt
+Davids-MacBook-Pro-2:options dkane$ 
+````
+
+
+```{r options-9}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Like `mv`, `cp` can change a file name. Like `mv`, if the destination file name is omitted, `cp` will retain the same name by default.
+
 
 ### Exercise 10
 
-Check what is inside the `doc` directory by running `ls -l $R_HOME/doc`. CP/CR.
+Let's view just the initial lines of the `AUTHORS.txt`. Run `head AUTHORS`.  CP/CR.
 
 
 ```{r options-10}
@@ -1216,13 +1242,11 @@ question_text(NULL,
 
 ### 
 
-As you could guess from the name, the directory contains mostly files, including `AUTHORS`.
+Now you know how R got its name. If your operating system did not add `.txt` as a suffix, then you should just use `AUTHORS` in this command and those that follow.
 
 ### Exercise 11
 
-Let's make a copy of `$R_HOME/doc/AUTHORS` in `options`. Use the command `cp`, whose syntax is identical to `mv`, and the `.` shorthand.  That is, run `cp $R_HOME/doc/AUTHORS .`. CP/CR.
-
-On Windows, we would refer to this file as `%R_HOME%\doc\AUTHORS`. Recall that, in Windows, environment variables are surrounded by percentage signs -- `%` -- and directories are separated by backward slashes: `\`.
+Let's view more than just the initial 10 lines. The option `-n` allows you to specify the number of initial lines you want to see. Run `head -n 18 AUTHORS.txt`.  CP/CR.
 
 
 ```{r options-11}
@@ -1236,11 +1260,11 @@ question_text(NULL,
 
 ### 
 
-Like `mv`, `cp` can change a file name. Like `mv`, if the destination file name is omitted, `cp` will retain the same name by default.
+The option `-n` takes an argument which allows head to display any number of initial lines.
 
 ### Exercise 12
 
-Try to use `cp` and `.` to copy the `doc` directory into `options`. You will get an error informing you that the thing you tried to copy was a directory. Run the same command using the option `-r`.  CP/CR.
+Use the command `tail` and the same `-n` option to view the last 15 lines by running `tail -n 15 AUTHORS.txt`.  CP/CR.
 
 
 ```{r options-12}
@@ -1254,12 +1278,11 @@ question_text(NULL,
 
 ### 
 
-As we have seen for `rm`, `-r` allows us to use `cp` with directories. This is different from `mv`, which does not need `-r`.
+If the argument of `-n`is greater than the number of lines in the file, `head` or `tail` will just print the whole file.
 
 ### Exercise 13
 
-Let's view just the initial lines of the `AUTHORS`. Run `head AUTHORS`.  CP/CR.
-
+Let's view the whole file at once. Run `cat AUTHORS.txt`.  CP/CR.
 
 ```{r options-13}
 question_text(NULL,
@@ -1272,11 +1295,11 @@ question_text(NULL,
 
 ### 
 
-Now you know how R got its name.
+`cat` stands for con**cat**enate, which means "to chain together." While it is often used to a single text file, the command can take two arguments and print the files together.
 
 ### Exercise 14
 
-Let's view more than just the initial 10 lines. The option `-n` allows you to specify the number of initial lines you want to see. Run `head -n 18 AUTHORS`.  CP/CR.
+Run `cat -n AUTHORS.txt`. Notice that `-n` has no argument.  CP/CR.
 
 
 ```{r options-14}
@@ -1290,11 +1313,11 @@ question_text(NULL,
 
 ### 
 
-The option `-n` takes an argument which allows head to display any number of initial lines.
+`cat -n` prints the text file with line numbers. 
 
 ### Exercise 15
 
-Use the command `tail` and the same `-n` option to view the last 15 lines of `AUTHORS`.  CP/CR.
+Let's make our own text file. Start by running `echo` which takes a quoted string, for example, "Your First and Last Name Here" as its argument. This "echoes" the argument by printing it in the next line of the terminal.  CP/CR.
 
 
 ```{r options-15}
@@ -1308,11 +1331,20 @@ question_text(NULL,
 
 ### 
 
-If the argument of `-n`is greater than the number of lines in the file, `head` or `tail` will just print the whole file.
+For me, this looks like:
+
+````
+Davids-MacBook-Pro-2:options dkane$ echo "David Kane"
+David Kane
+Davids-MacBook-Pro-2:options dkane$ 
+````
+
+`echo` can also take a string that is not in quotes as its argument.
 
 ### Exercise 16
 
-Let's view the whole file at once. Run `cat AUTHORS`.  CP/CR.
+We can change the place that we `echo` to, from the Terminal to a text file, using `>` to redirect the output Run `echo "Your First and Last Name Here" > test.txt`. Then use `ls` to see if the file `test.txt` exists within your working directory. Then use `cat` to read this file. After you have confirmed that the file contains your name, use `rm` to remove `test.txt`.  CP/CR.
+
 
 ```{r options-16}
 question_text(NULL,
@@ -1320,16 +1352,26 @@ question_text(NULL,
     allow_retry = TRUE,
     try_again_button = "Edit Answer",
     incorrect = NULL,
-    rows = 3)
+    rows = 8)
 ```
 
 ### 
 
-`cat` stands for con**cat**enate, which means "to chain together." While it is often used to a single text file, the command can take two arguments and print the files together.
+That is a lot of steps! An important goal of this tutorial is teach you to be *comfortable* at the command line. My answer looks like:
+
+````
+Davids-MacBook-Pro-2:options dkane$  options % echo "David Kane" > test.txt
+Davids-MacBook-Pro-2:options dkane$  options % ls
+AUTHORS.txt     test.txt
+Davids-MacBook-Pro-2:options dkane$  options % cat test.txt 
+David Kane
+Davids-MacBook-Pro-2:options dkane$  options % rm test.txt 
+Davids-MacBook-Pro-2:options dkane$  options % 
+````
 
 ### Exercise 17
 
-Run `cat -n AUTHORS`. Notice that `-n` has no argument.  CP/CR.
+`>` can be used to redirect the output of any command, not just `echo`. Let's try to make a new text file in `options` with just the first 28 lines of `AUTHORS.txt` called `AUTHORS-fake`. Run `head -n 25 AUTHORS.txt > AUTHORS-fake`. Run `ls` to confirm that it worked. CP/CR.
 
 
 ```{r options-17}
@@ -1343,11 +1385,25 @@ question_text(NULL,
 
 ### 
 
-`cat -n` prints the text file with line numbers. Note that the names end at line 28.
+My answer looks like:
+
+````
+Davids-MacBook-Pro-2:options dkane$ head -n 25 AUTHORS.txt > AUTHORS-fake
+Davids-MacBook-Pro-2:options dkane$ ls
+AUTHORS-fake    AUTHORS.txt
+Davids-MacBook-Pro-2:options dkane$ 
+````
+
 
 ### Exercise 18
 
-Let's make our own text file. Start by running `echo` which takes a quoted string, for example, "Your First and Last Name Here" as its argument. This "echoes" the argument by printing it in the next line of the terminal.  CP/CR.
+Using `>>`, a command whose syntax is the same as `>`, we can append output to an existing document. Use `echo` and `>>` to append your name to the list of `AUTHORS-fake`. That is, run (with your name in place of mine):
+
+````
+echo "David Kane" >> AUTHORS-fake
+````
+
+Confirm by running `tail AUTHORS-fake`. CP/CR.
 
 
 ```{r options-18}
@@ -1361,87 +1417,33 @@ question_text(NULL,
 
 ### 
 
-`echo` can also take a string that is not in quotes as its argument.
+My answer looks like:
 
-### Exercise 19
-
-We can change the place that we `echo` to, from the Terminal to a text file, using `>` to redirect the output Run `echo "Your First and Last Name Here" > test.txt`. Then use `ls` to see if the file `test.txt` exists within your working directory. Then use `cat` to read this file. After you have confirmed that the file contains your name, use `rm` to remove `test.txt`.  CP/CR.
-
-
-```{r options-19}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 3)
-```
-
-### 
-
-<!-- DK? -->
-
-
-### Exercise 20
-
-`>` can be used to redirect the output of any command, not just `echo`. Let's try to make a new text file in `options` with just the first 28 lines of `AUTHORS` called `AUTHORS-fake`. Run `head -n 28 AUTHORS > AUTHORS-fake`. CP/CR.
-
-
-```{r options-20}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 3)
-```
-
-### 
-
-<!-- DK? -->
-
-
-### Exercise 21
-
-Using `>>`, whose syntax is the same as `>`, we can append output to an existing document. Use `echo` and `>>` to append your name to the list of `AUTHORS-fake`. CP/CR.
-
-
-```{r options-21}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 3)
-```
-
-### 
+````
+Davids-MacBook-Pro-2:options dkane$ echo "David Kane" >> AUTHORS-fake
+Davids-MacBook-Pro-2:options dkane$ tail AUTHORS-fake 
+Thomas Lumley
+Martin Maechler
+Sebastian Meyer
+Paul Murrell
+Martyn Plummer
+Brian Ripley
+Deepayan Sarkar
+Duncan Temple Lang
+Luke Tierney
+David Kane
+Davids-MacBook-Pro-2:options dkane$ 
+````
 
 Like `>`, `>>` is not limited to `echo`, but can be used to append the output of any command.
 
-### Exercise 22
+ 
 
-Use `tail` and `>>` to append the last 11 lines of `AUTHORS` to `AUTHORS-fake`. Refer to the syntax in Exercise 18 if needed. CP/CR.
-
-
-```{r options-22}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 3)
-```
-
-### 
-
-Your fake is not great because your name is likely not placed in correct alphabetical order. 
-
-### Exercise 23
+### Exercise 19
 
 Run `cd ..` to change your directory to the directory in which you started the tutorial. Run `rm -r options` to remove the `options` directory. CP/CR.
 
-```{r options-23}
+```{r options-19}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -1593,7 +1595,7 @@ Note that these **regular expressions** are case-sensitive. A regular expression
 
 ### Exercise 7
 
-<!-- DK: Too big a jump to this question? -->
+<!-- Too big a jump to this question? -->
 
 Make a list of all the files with names, before the suffix, which end in `t` by running `ls *t.*` CP/CR.
 
@@ -1678,7 +1680,7 @@ question_text(NULL,
 
 The `-l` option provides a **l**ong-format listing of the contents of the directory, including information about the type of content (file versus directory) and creation date/times. The leading `d` in the line for `seuss` indicates that it is a directory. 
 
-<!-- DK: Give a tour of what the different columns mean?  -->
+<!-- Give a tour of what the different columns mean?  -->
 
 ### Exercise 11
 
@@ -1947,7 +1949,7 @@ We also could gave used `~` to avoid providing the absolute path by running:
 mv ~/Downloads/TODO.txt .
 ````
 
-<!-- DK: Could use `cp` instead of `mv` and turn this into several questions. Start by copying the file to a new name. Then just use `.` to understand the default behavior.  -->
+<!-- Could use `cp` instead of `mv` and turn this into several questions. Start by copying the file to a new name. Then just use `.` to understand the default behavior.  -->
 
 ### Exercise 6
 
@@ -2019,6 +2021,21 @@ question_text(NULL,
 
 ### 
 
+When I run this, I see:
+
+````
+kane@Davids-MacBook-Pro-3 grepping % echo hat.txt > files.txt & echo cat.txt >> files.txt & echo ate.txt >> files.txt & echo "" >> files.txt
+[1] 98048
+[2] 98049
+[3] 98050
+[1]    done       echo hat.txt > files.txt
+[3]  + done       echo ate.txt >> files.txt                                                                      
+[2]  + done       echo cat.txt >> files.txt
+Davids-MacBook-Pro-2:grepping dkane$ 
+````
+
+This is showing how three different commands are run, one after the other.
+
 The extra `""` toward the end of the command ensures that there is a blank line at the end of the file, which is always a good idea when working with text files. 
 
 ### Exercise 3
@@ -2063,7 +2080,15 @@ This should return `ate.txt`.
 
 ### Exercise 5
 
-Run `ls $R_HOME` --- `ls %R_HOME%` on Windows --- to make a list of the contents of the R home directory. CP/CR.
+Download this file and move it from your `Downloads` file to your current directory, which is `grepping`. 
+
+````
+https://github.com/PPBDS/positron.tutorials/blob/main/inst/tutorials/03-terminal/images/grepping.txt
+````
+
+Run `ls` to confirm.
+
+CP/CR.
 
 ```{r grep-5}
 question_text(NULL,
@@ -2076,44 +2101,22 @@ question_text(NULL,
 
 ### 
 
-`R_HOME` is an environment variable which should behave similarly regardless of your computer. There should be several directories and files in this listing, including `COPYING` and `tests`.
+My answer looks like:
+
+````
+Davids-MacBook-Pro-2:grepping dkane$ mv ~/Downloads/grepping.txt .
+Davids-MacBook-Pro-2:grepping dkane$ ls
+files.txt       grepping.txt
+Davids-MacBook-Pro-2:grepping dkane$ 
+````
+
+There are now two files in `grepping`: `files.txt` and `grepping.txt`.
 
 ### Exercise 6
 
-Add `>` to `ls $R_HOME` to save this output to a new file named `RHOME.txt` located withing the `grepping` directory. That is, run
-
-```
-ls $R_HOME > RHOME.txt
-```
-
-or, on Windows, 
-
-```
-ls %R_HOME% > RHOME.txt
-```
-
-Run `ls`. CP/CR.
+Run `wc grepping.txt`. The `wc` command stands for **w**ord **c**ount. CP/CR.
 
 ```{r grep-6}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 3)
-```
-
-### 
-
-The `>` symbol is known as the "output redirection operator." Because all the output has been sent (or redirected) into a new file, `RHOME.txt`, this command produces no output.
-
-There are now two files in `grepping`: `files.txt` and `R_HOME.txt`.
-
-### Exercise 7
-
-Run `wc RHOME.txt`. The `wc` command stands for **w**ord **c**ount. CP/CR.
-
-```{r grep-7}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -2126,11 +2129,32 @@ question_text(NULL,
 
 The first number returned by `wc` is the number of lines in the file. The second is the total number of words. The third is the number of characters. In this case, the number of lines is the same as the number of words.
 
+### Exercise 7
+
+Use `grep` to search `grepping.txt` for lines that contain `R`. That is, run:
+
+`grep R grepping.txt`
+
+CP/CR.
+
+```{r grep-7}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 3)
+```
+
+### 
+
+
+
 ### Exercise 8
 
-Use `grep` to search `RHOME.txt` for lines that contain `R`. That is, run:
+Use `grep` and `^` to search `RHOME.txt` for lines that **begin** with `R`. That is, run:
 
-`grep R RHOME.txt`
+`grep ^R grepping.txt`
 
 CP/CR.
 
@@ -2145,15 +2169,13 @@ question_text(NULL,
 
 ### 
 
-<!-- DK: Correct? -->
-
-A mistyped `grep` command can cause the Terminal to get stuck and not generate a new prompt. If this happens, navigate to the top of the Terminal page and click the dropdown menu where Terminal says "busy." Select "Interrupt Terminal Command" from this menu in order to generate a new prompt and start again.
+`^` and `$` are called metacharacters. It is often useful to put quotes around a regular expression which includes metacharacters.
 
 ### Exercise 9
 
-Use `grep` and `^` to search `RHOME.txt` for lines that **begin** with `R`. That is, run:
+Use `grep` and `$` to search `grepping.txt` for lines that end with `e`. That is, run:
 
-`grep ^R RHOME.txt`
+`grep e$ grepping.txt`
 
 CP/CR.
 
@@ -2168,15 +2190,19 @@ question_text(NULL,
 
 ### 
 
-`^` and `$` are called metacharacters. It is often useful to put quotes around a regular expression which includes metacharacters.
+This should return three lines: 
+
+````
+whose
+these
+are
+````
+
+`egrep` is an even more powerful version of `grep`.  Learning more about `egrep` is beyond the scope of this tutorial.
 
 ### Exercise 10
 
-Use `grep` and `$` to search `RHOME.txt` for lines that end with `c`. That is, run:
-
-`grep c$ RHOME.txt`
-
-CP/CR.
+Use `cd ..` to change the working directory to the directory which is one level above your current location. This should be the default working directory from which we started. Run `pwd`. CP/CR.
 
 ```{r grep-10}
 question_text(NULL,
@@ -2189,51 +2215,13 @@ question_text(NULL,
 
 ### 
 
-This should return two lines: `doc` and `etc`. (Your computer set up might be different, so don't worry if your answer is not the same.)
+If you keep your R projects in the same place on your computer, only the last directory in the path for the default working directory will change between projects.
 
 ### Exercise 11
 
-Use `grep` to search `RHOME.txt` for lines than contain the string `ib`. That is, run:
-
-`grep ib RHOME.txt`
-
-CP/CR
-
-```{r grep-11}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 3)
-```
-
-### 
-
-`egrep` is an even more powerful version of `grep`.  Learning more about `egrep` is beyond the scope of this tutorial.
-
-### Exercise 12
-
-Use `cd ..` to change the working directory to the directory which is one level above your current location. This should be the default working directory from which we started. Run `pwd`. CP/CR.
-
-```{r grep-12}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 3)
-```
-
-### 
-
-If you keep your R projects in the same place on your computer, only the last directory in the path for the default working directory will change between projects.
-
-### Exercise 13
-
 Use `rm -r` to remove `grepping`. CP/CR.
 
-```{r grep-13}
+```{r grep-11}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
