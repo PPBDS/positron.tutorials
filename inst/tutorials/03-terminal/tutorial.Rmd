@@ -28,6 +28,10 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
+<!-- Put a text file in images/ instead of using TODO.txt file. -->
+
+<!-- I should better understand what the RTools environment looks like. Maybe I should just assume that they have done so (and check that they did) and then only worry about the minor differences between it and Mac/Linux.  -->
+
 <!-- See the Files section. It requires students to download the TODO.txt file. It is somewhat dangerous that this file is not guaranteed to always exist. But using DESCRIPTION was annoying because a .txt suffix was added when I, at least, download the file. Maybe add a test to ensure that TODO.txt exists? Just download.file() . . . -->
 
 <!-- Consider adding another files download exercise and/or making the current one more like the actual work that students do on this topic, which generally involves an R project, making data/ directory, putting a new file there and so on. -->
@@ -46,11 +50,11 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- Always showing the correct answer afterwards is a good idea. But there are a score of questions in which we have failed to do this. Fix this. -->
 
-<!-- DK: Oh no! Looks like $R_HOME does not exist in the Terminal in Positron! I suspect that this is because R_HOME is only created within R. So Sys.getenv("R_HOME") works from the Console, but `echo $R_HOME` produces nothing from the Terminal. Need to do something about this! -->
+<!-- Oh no! Looks like $R_HOME does not exist in the Terminal in Positron! I suspect that this is because R_HOME is only created within R. So Sys.getenv("R_HOME") works from the Console, but `echo $R_HOME` produces nothing from the Terminal. Need to do something about this! -->
 
-<!-- DK: R RHOME from the terminal does give us the R home directory. Cross-platorm, I think. Useful? I could also create the R_HOME environment variable by hand at the start of the tutorial. Or could create it in .RProfile. -->
+<!-- R RHOME from the terminal does give us the R home directory. Cross-platorm, I think. Useful? I could also create the R_HOME environment variable by hand at the start of the tutorial. Or could create it in .RProfile. -->
 
-<!-- Is working with the R home directory worthwhile? Is there some other file that exists on Mac and Windows?  Maybe we could use R.home() to determine the location and then require the student to create the entire path by hand? -->
+<!-- Is working with the R home directory worthwhile? Is there some other file that exists on Mac and Windows?  Maybe we could use R.home() to determine the location and then require the student to create the entire path by hand? Or we could just download another file from the repo. Don't forget to include it in .Rbuildignore -->
 
 ## Introduction
 ### 
@@ -1982,7 +1986,7 @@ Davids-MacBook-Pro-2:averages dkane$
 ## grep
 ### 
 
-In a previous section, we used **wildcards** to create **regular expressions** in order to generate lists of file names which matched a specific pattern. In this section, we will use `grep` to look for words inside of files. Fortunately, wildcards and regular expressions work the same with `grep`.
+In a previous section, we used **wildcards** to create **regular expressions** in order to generate lists of file names which matched a specific pattern. In this section, we will use `grep` to look for words *inside* of files. Fortunately, wildcards and regular expressions work the same with `grep`.
 
 ### Exercise 1
 
@@ -2024,8 +2028,7 @@ question_text(NULL,
 
 ### 
 
-The extra `.` at the end ensures that there is a blank line at the end of the file, which is always a good idea when dealing with text files. 
-
+The extra `""` toward the end of the command ensures that there is a blank line at the end of the file, which is always a good idea when working with text files. 
 
 ### Exercise 3
 
@@ -2044,7 +2047,7 @@ question_text(NULL,
 
 Remember to use the *tab* key to take advantage of auto-completion. Don't type! Tab complete!
 
-This should return all three lines from the file, which are the names of the three files we initially created. The blank line is not returned because it does not include an "a".
+This should return all three lines from the file, which are the names of the three files we created earlier in the tutorial. The blank line is not returned because it does not include an "a".
 
 `grep` is used to search for a string of characters within a text file. When it finds a match, it prints the line. You can put the regular expression, in this case `a`, in quotes but that is not required.
 
