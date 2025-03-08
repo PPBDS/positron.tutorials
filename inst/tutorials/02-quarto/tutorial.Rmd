@@ -28,9 +28,6 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-
-
-
 <!-- RPubs works well, just as it always has! It works from the publish button, which is nice for the initial learning. It produces a nice URL, which you can edit. The main page of your account is a nice portfolio of work. The only reason to move away is a fear that Rpubs will be going away. With luck, it isn't!-->
 
 <!-- Posit Cloud works much less well. No reason to switch to this anytime soon.  I could not get quartopub.com to work at all. -->

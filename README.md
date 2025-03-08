@@ -12,18 +12,24 @@ status](https://github.com/PPBDS/positron.tutorials/workflows/R-CMD-check/badge.
 ## About this package
 
 **positron.tutorials** is a collection of tutorials for working with
-Positron. Covers scripts, Quarto documents, git, Github, and Quarto
+Positron. Covers scripts, Quarto documents, the terminal, git, Github, and Quarto
 websites. Makes extensive use of the tools in the
 **[tutorial.helpers](https://ppbds.github.io/tutorial.helpers/)**
 package.
 
+Before doing these tutorials you should complete the "Tutorials in Positron" tutorial from the **[tutorial.helpers](https://ppbds.github.io/tutorial.helpers/)**
+package.
+
 ## Installation
 
-To install the package from CRAN:
+**positron.tutorials** is currently not avaible on CRAN.
+
+
+<!-- To install the package from CRAN:
 
 ``` r
 install.packages("positron.tutorials")
-```
+``` -->
 
 You can install the development version from
 [GitHub](https://github.com/) with:
@@ -32,6 +38,9 @@ You can install the development version from
 remotes::install_github("PPBDS/positron.tutorials")
 ```
 
-**positron.tutorials** is currently not avaible on CRAN.
+
+<!-- ## Available Tutorials -->
 
 <!-- Add section with discussion of available tutorials. -->
+
+<!-- Add discussion of R tools and Byran git/github book. -->

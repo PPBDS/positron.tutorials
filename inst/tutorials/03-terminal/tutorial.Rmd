@@ -32,56 +32,70 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- Consider adding another files download exercise and/or making the current one more like the actual work that students do on this topic, which generally involves an R project, making data/ directory, putting a new file there and so on. -->
 
-<!-- Make sure that everything makes sense to a student using Windows. Note all the DK comments which mention adding Windows explanations. -->
+<!-- Make sure that everything makes sense to a student using Windows. Note all the DK comments which mention adding Windows explanations. Do more to make Windows users more comfortable. They shouldn't have to translate! -->
 
 <!-- Several discussions about `..` are redundant. -->
+
+<!-- Double discussion of / versus \. -->
 
 <!-- Lots of opportunities for knowledge drops. See Chapter 7 in R4DS. -->
 
 <!-- Consider using and teaching the **here** package. -->
 
+<!-- Consider adding a bunch more images. Might be very useful in the paths section, especially taking images from the Explorer and showing how they correspond to the commands. -->
+
+<!-- Always showing the correct answer afterwards is a good idea. But there are a score of questions in which we have failed to do this. Fix this. -->
+
+<!-- DK: Oh no! Looks like $R_HOME does not exist in the Terminal in Positron! I suspect that this is because R_HOME is only created within R. So Sys.getenv("R_HOME") works from the Console, but `echo $R_HOME` produces nothing from the Terminal. Need to do something about this! -->
+
+<!-- DK: R RHOME from the terminal does give us the R home directory. Cross-platorm, I think. Useful? I could also create the R_HOME environment variable by hand at the start of the tutorial. Or could create it in .RProfile. -->
+
+<!-- Is working with the R home directory worthwhile? Is there some other file that exists on Mac and Windows?  Maybe we could use R.home() to determine the location and then require the student to create the entire path by hand? -->
+
 ## Introduction
 ### 
 
-This tutorial covers material which is not actually in [*R for Data Science (2e)*](https://r4ds.hadley.nz/quarto.html) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. But the material is in keeping with the spirit of that book. Some of the material from [Chapter 6 Workflow: scripts and projects](https://r4ds.hadley.nz/workflow-scripts) appears here.
+This tutorial introduces the structure and uses of the Terminal from within Positron. The older, more general term for the terminal is the "command line." All modern operating systems provide a command line, from which sophisticated users can modify files and directories, using commands like `pwd`, `ls`, `echo`, `mkdir`, `mv`, `rm`, and `cd`. We also discuss regular expressions as well as some of the metacharacters (like, `*`, `^` and `$`) from which they are constructed. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
-This tutorial introduces the structure and uses of the Terminal from within RStudio. The older, more general term for the terminal is the "command line." All modern operating systems provide a command line, from which sophisticated users can modify files and directories, using commands like `pwd`, `ls`, `touch`, `mkdir`, `mv`, `rm`, and `cd`. We also discuss regular expressions as well as some of the metacharacters (like, `*`, `^` and `$`) from which they are constructed.
 
 ### 
 
 Note that a default Windows installation is different from Mac or Linux. If you are using Windows, you must first install RTools. Download the latest version from [here](https://cran.r-project.org/bin/windows/Rtools/). Currently, the Rtools44 installer is what you want. The link is in the seventh paragraph of [this page](https://cran.r-project.org/bin/windows/Rtools/rtools44/rtools.html).
 
+Once you install RTools, you should restart your Positron session. If you are using Windows and are having trouble doing this, you may need to "translate" some if the instructions we give.
+
 ### 
 
 For the most part, Windows works like Mac/Unix. There are three main exceptions which are important for this tutorial:
 
-* Environment variables look like `$R_HOME` on Mac/Unix and `%R_HOME%` on Windows. That is, in both cases, we are using the `R_HOME` environment variable. We just access this variable differently depending on the operating system.
+* Environment variables look like `$PATH` on Mac/Unix and `%PATH%` on Windows. That is, in both cases, we are using the `PATH` environment variable. We just access this variable differently depending on the operating system. Mac/Unix prefaces environment variables with `$` while Windows surrounds them with `%`. 
+
+* The names of some environment variables differ across operating systems. For example, `$HOME` (Mac/Linux) and `%USERPROFILE%` (Windows) are both environment variables which refer to the user's home directory.
 
 * Directory separators are forward slashes -- `/` -- on Max/Unix and backward slashes -- `\` -- on Windows.
 
-* Creating new files can work differently on Mac/Linux and Windows. To create a new empty file named `new.txt`, we would use `touch new.txt` on Mac/Linux. Assuming that you have installed [RTools](https://cran.r-project.org/bin/windows/Rtools/), `touch` should also work on Windows. If it doesn't work for you, try `copy NUL new.txt` to create an empty file named `new.txt`.
+###
 
-The tutorial defaults use Mac/Unix nomenclature. If you are using Windows, you need to translate, for example:
+The tutorial defaults use Mac/Unix nomenclature. If you are using Windows, you may need to translate, for example:
 
 ```
-ls $R_HOME/etc
+ls $HOME/Desktop
 ```
 
 into
 
 ```
-ls %R_HOME%\etc
+ls %USERPROFILE%\Desktop
 ```
-
 
 ## Terminal
 ### 
 
-The Terminal tab is next to the Console tab within the Console pane in the lower left portion of RStudio. (Yes, it is a bit confusing that we call the entire structure the Console **pane** even though only one part of it is the Console **tab**.) We use the Console tab to talk to R. We use the Terminal tab to talk directly with the computer. Sadly, the Console and the Terminal speak different languages.
+The Terminal tab is next to the Console tab within the Panel in the lower left portion of the Positron window.  We use the Console tab to talk to R. We use the Terminal tab to talk directly with the computer. Sadly, the Console and the Terminal speak different languages.
 
 ### Exercise 1
 
-Hit the "return" key (the "enter" key on Windows) two times in the Terminal to see what happens. The terminal has a string of characters ending in a \$ before your cursor, called the **prompt**. After a command has been executed, a prompt will be generated on a new line to let you know that Terminal is ready for a new command. Copy and paste the three (blank) lines from the Terminal as your answer below. We do a lot of **c**opy/**p**asting of **c**ommands/**r**esponses, so we abbreviate those instructions as CP/CR.
+Hit the `Enter` key (the `Return` key on Mac) two times in the Terminal to see what happens. The Terminal has a string of characters called the **prompt**. After a command has been executed, a prompt will be generated on a new line to let you know that Terminal is ready for a new command. Copy and paste the three (blank) lines from the Terminal as your answer below. We do a lot of **c**opy/**p**asting of **c**ommands/**r**esponses, so we abbreviate those instructions as CP/CR.
 
 ```{r terminal-1}
 question_text(NULL,
@@ -102,7 +116,7 @@ Davids-MacBook-Pro-2:averages dkane$
 Davids-MacBook-Pro-2:averages dkane$ 
 ````
 
-Your answer will look different from mine. Default prompts vary from computer to computer. In my case, the first part of the prompt is the name of my computer: `Davids-MacBook-Pro-2`. The second part, separated with a colon, is the name of the directory, `averages`, in which I am running the tutorial. The third part, separated by a space, is `dkane`, my username.
+Your answer will look different from mine. Default prompts vary from computer to computer. In my case, the first part of the prompt is the name of my computer: `Davids-MacBook-Pro-2`. The second part, separated with a colon, is the name of the directory, `averages`, in which I am running the tutorial. The third part, separated by a space, is `dkane`, my username. The dollar sign indicates the end of the prompt.
 
 ### 
 
@@ -110,9 +124,9 @@ The prompt acts as a quick way to tell you where in the computer you are. The Te
 
 ### Exercise 2
 
-Let's figure out the location of the folder in which we currently are. (Note that the terms "folder" and "directory" mean the same thing.) To see your current location within your computer, type the command `pwd` (**p**resent **w**orking **d**irectory) in the Terminal. Hit return/enter key to run the command. 
+Let's figure out the location of the folder in which we currently are. (Note that the terms "folder" and "directory" mean the same thing.) To see your current location within your computer, type the command `pwd` (**p**resent **w**orking **d**irectory) in the Terminal. Hit the `Enter` (Windows) or `Return` (Mac) key to run the command. 
 
-Going forward, we will instruct you to "run" a given command. You do this by typing the command at the prompt and then hitting the return/enter key.
+Going forward, we will instruct you to "run" a given command. You do this by typing the command at the prompt and then hitting the `Enter` or `Return` key.
 
 CP/CR.
 
@@ -202,7 +216,7 @@ The `example` directory is one level below the directory in which I started.
 
 ### Exercise 6
 
-Let's create a file called `my.txt`. Run `touch my.txt`. (Recall that if `touch` does not work on Windows for you, try `copy NUL my.txt` instead.)
+Let's create a file called `my.txt`. Run `echo "" > my.txt`. 
 
 Run `ls` to confirm that the new file exists inside the current directory. CP/CR.
 
@@ -218,13 +232,13 @@ question_text(NULL,
 ### 
 
 ````
-Davids-MacBook-Pro-2:example dkane$ touch my.txt
+Davids-MacBook-Pro-2:example dkane$ echo "" > my.txt
 Davids-MacBook-Pro-2:example dkane$ ls
 my.txt
 Davids-MacBook-Pro-2:example dkane$ 
 ````
 
-`touch` creates an empty file.
+`echo "" > my.txt` creates an empty file. `echo` just repeats whatever follows, which is an empty quote in this case. `>`, which we will discuss more later, "pipes" whatever comes before it into whatever comes after.
 
 
 ### Exercise 7
@@ -361,7 +375,9 @@ You will practice using paths both inside and outside the current working direct
 
 ### Exercise 1
 
-By default, the Terminal in RStudio starts with a working directory which is the same as the folder in which the current R project resides, i.e., the folder with the `.Rproj` file in it. Run `pwd` to show your current working directory. CP/CR.
+By default, the Terminal in Positron starts with a working directory which is the same as the folder you created for the project. That is, both the Console and the Terminal *start* in the same place.
+
+Run `pwd` to show your current working directory. CP/CR.
 
 ```{r paths-1}
 question_text(NULL,
@@ -374,7 +390,9 @@ question_text(NULL,
 
 ### 
 
-The Output pane (bottom right corner) in RStudio includes several tabs, the most important of which is the Files tab. Click on it. At the top of the Files tab, you will see a series of directories, separated by `>`, on your computer, beginning with the Home icon. This should match the path generated by `pwd`.
+The Actvity Bar (left side, colored blue) in Positron includes several buttons. When you click on of these buttons, a "pane" of some sort is opened next to the Activty Bar. (Pressing the button again closes the pain.)
+
+The top one of which is the Explorer. Pressing it opens the Explorer pane, also called Project Explorer. This functions like the Mac Finder or the Windows Explorer. 
 
 ### Exercise 2
 
@@ -498,7 +516,7 @@ Get in the practice of using the tab key. Avoid typing whenever possible. Be laz
 
 ### Exercise 7
 
-Use `touch` to make a text file inside `fruits`, named `pineapple.txt`. Recall that your current location --- i.e., your working directory --- is now `fruits`. So, to make a new file within `fruits`, you just need `touch pineapple.txt`. Run `ls` to confirm. CP/CR.
+Use `echo "" >` to make a text file inside `fruits`, named `pineapple.txt`. Recall that your current location --- i.e., your working directory --- is now `fruits`. So, to make a new file within `fruits`, you just need `echo "" > pineapple.txt`. Run `ls` to confirm. CP/CR.
 
 ### 
 
@@ -514,7 +532,7 @@ question_text(NULL,
 Your answer should look like this:
 
 ````
-Davids-MacBook-Pro-2:fruits dkane$ touch pineapple.txt
+Davids-MacBook-Pro-2:fruits dkane$ echo "" > pineapple.txt
 Davids-MacBook-Pro-2:fruits dkane$ ls
 pineapple.txt
 Davids-MacBook-Pro-2:fruits dkane$ 
@@ -526,7 +544,7 @@ Davids-MacBook-Pro-2:fruits dkane$
 
 ### Exercise 8
 
-Use `touch` to make two more text files inside `fruits`, named `pear.txt` and `does-not-belong`. That is, run `touch pear.txt does-not-belong`. Confirm by running `ls`. CP/CR.
+Use `echo` to make two more text files inside `fruits`, named `pear.txt` and `does-not-belong`. That is, run `echo "" > pear.txt & echo "" > does-not-belong`. Confirm by running `ls`. CP/CR.
 
 ### 
 
@@ -542,13 +560,13 @@ question_text(NULL,
 Your answer should look like this:
 
 ````
-Davids-MacBook-Pro-2:fruits dkane$ touch pear.txt does-not-belong
+Davids-MacBook-Pro-2:fruits dkane$ echo "" > pear.txt & echo "" > does-not-belong
 Davids-MacBook-Pro-2:fruits dkane$ ls
 does-not-belong pear.txt        pineapple.txt
 Davids-MacBook-Pro-2:fruits dkane$ 
 ````
 
-As always, note how the prompt reminds us that we are in the `fruits` directory.
+The `&` symbol simply tells the operating system to do both the command which came before it and the command which comes after.
 
 
 ### Exercise 9
@@ -637,6 +655,8 @@ We can act on files which are not in the working directory as long as we provide
 
 ### Exercise 12
 
+In the same way that `..` refers to the directory above the current directory, `.` --- a single period --- refers to the current directory, the one in which we are currently located.
+
 Use `cd` to change the working directory up to `paths` by running `cd ..`. Confirm with `pwd`. Use `mv` and the `.` shorthand to move the directory `tbd` directly inside of `paths` by running `mv lessons/tbd .`. Confirm with `ls`. CP/CR.
 
 ```{r paths-12}
@@ -662,7 +682,7 @@ lessons tbd
 Davids-MacBook-Pro-2:paths dkane$ 
 ````
 
-When using `mv`, there is no difference between moving a directory and moving a file.
+When using `mv`, there is no difference between moving a directory and moving a file. A command like `mv lessons/tbd .` seems like a bit of witchcraft. But, all that it is really say is to move (`mv`) the `tbd` directory (which is located in the `lessons` directory) to here (`.`), meaning to the current directory.
 
 ### Exercise 13
 
@@ -692,12 +712,14 @@ Davids-MacBook-Pro-2:averages dkane$
 
 In olden times, professional programmers would spend a lot of time learning the various options to commands like `rm`. Now, we just ask ChatGPT or a similar tool.
 
+<!-- DK: Could have them ask ChatGPT to do something and then do it. -->
+
 ## Important symbols
 ### 
 
 <!-- DK: Worth including environmental variables? Change name to "Variables"? Is .. a variable? -->
 
-We have seen one important symbol --- `..` --- already. This section will explore it along with `.` and `~`.  The most common English terms for these symbols are "dot" or `.`, "dot dot" for `..`, and "tilde" for `~`. The `.` symbol indicates the current directory. The `..` symbol is for the directory one above the current directory. The `~` symbol is for your "home" directory.
+We have seen two important symbols --- `..` and `.` --- already. This section will explore those along with `~`.  The most common English terms for these symbols are "dot" or `.`, "dot dot" for `..`, and "tilde" for `~`. The `.` symbol indicates the current directory. The `..` symbol is for the directory one above the current directory. The `~` symbol is for your "home" directory.
 
 
 ### Exercise 1
@@ -781,7 +803,7 @@ README.md       symbols         theory.qmd
 Davids-MacBook-Pro-2:symbols dkane$ 
 ````
 
-Your answer will look different because you started this tutorial in a different directory, with different contents, then I did.
+Your answer will look different because you started this tutorial in a different directory, with different contents, than I did.
 
 ### Exercise 4
 
@@ -811,7 +833,7 @@ coordination                    primer                          tidymodels.tutor
 Davids-MacBook-Pro-2:symbols dkane$ 
 ````
 
-I cut off the long list of directories in my `projects` directory. The `symbols` directory, in which we are current located, is in in that longer list.
+I cut off the long list of directories in my `projects` directory. The `symbols` directory, in which we are current located, is in that longer list.
 
 Your answer will look different because you have a different collection of projects, presumably many fewer.
 
@@ -841,11 +863,11 @@ Davids-MacBook-Pro-2:symbols dkane$
 
 The absolute path for my current location, meaning my current working directory, contains these locations. 
 
-* The starting `/` --- which would be a `\` in Windows --- indicates the root, or origin of the file systems. There is no directory higher than the root directory.
+* The starting `/` --- which would usually be a `C:\` in Windows --- indicates the root, or origin of the file systems. There is no directory higher than the root directory.
 
 * `Users` followed by my user name, `dkane`. Most Mac/Linux machines follow this organization. 
 
-* The next three directories are, first, `projects`, which is where I store all my R projects, second, `averages`, which just happens to be the name of the directory in which I started this tutorial, and, third, `symbols`, which is the directory we just created.
+* The next four directories are `Desktop`, followed by `projects`, which is where I store all my R projects. Then comes `averages`, which just happens to be the name of the directory in which I started this tutorial, and, finally, `symbols`, which is the directory we just created.
 
 ### Exercise 6
 
@@ -899,11 +921,9 @@ Davids-MacBook-Pro-2:symbols dkane$
 
 This is an example of using a "absolute" path to change locations.
 
-
-
 ### Exercise 8
 
-Run `ls ~`. The list should be identical to the list you generated above in the home directory. Because the home directory is used in the absolute path of so many files, its path --- generally something like `/Users/your-user-name-here` --- can be written with the shorthand `~`, which is a tilde, pronounced TIL-D. CP/CR.
+Run `ls ~`. The list should be identical to the list you generated above in the home directory. Because the home directory is used in the absolute path of so many files, its path --- generally something like `/Users/your-user-name-here` on a Mac --- can be written with the shorthand `~`, which is a tilde, pronounced TIL-D. CP/CR.
 
 
 ```{r important-symbols-8}
@@ -944,9 +964,7 @@ Davids-MacBook-Pro-2:averages dkane$ rm -rf symbols
 Davids-MacBook-Pro-2:averages dkane$ 
 ````
 
-Note that `rm -rf symbols` and `rm -rf symbols/`, with the trailing forward slash, have the same effect. Except in rare circumstances --- although see an example before --- including the trailing forward slash in the name of a directory has no effect.
-
-
+Note that `rm -rf symbols` and `rm -rf symbols/`, with the trailing forward slash, have the same effect. Except in unusual circumstances, including the trailing slash in the name of a directory has no effect.
 
 ## Options
 ### 
@@ -985,7 +1003,7 @@ Note how easy it is to string together several commands in order to accomplish o
 
 ### Exercise 2
 
-Add a text file to the `options` directory, named `.my-hidden.txt` --- make sure to include the `.` at the front of the file name --- by running `touch .my-hidden.txt`.  CP/CR.
+Add a text file to the `options` directory, named `.my-hidden.txt` --- make sure to include the `.` at the front of the file name --- by running `echo "" > .my-hidden.txt`.  CP/CR.
 
 
 ```{r options-2}
@@ -1054,13 +1072,13 @@ The `.` file refers to the options directory itself. The `..` refers to the dire
 
 ### 
 
-Hidden files live all over your computer. You can turn on your ability to see hidden files in the R Studio Files pane (bottom right corner) by clicking the "More" button towards the top.
+Hidden files live all over your computer. 
 
 ### Exercise 5
 
-The **environmental variable** `R_HOME` represents the path to a folder of set-up files that R has installed on your computer. Type and enter `echo $R_HOME` alone to make sure we are telling you the truth. 
+The **environmental variable** `HOME` represents the path to your home directory. Type and enter `echo $HOME` alone to make sure we are telling you the truth. 
 
-Recall that, on Windows, this would be `echo %R_HOME%` and `cd %R_HOME%`.
+Recall that, on Windows, we accomplish the same goal `echo %USERPROFILE%`. Windows does not usually have an `HOME` environmental value.
 
 CP/CR.
 
@@ -1078,8 +1096,8 @@ question_text(NULL,
 Your answer should look like:
 
 ````
-Davids-MacBook-Pro-2:options dkane$ echo $R_HOME
-/Library/Frameworks/R.framework/Resources
+Davids-MacBook-Pro-2:options dkane$ echo $HOME
+/Users/dkane
 Davids-MacBook-Pro-2:options dkane$ 
 ````
 
@@ -1088,9 +1106,9 @@ Note how the prompt has changed because I am now in the `options` directory.
 
 ### Exercise 6
 
-Run `ls $HOME`. This should generate a list of the items in your home directory. `$HOME` is an environmental variable that represents the home directory.  
+Run `ls $HOME`. This should generate a list of the items in your home directory. 
 
-If you are on Windows, you can try `ls %HOME%`, but, sometimes, `%HOME%` is not defined on Windows. In that case, `ls %USERPROFILE%` should work. 
+If you are on Windows, use `ls %USERPROFILE%`. 
 
 CP/CR.
 
@@ -1106,7 +1124,7 @@ question_text(NULL,
 
 ### 
 
-There are many different environmental variables for places throughout your computer. You can also make your own.
+There are many different environmental variables. You can also make your own.
 
 ### Exercise 7
 
@@ -1496,13 +1514,21 @@ Davids-MacBook-Pro-2:wildcards dkane$ pwd
 Davids-MacBook-Pro-2:wildcards dkane$ 
 ````
 
-Note how the prompt changed after we switche directories.
+Note how the prompt changed after we switched directories.
 
-Keep track of your current location. There is a difference between being in the directory above `wildcards` and being inside of `wildcards`. Right now, you are inside `wildcard`.
+Keep track of your current location. There is a difference between being in the directory above `wildcards` and being inside of `wildcards`. Right now, you are inside `wildcards`.
 
 ### Exercise 3
 
-Using `touch`, Make three text files named `hat.txt`, `cat.txt`, and `ate.txt`. Confirm that you have done so by running `ls`. (No worries if you make a mistake. Just fix it by removing the misnamed file.) CP/CR.
+Using `echo`, make three text files named `hat.txt`, `cat.txt`, and `ate.txt` by running: 
+
+````
+echo hat.txt > files.txt & echo cat.txt >> files.txt & echo ate.txt >> files.txt & echo "" >> files.txt
+````
+
+Confirm that you have done so by running `ls`. (No worries if you make a mistake. Just fix it by removing the misnamed file.) 
+
+CP/CR.
 
 ```{r wildcards-3}
 question_text(NULL,
@@ -1515,7 +1541,7 @@ question_text(NULL,
 
 ### 
 
-`touch` can take multiple arguments, making a file for each one. `touch hat.txt cat.txt ate.txt` is equivalent to running `touch` three times.
+
 
 ### Exercise 4
 
@@ -1591,7 +1617,11 @@ This should return `hat.txt` and `cat.txt`. Read this regular expression --- `*t
 
 ### Exercise 8
 
-Save the output of our list of all the file names that contained `a` to a new file names `afiles.txt`. Keep pressing the **up** arrow key to navigate through your previous commands until you get to the command you used above: `ls *a*`. Then add `> afiles.txt` afterwards and run the command. Run `ls` to confirm that it worked. CP/CR.
+Save the output of our list of all the file names that contained `a` to a new file names `afiles.txt`. Keep pressing the **up** arrow key to navigate through your previous commands until you get to the command you used above: `ls *a*`. Then add `> afiles.txt` afterwards and run the command. That is, you are running `ls *a* > afiles.txt`.
+
+Then, run `ls` to confirm that it worked. 
+
+CP/CR.
 
 ```{r wildcards-8}
 question_text(NULL,
@@ -1633,7 +1663,6 @@ Davids-MBP:wildcards dkane$ ls
 afiles.txt      ate.txt         cat.txt         hat.txt         seuss
 Davids-MBP:wildcards dkane$ 
 ````
-
 
 The `wildcards` directory, in which you are currently located, now includes 5 items, one of which is the `seuss` directory.
 
@@ -1825,16 +1854,16 @@ The `...` indicates that there are many more files in this directory. I am not a
 
 ### Exercise 3
 
-In your browser, go to `https://github.com/PPBDS/r4ds.tutorials`. 
+In your browser, go to `https://github.com/PPBDS/positron.tutorials`. 
 
 This is the location for the R package which contains this tutorial. Click on the `TODO.txt` file, which should bring you to this URL:
 
-`https://github.com/PPBDS/r4ds.tutorials/blob/main/TODO.txt`. 
+`https://github.com/PPBDS/positron.tutorials/blob/main/TODO.txt`. 
 
-Click on the "Download raw file" symbol to download the `DESCRIPTION` file to your computer.  
+Click on the "Download raw file" symbol to download the `TODO.txt` file to your computer.  
 
-```{r echo = FALSE}
-knitr:: include_graphics("images/download.png")
+```{r files-3}
+knitr:: include_graphics("images/download-file.png")
 ```
 
 Run `ls ~/Dowloads/T*`. CP/CR.
@@ -1860,10 +1889,7 @@ Davids-MacBook-Pro-2:files dkane$ ls ~/Downloads/T*
 Davids-MacBook-Pro-2:files dkane$ 
 ````
 
-The `*` is a wildcard character, meaning that the `ls` command should return all the files which begin with a capital `D`. For me, there are three such files in my `Downloads` directory. 
-
-Note that, depending on your computer/setup, the file `DESCRIPTION` might or might not have a `.txt` suffix. The original file, located on Github, does not have one, but some computers, including mine, add the suffix automatically. If your downloaded file does not have the suffix, use `DESCRIPTION` in place of `DESCRIPTION.txt` in the upcoming exercises.
-
+The `*` is a wildcard character, meaning that the `ls` command should return all the files which begin with a capital `T`. For me, there are three such files in my `Downloads` directory. 
 
 ### Exercise 4
 
@@ -1914,7 +1940,7 @@ TODO.txt
 Davids-MacBook-Pro-2:files dkane$ 
 ````
 
-Recall that the `.` symbol indicates the current directory. Since we did not give a new name for the file, the old name is retained. We could have give the file a new name by using:
+Recall that the `.` symbol indicates the current directory. Since we did not give a new name for the file, the old name is retained. We could have give the file a new name by running:
 
 ````
 mv /Users/dkane/Downloads/TODO.txt TODO_2.txt
@@ -1973,19 +1999,17 @@ question_text(NULL,
 
 ### 
 
-We call this folder `grepping` rather than `grep` because you should not use a command, like `grep`, as the name of a file or directory. It is possible to do this, just like it is possible to jump off a bridge. But, in both cases, you will probably regret it.
+We call this folder `grepping` rather than `grep` because you should not use a command, like `grep`, as the name of a file or a directory. It is possible to do this, just like it is possible to jump off a bridge. But, in both cases, you will probably regret it.
 
 ### Exercise 2
 
 `cd` into the `grepping` directory. Run this command:
 
-<!-- DK: Does this work on Windows? I think so. -->
-
 ```
-printf "hat.txt\ncat.txt\nate.txt\n\n" > files.txt
+echo hat.txt > files.txt & echo cat.txt >> files.txt & echo ate.txt >> files.txt & echo "" >> files.txt
 ```
 
-The `\n` symbol will insert a new line between `hat.txt`, `cat.txt`, and `ate.txt`. 
+The trick with this command is the `>` pipes the results into a file, deleting anything already in he file, while `>>` appends to an already existing file. So, we are creating `files.txt` line-by-line.
 
 Run `cat files.txt`. CP/CR.
 
@@ -2000,9 +2024,8 @@ question_text(NULL,
 
 ### 
 
-The extra `\n` at the end ensures that there is a blank line at the end of the file, which is always a good idea when dealing with text files. 
+The extra `.` at the end ensures that there is a blank line at the end of the file, which is always a good idea when dealing with text files. 
 
-Don't worry about the `printf` command. It is not used very often. We didn't use `echo` because it is annoying to use in the case of multiple lines of input when you are writing code which needs to work on both Mac/Unix and Windows.
 
 ### Exercise 3
 
@@ -2043,10 +2066,6 @@ question_text(NULL,
 This should return `ate.txt`.
 
 `^` is put at the beginning of a regular expression to indicate that the expression must occur at the beginning of a line. A dollar sign --- `$` --- at the end of a regular expression indicates that the expression must occur at the end of the line.
-
-<!-- DK: What does the below mean? -->
-
-We will not attempt the previous search we made of these files with wildcards because it is difficult, though possible, to search for strings with special characters like `.` with `grep`.
 
 ### Exercise 5
 
@@ -2236,11 +2255,9 @@ It is always a good idea to clean up after yourself. As the signs say when takin
 ## Summary
 ### 
 
-This tutorial covered material which is not actually in [*R for Data Science (2e)*](https://r4ds.hadley.nz/quarto.html) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. But the material is in keeping with the spirit of that book. Some of the material from [Chapter 6 Workflow: scripts and projects](https://r4ds.hadley.nz/workflow-scripts) appeared here.
+This tutorial introduced the structure and uses of the Terminal from within Positron. The older, more general term for the terminal is the "command line." All modern operating systems provide a command line, from which sophisticated users can modify files and directories, using commands like `pwd`, `ls`, `echo`, `mkdir`, `mv`, `rm`, and `cd`. We also discuss regular expressions as well as some of the metacharacters (like, `*`, `^` and `$`) from which they are constructed. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
-This tutorial introduced the structure and uses of the Terminal from within RStudio. The older, more general term for the terminal is the "command line." All modern operating systems provide a command line, from which sophisticated users can modify files and directories, using commands like `pwd`, `ls`, `touch`, `mkdir`, `mv`, `rm`, and `cd`. We also discussed regular expressions as well as some of the metacharacters (like, `*`, `^` and `$`) from which they are constructed.
-
-Want to learn more about the command line and related topics? Read [*The Unix Workbench*](https://seankross.com/the-unix-workbench/) by Sean Kross.
+Learn more about the command line and related topics by reading [*The Unix Workbench*](https://seankross.com/the-unix-workbench/) by Sean Kross.
 
 ```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
 ```
