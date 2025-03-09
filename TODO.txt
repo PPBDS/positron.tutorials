@@ -3,7 +3,6 @@ Just added those .txt files on 03-terminal/images. Is that a good place for them
 
 Add overview of the tutorials to README page.
 
-Clean up tutorial 3.
 Clean up tutorial 4.
 Clean up tutorial 5.
 Clean up tutorial 6.
@@ -18,7 +17,13 @@ Do 01-code tutorial.
     Submit your downloaded answers to me. 
     Submit a PR with fixes and comments.
 
+## Sharav
 
+Install new version of tutorial.helpers.
+Complete "Tutorials in Positron" tutorial.
+Send me the answers.
+Submit a PR with any corrections/questions about that tutorial.
+Read up on Positron.
 
 
  ## AI Links
