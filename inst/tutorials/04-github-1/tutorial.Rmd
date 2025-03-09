@@ -282,7 +282,7 @@ To begin, sign into GitHub and go to the homepage: `www.github.com`. Click the g
 
 
 
-```{r setting-up-github-5}
+```{r}
 include_graphics("images/github_new_repo.png")
 ```
 
