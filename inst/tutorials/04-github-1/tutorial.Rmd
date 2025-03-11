@@ -377,13 +377,49 @@ include_graphics("images/new-from-git.png")
 
 This will open the `First-Repo` project in a new Positron window. 
 
+
 ### Exercise 8
 
 **All further questions in this tutorial should be completed in the `First-Repo` project, not in the Positron window in which this tutorial is running.**
 
-Confirm that your setup is correct. In the Terminal, run `git remote -v`. CP/CR.
+The new Positron window will look something like:
+
+```{r}
+include_graphics("images/new-git-window.png")
+```
+
+Note the message that "There is no interpreter running." Note the "Start Interpreter" dropdown menu. When you create a new project from GitHub, Positron does not know what programming language you intend to work with at the start. Choosing an "interpreter" is, more or less, choosing a programming language.
+
+Select the latest R version from the menu. (If you have more than one R version installed, you ought to delete the older ones. You may also have Python as an option.) Or, if one version of R is the only interpreter that Positron can find, it might just start R for you.
+
+Either way, R should start in the Console. Copy/paste everything in the Console from "Type 'demo()'" through the prompt.
 
 ```{r setting-up-github-8}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+My answer looks like:
+
+````
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+>
+````
+
+### Exercise 9
+
+Confirm that your setup is correct. In the Terminal (not the Console), run `git remote -v`. CP/CR.
+
+```{r setting-up-github-9}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -395,15 +431,18 @@ question_text(NULL,
 Your answer should look something like:
 
 ```         
-Davids-MBP:First-Repo dkane$ git remote -v
+dkane@MacBookPro First-Repo % git remote -v
 origin  https://github.com/davidkane9/First-Repo.git (fetch)
 origin  https://github.com/davidkane9/First-Repo.git (push)
-Davids-MBP:First-Repo dkane$ 
+dkane@MacBookPro First-Repo % 
 ```
+Note how my prompt has changed so that it ends with `First-Repo` because this new window opened with `First-Repo` as the current working directory.
 
-Don't worry too much about the details. You've successfully linked a repo to an Positron Project!
+Don't worry too much about the details of "origin," "fetch," and "push." You've successfully linked a repo to an Positron Project!
 
-### Exercise 9
+### Exercise 10
+
+<!-- DK: Revisit this to confirm it works. Update images. -->
 
 You have linked your GitHub repo to your R project, but you haven't proven that you are someone with editing access to the project. If we just let anyone with the GitHub link edit our repo, that's obviously going to lead to problems. This is why we use something called a **p**ersonal **a**ccess **t**oken, or a **PAT**.
 
@@ -419,7 +458,7 @@ Create a PAT by using the `usethis::create_github_token()` function in the Conso
 
 Set the "Note" field to "My First PAT" and keep the scopes the same as the **default**. It should look something like the picture below (Doesn't have to be exact).
 
-```{r setting-up-github-9}
+```{r}
 include_graphics("images/pat.png")
 ```
 
@@ -427,19 +466,19 @@ include_graphics("images/pat.png")
 
 Press "Generate Token" at the bottom of the page to finalize your PAT. If you have trouble, the function `usethis::gh_token_help()` may be helpful.
 
-### Exercise 10
+### Exercise 11
 
-Now that we've created our PAT, first temporarily copy it somewhere you have easy access to. We will need to store it somewhere so that Positron can "see" it.
+Now that you have created your PAT, you should first temporarily copy it somewhere you have easy access to. We will need to store it somewhere so that Positron can "see" it.
 
 Run `gitcreds::gitcreds_set()` in the Console and follow the prompts, providing your token when asked.
 
 ### 
 
-Restart your R session with `Session -> Restart R`. (This is not the same thing as restarting Positron.) You could also use `Cmd/Ctrl + Shift + 0` to restart R. Using the shortcut key is always a good idea. (On Windows, this would be `Ctrl + Shift + F10`.)
+Restart your R session with `Cmd/Ctrl + Shift + 0`. (This is not the same thing as restarting Positron.) You could also use `Cmd/Ctrl + Shift + 0` to restart R. On Windows, this would be `Ctrl + Shift + F10`.
 
 Run `usethis::git_sitrep()` in the Console. CP/CR.
 
-```{r setting-up-github-10}
+```{r setting-up-github-11}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -461,10 +500,459 @@ The key "GitHub user" section should look something like:
 
 See "[Managing Git(Hub) Credentials](https://usethis.r-lib.org/articles/git-credentials.html)" for more details.
 
+
+## Using GitHub
+### 
+
+### Exercise 1
+
+At the Terminal, run `pwd`. CP/CR.
+
+```{r using-github-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Your answer should look like:
+
+````
+dkane@MacBookPro First-Repo % pwd
+/Users/dkane/Desktop/projects/First-Repo
+dkane@MacBookPro First-Repo % 
+````
+
+You should be in a directory named `First-Repo`. By default, the "New Folder from Git" process places you in the directory of the project which you have just created. The prompt, assuming that you have a reasonable one, should show your current working directory, as mine does.
+
+### Exercise 2
+
+At the Terminal, run `ls`. CP/CR.
+
+```{r using-github-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Your answer should look like:
+
+````
+dkane@MacBookPro First-Repo % ls
+README.md
+dkane@MacBookPro First-Repo % 
+````
+There is only one (non-hidden) file in the directory, `README.md`. It was created when we initially started the repo. Recall how we checked the box saying "Add a README file". If we had not done so, there would not be any files in the directory. 
+
+### Exercise 3
+
+At the Terminal, run `ls -a`. The `a` option tells `ls` to show all directories/files, including ones that are hidden, i.e., which start with a dot, meaning a`.`. CP/CR.
+
+```{r using-github-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Your answer should look like:
+
+````
+dkane@MacBookPro First-Repo % ls -a
+.               ..              .git            README.md
+dkane@MacBookPro First-Repo % 
+````
+
+`.` refers to the current directory. `..` stands for the parent directory. These two links are present in (almost) every directory on your computer. `.git` is a hidden directory used by the program git to keep track of all the files in your project. 
+
+Unless you have a good reason, you should never mess with the contents of a hidden directory like `.git`.
+
+### Exercise 4
+
+At the Terminal, run `cat README.md`. CP/CR.
+
+```{r using-github-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Your answer should look like:
+
+````
+dkane@MacBookPro First-Repo % cat README.md 
+# First-Repo%                                                                                   
+dkane@MacBookPro First-Repo % 
+````
+
+The `README.md` file is a markdown file with only one line, a header with the name of the repo. It, unfortunately, lacks an empty line at the end of the file, thereby causing my prompt to "wrap" around in the print out above.
+
+### Exercise 5
+
+Open `README.md` in the Editor. The easiest way to do so is to click the Explorer button in the Activity Bar on the lefthand side of the Positron Window. This opens the File pane, in which you can see the files in the current directory.
+
+```{r}
+include_graphics("images/README-1.png")
+```
+
+Edit the `README.md` by skipping a line after the header and adding this sentence: "David Kane is a data maestro!" Replace my name with yours, obviously. Add a blank line after your sentence. Save the file.
+
+At the Terminal, run `cat README.md`. CP/CR.
+
+```{r using-github-5}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Your answer should look like:
+
+````
+dkane@MacBookPro First-Repo % cat README.md
+# First-Repo
+
+David Kane is a data maestro!
+dkane@MacBookPro First-Repo % 
+````
+
+You can close the Files pane by clicking the Explorer button again. Each of the buttons in the Activity Bar opens up a different pane.
+
+### Exercise 6
+
+Click the Source Control button in the Activity Bar. This opens the Source Control pane, which is an interface to using git and GitHub.
+
+```{r}
+include_graphics("images/README-2.png")
+```
+
+The top part of the pane shows the files that have been added/modified. This is git telling you what it thinks has changed. In this case, the "M" next to the end of the line for `README.md` indicates that git thinks that we have **m**odified the file, which is, in fact, what we have done.
+
+Render `README.md` by either typing `Cmd/Cntrl + Shift + K` or by clicking the "Preview" button in the upper right of the Editor.
+
+The Terminal tab is filled with a bunch of commands. Copy/paste the last few lines.
+
+```{r using-github-6}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+Your answer should look like:
+
+````
+metadata
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  
+Output created: README.html
+
+Watching files for changes
+Browse at http://localhost:7383/
+````
+
+Rendering `README.md` is like rendering a Quarto document. Positron, in the Viewer tab, shows you the resulting HTML. Quarto, via the Terminal, continues to monitor `README.md`. If you change it again, Quarto will automatically update the HTML.
+
+### Exercise 7
+
+The Positron window has changed quite a bit. The Viewer tab has appeared, showing the HTML. The Source Control pane now includes many new files. The Terminal tab is not showing us a prompt.
+
+```{r}
+include_graphics("images/README-3.png")
+```
+
+We can stop the monitoring of `README.md` by using `Cntrl-C`.  Once we do, the Viewer tab is empty, so we can close the entire Secondary Activity Bar.
+
+From the Terminal, run `ls`. CP/CR.
+
+```{r using-github-7}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+Your answer should look like:
+
+````
+dkane@MacBookPro First-Repo % ls
+README.html     README.md       README_files
+dkane@MacBookPro First-Repo % 
+````
+
+The bottom part of the Source Control pane shows the history of changes in this repo.
+
+### Exercise 8
+
+Look more closely at the Source Control pane:
+
+```{r}
+include_graphics("images/README-4.png")
+```
+
+We have `README.md`, which has been modified by us, hence the "M" indicator. We have a new file, `README.html`, created when we rendered `README.md`. It has a "U" indicator because, according to git, it is **u**ntracked. We also have many weird, confusing files. It turns out that all these files live in the `README_files` directory.
+
+From the Terminal, run `ls -R README_files`. The `-R` option means **r**ecursive. CP/CR.
+
+
+```{r using-github-8}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Your answer should look like:
+
+````
+dkane@MacBookPro First-Repo % ls -R README_files
+libs
+
+README_files/libs:
+bootstrap       clipboard       quarto-html
+
+README_files/libs/bootstrap:
+bootstrap-973236bd072d72a04ee9cd82dcc9cb29.min.css
+bootstrap-icons.css
+bootstrap-icons.woff
+bootstrap.min.js
+
+README_files/libs/clipboard:
+clipboard.min.js
+
+README_files/libs/quarto-html:
+anchor.min.js
+popper.min.js
+quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css
+quarto.js
+tippy.css
+tippy.umd.min.js
+dkane@MacBookPro First-Repo % 
+````
+
+Whenever you render a document using Quarto, it creates a directory called `base-name-of-your-file_files`. Since the base name of `README.md` is `README`, the new directory created is `README_files`. This directory is filled with the programs/information/etc which helped to turn `README.md` into `README.html`. That file is filled with confusing stuff that we should ignore. In fact, we usually don't even want it monitored by git or stored on GitHub.
+
+
+### Exercise 9
+
+From the main Positron menu, `File -> New Text File`. (You can accomplish the same thing from the File bar menu item `New -> New File... -> Text File`.) Save this new file as `.gitignore`. (Don't forget the leading period.) 
+
+From the Terminal, run `ls -a`. CP/CR.
+
+```{r using-github-9}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Your answer should look like:
+
+````
+dkane@MacBookPro First-Repo % ls -a
+.               .git            README.html     README_files
+..              .gitignore      README.md
+dkane@MacBookPro First-Repo % 
+````
+
+Because `.gitignore` begins with a `.`, it is a hidden file. It would not appear if we just used `ls`. Note that the Source Control pane now shows a new file, `.gitignore` with an associated "U", meaning it is also untracked.
+
+### Exercise 10
+
+The purpose of the `.gitignore` file is to specify those files/directories which **git** should **ignore**. Add a new line to the fle, `README_file`, followed by an empty line. Save your changes.
+
+From the Terminal, run `cat .gitignore`. CP/CR.
+
+```{r using-github-10}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Your answer should look like:
+
+````
+dkane@MacBookPro First-Repo % cat .gitignore 
+README_files
+dkane@MacBookPro First-Repo % 
+````
+
+The `README_files` line in `.gitignore` tells git to ignore the `README_files` directory and everything in it.
+
+Note the change in the Source Control pane!
+
+```{r}
+include_graphics("images/README-5.png")
+```
+
+Now, according to git, there have been only three changes to the repo. (Of course, there have been more changes, but we are ignoring anything which resides in `README_files`.) One file, `README.md`, has been modified (M). Two files, `README.html` and `.gitigore`, are untracked (U).
+
+### Exercise 11
+
+Within the Source Control pane, press the "Open File" button for `README.md`, which is the first of four symbols to the right of the file name. 
+
+```{r}
+include_graphics("images/README-6.png")
+```
+
+This does two things. First, it brings the `README.md` file to the focus of the Editor. Second, it changes the format of the file so that you can see how it has been modified. The vertical green line to left side of lines 2 through 4 indicate that those lines are new. If any lines had been deleted, they would be highlighted in red.
+
+Hold your cursor over the symbol (a curved arrow) next to the "Open File" button. What is the name for this button?
+
+```{r using-github-11}
+question_text(NULL,
+	message = "Discard Changes",
+	answer(NULL, correct = TRUE),
+	allow_retry = FALSE,
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+The next button 
+
+
+
+## Publishing to RPubs
+### 
+
+Let's publish create a file from our project onto the internet using [R Pubs](https://rpubs.com/).
+
+### Exercise 1
+
+First let's make a new Quarto document. Select `File -> New File -> Quarto Document ...`. Change the title to "Example". You are the author. Keep the other fields as the default values. Save the file with `Cmd/Ctrl + S` and name the file `example`. Positron will automatically add the `.qmd` extension.
+
+Run `list.files()`. CP/CR.
+
+```{r publishing-to-rpubs-1}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 2)
+```
+
+### 
+
+You should see `example.qmd` somewhere in the output. Recall that the title inside of the document ("Example") has no *necessary* connection to the name of the file (`example.qmd`). However, it is often the case that they will be similar, as here.
+
+### Exercise 2
+
+Render this Quarto document by pressing the "Render" button or, better, with `Cmd/Ctrl + Shift + K`. Run `list.files()` in the Console. CP/CR.
+
+```{r publishing-to-rpubs-2}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 2)
+```
+
+### 
+
+`example.html` should be one of the files outputted.
+
+### Exercise 3
+
+Notice the blue button at the top of your QMD. Click that and select RPubs. (If you completed the "Positron and Code" tutorial, you should already have an RPubs account.) If you do not have an account, you will need to create one. Always choose the free option.
+
+Create a slug --- the file name for the last part of the URL --- like "my-project" and publish. Put the URL of your RPubs Page below:
+
+```{r publishing-to-rpubs-3}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 2)
+```
+
+### 
+
+If you did not select a slug, then RPubs provided a meaningless slug, most likely a string of numbers. That does not look cool! Much better to have a slug which describes the file.
+
+### Exercise 4
+
+In the Git tab in the top right corner, check the boxes next to "example.qmd", and "example.html" to stage them. Do not check the box next to `example_files`. Press the commit button and add the commit message "published webpage".
+
+### 
+
+Now, press the `Push` button with the green arrow. Your changes have now been saved to GitHub! No need to worry about `example_files` right now. Quarto always creates a directory named `filename_files` and uses it for the tools/residues of the rendering process. Nothing in such files is worth saving.
+
+### 
+
+Run `gert::git_ahead_behind()$ahead` in the Console. This should return "0" just like before. CP/CR.
+
+```{r publishing-to-rpubs-4}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 2)
+```
+
+Nice work! You've created an RPubs page. All your work is backed up to GitHub.
+
+### 
+
+We now understand the entire data science work cycle. Begin with GitHub repository, connect to an Positron project, create a Quarto document (including a plot or other analysis), publish your results to RPubs, and, finally, commit/push all your work to GitHub. Let's practice these skills in some new projects.
+
 ## Updating .gitignore
 ### 
 
-The `.gitignore` file determines which files **git** should **ignore**. You should be able to see your `.gitignore` file in the Files tab in the Output pane.
+<!-- DK: Positron does not give you a default .gitignore! -->
+
+The `.gitignore` file determines which files **git** should **ignore**. You should be able to see your `.gitignore` file in the Explorer tab.
 
 (To see any files which are "hidden" --- those that begin with a period `.` --- you may need to click on the gear symbol in the Files tab (next to the "Rename" button) and then select "Show Hidden Files".)
 
@@ -548,7 +1036,7 @@ Navigate to the Git tab in the Environment pane. You should see `.gitignore` lis
 If you do see `First-Repo.Rproj`, try clicking on the refresh button --- a small clockwise swirl --- in the upper right. Or make sure you have it spelled correctly.
 
 ```{r}
-include_graphics("images/updated_gitignore.png")
+# include_graphics("images/updated_gitignore.png")
 ```
 
 ### Exercise 5
@@ -560,7 +1048,7 @@ Now that we've updated our `.gitignore` file, we want to upload this new version
 To do so, go to the Git tab in the Environment pane toward the top right of your screen. Click the check box next to the `.gitignore` file and then click on the "Commit" button.
 
 ```{r}
-include_graphics("images/commit.png")
+# include_graphics("images/commit.png")
 ```
 
 ### 
@@ -610,93 +1098,6 @@ question_text(NULL,
 ### 
 
 This should return `0`, showing that you are 0 commits out of sync with the GitHub version.
-
-## Publishing to R Pubs
-### 
-
-Let's publish a file from our project onto the internet using [R Pubs](https://rpubs.com/).
-
-### Exercise 1
-
-First let's make a new Quarto document. Select `File -> New File -> Quarto Document ...`. Change the title to "Example". You are the author. Keep the other fields as the default values. Save the file with `Cmd/Ctrl + S` and name the file `example`. Positron will automatically add the `.qmd` extension.
-
-Run `list.files()`. CP/CR.
-
-```{r publishing-to-r-pubs-1}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 2)
-```
-
-### 
-
-You should see `example.qmd` somewhere in the output. Recall that the title inside of the document ("Example") has no *necessary* connection to the name of the file (`example.qmd`). However, it is often the case that they will be similar, as here.
-
-### Exercise 2
-
-Render this Quarto document by pressing the "Render" button or, better, with `Cmd/Ctrl + Shift + K`. Run `list.files()` in the Console. CP/CR.
-
-```{r publishing-to-r-pubs-2}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 2)
-```
-
-### 
-
-`example.html` should be one of the files outputted.
-
-### Exercise 3
-
-Notice the blue button at the top of your QMD. Click that and select RPubs. (If you completed the "Positron and Code" tutorial, you should already have an RPubs account.) If you do not have an account, you will need to create one. Always choose the free option.
-
-Create a slug --- the file name for the last part of the URL --- like "my-project" and publish. Put the URL of your RPubs Page below:
-
-```{r publishing-to-r-pubs-3}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 2)
-```
-
-### 
-
-If you did not select a slug, then RPubs provided a meaningless slug, most likely a string of numbers. That does not look cool! Much better to have a slug which describes the file.
-
-### Exercise 4
-
-In the Git tab in the top right corner, check the boxes next to "example.qmd", and "example.html" to stage them. Do not check the box next to `example_files`. Press the commit button and add the commit message "published webpage".
-
-### 
-
-Now, press the `Push` button with the green arrow. Your changes have now been saved to GitHub! No need to worry about `example_files` right now. Quarto always creates a directory named `filename_files` and uses it for the tools/residues of the rendering process. Nothing in such files is worth saving.
-
-### 
-
-Run `gert::git_ahead_behind()$ahead` in the Console. This should return "0" just like before. CP/CR.
-
-```{r publishing-to-r-pubs-4}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 2)
-```
-
-Nice work! You've created an RPubs page. All your work is backed up to GitHub.
-
-### 
-
-We now understand the entire data science work cycle. Begin with GitHub repository, connect to an Positron project, create a Quarto document (including a plot or other analysis), publish your results to RPubs, and, finally, commit/push all your work to GitHub. Let's practice these skills in some new projects.
 
 ## Summary
 ### 

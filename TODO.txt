@@ -1,5 +1,19 @@
+Think about what to do with the fact that a default .gitignore file is not added to the repo. 
+
+* Could have them select the default R .gitignore, which is not unreasonable, but also has a dozen or so lines, some quite confusing.
+
+* Could also make a new .gitignore file each time you make a project. Perhaps populated with some good lines.
+
+* Could only make a .gitignore when needed, but also ensure that doing so is regularly needed.
+
+* Could only make a .gitignore when truly needed, which will be fairly rarely.
+
+Tough to know!
+
+
 Just added those .txt files on 03-terminal/images. Is that a good place for them? We don't (?) want them to be in the actual package. Should we add them to .RBuildignore?
 
+Positron GitHub Announcement that there was now the ability to create a second Console easily. Do I want this? Would it be useful for tutorials?
 
 Add overview of the tutorials to README page.
 
@@ -28,8 +42,13 @@ Read up on Positron.
 
  ## AI Links
 
+Apparently, there is active work on a Positron Assistant. More evidence that we are correct to leave RStudio behind.
+
+
 https://ellmer.tidyverse.org/
 https://www.tidyverse.org/blog/2025/01/experiments-llm/
+https://www.youtube.com/watch?v=RBTl94xeKqg
+https://drmowinckels.io/blog/2025/ollama/
 
 
 ## Other tutorials
@@ -37,3 +56,5 @@ https://www.tidyverse.org/blog/2025/01/experiments-llm/
 Maybe we need another tutorial about putting large projects together. Might cover things like the **here** package. Cover material in book titled something like R Stuff that it is not in the manual.
 
 Maybe a different tutorial which walked through a bunch of different Quarto project types, not because we are especially interested in Dashboards, but because we want to give students more practice dealing with projects with lots of different files doing different things.
+
+What they forgot to teach you tutorial: https://rstats.wtf/
