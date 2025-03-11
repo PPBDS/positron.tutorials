@@ -137,7 +137,7 @@ Going forward, make sure to pay special attention to whether given commands are 
 
 <!-- DK: Add a guide to the window, including the Source Control button? -->
 
-## Setting up GitHub
+## Setting up git
 ### 
 
 Professionals store their work on GitHub, or a similar "source control" tool. If your computer blows up, you don't want to lose your work. GitHub is like Google Drive --- both live in the cloud --- but for your computational work rather than your documents.
@@ -154,7 +154,7 @@ After you install Git, you should quit and then restart Positron so that it has 
 
 After restarting Positron, click on the Terminal tab. Run `git --version` in the Terminal to make sure that Git is installed and accessible. CP/CR.
 
-```{r setting-up-github-1}
+```{r setting-up-git-1}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -187,7 +187,7 @@ We recommend using a permanent email address for this account, not one which you
 
 Copy your GitHub account URL in the field below.
 
-```{r setting-up-github-2}
+```{r setting-up-git-2}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -226,7 +226,7 @@ Note that this will not return anything. As long as you don't get an error messa
 
 Run `git config --global user.name` in the *Terminal* to make sure your computer remembers your GitHub username. CP/CR.
 
-```{r setting-up-github-3}
+```{r setting-up-git-3}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -251,7 +251,7 @@ Of course, it should be your username, not mine!
 
 Run `git config --global user.email` in the *Terminal* to make sure your GitHub email is stored too. CP/CR.
 
-```{r setting-up-github-4}
+```{r setting-up-git-4}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -305,7 +305,7 @@ After you've done that, go ahead and click "Create repository" to create your fi
 
 GitHub should have directed you to a page called the project page after creating the repo. Copy and paste the URL of the project page below.
 
-```{r setting-up-github-5}
+```{r setting-up-git-5}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -336,7 +336,7 @@ include_graphics("images/repo_clone.png")
 
 Paste the link below.
 
-```{r setting-up-github-6}
+```{r setting-up-git-6}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -394,7 +394,7 @@ Select the latest R version from the menu. (If you have more than one R version 
 
 Either way, R should start in the Console. Copy/paste everything in the Console from "Type 'demo()'" through the prompt.
 
-```{r setting-up-github-8}
+```{r setting-up-git-8}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -419,7 +419,7 @@ Type 'q()' to quit R.
 
 Confirm that your setup is correct. In the Terminal (not the Console), run `git remote -v`. CP/CR.
 
-```{r setting-up-github-9}
+```{r setting-up-git-9}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -478,7 +478,7 @@ Restart your R session with `Cmd/Ctrl + Shift + 0`. (This is not the same thing 
 
 Run `usethis::git_sitrep()` in the Console. CP/CR.
 
-```{r setting-up-github-11}
+```{r setting-up-git-11}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -501,14 +501,14 @@ The key "GitHub user" section should look something like:
 See "[Managing Git(Hub) Credentials](https://usethis.r-lib.org/articles/git-credentials.html)" for more details.
 
 
-## Using GitHub
+## Using git
 ### 
 
 ### Exercise 1
 
 At the Terminal, run `pwd`. CP/CR.
 
-```{r using-github-1}
+```{r using-git-1}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -533,7 +533,7 @@ You should be in a directory named `First-Repo`. By default, the "New Folder fro
 
 At the Terminal, run `ls`. CP/CR.
 
-```{r using-github-2}
+```{r using-git-2}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -557,7 +557,7 @@ There is only one (non-hidden) file in the directory, `README.md`. It was create
 
 At the Terminal, run `ls -a`. The `a` option tells `ls` to show all directories/files, including ones that are hidden, i.e., which start with a dot, meaning a`.`. CP/CR.
 
-```{r using-github-3}
+```{r using-git-3}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -584,7 +584,7 @@ Unless you have a good reason, you should never mess with the contents of a hidd
 
 At the Terminal, run `cat README.md`. CP/CR.
 
-```{r using-github-4}
+```{r using-git-4}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -617,7 +617,7 @@ Edit the `README.md` by skipping a line after the header and adding this sentenc
 
 At the Terminal, run `cat README.md`. CP/CR.
 
-```{r using-github-5}
+```{r using-git-5}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -654,7 +654,7 @@ Render `README.md` by either typing `Cmd/Cntrl + Shift + K` or by clicking the "
 
 The Terminal tab is filled with a bunch of commands. Copy/paste the last few lines.
 
-```{r using-github-6}
+```{r using-git-6}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -694,7 +694,7 @@ We can stop the monitoring of `README.md` by using `Cntrl-C`.  Once we do, the V
 
 From the Terminal, run `ls`. CP/CR.
 
-```{r using-github-7}
+```{r using-git-7}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -728,7 +728,7 @@ We have `README.md`, which has been modified by us, hence the "M" indicator. We 
 From the Terminal, run `ls -R README_files`. The `-R` option means **r**ecursive. CP/CR.
 
 
-```{r using-github-8}
+```{r using-git-8}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -776,7 +776,7 @@ From the main Positron menu, `File -> New Text File`. (You can accomplish the sa
 
 From the Terminal, run `ls -a`. CP/CR.
 
-```{r using-github-9}
+```{r using-git-9}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -804,7 +804,7 @@ The purpose of the `.gitignore` file is to specify those files/directories which
 
 From the Terminal, run `cat .gitignore`. CP/CR.
 
-```{r using-github-10}
+```{r using-git-10}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -845,7 +845,7 @@ This does two things. First, it brings the `README.md` file to the focus of the 
 
 Hold your cursor over the symbol (a curved arrow) next to the "Open File" button. What is the name for this button?
 
-```{r using-github-11}
+```{r using-git-11}
 question_text(NULL,
 	message = "Discard Changes",
 	answer(NULL, correct = TRUE),
@@ -856,7 +856,157 @@ question_text(NULL,
 
 ###
 
-The next button 
+Clicking this button gets rid of your changes since the last time you told git to save them. 
+
+
+### Exercise 12
+
+Hold your cursor over the symbol (a plus sign) next to the "Discard Changes" button. What is the name for this button?
+
+```{r using-git-12}
+question_text(NULL,
+	message = "Stage Changes",
+	answer(NULL, correct = TRUE),
+	allow_retry = FALSE,
+	incorrect = NULL,
+	rows = 2)
+```
+
+###
+
+Saving changes in git is, in theory, a two-step process. The first step is to "stage" the changes. The second step is to "commit" the changes. For the most part, we don't stage. We just "commit," which incorporates the staging process automatically.
+
+### Exercise 13
+
+The letters at the end of the line for the file names indicate that `.gitignore` and `README.html` are **u**ntracked and that `README.md` is **m**odified. We can "commit" these files by hitting the Commit buttom. Before doing so, hold your cursor over the button. What does it say?
+
+```{r using-git-13}
+question_text(NULL,
+	message = 'Commit Changes on "main"',
+	answer(NULL, correct = TRUE),
+	allow_retry = FALSE,
+	incorrect = NULL,
+	rows = 2)
+```
+
+The word `main` references the "branch" of your repo that you are currently working on. We won't worry about branches for a while yet, but they are an important part of using git.
+
+### Exercise 14
+
+In the box above the "Commit" button, add "initial version" as your commit comment. Press the "Commit" button. You will see a dialogue box like this:
+
+```{r}
+include_graphics("images/README-7.png")
+```
+
+Press "Yes". In the future, you might click on "Always" so that this dialogue stops appearing. It will be months, at least, before you make active use of staging in your git workflow.
+
+From the Terminal, run `git log`. CP/CR.
+
+```{r using-git-14}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Your answer should look like this:
+
+````
+dkane@MacBookPro First-Repo % git log
+commit 61722f1b6a67d4e297eeff4ba77675ea3dae77ba (HEAD -> main)
+Author: David Kane <dave.kane@gmail.com>
+Date:   Tue Mar 11 11:27:15 2025 -0400
+
+    initial version
+
+commit 969819f5c16d3776254121570a4853da45f174ba (origin/main, origin/HEAD)
+Author: David Kane <dave.kane@gmail.com>
+Date:   Sun Mar 9 15:46:04 2025 -0400
+
+    Initial commit
+dkane@MacBookPro First-Repo % 
+````
+
+`git log` generates a log of all the git actions we have taken. In this case, you can see that we have committed changes twice. The first changes involved the initial acceptance of `README.md`. This was done behind the scenes when we created the project by connecting to GitHub. The second change is the commit which we just pushed, the one which adds `.gitignore` and `README.html`, and also modifies `README.md`. 
+
+
+### Exercise 15
+
+The Source Control pane now looks like this:
+
+```{r}
+include_graphics("images/README-8.png")
+```
+
+Although you have commited your changes to git --- i.e., the changes have been made locally --- you still need to "push" the changes to GitHub.  Hover your cursor over the "Sync Changes" button. What does the pop-up say?
+
+
+```{r using-git-15}
+question_text(NULL,
+	message = "Push 1 commits to origin/main",
+	answer(NULL, correct = TRUE),
+	allow_retry = FALSE,
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+The term "origin/main" refers to the "main" branch on the "origin" repo, which is the GitHub repo. 
+
+Note how the bottom portion of the pane, the Source Control Graph now has two items. Before you committed, it had just one. The Source Control Graph shows a git history of this repo.
+
+### Exercise 16
+
+Press the "Sync Changes" button. Doing so, brings up this dialogue box:
+
+```{r}
+include_graphics("images/README-9.png")
+```
+
+Click "OK." Eventually, you might select "OK. Don't Show Again," since you almost always want to just push your changes whenever you click the "Sync Changes" button. Settings like this are saved in the Positron `settings.json` file.
+
+From the Terminal, run `git log` again. CP/CR.
+
+```{r using-git-16}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 7)
+```
+
+###
+
+Your answer should look like:
+
+````
+dkane@MacBookPro First-Repo % git log
+commit 61722f1b6a67d4e297eeff4ba77675ea3dae77ba (HEAD -> main, origin/main, origin/HEAD)
+Author: David Kane <dave.kane@gmail.com>
+Date:   Tue Mar 11 11:27:15 2025 -0400
+
+    initial version
+
+commit 969819f5c16d3776254121570a4853da45f174ba
+Author: David Kane <dave.kane@gmail.com>
+Date:   Sun Mar 9 15:46:04 2025 -0400
+
+    Initial commit
+dkane@MacBookPro First-Repo % 
+````
+
+This looks the same as before, except that "(HEAD -> main)" in the top line has changed to "(HEAD -> main, origin/main, origin/HEAD)".  This tells us that our changes have been pushed to GitHub, and not simply committed locally. We will save a discussion of what `"HEAD" means for later.
+
+A term like "commit 969819f5c16d3776254121570a4853da45f174ba" gives us the address of that commit. We can revert to the code base as it looked after that commit by using that string.
+
+If you look at the GitHub page for `First-Repo`, you will see that the changes have been pushed to GitHub. If your computer blows up, you won't lose any of your work.
 
 
 
@@ -947,157 +1097,9 @@ Nice work! You've created an RPubs page. All your work is backed up to GitHub.
 
 We now understand the entire data science work cycle. Begin with GitHub repository, connect to an Positron project, create a Quarto document (including a plot or other analysis), publish your results to RPubs, and, finally, commit/push all your work to GitHub. Let's practice these skills in some new projects.
 
-## Updating .gitignore
-### 
 
-<!-- DK: Positron does not give you a default .gitignore! -->
 
-The `.gitignore` file determines which files **git** should **ignore**. You should be able to see your `.gitignore` file in the Explorer tab.
 
-(To see any files which are "hidden" --- those that begin with a period `.` --- you may need to click on the gear symbol in the Files tab (next to the "Rename" button) and then select "Show Hidden Files".)
-
-### Exercise 1
-
-From the Console, run `list.files()`. CP/CR.
-
-```{r updating-gitignore-1}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 3)
-```
-
-```{r updating-gitignore-1-test, include = FALSE}
-list.files()
-```
-
-### 
-
-In the "Positron and Code" tutorial, we saw that an R project begins with just one file, the `Rproj` file, which is `First-Repo.Rproj` in this case. But, because this R project started by connecting to a GitHub repo --- and because we initialized that repo with a README --- we also have a `README.md` file.
-
-### Exercise 2
-
-From the Console, run `list.files(all.files = TRUE)`. CP/CR.
-
-```{r updating-gitignore-2}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 3)
-```
-
-```{r updating-gitignore-2-test, include = FALSE}
-list.files(all.files = TRUE)
-```
-
-### 
-
-Because `.gitignore` is a "hidden" file, since its name begins with a `.`, we need to set `all.files = TRUE` in `list.files()` if we want it to be returned. Don't worry about hidden directories like `.git` and `.Rproj.user`. We won't be using them.
-
-### Exercise 3
-
-The purpose of `.gitignore` is to list all the files that you don't want to be uploaded to GitHub. This is especially useful when you are working with big datasets or files with private information.
-
-Open the `.gitignore` and add a new line with `First-Repo.Rproj`. This tells Git to ignore any file named `First-Repo.Rproj`. Save the file, but make sure that the last line in the file is blank.
-
-In the Console, run:
-
-```         
-tutorial.helpers::show_file(".gitignore")
-```
-
-CP/CR.
-
-```{r updating-gitignore-3}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 3)
-```
-
-<!-- No test case because .gitignore won't exist in testing. -->
-
-### 
-
-This should output all of the lines in your `.gitignore` file, which should include `First-Repo.Rproj`.
-
-We could also have used `*.Rproj`. The \* tells your computer that we want to prevent all files ending in `Rproj` from being uploaded.
-
-### Exercise 4
-
-Navigate to the Git tab in the Environment pane. You should see `.gitignore` listed but not `First-Repo.Rproj`. The Git tab shows all the changes you have made on your local computer. Since you added `First-Repo.Rproj` in `.gitignore`, `First-Repo.Rproj` should not show up as one of the changed files that the GitHub version needs to be synced with.
-
-If you do see `First-Repo.Rproj`, try clicking on the refresh button --- a small clockwise swirl --- in the upper right. Or make sure you have it spelled correctly.
-
-```{r}
-# include_graphics("images/updated_gitignore.png")
-```
-
-### Exercise 5
-
-Now that we've updated our `.gitignore` file, we want to upload this new version to GitHub. Otherwise, GitHub doesn't know that we want to hide our `First-Repo.Rproj` file.
-
-### 
-
-To do so, go to the Git tab in the Environment pane toward the top right of your screen. Click the check box next to the `.gitignore` file and then click on the "Commit" button.
-
-```{r}
-# include_graphics("images/commit.png")
-```
-
-### 
-
-This will open a new window where you will write a commit message. The message is meant to note what you're adding/changing within the repo. And yes, it's mandatory. Just a few (sensible) words are enough.
-
-### Exercise 6
-
-In the Console, run:
-
-```         
-gert::git_log() |> select(-commit, -merge, -files) |> dplyr::slice(1)
-```
-
-CP/CR.
-
-This returns the author, time, and message of the last commit.
-
-```{r updating-gitignore-6}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 2)
-```
-
-If you get an error about a function like `slice` or `select` not being found, then load the **dplyr** package with `library(dplyr)` and try again.
-
-### Exercise 7
-
-Next, press `Push`, i.e., the green arrow on the top right. This pushes or uploads the changes to GitHub. Open up GitHub and refresh the project page to see the commit message you just made at the top of your repo page.
-
-### 
-
-Run `gert::git_ahead_behind()$ahead` in the Console. CP/CR.
-
-```{r updating-gitignore-7}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 2)
-```
-
-### 
-
-This should return `0`, showing that you are 0 commits out of sync with the GitHub version.
 
 ## Summary
 ### 
