@@ -1054,7 +1054,7 @@ https://rpubs.com/dkane/quarto-2
 
 ### Exercise 16
 
-Check out the Git tab. Note the "M" next to `quarto-2.qmd` and `quarto-2.html`. The "M" is Git's (and RStudio's) way of telling us that the files have been **m**odified. Note, also, the new directory, `rsconnect`. This is another directory, like `quarto-2_files`, which does not belong on GitHub.
+Check out the Git tab. Note the "M" next to `quarto-2.qmd` and `quarto-2.html`. The "M" is Git's (and RStudio's) way of telling us that the files have been **M**odified. Note, also, the new directory, `rsconnect`. This is another directory, like `quarto-2_files`, which does not belong on GitHub.
 
 Add `rsconnect` to `.gitignore`. Commit and push `.gitignore`, `quarto-2.qmd` and `quarto-2.html`. Use a sensible commit message like "published version."
 

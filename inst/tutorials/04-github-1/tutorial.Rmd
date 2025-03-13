@@ -8,7 +8,7 @@ output:
     progressive: yes
     'allow_skip:': yes
 runtime: shiny_prerendered
-description: Introduction to Positron, git and GitHub.
+description: Introduction to Positron, Git and GitHub.
 ---
 
 ```{r setup, include = FALSE}
@@ -64,9 +64,9 @@ options(tutorial.exercise.timelimit = 60,
 ## Introduction
 ### 
 
-This tutorial covers [git](https://git-scm.com/), a program for keeping track of changes in your code, and [GitHub](https://github.com/), the leading company for storing your code in the cloud. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This tutorial covers [Git](https://git-scm.com/), a program for keeping track of changes in your code, and [GitHub](https://github.com/), the leading company for storing your code in the cloud. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
-The most useful reference for git/GitHub is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
+The most useful reference for Git/GitHub is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
 
 ## Terminal Overview
 ### 
@@ -137,7 +137,7 @@ Going forward, make sure to pay special attention to whether given commands are 
 
 <!-- DK: Add a guide to the window, including the Source Control button? -->
 
-## Setting up git
+## Setting up Git
 ### 
 
 Professionals store their work on GitHub, or a similar "source control" tool. If your computer blows up, you don't want to lose your work. GitHub is like Google Drive --- both live in the cloud --- but for your computational work rather than your documents.
@@ -212,7 +212,7 @@ Now that you have your GitHub account, you need to connect it to Positron. The f
 
 ### 
 
-<!-- Ran into an issue here where `usethis::use_git_config(user.name = "your-username", user.email = "your@email.org")` would produce an error if you had multiple `user.name`s or `user.email`s saved (this can be checked using `usethis::git_sitrep()`). To fix this, I first used the terminal command `git config --global --replace-all user.name "newname"`. However, there seemed to be an issue where the terminal would say it is replaced but it wasn't being recognized. In the end, I was able to locate the actual global git config file under `C:/User/username/` and edit it directly. In the file, there were fields formatted like `name = ...` and `email = ...`. Deleting these lines completely seemed to work correctly. Afterwards (Good to restart R session here), running `usethis::git_sitrep()` will show that the fields are not set and you should now be able to run `usethis::use_git_config(user.name = "your-username", user.email = "your@email.org")` without error. -->
+<!-- Ran into an issue here where `usethis::use_git_config(user.name = "your-username", user.email = "your@email.org")` would produce an error if you had multiple `user.name`s or `user.email`s saved (this can be checked using `usethis::git_sitrep()`). To fix this, I first used the terminal command `git config --global --replace-all user.name "newname"`. However, there seemed to be an issue where the terminal would say it is replaced but it wasn't being recognized. In the end, I was able to locate the actual global Git config file under `C:/User/username/` and edit it directly. In the file, there were fields formatted like `name = ...` and `email = ...`. Deleting these lines completely seemed to work correctly. Afterwards (Good to restart R session here), running `usethis::git_sitrep()` will show that the fields are not set and you should now be able to run `usethis::use_git_config(user.name = "your-username", user.email = "your@email.org")` without error. -->
 
 In the Console, run this command, substituting the email and user name you used for your GitHub account:
 
@@ -504,6 +504,8 @@ See "[Managing Git(Hub) Credentials](https://usethis.r-lib.org/articles/git-cred
 ## Using git
 ### 
 
+Having set up git, we can now practice using it.
+
 ### Exercise 1
 
 At the Terminal, run `pwd`. CP/CR.
@@ -576,7 +578,7 @@ dkane@MacBookPro First-Repo % ls -a
 dkane@MacBookPro First-Repo % 
 ````
 
-`.` refers to the current directory. `..` stands for the parent directory. These two links are present in (almost) every directory on your computer. `.git` is a hidden directory used by the program git to keep track of all the files in your project. 
+`.` refers to the current directory. `..` stands for the parent directory. These two links are present in (almost) every directory on your computer. `.git` is a hidden directory used by the program Git to keep track of all the files in your project. 
 
 Unless you have a good reason, you should never mess with the contents of a hidden directory like `.git`.
 
@@ -642,13 +644,13 @@ You can close the Files pane by clicking the Explorer button again. Each of the 
 
 ### Exercise 6
 
-Click the Source Control button in the Activity Bar. This opens the Source Control pane, which is an interface to using git and GitHub.
+Click the Source Control button in the Activity Bar. This opens the Source Control pane, which is an interface to using Git and GitHub.
 
 ```{r}
 include_graphics("images/README-2.png")
 ```
 
-The top part of the pane shows the files that have been added/modified. This is git telling you what it thinks has changed. In this case, the "M" next to the end of the line for `README.md` indicates that git thinks that we have **m**odified the file, which is, in fact, what we have done.
+The top part of the pane shows the files that have been added/modified. This is Git telling you what it thinks has changed. In this case, the "M" next to the end of the line for `README.md` indicates that Git thinks that we have **M**odified the file, which is, in fact, what we have done.
 
 Render `README.md` by either typing `Cmd/Cntrl + Shift + K` or by clicking the "Preview" button in the upper right of the Editor.
 
@@ -723,7 +725,7 @@ Look more closely at the Source Control pane:
 include_graphics("images/README-4.png")
 ```
 
-We have `README.md`, which has been modified by us, hence the "M" indicator. We have a new file, `README.html`, created when we rendered `README.md`. It has a "U" indicator because, according to git, it is **u**ntracked. We also have many weird, confusing files. It turns out that all these files live in the `README_files` directory.
+We have `README.md`, which has been modified by us, hence the "M" indicator. We have a new file, `README.html`, created when we rendered `README.md`. It has a "U" indicator because, according to git, it is **U**ntracked. We also have many weird, confusing files. It turns out that all these files live in the `README_files` directory.
 
 From the Terminal, run `ls -R README_files`. The `-R` option means **r**ecursive. CP/CR.
 
@@ -767,7 +769,7 @@ tippy.umd.min.js
 dkane@MacBookPro First-Repo % 
 ````
 
-Whenever you render a document using Quarto, it creates a directory called `base-name-of-your-file_files`. Since the base name of `README.md` is `README`, the new directory created is `README_files`. This directory is filled with the programs/information/etc which helped to turn `README.md` into `README.html`. That file is filled with confusing stuff that we should ignore. In fact, we usually don't even want it monitored by git or stored on GitHub.
+Whenever you render a document using Quarto, it creates a directory called `base-name-of-your-file_files`. Since the base name of `README.md` is `README`, the new directory created is `README_files`. This directory is filled with the programs/information/etc which helped to turn `README.md` into `README.html`. That file is filled with confusing stuff that we should ignore. In fact, we usually don't even want it monitored by Git or stored on GitHub.
 
 
 ### Exercise 9
@@ -823,7 +825,7 @@ README_files
 dkane@MacBookPro First-Repo % 
 ````
 
-The `README_files` line in `.gitignore` tells git to ignore the `README_files` directory and everything in it.
+The `README_files` line in `.gitignore` tells Git to ignore the `README_files` directory and everything in it.
 
 Note the change in the Source Control pane!
 
@@ -856,7 +858,7 @@ question_text(NULL,
 
 ###
 
-Clicking this button gets rid of your changes since the last time you told git to save them. 
+Clicking this button gets rid of your changes since the last time you told Git to save them. 
 
 
 ### Exercise 12
@@ -874,11 +876,11 @@ question_text(NULL,
 
 ###
 
-Saving changes in git is, in theory, a two-step process. The first step is to "stage" the changes. The second step is to "commit" the changes. For the most part, we don't stage. We just "commit," which incorporates the staging process automatically.
+Saving changes in Git is, in theory, a two-step process. The first step is to "stage" the changes. The second step is to "commit" the changes. For the most part, we don't stage. We just "commit," which incorporates the staging process automatically.
 
 ### Exercise 13
 
-The letters at the end of the line for the file names indicate that `.gitignore` and `README.html` are **u**ntracked and that `README.md` is **m**odified. We can "commit" these files by hitting the Commit buttom. Before doing so, hold your cursor over the button. What does it say?
+The letters at the end of the line for the file names indicate that `.gitignore` and `README.html` are **U**ntracked and that `README.md` is **M**odified. We can "commit" these files by hitting the Commit buttom. Before doing so, hold your cursor over the button. What does it say?
 
 ```{r using-git-13}
 question_text(NULL,
@@ -899,7 +901,7 @@ In the box above the "Commit" button, add "initial version" as your commit comme
 include_graphics("images/README-7.png")
 ```
 
-Press "Yes". In the future, you might click on "Always" so that this dialogue stops appearing. It will be months, at least, before you make active use of staging in your git workflow.
+Press "Yes". In the future, you might click on "Always" so that this dialogue stops appearing. It will be months, at least, before you make active use of staging in your Git workflow.
 
 From the Terminal, run `git log`. CP/CR.
 
@@ -932,7 +934,7 @@ Date:   Sun Mar 9 15:46:04 2025 -0400
 dkane@MacBookPro First-Repo % 
 ````
 
-`git log` generates a log of all the git actions we have taken. In this case, you can see that we have committed changes twice. The first changes involved the initial acceptance of `README.md`. This was done behind the scenes when we created the project by connecting to GitHub. The second change is the commit which we just pushed, the one which adds `.gitignore` and `README.html`, and also modifies `README.md`. 
+`git log` generates a log of all the Git actions we have taken. In this case, you can see that we have committed changes twice. The first changes involved the initial acceptance of `README.md`. This was done behind the scenes when we created the project by connecting to GitHub. The second change is the commit which we just pushed, the one which adds `.gitignore` and `README.html`, and also modifies `README.md`. 
 
 
 ### Exercise 15
@@ -943,7 +945,7 @@ The Source Control pane now looks like this:
 include_graphics("images/README-8.png")
 ```
 
-Although you have commited your changes to git --- i.e., the changes have been made locally --- you still need to "push" the changes to GitHub.  Hover your cursor over the "Sync Changes" button. What does the pop-up say?
+Although you have commited your changes to Git --- i.e., the changes have been made locally --- you still need to "push" the changes to GitHub.  Hover your cursor over the "Sync Changes" button. What does the pop-up say?
 
 
 ```{r using-git-15}
@@ -959,7 +961,7 @@ question_text(NULL,
 
 The term "origin/main" refers to the "main" branch on the "origin" repo, which is the GitHub repo. 
 
-Note how the bottom portion of the pane, the Source Control Graph now has two items. Before you committed, it had just one. The Source Control Graph shows a git history of this repo.
+Note how the bottom portion of the pane, the Source Control Graph now has two items. Before you committed, it had just one. The Source Control Graph shows a Git history of this repo.
 
 ### Exercise 16
 
@@ -1010,103 +1012,289 @@ If you look at the GitHub page for `First-Repo`, you will see that the changes h
 
 
 
-## Publishing to RPubs
+## Practicing git
 ### 
 
-Let's publish create a file from our project onto the internet using [R Pubs](https://rpubs.com/).
+Let's create a new GitHub repo, connect it our computer, create a Quarto document, publish it to the internet using [R Pubs](https://rpubs.com/), and then ensure our work is backed up to GitHub. 
+
 
 ### Exercise 1
 
-First let's make a new Quarto document. Select `File -> New File -> Quarto Document ...`. Change the title to "Example". You are the author. Keep the other fields as the default values. Save the file with `Cmd/Ctrl + S` and name the file `example`. Positron will automatically add the `.qmd` extension.
+On your GitHub account, create a new repo named `Second-Repo`. Make sure it is public. Make sure to check the box for a README file. After clicking "Create," copy the url after clicking the "Code" button.
 
-Run `list.files()`. CP/CR.
+What is the URL for the project?
 
-```{r publishing-to-rpubs-1}
+
+```{r practicing-git-1}
 question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 2)
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
 ```
 
-### 
+###
 
-You should see `example.qmd` somewhere in the output. Recall that the title inside of the document ("Example") has no *necessary* connection to the name of the file (`example.qmd`). However, it is often the case that they will be similar, as here.
+My answer:
+
+````
+https://github.com/davidkane9/Second-Repo.git
+````
+
+No worries if you did not include the `.git` ending. The url you go to when you want to look at the repo does not include `.git` obviously. But, for connecting the repo to your computer, you need `.git`.
+
 
 ### Exercise 2
 
-Render this Quarto document by pressing the "Render" button or, better, with `Cmd/Ctrl + Shift + K`. Run `list.files()` in the Console. CP/CR.
+In Positron, `File -> New Folder from Git...`. Use the project url (with `.git`) to create a new project in your `projects` directory. Make sure to click the "Open in New Window" box.
 
-```{r publishing-to-rpubs-2}
+Start latest version of R as your interpreter, if necessary.
+
+From the Console, run `getwd()`. CP/CR.
+
+```{r practicing-git-2}
 question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 2)
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
 ```
 
-### 
+###
 
-`example.html` should be one of the files outputted.
+````
+> getwd()
+[1] "/Users/dkane/Desktop/projects/Second-Repo"
+````
+
+Going forward, we will just write "Start a new project named `X`," with the understanding that this always means to follow the above steps.
 
 ### Exercise 3
 
-Notice the blue button at the top of your QMD. Click that and select RPubs. (If you completed the "Positron and Code" tutorial, you should already have an RPubs account.) If you do not have an account, you will need to create one. Always choose the free option.
+Click on the Source Control button to pull up the Source Control pane. 
 
-Create a slug --- the file name for the last part of the URL --- like "my-project" and publish. Put the URL of your RPubs Page below:
-
-```{r publishing-to-rpubs-3}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 2)
+```{r}
+include_graphics("images/second-repo-1.png")
 ```
 
-### 
+No files are listed in the top half because you have not done anything yet. In the Source Control Graph in the lower panel, we have just the first commit, completed by Positron itself when we created the project.
 
-If you did not select a slug, then RPubs provided a meaningless slug, most likely a string of numbers. That does not look cool! Much better to have a slug which describes the file.
+From the Terminal, run `git log`. CP/CR.
+
+
+```{r practicing-git-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+dkane@macbook Second-Repo % git log
+commit a3f605b1e44bccc834ebd569c982040855c0cab9 (HEAD -> main, origin/main, origin/HEAD)
+Author: David Kane <dave.kane@gmail.com>
+Date:   Tue Mar 11 16:45:52 2025 -0400
+
+    Initial commit
+dkane@macbook Second-Repo % 
+````
+
+This is an individual commit message. As [*Pro Git*](https://git-scm.com/book/en/v2) [explains](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F), the weird string `a3f605b1e44bccc834ebd569c982040855c0cab9` is a hash which identifies this specific commit. Every change in a repo has an associated hash.
+
 
 ### Exercise 4
 
-In the Git tab in the top right corner, check the boxes next to "example.qmd", and "example.html" to stage them. Do not check the box next to `example_files`. Press the commit button and add the commit message "published webpage".
+From the Positron menu, `File -> New File... -> Quarto Document`. 
 
-### 
-
-Now, press the `Push` button with the green arrow. Your changes have now been saved to GitHub! No need to worry about `example_files` right now. Quarto always creates a directory named `filename_files` and uses it for the tools/residues of the rendering process. Nothing in such files is worth saving.
-
-### 
-
-Run `gert::git_ahead_behind()$ahead` in the Console. This should return "0" just like before. CP/CR.
-
-```{r publishing-to-rpubs-4}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 2)
+```{r}
+include_graphics("images/second-repo-2.png")
 ```
 
-Nice work! You've created an RPubs page. All your work is backed up to GitHub.
+The black dot next to "Untitled-1" indicates that there are unsaved changes in this file. Save the file, naming it `analysis.qmd`.
 
-### 
+At the Console, run `list.files()`. CP/CR.
 
-We now understand the entire data science work cycle. Begin with GitHub repository, connect to an Positron project, create a Quarto document (including a plot or other analysis), publish your results to RPubs, and, finally, commit/push all your work to GitHub. Let's practice these skills in some new projects.
+```{r practicing-git-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+> list.files()
+[1] "analysis.qmd" "README.md"   
+>
+````
+
+Many Terminal commands, like `ls`, have R command counterparts, like `list.files()`. 
+
+### Exercise 5
+
+Click the Source Control button to bring up the Source Control pane. The only file listed, as **U**ntracked, is `analysis.qmd`. Render `analysis.qmd` with `Cmd/Cntrl + Shift + K`, or by clicking the "Preview" button.
+
+```{r}
+include_graphics("images/second-repo-3.png")
+```
+
+Highlights:
+
+* The rendered document `analysis.html` appears in the Viewer tab. It is empty except for the title.
+
+* Quarto is "Watching files for changes" at the Terminal. If you change and then save `analysis.qmd`, Quarto will automatically re-render it and then display the updated HTML in the Viewer.
+
+* There are many files now listed under "Changes" in the top half of the Source Control page.
+
+We want to "free up" the Terminal so that we can issue some commands. So, when in the Terminal, use `Ctrl-C` to exit quarto watching mode.
+
+In the Terminal, run `ls`. CP/CR.
+
+```{r practicing-git-5}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+dkane@macbook Second-Repo % ls   
+README.md       analysis.html   analysis.qmd    analysis_files
+dkane@macbook Second-Repo % 
+````
+
+All the junk files that we don't really care about, and which are cluttering up the Source Control pane, are located in the `analysis_files` directory.
+
+### Exercise 6
+
+Use `File -> New Text File` to create a new `.gitignore`. Add `analysis_files` and an empty line to the file. Save it in the highest level of the project, i.e., in the same location as `analysis.qmd`.
+
+```{r}
+include_graphics("images/second-repo-4.png")
+```
+
+There are now only three changed files: `analysis.qmd`, `analysis.html`, and `.gitgnore`.
+
+From the Terminal, run `cat .gitignore`. CP/CR.
+
+```{r practicing-git-6}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+dkane@macbook Second-Repo % cat .gitignore
+analysis_files
+dkane@macbook Second-Repo % 
+````
+
+One of the biggest changes in coding caused by generative AI is that writing code becomes less important but understanding all the individual parts of a project --- files like `.gitignore` --- becomes more important.
+
+### Exercise 7
+
+Add a commit message like "first version" and press the "Commit" button on the Source Control pane.
+
+```{r}
+include_graphics("images/second-repo-5.png")
+```
+
+Note how the Source Control pane has changed. There are no "Changes" listed because you have committed them all. The Source Control Graph in the lower half shows the second commit, along with its comment. But, the "Sync Changes 1" button indicates that we have not pushed the changes to GitHub yet.
+
+From the Terminal, run `git log -n 1`. CP/CR.
+
+
+```{r practicing-git-7}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+dkane@macbook Second-Repo % git log -n 1
+commit 85ff22c4f4c31deadbd893f2c7d4af358faf12cd (HEAD -> main)
+Author: David Kane <dave.kane@gmail.com>
+Date:   Thu Mar 13 14:31:30 2025 -0400
+
+    first version
+dkane@macbook Second-Repo % 
+````
+
+The `n` argument allows us to specify how many commit messages we want to see. Use `1` gives us just the most recent message. The "Author" and "Date" for the commit message should, obviously, match you and the time when you are doing the tutorial. It is OK if your commit message is different from mine. You should always have a commit message, but it can be quite concise. You don't even need a sentence.
+
+### Exercise 8
+
+Press the "Sync Changes 1" button. This pushes your changes to GitHub. By default, the main repo is refered to as the "origin" repo, whether or not it happens to be on GitHub.
+
+The Source Control Graph now looks like this:
+
+```{r}
+include_graphics("images/second-repo-6.png")
+```
+
+The change between this image and the previous one is subtle: the purpose "origin/main" cloud symbol has moved from the first commit to the second. That shows that the two repos are now in sync.
+
+From the Terminal, run `git log -n 1`. CP/CR.
+
+```{r practicing-git-8}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+dkane@macbook Second-Repo % git log -n 1
+commit 85ff22c4f4c31deadbd893f2c7d4af358faf12cd (HEAD -> main, origin/main, origin/HEAD)
+Author: David Kane <dave.kane@gmail.com>
+Date:   Thu Mar 13 14:31:30 2025 -0400
+
+    first version
+dkane@macbook Second-Repo % 
+````
+
+The commit itself has not changed. It has the same date/author/comment as before. But the "header" information has changed from `HEAD -> main` to `HEAD -> main, origin/main, origin/HEAD`. `HEAD` is a special reference that points to the current position in your repository—essentially, it represents "where you are" in your Git history. By pushing, we ensure that `HEAD` is pointing to the same place on our computer as it is in GitHub, i.e., at the "origin.""
 
 
 
 
+
+
+You now understand the entire data science work cycle. Begin with GitHub repository, connect to an Positron project, create a Quarto document (including a plot or other analysis), publish your results to RPubs, and, finally, commit/push all your work to GitHub.
 
 ## Summary
 ### 
 
 This tutorial covered [git](https://git-scm.com/), a program for keeping track of changes in your code, and [GitHub](https://github.com/), the leading company for storing your code in the cloud. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
-The most useful reference for git/GitHub is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
+The most useful reference for Git/GitHub is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
 
 ```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
 ```

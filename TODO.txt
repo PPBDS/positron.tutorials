@@ -1,3 +1,7 @@
+Deploy with Posit Publisher might be the replacement for RPubs. There is a button! Poking around in the docs, this seems a non-starter, looking like just another part of Posit Connect, requiring payment and all sorts of complex set up stuff.
+
+Explain that an example answer after your answer is just an example, yours may differ for all sorts of reasons. Add this to first tutorial.
+
 Think about what to do with the fact that a default .gitignore file is not added to the repo. 
 
 * Could have them select the default R .gitignore, which is not unreasonable, but also has a dozen or so lines, some quite confusing.
