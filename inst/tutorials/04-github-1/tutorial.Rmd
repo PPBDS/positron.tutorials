@@ -1020,7 +1020,7 @@ Let's create a new GitHub repo, connect it our computer, create a Quarto documen
 
 ### Exercise 1
 
-On your GitHub account, create a new repo named `Second-Repo`. Make sure it is public. Make sure to check the box for a README file. After clicking "Create," copy the url after clicking the "Code" button.
+On your GitHub account, create a new repo named `Second-Repo`. Make sure it is public. Make sure to check the box for a README file. After clicking "Create," copy the URL after clicking the "Code" button.
 
 What is the URL for the project?
 
@@ -1042,12 +1042,12 @@ My answer:
 https://github.com/davidkane9/Second-Repo.git
 ````
 
-No worries if you did not include the `.git` ending. The url you go to when you want to look at the repo does not include `.git` obviously. But, for connecting the repo to your computer, you need `.git`.
+No worries if you did not include the `.git` ending. The URL you go to when you want to look at the repo does not include `.git` obviously. But, for connecting the repo to your computer, you need `.git`.
 
 
 ### Exercise 2
 
-In Positron, `File -> New Folder from Git...`. Use the project url (with `.git`) to create a new project in your `projects` directory. Make sure to click the "Open in New Window" box.
+In Positron, `File -> New Folder from Git...`. Use the project URL (with `.git`) to create a new project in your `projects` directory. Make sure to click the "Open in New Window" box.
 
 Start latest version of R as your interpreter, if necessary.
 
@@ -1282,12 +1282,371 @@ dkane@macbook Second-Repo %
 
 The commit itself has not changed. It has the same date/author/comment as before. But the "header" information has changed from `HEAD -> main` to `HEAD -> main, origin/main, origin/HEAD`. `HEAD` is a special reference that points to the current position in your repository—essentially, it represents "where you are" in your Git history. By pushing, we ensure that `HEAD` is pointing to the same place on our computer as it is in GitHub, i.e., at the "origin.""
 
+### Exercise 9
+
+Add an R code chunk with `Cmd/Ctrl + option + i` to `analysis.qmd`. (Recall that "code chunk" and "code cell" mean the same thing.) In that chunk, put `library(tidyverse)`. `Cmd/Ctrl + Shift + K` to render the the document. Your Positron window should look like:
+
+```{r}
+include_graphics("images/second-repo-7.png")
+```
+
+As usual, the HTML file is displayed in the Viewer tab and, in the Panel, the focus switches to the Terminal, in which Quarto is "Watching files for changes."
+
+In the Console, run `tutorial.helpers::show_file("analysis.qmd", chunk = "Last")`. CP/CR.
+
+```{r practicing-git-9}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 7)
+```
+
+###
+
+````
+> tutorial.helpers::show_file("analysis.qmd", chunk = "Last")
+library(tidyverse)
+>
+````
+
+The HTML shows both our code and some annoying messages. No viewer wants to see that!
+
+### Exercise 10
+
+Change the title of the document to "A Beautiful Graphic". Add your name as the author by adding `author: Your Name` to the YAML header, along with:
+
+````
+execute:
+  echo: false
+  warning: false
+````
+
+Make sure to use spaces not tabs in YAML headers.
+
+`Cmd/Ctrl + Shift + K` to render the the document. The HTML should now be clean.
+
+In the Console, run `tutorial.helpers::show_file("analysis.qmd", end = 8)`. CP/CR.
+
+
+```{r practicing-git-10}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 8)
+```
+
+###
+
+````
+> tutorial.helpers::show_file("analysis.qmd", end = 8)
+---
+title: "A Beautiful Graphic"
+author: David Kane
+format: html
+execute:
+  echo: false
+  warning: false
+---
+>
+````
+
+Turning off warnings with `warning: false` is dangerous. In general, if this needs to be done, it should just be done in the code chunk in which it is needed, not in the YAML header.
+
+### Exercise 11
+
+Create a new R code chunk with `Cmd/Ctrl + option + i`. Ask [Grok](https://grok.com/) (or a generative AI of your choice) this question:
+
+> I have loaded the tidyverse package. Give me some R code which uses ggplot and a built-in data set to create a beautiful graphic.
+
+Paste that code into the new code chunk. `Cmd/Ctrl + shift + K` to render. If there is an error, or if the graphic is ugly, iterate with your AI until you have a graphic of which you are proud.
+
+In the Console, run `tutorial.helpers::show_file("analysis.qmd", chunk = "Last")`. CP/CR.
+
+```{r practicing-git-11}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 12)
+```
+
+###
+
+````
+> tutorial.helpers::show_file("analysis.qmd", chunk = "Last")
+ggplot(mpg, aes(x = displ, y = hwy, color = class, size = cty)) +
+  geom_point(alpha = 0.7) +
+  scale_color_brewer(palette = "Set2") +
+  scale_size_continuous(range = c(2, 8)) +
+  labs(
+    title = "Highway MPG vs Engine Displacement by Vehicle Class",
+    subtitle = "Larger points indicate higher city MPG",
+    x = "Engine Displacement (L)",
+    y = "Highway MPG",
+    color = "Vehicle Class",
+    size = "City MPG"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 12, hjust = 0.5),
+    legend.position = "right",
+    legend.box = "vertical",
+    panel.grid.major = element_line(color = "grey90"),
+    panel.grid.minor = element_blank()
+  )
+>
+````
+
+My image looks like:
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy, color = class, size = cty)) +
+  geom_point(alpha = 0.7) +
+  scale_color_brewer(palette = "Set2") +
+  scale_size_continuous(range = c(2, 8)) +
+  labs(
+    title = "Highway MPG vs Engine Displacement by Vehicle Class",
+    subtitle = "Larger points indicate higher city MPG",
+    x = "Engine Displacement (L)",
+    y = "Highway MPG",
+    color = "Vehicle Class",
+    size = "City MPG"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 12, hjust = 0.5),
+    legend.position = "right",
+    legend.box = "vertical",
+    panel.grid.major = element_line(color = "grey90"),
+    panel.grid.minor = element_blank()
+  )
+```
+
+I would expect your graphic to look quite different from mine. Does it?
+
+
+### Exercise 12
+
+If you click the Soure Control button, your Postitron window should look something like this:
+
+```{r}
+include_graphics("images/second-repo-8.png")
+```
+
+We still need to do two things: first, commit and push our files to GitHub and, second, make our `analysis.html` file available on the web.
+
+Commit your files and push them to GitHub. Don't forget the commit message. Don't forget that "push" means the same thing as "sync."
+
+Using `Ctrl-C` to stop the Quarto watching process. From the Terminal, run `git log -n 1`. CP/CR.
+
+
+```{r practicing-git-12}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+dkane@macbook Second-Repo % git log -n 1
+commit e92f83c6b62fffb235d47361880cb13e9bed8b17 (HEAD -> main, origin/main, origin/HEAD)
+Author: David Kane <dave.kane@gmail.com>
+Date:   Fri Mar 14 07:49:45 2025 -0400
+
+    add a graphic
+dkane@macbook Second-Repo % 
+````
+
+We are being a little sloppy to equate "pushing" with "syncing." Strictly speaking, "syncing" does two things: it "pushes" your changes to GitHun *and* it "pulls" any changes made on GitHub to your local computer. But, in this case, because no one else but you can change the GitHub repo, there is nothing to "pull." 
+
+### Exercise 13
+
+Your `analysis.html` file with your new graphic is now on GitHub. But we need to activate [GitHub Pages](https://pages.github.com/) in order to display the file. On your `Second-Repo` GitHub repo, click on the "Settings" item on the top menu and, then, on the "Pages" item on the side menu.
+
+```{r}
+include_graphics("images/second-repo-9.png")
+```
+
+Note where it reports that "GitHub Pages is currently disabled." We need to turns GitHub Pages on by clicking on the "None" box, selecting "main," accepting the "(root)" default, and then clicking "Save." 
+
+What message appears on the page after you click "Save?"
+
+```{r practicing-git-13}
+question_text(NULL,
+	message = "Your GitHub Pages site is currently being built from the main branch",
+	answer(NULL, correct = TRUE),
+	allow_retry = FALSE,
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
 
 
 
+### Exercise 14
+
+After clicking "Save," the page looks like this for a minute or two, because building GitHub pages take some time. 
+
+```{r}
+include_graphics("images/second-repo-10.png")
+```
+
+Refresh the page. It will soon change to:
+
+```{r}
+include_graphics("images/second-repo-11.png")
+```
+
+Your GitHub Pages URL will always be of the format `your-user-name.github.io/your-repo`. 
+
+Put that URL here:
+
+```{r practicing-git-14}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+https://davidkane9.github.io/Second-Repo/
+````
+
+Assuming that you named this repo `Second-Repo`, as we told you to (but no worries if you did not), your URL will be the same as mine, but with your username in place of `davidkane9`.
 
 
-You now understand the entire data science work cycle. Begin with GitHub repository, connect to an Positron project, create a Quarto document (including a plot or other analysis), publish your results to RPubs, and, finally, commit/push all your work to GitHub.
+### Exercise 15
+
+If you go to the new GitHub Pages site for your repo, you should see a page with whatever is in your README.md file, which, by default, should just be the name of your repo, which is `Second-Repo` for me. To see your beautiful graphic, you need to add `analysis.html` to the URL. For me, that would be: `https://davidkane9.github.io/Second-Repo/analysis.html`. Go to your URL. Something is probably wrong. Describe in a brief sentence the problem.
+
+```{r practicing-git-15}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+In all likelihood, you have the same problem as me: The graphic does not appear.
+
+```{r}
+include_graphics("images/second-repo-12.png")
+```
+
+The problem is that the HTML file is making use of a bunch of the junk in the `analysis_files` directory which we decided (reasonably enough!) not to push to GitHub. 
+
+
+### Exercise 16
+
+The solution is to edit the YAML header of `analysis.qmd` to change `format: html` to:
+
+````
+format:
+  html:
+    self-contained: true
+````
+
+`Cmd/Ctrl + Shift + K` to make sure everything works.
+
+In the Console, run: `tutorial.helpers::show_file("analysis.qmd", end = 10)`. CP/CR.
+
+
+```{r practicing-git-16}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+> tutorial.helpers::show_file("analysis.qmd", end = 10)
+---
+title: "A Beautiful Graphic"
+author: David Kane
+format:
+  html:
+    self-contained: true
+execute:
+  echo: false
+  warning: false
+---
+>
+````
+
+It would not be an unreasonable choice to remove `analysis_files` from `.gitignore` but it is also useful to see how much flexibility various YAMl options can provide.
+
+### Exercise 17
+
+Commit and sync your files. As always, you need 
+
+From the Terminal, run `git log -n 1`. CP/CR.
+
+```{r practicing-git-17}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+````
+kane@macbook Second-Repo % git log -n 1
+commit ee80cc55cff18d3c80d181e156c8d3ff0616f442 (HEAD -> main, origin/main, origin/HEAD)
+Author: David Kane <dave.kane@gmail.com>
+Date:   Fri Mar 14 09:58:11 2025 -0400
+
+    add self-contained option
+dkane@macbook Second-Repo % 
+````
+
+### Exercise 18
+
+It may take a minute or so, but a fixed HTML file should show up at the `analysis.html` URL. Give that URL here:
+
+```{r practicing-git-18}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Mine is:
+
+````
+https://davidkane9.github.io/Second-Repo/analysis.html
+````
+
+You now understand the entire data science work cycle. Begin with GitHub repository, connect to an Positron project, create a Quarto document (including a plot or other analysis), commit/push all your work to GitHub, and publish your results to GitHub Pages.
 
 ## Summary
 ### 
