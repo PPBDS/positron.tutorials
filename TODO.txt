@@ -1,5 +1,10 @@
 How to deal with the _files directory? On the one hand, I like to put it in .gitignore because I want an execuse to teach about that file. Good stuff! But then, for the html to work, you need to use `self-contained`, which seems an absurd hack.
 
+Seems like just using quarto publish gh-pages analysis.qmd is the best approch. I will try it out on Tutorial 5 but, if it looks good, I need to come back to Tutorial 4.
+
+Early on, explain that we often just follow the answer with our answer, without labelling it as such. 
+
+for file in *.png; do pngquant "$file" -o "$file" --force; done
 
 [Posit Connect Cloud](https://connect.posit.cloud/) is the future of free publishing with Positron. So . . .
 

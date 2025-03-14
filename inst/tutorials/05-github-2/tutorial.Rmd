@@ -14,12 +14,10 @@ description: More practice with Positron, Git and GitHub.
 ```{r setup, include = FALSE}
 library(learnr)
 library(tutorial.helpers)
-library(tidyverse)
 library(knitr)
-library(usethis)
+
+library(tidyverse)
 library(palmerpenguins)
-library(gert)
-library(gitcreds)
 
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(out.width = '90%')
@@ -33,15 +31,10 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-
-
-<!-- DK: Add some questions to load the needed libraries, like usethis, gert, and gitconfig at the beginning. -->
-
 <!-- Add a new example at the end which requires users to fork a repo. -->
 
 <!-- Here are some functions which might allow us to get rid of more Terminal commands in this tutorial: git_sitrep("git", "user") for git --version. Perhaps git_config_global() and/or git_config_set(name, value, repo = ".") for setting name and email values. -->
 
-<!-- What about git remote -v (gert::git_remote_info()),  git log (gert::git_log()) -->
 
 <!-- This would allow us to get rid of the Terminal Section. -->
 
@@ -58,13 +51,11 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- Pull all the material out of r4ds-material-to-add.txt, especially everything in Chapter 29 section.  -->
 
-<!-- Should we be making much bigger use of the **gert** package? Allows you to execute most git commands. Or maybe we should only show students **usethis**, at least until the end of this tutorial. But I can't find **usethis** equivalents to functions like gert::git_log(). Maybe Terminal commands like git log are fine. -->
 
-<!-- Can we add some tests? Currently, seems like lots of commands, like gert::git_log(), don't work in testing. Maybe set up a test environment of some type, perhaps by setting up all sets of scaffolding for testthat? -->
+
+<!-- Can we add some tests? Maybe set up a test environment of some type, perhaps by setting up all sets of scaffolding for testthat? -->
 
 <!-- Update all the images. For example, the first one shows the project as existing in OneDrive, which is a bad idea! Make sure that the png file size is small. -->
-
-<!-- It is annoying that we can't do all this from the Console. Specifically, I hate having to use `git --version`. Wish that usethis::git_version() were exported. Maybe library(credentials) would work? Wish there were equivalents for things like git config --global user.name. But there don't seem to be! We set values with usethis::use_git_config(), but we can't check them. Annoying!  -->
 
 ## Introduction
 ### 
