@@ -28,7 +28,7 @@ Any reason to explore the Visual editor?
 
 Ask Posit why `Cmd + Shift + K` does quarto preview as opposed to quarto render?
 
-for file in *.png; do pngquant "$file" -o "$file" --force; done
+find . -type f -name "*.png" -exec pngquant "{}" -o "{}" --force \;
 
 Just added those .txt files on 03-terminal/images. Is that a good place for them? We don't (?) want them to be in the actual package. Should we add them to .RBuildignore?
 
