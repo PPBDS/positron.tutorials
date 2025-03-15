@@ -33,6 +33,8 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- project-3 should require users to fork a repo. -->
 
+<!-- In project 4, use the GitHub created .gitignore and discuss stuff there. -->
+
 <!-- When we say, your answer should look like, we often don't include the command even though your actual answer started with the command, since the instruction was CP/CR. -->
 
 <!-- Can we add some tests? Maybe set up a test environment of some type, perhaps by setting up all sets of scaffolding for testthat? -->

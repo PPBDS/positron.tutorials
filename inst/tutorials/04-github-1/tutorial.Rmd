@@ -32,16 +32,15 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- If quarto publish gh-pages analysis.qmd works, use it in the Publish section. -->
+<!-- Couple of DK comments below which indicate how to expand a couple of questions. -->
 
 <!-- Stop being afraid of the command line. Use lots of git commands.  -->
 
 <!-- Maybe delete gitcreds and usethis, and then use the command line? -->
 
-<!-- Discuss the meaning of the lines which are in the .gitignore by default. Note they are different for Positron than for RStudio. -->
-
-
 <!-- Can we add some tests? Maybe set up a test environment of some type, perhaps by setting up all sets of scaffolding for testthat? -->
+
+<!-- Consider switching to lower case names for repos. But then we would probably need to redo lots of the images . . . -->
 
 ## Introduction
 ### 
@@ -483,7 +482,7 @@ The key "GitHub user" section should look something like:
 See "[Managing Git(Hub) Credentials](https://usethis.r-lib.org/articles/git-credentials.html)" for more details.
 
 
-## Using git
+## Using Git
 ### 
 
 Having set up git, we can now practice using it.
@@ -994,10 +993,10 @@ If you look at the GitHub page for `First-Repo`, you will see that the changes h
 
 
 
-## Practicing git
+## Practicing Git
 ### 
 
-Let's create a new GitHub repo, connect it our computer, create a Quarto document, publish it to the internet using [R Pubs](https://rpubs.com/), and then ensure our work is backed up to GitHub. 
+Let's create a new GitHub repo, connect it our computer, create a Quarto document, publish it to the internet using [GitHub Pages](https://pages.github.com/), and then ensure our work is backed up to GitHub. 
 
 
 ### Exercise 1
@@ -1005,7 +1004,6 @@ Let's create a new GitHub repo, connect it our computer, create a Quarto documen
 On your GitHub account, create a new repo named `Second-Repo`. Make sure it is public. Make sure to check the box for a README file. After clicking "Create," copy the URL after clicking the "Code" button.
 
 What is the URL for the project?
-
 
 ```{r practicing-git-1}
 question_text(NULL,
@@ -1024,8 +1022,7 @@ My answer:
 https://github.com/davidkane9/Second-Repo.git
 ````
 
-No worries if you did not include the `.git` ending. The URL you go to when you want to look at the repo does not include `.git` obviously. But, for connecting the repo to your computer, you need `.git`.
-
+No worries if you did not include the `.git` ending. The URL you go to when you want to look at the repo does not include `.git`, obviously. But, for connecting the repo to your computer, you need `.git`.
 
 ### Exercise 2
 
@@ -1065,7 +1062,6 @@ No files are listed in the top half because you have not done anything yet. In t
 
 From the Terminal, run `git log`. CP/CR.
 
-
 ```{r practicing-git-3}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
@@ -1088,7 +1084,6 @@ dkane@macbook Second-Repo %
 ````
 
 This is an individual commit message. As [*Pro Git*](https://git-scm.com/book/en/v2) [explains](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F), the weird string `a3f605b1e44bccc834ebd569c982040855c0cab9` is a hash which identifies this specific commit. Every change in a repo has an associated hash.
-
 
 ### Exercise 4
 
@@ -1129,15 +1124,17 @@ Click the Source Control button to bring up the Source Control pane. The only fi
 include_graphics("images/second-repo-3.png")
 ```
 
+<!-- DK: Split this into three questions, each using the same image, but with a (different) red arrow pointing to the area of interest each time. -->
+
 Highlights:
 
-* The rendered document `analysis.html` appears in the Viewer tab. It is empty except for the title.
+* The rendered document `analysis.html` appears in the Viewer tab. It is empty except for the title, which is "Untitled." The title of the document and the name of the file have no necessary connection with each other.
 
-* Quarto is "Watching files for changes" at the Terminal. If you change and then save `analysis.qmd`, Quarto will automatically re-render it and then display the updated HTML in the Viewer.
+* Quarto is "Watching files for changes" at the Terminal. If you change and then render `analysis.qmd`, Quarto will automatically display the updated HTML in the Viewer.
 
 * There are many files now listed under "Changes" in the top half of the Source Control page.
 
-We want to "free up" the Terminal so that we can issue some commands. So, when in the Terminal, use `Ctrl-C` to exit quarto watching mode.
+We want to "free up" the Terminal so that we can issue some commands. So, when in the Terminal, use `Ctrl-C` to exit Quarto watching mode.
 
 In the Terminal, run `ls`. CP/CR.
 
@@ -1203,7 +1200,6 @@ Note how the Source Control pane has changed. There are no "Changes" listed beca
 
 From the Terminal, run `git log -n 1`. CP/CR.
 
-
 ```{r practicing-git-7}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
@@ -1225,7 +1221,7 @@ Date:   Thu Mar 13 14:31:30 2025 -0400
 dkane@macbook Second-Repo % 
 ````
 
-The `n` argument allows us to specify how many commit messages we want to see. Use `1` gives us just the most recent message. The "Author" and "Date" for the commit message should, obviously, match you and the time when you are doing the tutorial. It is OK if your commit message is different from mine. You should always have a commit message, but it can be quite concise. You don't even need a sentence.
+The `n` argument allows us to specify how many commit messages we want to see. Using `1` gives us just the most recent message. The "Author" and "Date" for the commit message should, obviously, match you and the time when you are doing the tutorial. It is OK if your commit message is different from mine. You should always have a commit message, but it can be quite concise. You don't even need a complete sentence.
 
 ### Exercise 8
 
@@ -1237,7 +1233,7 @@ The Source Control Graph now looks like this:
 include_graphics("images/second-repo-6.png")
 ```
 
-The change between this image and the previous one is subtle: the purpose "origin/main" cloud symbol has moved from the first commit to the second. That shows that the two repos are now in sync.
+The change between this image and the previous one is subtle: the "origin/main" cloud symbol has moved from the first commit to the second. That shows that the two repos are now in sync.
 
 From the Terminal, run `git log -n 1`. CP/CR.
 
@@ -1262,7 +1258,7 @@ Date:   Thu Mar 13 14:31:30 2025 -0400
 dkane@macbook Second-Repo % 
 ````
 
-The commit itself has not changed. It has the same date/author/comment as before. But the "header" information has changed from `HEAD -> main` to `HEAD -> main, origin/main, origin/HEAD`. `HEAD` is a special reference that points to the current position in your repository—essentially, it represents "where you are" in your Git history. By pushing, we ensure that `HEAD` is pointing to the same place on our computer as it is in GitHub, i.e., at the "origin.""
+The commit itself has not changed. It has the same date/author/comment as before. But the "header" information has changed from `HEAD -> main` to `HEAD -> main, origin/main, origin/HEAD`. `HEAD` is a special reference that points to the current position in your repository --- essentially, it represents "where you are" in your Git history. By pushing, we ensure that `HEAD` is pointing to the same place on our computer as it is in GitHub, i.e., at the "origin."
 
 ### Exercise 9
 
@@ -1305,7 +1301,7 @@ execute:
   warning: false
 ````
 
-Make sure to use spaces not tabs in YAML headers.
+Make sure to use spaces (not tabs) in YAML headers.
 
 `Cmd/Ctrl + Shift + K` to render the the document. The HTML should now be clean.
 
@@ -1338,6 +1334,10 @@ execute:
 
 Turning off warnings with `warning: false` is dangerous. In general, if this needs to be done, it should just be done in the code chunk in which it is needed, not in the YAML header.
 
+It is better to figure out the cause of any warnings and then address that cause directly. Simply closing your eyes and pretending that the warnings aren't there is a bad strategy. 
+
+<!-- DK: Add a question in which you ask AI how to get rid of the warnings. It tells you to modify library(tidyverse). Do so and then you can elimate the warning: false from the YAML. -->
+
 ### Exercise 11
 
 Create a new R code chunk with `Cmd/Ctrl + option + i`. Ask [Grok](https://grok.com/) (or a generative AI of your choice) this question:
@@ -1358,6 +1358,8 @@ question_text(NULL,
 ```
 
 ###
+
+<!-- DK: This plot is sort of ugly, especially the use of discreet numbers to size the dots. That is just wrong! Make it better, and then adjust the repo-8.png. And others? -->
 
 ````
 > tutorial.helpers::show_file("analysis.qmd", chunk = "Last")
@@ -1411,8 +1413,9 @@ ggplot(mpg, aes(x = displ, y = hwy, color = class, size = cty)) +
   )
 ```
 
-I would expect your graphic to look quite different from mine. Does it?
+Generative AI is the future of coding. You need to practice more.
 
+<!-- DK: Maybe we should publish first and then do the final commit. -->
 
 ### Exercise 12
 
@@ -1451,6 +1454,11 @@ dkane@macbook Second-Repo %
 ````
 
 We are being a little sloppy to equate "pushing" with "syncing." Strictly speaking, "syncing" does two things: it "pushes" your changes to GitHun *and* it "pulls" any changes made on GitHub to your local computer. But, in this case, because no one else but you can change the GitHub repo, there is nothing to "pull." 
+
+
+
+
+
 
 ### Exercise 13
 

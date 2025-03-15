@@ -28,14 +28,10 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- RPubs works well, just as it always has! It works from the publish button, which is nice for the initial learning. It produces a nice URL, which you can edit. The main page of your account is a nice portfolio of work. The only reason to move away is a fear that Rpubs will be going away. With luck, it isn't!-->
-
-<!-- Posit Cloud works much less well. No reason to switch to this anytime soon.  I could not get quartopub.com to work at all. -->
-
 ## Introduction
 ### 
 
-This tutorial covers how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents) and how to publish your work to the web using [Rpubs](https://rpubs.com/). Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This tutorial covers how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents)). Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 ## Quarto 1
 ### 
@@ -876,7 +872,7 @@ question_text(NULL,
 
 If we are just using a code option for one or two code chunks, then we can just place them in the relevant code chunks, using the hash-pipe: `#|`. However, any code chunk option which applies to most/all code chunks should be placed in the YAML header under the `execute:` category.
 
-Be careful of the formatting in the YAML header. It is very fussy! For example, if you forget to indent the `echo: false` line, you will get an error.
+Be careful of the formatting in the YAML header. It is very fussy! For example, if you forget to indent the `echo: false` line with spaces, you will get an error.
 
 <!-- DK: Add an exercise which demonstrates this error. -->
 
@@ -1184,134 +1180,10 @@ ggplot(diamonds, aes(x = carat, y = price, color = clarity)) +
 
 Generative AI is the future of coding, and much else. Practice using it as much as you can.
 
-## Publishing
-### 
-
-<!-- DK: In the olden days, it was possible to replace an Rpubs document on-the-file. That does not seem to work anymore. Once you upload something with slug X, then you can't change that html. You need to delete the page if you want to use slug X again. Since we don't use Rpubs once we learn Quarto websites, I am not going to worry about that. -->
-
-We'll be publishing our Quarto documents on the web by using [RPubs](https://rpubs.com/), a free web publishing service. RPubs is managed by [Posit](https://posit.co/) (formerly RStudio), a leading company in the data science world. You will need to create a free account. Do not give them your credit card number.
-
-### Exercise 1
-
-[Register](https://rpubs.com/users/new) for a free RPubs account. When choosing a user name, follow [this advice](https://happygitwithr.com/github-acct#username-advice).
-
-Write down the main URL for your account. It should look something like:
-
-````
-https://rpubs.com/dkane
-````
-
-
-```{r publishing-1}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 3)
-```
-
-### 
-
-There are other free (and paid) services for publishing on the web. In the website tutorials in this package, we use [GitHub Pages](https://pages.github.com/).
-
-
-### Exercise 2
-
-Render the `quarto-4.qmd` file to ensure that it works. (If you never got a diamonds plot working, just go back to simply printing out the `diamonds` tibble)
-
-Run `list.files()` in the Console. CP/CR.
-
-```{r publishing-2}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 2)
-```
-
-### 
-
-Along with other files, you should see a `quarto-4.html` file, which was generated after you rendered your QMD. (Note that the "qmd" file extension stands for **Q**uarto **M**arkdown **D**ocument.)
-
-### Exercise 3
-
-The page is probably not as nice as it could be because the code for your plot is displayed. That is ugly. No one wants to see your code. Also, "My Fourth Quarto Document" is a somewhat stupid title.
-
-Change the YAML header to be:
-
-````
-title: Diamonds
-format: html
-execute: 
-  echo: false
-````
-
-Also, delete the `#| echo: false` from the first code chunk since it is no longer necessary. 
-
-In the Console, run:
-
-````
-tutorial.helpers::show_file("quarto-4.qmd", end = 6)
-````
-
-CP/CR.
-
-```{r publishing-3}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 3)
-```
-
-###
-
-`Cmd/Ctrl + Shift + K` to render the document to confirm the changes. It is good to make your page look as good as possible before putting it up on the web
-
-
-### Exercise 4
-
-From the Console, run:
-
-````
-quarto::quarto_publish_doc(input = "quarto-4.qmd", server = "rpubs.com")
-````
-
-This will render the document, specified with the `input` argument, locally in order to create an HTML which will then sent to the `server`, which is RPubs.
-
-
-You will be taken to the RPubs website. (You may need to authorize Positron to open the Rpubs link. You may need to sign into your account.) 
-
-* By default, the "Title" of the document on Rpubs should be the same as the `title` in the YAML header. You can change it if you like. 
-
-* You can leave the description blank if you don't want to write one.
-
-* Add a meaningful slug (a unique website name that's often just the name of your project), otherwise you will end up with an ugly, long address you didn't choose and can't remember. We recommend `diamonds`.
-
-Click "Continue."
-
-Put the link to your new RPubs page in the space below.
-
-```{r publishing-4}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 2)
-```
-
-### 
-
-Keep in mind that this is now a website that can be found on the internet, for anyone to see.
-
 ## Summary
 ### 
 
-This tutorial covered how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents) and how to publish your work to the web using [Rpubs](https://rpubs.com/). Some material was from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This tutorial covered how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents). Some material was from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 
 ```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}

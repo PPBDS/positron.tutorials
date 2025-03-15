@@ -1,3 +1,7 @@
+Change Tutorial 4 to use quarto publish gh-pages.
+
+If we ever redo the images, make sure to delete the Positron default welcome page first. 
+
 There are lots of questions when we ask the student to copy the HTML output. We need to explicitly teach them how to do this, and mention it again.
 
 > We often ask you to "copy" from the HTML. It is OK if what you copy looks ugly, has lost its formatting and so on. We just want to make sure that your HTML includes, more or less, the information that it should.
