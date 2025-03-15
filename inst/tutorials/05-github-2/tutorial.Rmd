@@ -31,68 +31,26 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- Add a new example at the end which requires users to fork a repo. -->
-
-<!-- Here are some functions which might allow us to get rid of more Terminal commands in this tutorial: git_sitrep("git", "user") for git --version. Perhaps git_config_global() and/or git_config_set(name, value, repo = ".") for setting name and email values. -->
-
-
-<!-- This would allow us to get rid of the Terminal Section. -->
-
+<!-- project-3 should require users to fork a repo. -->
 
 <!-- When we say, your answer should look like, we often don't include the command even though your actual answer started with the command, since the instruction was CP/CR. -->
 
-<!-- Took Jade 2 hours. -->
-
-<!-- KNOWLEDGE DROPS: -->
-
-<!-- Discuss the meaning of the lines which are in the .gitignore by default. -->
-
-<!-- The Quarto chapter has a bunch of individual sections. Surely, we can find a place to knowledge drop a little bit about each of them! -->
-
-<!-- Pull all the material out of r4ds-material-to-add.txt, especially everything in Chapter 29 section.  -->
-
-
-
 <!-- Can we add some tests? Maybe set up a test environment of some type, perhaps by setting up all sets of scaffolding for testthat? -->
-
-<!-- Update all the images. For example, the first one shows the project as existing in OneDrive, which is a bad idea! Make sure that the png file size is small. -->
 
 ## Introduction
 ### 
 
-This tutorial mostly covers material which is not actually in [*R for Data Science (2e)*](https://r4ds.hadley.nz/quarto.html) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. But the material is in keeping with the spirit of that book, especially [Chapter 28 Quarto](https://r4ds.hadley.nz/quarto.html). The material covered in [Chapter 4 Workflow: code style](https://r4ds.hadley.nz/workflow-style.html) appears in the "RStudio and Code" tutorial in this package.
+This tutorial covers more details in the usage of [Git](https://git-scm.com/) and [GitHub](https://github.com/). Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
-Professionals store their work on Github, or a similar "source control" tool. If your computer blows up, you don't want to lose your work. Github is like Google Drive --- both live in the cloud --- but for your computational work rather than your documents.
-
-This tutorial will introduce you to Github and to Git, a program for keeping track of changes in your code.
-
-The most useful reference for Git/Github/RStudio is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
-
-## Terminal Overview
-### 
-
-The RStudio [Terminal](https://docs.posit.co/ide/user/ide/guide/tools/terminal.html) is how you directly communicate with the computer using commands, whereas the RStudio [Console](https://docs.posit.co/ide/user/ide/guide/code/console.html) is how you talk to R.
-
-This section will help introduce you to the Terminal so that you'll be up to speed for the commands needed later.
-
+The most useful reference for Git/GitHub is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
 
 ## Project 1
 ### 
 
-Restart the R session with `Cmd/Ctrl + Shift + 0`.
-
 This first project will simply review the steps which we have already learned. Making the data science work cycle second nature requires practice.
 
-We don't need to set up Git/Github/RPubs again, having already done so above. In this section, our goal is to publish this plot to RPubs:
+We don't need to set up Git and Github again, having already done so above. In this project, our goal is to publish a nice graphic of data about penguins.
 
-```{r warning = FALSE}
-penguins |> 
-  ggplot(aes(x = body_mass_g, y = flipper_length_mm, color = species)) +
-    geom_point() +
-    labs(title = "Penguins Body Mass compared to Flipper Length", 
-         x = "Body Mass", 
-         y = "Flipper Length")
-```
 
 ### Exercise 1
 
@@ -109,29 +67,27 @@ question_text(NULL,
 
 ### 
 
-Your answer should look something like:
-
 ```         
 https://github.com/davidkane9/project-1
 ```
+
+As a reminder, we often provide our answer to a question right after asking you for your answer, as we do above. In many cases, our anwer will be different because, as here, we have a different user name on GitHub.
 
 Always start a new data science project with a new Github repo.
 
 ### Exercise 2
 
-Connect the `project-1` Github repo to an R project on your computer. Recall the steps:
+Connect the `project-1` Github repo to a project on your computer. Recall the steps:
 
--   `File -> New Project ... -> Version Control -> Git`
+- `File -> New Folder from Git ...`
 
--   Paste the repo URL into the "Repository URL" box.
+- Paste the repo URL (ending in `.git`) into the "Git repository URL" box.
 
--   Hit the "tab" key so that the "Project directory name" box is filled in. This should generate the same name for the R project as for the Github repo, which is `project-1` in this case.
+- Check "Open in new window" box.
 
--   Click "Create Project."
+- Click "OK"
 
-That "tab" key trick is very handy! Keeping the names of repos/projects aligned makes organization simpler.
-
-From the Console, run `list.files()`. CP/CR.
+From the Console in the new Positron window, run `list.files()`. (You might need to select R for the interpreter first.) CP/CR.
 
 ```{r project-1-2}
 question_text(NULL,
@@ -142,31 +98,23 @@ question_text(NULL,
 	rows = 3)
 ```
 
-```{r project-1-2-test, include = FALSE}
-list.files()
-```
-
 ### 
-
-Your answer should look something like this:
 
 ```         
 > list.files()
-[1] "project-1.Rproj" "README.md"      
-> 
+[1] "README.md"
+>
 ```
 
 The default README has an "md" suffix to indicate that it is a **M**ark**d**own document.
 
-RStudio has automatically restarted and placed you within the `project-1` R project. The `project-1` directory should be in the location in which you store your all your R projects.
+Positron has automatically placed you within the `project-1` project. The `project-1` directory should be in the location in which you store your all your projects.
 
 ### Exercise 3
 
-Go to `File -> New File -> Quarto Document...`. Title it "Quarto 1". You are the author. Save it with the name `quarto-1`. RStudio will automatically add the `qmd` suffix.
+Go to `File -> New File ...-> Quarto Document`. Title it "Quarto 1". You are the author. Save it with the name `quarto-1.qmd`. 
 
 From the Console, run `list.files()`. CP/CR.
-
-
 
 ```{r project-1-3}
 question_text(NULL,
@@ -183,18 +131,19 @@ Your answer should look like this:
 
 ```         
 > list.files()
-[1] "project-1.Rproj" "quarto-1.qmd"    "README.md"      
+[1] "quarto-1.qmd" "README.md"   
+>  
 ```
 
 Titles should be in title case, obviously. File names are usually all lower case. Spaces in titles are fine, but there should never be spaces (or other weird characters --- other than underlines, `_`, and, less commonly, dashes `-`) in file names.
 
 ### Exercise 4
 
-To produce a complete report containing all text, code, and results, click “Render” or press `Cmd/Ctrl + Shift + K`.
+Click the “Preview” button or, better, press `Cmd/Ctrl + Shift + K`.
 
-This will create an HTML file and display it in the Viewer tab in the Output pane.
+This will create an HTML file and display it in the Viewer tab in the Secondary Activity Bar.
 
-From the Console, run `list.files()`. CP/CR.
+Look at the Terminal. Copy-and-paste the lines which resulted from rendering `quarto-1.qmd`.
 
 ```{r project-1-4}
 question_text(NULL,
@@ -202,32 +151,44 @@ question_text(NULL,
 	allow_retry = TRUE,
 	try_again_button = "Edit Answer",
 	incorrect = NULL,
-	rows = 3)
+	rows = 10)
 ```
 
 ### 
 
-Your answer should look like this:
-
 ```         
-> list.files()
-[1] "project-1.Rproj" "quarto-1_files"  "quarto-1.html"   "quarto-1.qmd"    "README.md"      
->    
+dkane@macbook project-1 % quarto preview /Users/dkane/Desktop/projects/project-1/quarto-1.qmd --no-bro
+wser --no-watch-inputs
+pandoc 
+  to: html
+  output-file: quarto-1.html
+  standalone: true
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  
+metadata
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  title: Quarto 1
+  author: David Kane
+  
+Output created: quarto-1.html
+
+Watching files for changes
+Browse at http://localhost:4817/
 ```
 
-The `quarto-1.html` is our rendered file, as expected. The `quarto-1_files` directory contains a variety of files which were involved in the transformation of `quarto-1.qmd` into `quarto-1.html`. None of the files in `quarto-1_files` are worth understanding, at least at this point in your data science education.
+Clicking the "Preview" button runs, behind the scenes on the Terminal, the `quarto preview` command. This command does two things. First, it "renders" `quarto.qmd`, taking this QMD file as input and producing `quarto-1.html` as output. Second, it "watches" the HTML file. If something changes in that file --- because we have edited `quarto.qmd` and then rendered it --- Positron will show the new HTML in the Viewer atb.
 
 ### Exercise 5
 
-Edit the `.gitignore` file to include two new lines: `project-1.Rproj` and `quarto-1_files`. Save the file.
+The `pandoc` and `metadata` portions of the previous output give more details on the process. Positron itself is not doing the main work. That is Quarto's job. Instead, Positron is managing Quarto and other processes.
 
-In the Console, run:
-
-```         
-tutorial.helpers::show_file(".gitignore")
-```
-
-CP/CR.
+At the Terminal, use `Ctrl-C` to stop the watching process. Then, run `ls`. CP/CR.
 
 ```{r project-1-5}
 question_text(NULL,
@@ -238,29 +199,26 @@ question_text(NULL,
 	rows = 3)
 ```
 
-### 
+###
 
-Your answer should look like:
+````
+Watching files for changes
+Browse at http://localhost:4817/
+^C%                                                                                                   
+dkane@macbook project-1 % ls
+README.md       quarto-1.html   quarto-1.qmd    quarto-1_files
+dkane@macbook project-1 % 
+````
 
-```         
-> tutorial.helpers::show_file(".gitignore")
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
+Note that `^C` symbol, which is how `Ctrl-C` is recorded.
 
-project-1.Rproj
-quarto-1_files
->
-```
-
-Every time that you render a Quarto document, RStudio creates a directory in which it places the supporting files which we used in that rendering. The name of that directory is `name-of-your-file-without-the-suffx` plus `_files`. The material in this directory is not worth backing up on GitHub. They are neither the original source material (`quarto-1.qmd`) which we will edit to make changes nor the final product (`quarto-1.html`) which we will show to others.
+The `quarto-1.html` is our rendered file, as expected. The `quarto-1_files` directory contains a variety of files which were involved in the transformation of `quarto-1.qmd` into `quarto-1.html`. None of the files in `quarto-1_files` are worth understanding, at least at this point in your data science education.
 
 ### Exercise 6
 
-Go to the Git tab within the Environment pane. Commit all the files --- `.gitignore`, `quarto-1.qmd` and `quarto-1.html` --- which have not been committed yet. Your commit message should be something like "Initial version." Push all the files.
+Create a `.gitignore` file with two lines: `quarto-1_files` and a blank line. Save the file. Make sure to save it at the top of the project, **not inside of the `quarto-1_files` directory**.
 
-From the Terminal, run `git log`. CP/CR.
+In the Terminal, run `cat .gitignore`. CP/CR.
 
 ```{r project-1-6}
 question_text(NULL,
@@ -273,21 +231,21 @@ question_text(NULL,
 
 ### 
 
-The output of `git log` is somewhat confusing, but you should see your commit message in the top (most recent) commit.
+```         
+dkane@macbook project-1 % cat .gitignore
+quarto-1_files
+dkane@macbook project-1 % 
+```
+
+Every time that you render a Quarto document, Quarto creates a directory in which it places the supporting files which we used in that rendering. The name of that directory is `name-of-your-file-without-the-suffx` plus `_files`. The material in this directory is not worth backing up on GitHub. They are neither the original source material (`quarto-1.qmd`) which we will edit to make changes nor the final product (`quarto-1.html`) which we will show to others. 
+
+**However**, we need to ensure that the HTML file looks how we want it to look when we publish it on the web.
 
 ### Exercise 7
 
-Note the "Source" and "Visual" boxes in the menu above the Source pane. As you are getting used to Quarto documents, it is best to look at the actual source, at least at the start. By default, the "Source" box should be selected. If you click on the "Visual" box, you will see a [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) display of what your document should look like after rendering.
+Press the Source Control button. Commit all the files --- `.gitignore`, `quarto-1.qmd` and `quarto-1.html` --- which have not been committed yet. Your commit message should be something like "Initial version." Sync all the files.
 
-Delete everything in `quarto-1.qmd` except the YAML header.
-
-In the Console, run:
-
-```         
-tutorial.helpers::show_file("quarto-1.qmd")
-```
-
-CP/CR.
+From the Terminal, run `git log`. CP/CR.
 
 ```{r project-1-7}
 question_text(NULL,
@@ -295,27 +253,33 @@ question_text(NULL,
 	allow_retry = TRUE,
 	try_again_button = "Edit Answer",
 	incorrect = NULL,
-	rows = 6)
+	rows = 8)
 ```
 
 ### 
 
-Your answer should look like this:
+````
+dkane@macbook project-1 % git log
+commit 71e6d06fd555096d79719e267412d51856a0e515 (HEAD -> main, origin/main, origin/HEAD)
+Author: David Kane <dave.kane@gmail.com>
+Date:   Fri Mar 14 15:20:50 2025 -0400
 
-```         
-> tutorial.helpers::show_file("quarto-1.qmd")
----                                            
-title: "Quarto 1"
-author: "David Kane"
-format: html
----
-```
+    initial version
 
-When you render the document, Quarto sends the QMD file to **knitr**, which executes all of the code chunks and creates a new Markdown (`.md`) document which includes the code and its output. The Markdown file generated by **knitr** is then processed by [pandoc](https://pandoc.org/), which is responsible for creating the finished HTML file.
+commit 6fcbf60866ba728132c94f0c0496f3770006fd42
+Author: David Kane <dave.kane@gmail.com>
+Date:   Fri Mar 14 13:18:01 2025 -0400
+
+    Initial commit
+dkane@macbook project-1 % 
+````
+
+You should see your commit message in the top (most recent) commit.
+
 
 ### Exercise 8
 
-Add a code chunk within your document which includes `library(tidyverse)` and `library(palmerpenguins)`. Render the document to ensure that everything works. (Fix any errors if it doesn't.)
+Add a code chunk within your document which includes `library(tidyverse)`. Render the document to ensure that everything works. (Fix any errors if it doesn't.)
 
 In the Console, run:
 
@@ -326,6 +290,41 @@ tutorial.helpers::show_file("quarto-1.qmd", chunk = "Last")
 CP/CR.
 
 ```{r project-1-8}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+> tutorial.helpers::show_file("quarto-1.qmd", chunk = "Last")
+library(tidyverse)
+>
+````
+
+Anytime you use `show_file()` without having a blank line at the end of the file, you will get a warning message.
+
+Recall that you can add a code chunk by either pressing the “Insert” button icon in the editor toolbar (the green button with the letter C and a tiny plus sign) or by using the shortcut key combination: `Command + Option + i` or `Ctrl + Alt + i`.
+
+You could also manually type the chunk delimiters ```` ```{r} ```` and ```` ``` ````, but, obviously, that is the worst option.
+
+### Exercise 9
+
+Add `library(palmerpenguins)` to the code chunk. Render the document to ensure that everything works. (Fix any errors if it doesn't.)
+
+In the Console, run:
+
+```         
+tutorial.helpers::show_file("quarto-1.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r project-1-9}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -348,17 +347,17 @@ library(palmerpenguins)
 
 ### 
 
-Recall that you can add a code chunk by either pressing the “Insert” button icon in the editor toolbar (the green button with the letter C and a tiny plus sign) or by using the shortcut key combination: `Command + Option + i` or `Ctrl + Alt + i`.
+When you render the document, Quarto sends the QMD file to **knitr**, which executes all of the code chunks and creates a new Markdown (`.md`) document which includes the code and its output. The Markdown file generated by **knitr** is then processed by [pandoc](https://pandoc.org/), which is responsible for creating the finished HTML file.
 
-You could also manually type the chunk delimiters ```` ```{r} ```` and ```` ``` ````, but, obviously, that is the worst option.
 
-### Exercise 9
 
-<!-- DK: Need more standardized words for "copy the HTML here" instruction. -->
+### Exercise 10
 
 Add a new code chunk, which just includes `penguins`. Render the document. Copy the displayed bottom contents of `quarto-1.html` below, starting with `penguins`.
 
-```{r project-1-9}
+We often ask you to "copy" from the HTML. It is OK if what you copy looks ugly, has lost its formatting and so on. We just want to make sure that your HTML includes, more or less, the information that it should.
+
+```{r project-1-10}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -369,67 +368,26 @@ question_text(NULL,
 
 ### 
 
-Your answer should look like this (although some hash marks were removed):
+Your HTML should look like this. Of course, your copy/paste job will be a mess.
 
-```         
-penguins
-
-A tibble: 344 × 8
-   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
-   <fct>   <fct>              <dbl>         <dbl>             <int>       <int>
- 1 Adelie  Torgersen           39.1          18.7               181        3750
- 2 Adelie  Torgersen           39.5          17.4               186        3800
- 3 Adelie  Torgersen           40.3          18                 195        3250
- 4 Adelie  Torgersen           NA            NA                  NA          NA
- 5 Adelie  Torgersen           36.7          19.3               193        3450
- 6 Adelie  Torgersen           39.3          20.6               190        3650
- 7 Adelie  Torgersen           38.9          17.8               181        3625
- 8 Adelie  Torgersen           39.2          19.6               195        4675
- 9 Adelie  Torgersen           34.1          18.1               193        3475
-10 Adelie  Torgersen           42            20.2               190        4250
- ℹ 334 more rows
- ℹ 2 more variables: sex <fct>, year <int>
+```{r}
+include_graphics("images/penguins.png")
 ```
 
 Because the code is just the name of the tibble, R prints out the first 10 rows of the tibble, along with some other information, just like it would if you typed `penguins` at the Console.
 
-
-### Exercise 10
-
-Change the code to pipe `penguins` into `ggplot()`, and within `ggplot()`, set `mapping = aes()`. Set `x` to `body_mass_g`. `Cmd/Ctrl + Shift + K`
-
-In the Console, run:
-
-```         
-tutorial.helpers::show_file("quarto-1.qmd", chunk = "Last")
-```
-
-CP/CR.
-
-```{r project-1-10}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 6)
-```
-
-### 
-
-Inserting images and customizing how they are displayed is also facilitated with the visual editor. You can either paste an image from your clipboard directly into the visual editor (and RStudio will place a copy of that image in the project directory and link to it) or you can use the visual editor’s `Insert -> Figure / Image ...` menu to browse to the image you want to insert or paste it’s URL. In addition, using the same menu you can resize the image as well as add a caption, alternative text, and a link.
-
 ### Exercise 11
 
-Set `y` to `flipper_length_mm` within `aes()`. `Cmd/Ctrl + Shift + K`
+We don't want our R code to be echoed in the HTML. So, to the YAML header, add:
 
-In the Console, run:
+````
+execute: 
+  echo: false
+````
 
-```         
-tutorial.helpers::show_file("quarto-1.qmd", chunk = "Last")
-```
+Also, we don't want those warnings from loading the **tidyverse** package to be included in the HTML, so add `#| warning: false` to the first code chunk. `Cmd/Ctrl + Shift + K` to confirm that everything looks good. The only thing that should appear in the HTML, other than title and author, is the `penguins` data set.
 
-CP/CR.
+In the Console, run `tutorial.helpers::show_file("quarto-1.qmd")`. CP/CR.
 
 ```{r project-1-11}
 question_text(NULL,
@@ -437,24 +395,78 @@ question_text(NULL,
 	allow_retry = TRUE,
 	try_again_button = "Edit Answer",
 	incorrect = NULL,
-	rows = 6)
+	rows = 12)
 ```
 
-### 
+###
 
-In the Visual editor you can either use the buttons on the menu bar to insert images, tables, cross-references, etc. or you can use the catch-all `Cmd/Ctrl + /` shortcut to insert just about anything. If you are at the beginning of a line, you can also enter just `/` to invoke the shortcut.
+````
+> tutorial.helpers::show_file("quarto-1.qmd")
+---
+title: "Quarto 1"
+author: David Kane
+format: html
+execute: 
+  echo: false
+---
+
+```{r}
+#| warning: false
+library(tidyverse)
+library(palmerpenguins)
+```
+
+```{r}
+penguins
+```
+>
+````
+
 
 ### Exercise 12
 
-Within `aes()`, set `color` to `species` to sort the graph by the species and add the `geom_point()` function. Don't forget `+`.
+Ask your favorite AI to create a beautiful graphic using the `penguins` data. Phrase the question however you like. I [asked](https://chatgpt.com/c/67d4e9fb-48cc-8002-abe5-dc29fba775e7) [chattGPT](https://chatgpt.com/):
 
-In the Console, run:
+> Using R and the tidyverse package, create a beautiful graphic using the penguins data from the palmerpenguins package.
 
-```         
-tutorial.helpers::show_file("quarto-1.qmd", chunk = "Last")
+Replace `penguins` in the second code chunk with the graphics code generated by the AI. (I had to make three changes in the code I got in order to get rid of some annoying messages and warnings. I could also have just asked the AI to do so for me.) My graphic:
+
+```{r}
+theme_custom <- theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    plot.subtitle = element_text(size = 12, hjust = 0.5),
+    legend.position = "right",
+    panel.grid.major = element_line(color = "grey80"),
+    panel.grid.minor = element_blank()
+  )
+
+# Plot: Flipper Length vs Body Mass
+penguins |> 
+    drop_na() |> 
+    ggplot(aes(x = flipper_length_mm, 
+               y = body_mass_g, 
+               color = species)) +
+    geom_point(alpha = 0.8, size = 3) +
+    geom_smooth(method = "lm", 
+                formula = y ~ x,    
+                se = FALSE, 
+                linetype = "dashed") +
+    scale_color_brewer(palette = "Dark2") +
+    labs(
+      title = "Penguin Flipper Length vs Body Mass",
+      subtitle = "Species comparison from Palmer Station, Antarctica",
+      x = "Flipper Length (mm)",
+      y = "Body Mass (g)",
+      color = "Species",
+      caption = "Data from the palmerpenguins package"
+    ) +
+  theme_custom
 ```
 
-CP/CR.
+Render `quarto-1.qmd`, either by hitting the "Preview" button or by using `Cmd/Ctrl + Shift + K`.
+
+From the Console, run `tutorial.helpers::show_file("quarto-1.qmd", chunk = "Last")`. CP/CR.
 
 ```{r project-1-12}
 question_text(NULL,
@@ -462,27 +474,54 @@ question_text(NULL,
 	allow_retry = TRUE,
 	try_again_button = "Edit Answer",
 	incorrect = NULL,
-	rows = 6)
+	rows = 3)
 ```
 
 ### 
 
-The "Visual" editor has many more features that we haven’t enumerated here that you might find useful as you gain experience authoring with it.
+````
+> tutorial.helpers::show_file("quarto-1.qmd", chunk = "Last")
+# Basic clean theme
+theme_custom <- theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    plot.subtitle = element_text(size = 12, hjust = 0.5),
+    legend.position = "right",
+    panel.grid.major = element_line(color = "grey80"),
+    panel.grid.minor = element_blank()
+  )
 
-Most importantly, while the Visual editor displays your content with formatting, under the hood, it saves your content in plain Markdown and you can switch back and forth between the Visual and Source editors to view and edit your content using either tool.
+# Plot: Flipper Length vs Body Mass
+penguins |> 
+    drop_na() |> 
+    ggplot(aes(x = flipper_length_mm, 
+               y = body_mass_g, 
+               color = species)) +
+    geom_point(alpha = 0.8, size = 3) +
+    geom_smooth(method = "lm", 
+                formula = y ~ x,    
+                se = FALSE, 
+                linetype = "dashed") +
+    scale_color_brewer(palette = "Dark2") +
+    labs(
+      title = "Penguin Flipper Length vs Body Mass",
+      subtitle = "Species comparison from Palmer Station, Antarctica",
+      x = "Flipper Length (mm)",
+      y = "Body Mass (g)",
+      color = "Species",
+      caption = "Data from the palmerpenguins package"
+    ) +
+  theme_custom
+>
+````
+
+Generative AI is the biggest change in the day-to-day work of data scientists in the last 30 years. Use it every chance you get.
 
 ### Exercise 13
 
-Add `labs()` with `+`. Set `title` to `"Penguins Body Mass compared to Flipper Length"`, `x` to `"Body Mass"`, and `y` to `"Flipper Length"`. 
+Our plot looks nice! Let's share it with the world!
 
-In the Console, run:
-
-````
-tutorial.helpers::show_file("quarto-1.qmd", chunk = "Last")
-````
-
-CP/CR.
-
+From the Terminal, run `quarto publish gh-pages quarto-1.qmd`. CP/CR.
 
 ```{r project-1-13}
 question_text(NULL,
@@ -490,22 +529,50 @@ question_text(NULL,
 	allow_retry = TRUE,
 	try_again_button = "Edit Answer",
 	incorrect = NULL,
-	rows = 6)
+	rows = 20)
 ```
 
-### 
+###
 
-Inserting images and customizing how they are displayed is also facilitated with the Visual editor. You can either paste an image from your clipboard directly into the Visual editor (and RStudio will place a copy of that image in the project directory and link to it) or you can use the Visual editor’s `Insert > Figure / Image` menu to browse to the image you want to insert or paste it’s URL. In addition, using the same menu you can resize the image as well as add a caption, alternative text, and a link.
+That command generates a lot of text. Let me highlight some key parts:
 
-But, since we rarely make use of this image functionality, we will almost always select the "Source" editor.
+````
+dkane@macbook project-1 % quarto publish gh-pages quarto-1.qmd
+? Publish site to https://davidkane9.github.io/project-1/ using gh-pages? (Y/n) › Yes
+````
+
+The first time you publish, Quarto will confirm the location, which is just the standard GitHub Pages address, using your user name and the repo name.
+
+````
+Saved working directory and index state WIP on main: 71e6d06 initial version
+Switched to a new branch 'gh-pages'
+[gh-pages (root-commit) b8263f3] Initializing gh-pages branch
+remote: 
+remote: Create a pull request for 'gh-pages' on GitHub by visiting:        
+remote:      https://github.com/davidkane9/project-1/pull/new/gh-pages        
+remote: 
+To https://github.com/davidkane9/project-1.git
+ * [new branch]      HEAD -> gh-pages
+ ````
+
+ Quarto interacts with your GitHub repo directly, creating a new branch, `gh-pages`, which will be used to construct the website. 
+
+````
+[✓] Deploying gh-pages branch to website (this may take a few minutes)
+[✓] Published to https://davidkane9.github.io/project-1/
+
+dkane@macbook project-1 % 
+````
+
+Quarto keeps you informed as it completes the work.
+
+<!-- DK: Could add some screen shots from GitHub Pages site to help understand what is going on. -->
 
 ### Exercise 14
 
-Render `quarto-1.qmd`, either by hitting the "Render" button or by using `Cmd/Ctrl + Shift + K`.
+Commit and sync all the files in the project. Report the URL for the new webpage.
 
-Run `list.files()` from the Console. CP/CR.
-
-```{r project-1-14}
+```{r project-1-14-ex}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -514,50 +581,22 @@ question_text(NULL,
 	rows = 3)
 ```
 
-### 
+###
 
-Each time you render a Quarto document, RStudio should create an HTML and then send you to view the HTML, either in the Viewer tab within the Outputs pane or in your default browser.
+Your URL should look like this:
 
-You can toggle between these two options by clicking the gear symbol just to the right of the "Render" button and selecting either "Preview in Window" (which uses your browser) or "Preview in Viewer Pane." By running `tutorial.helpers::set_rstudio_settings()` in a previous tutorial, you have probably set the default to the latter.
+````
+https://davidkane9.github.io/project-1/
+````
 
-### Exercise 15
+Note that the name of the file, `quarto-1.html`, plays no part in the URL. We told Quarto that we wanted a website with just one page, not a collection of pages. So, it could simplify by making `quarto-1.html` the default page for the `project-1` directory.
 
-Near to the green code chunk button at the top right of your Quarto Doc and next to the "Run" button, you should see a blue circle button. That is the publish button. Click that, then click RPubs, then click publish. Copy the URL of your website below.
-
-```{r project-1-15}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 6)
-```
-
-### 
-
-And that is it! You have completed a simple example of the data science workflow cycle. You started with nothing, created a Github repository, connected it to an R project on your computer, created a Quarto document, rendered it into a plot and published it on RPubs.
-
-But we still haven't backed up our work on GitHub.
-
-### Exercise 16
-
-Commit the changes in `quarto-1.qmd` and `quarto-1.html`. Ignore other files and directories like `rsconnect`. (We will discuss them in the next Section.) Use a sensible commit message. At the Terminal, run `git log`. CP/CR.
-
-```{r project-1-16}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 3)
-```
-
-### 
-
-This plot is not perfect. In particular, we don't want to see any code, much less any ugly package startup messages. Nor do we like the warning message. The next section will address these issues, but in the context of a new repo/project.
+<!-- DK: Not sure this explanation is correct. -->
 
 ## Project 2
 ### 
+
+With `project-1`, we went through all the steps of a data science project: start with GitHub repo; connect to project on local computer; use a Quarto document for analysis; publish to GitHub Pages; push final changes to the repo.
 
 Restart the R session with `Cmd/Ctrl + Shift + 0`.
 
@@ -612,7 +651,7 @@ question_text(NULL,
 
 Your answer should include two files: `README.md` and `project-2.Rproj`.
 
-RStudio will automatically restart and place you within the `project-2` R project. Recall that the definition of an R project is a directory which includes a `Rproj` file. If you run `tutorial.helpers::show_file("project-2.Rproj")` you will see that a `Rproj` file does not include the name of the project. The name of the project is taken from the directory in which it is located, i.e., the directory which contains the `Rproj` file.
+Positron will automatically restart and place you within the `project-2` R project. Recall that the definition of an R project is a directory which includes a `Rproj` file. If you run `tutorial.helpers::show_file("project-2.Rproj")` you will see that a `Rproj` file does not include the name of the project. The name of the project is taken from the directory in which it is located, i.e., the directory which contains the `Rproj` file.
 
 ### Exercise 3
 
@@ -648,7 +687,7 @@ Your answer should look like this:
 > 
 ```
 
-The single `.` refers to this directory while `..` refers to the directory above, which is `/Users/dkane/Desktop/projects` in this case. `.Rproj.user` and `.git` are directories, meant solely for the use of RStudio and Git, respectively. The only other directory is `quarto-2_files`, a junk directory, created for the use of Quarto. We have discussed the other 5 files above.
+The single `.` refers to this directory while `..` refers to the directory above, which is `/Users/dkane/Desktop/projects` in this case. `.Rproj.user` and `.git` are directories, meant solely for the use of Positron and Git, respectively. The only other directory is `quarto-2_files`, a junk directory, created for the use of Quarto. We have discussed the other 5 files above.
 
 ### Exercise 4
 
@@ -966,7 +1005,6 @@ question_text(NULL,
 
 `quarto-2.html` is unchanged. Label'ing code chunk does not affect the output, but it is still good practice.
 
-<!-- DK: I used to think it was good practice because RStudio told you which section it was working on by printing out the code chunk label. But it no longer does that? Really? If so, what is the point of labels?! And how do you keep track of things which take some time to run? -->
 
 ### Exercise 13
 
@@ -1045,7 +1083,7 @@ https://rpubs.com/dkane/quarto-2
 
 ### Exercise 16
 
-Check out the Git tab. Note the "M" next to `quarto-2.qmd` and `quarto-2.html`. The "M" is Git's (and RStudio's) way of telling us that the files have been **M**odified. Note, also, the new directory, `rsconnect`. This is another directory, like `quarto-2_files`, which does not belong on GitHub.
+Check out the Git tab. Note the "M" next to `quarto-2.qmd` and `quarto-2.html`. The "M" is Git's (and Positron's) way of telling us that the files have been **M**odified. Note, also, the new directory, `rsconnect`. This is another directory, like `quarto-2_files`, which does not belong on GitHub.
 
 Add `rsconnect` to `.gitignore`. Commit and push `.gitignore`, `quarto-2.qmd` and `quarto-2.html`. Use a sensible commit message like "published version."
 
@@ -1069,11 +1107,9 @@ This is the third time that we have started with nothing and gone all the way to
 ## Summary
 ### 
 
-This tutorial mostly covered material which is not actually in [*R for Data Science (2e)*](https://r4ds.hadley.nz/quarto.html) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. But the material is in keeping with the spirit of that book, especially [Chapter 28 Quarto](https://r4ds.hadley.nz/quarto.html). The material covered in [Chapter 4 Workflow: code style](https://r4ds.hadley.nz/workflow-style.html) appears in the *RStudio and Code* tutorial in this package.
+This tutorial covered more details in the usage of [Git](https://git-scm.com/) and [GitHub](https://github.com/). Some material was from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
-You should now have Git working on your computer. You should have a Github account and know how to connect Github *repositories* to RStudio *projects*.
-
-The most useful reference for Git/Github/RStudio is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Bookmark it!
+The most useful reference for Git/GitHub is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
 
 ```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
 ```

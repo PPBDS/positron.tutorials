@@ -1,8 +1,18 @@
+There are lots of questions when we ask the student to copy the HTML output. We need to explicitly teach them how to do this, and mention it again.
+
+> We often ask you to "copy" from the HTML. It is OK if what you copy looks ugly, has lost its formatting and so on. We just want to make sure that your HTML includes, more or less, the information that it should.
+
+Do we teach how to use `cat` in Terminal? We need to!
+
 How to deal with the _files directory? On the one hand, I like to put it in .gitignore because I want an execuse to teach about that file. Good stuff! But then, for the html to work, you need to use `self-contained`, which seems an absurd hack.
 
 Seems like just using quarto publish gh-pages analysis.qmd is the best approch. I will try it out on Tutorial 5 but, if it looks good, I need to come back to Tutorial 4.
 
 Early on, explain that we often just follow the answer with our answer, without labelling it as such. 
+
+Any reason to explore the Visual editor?
+
+Ask Posit why `Cmd + Shift + K` does quarto preview as opposed to quarto render?
 
 for file in *.png; do pngquant "$file" -o "$file" --force; done
 
