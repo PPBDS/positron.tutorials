@@ -1,53 +1,4 @@
-Change Tutorial 4 to use quarto publish gh-pages.
-
-If we ever redo the images, make sure to delete the Positron default welcome page first. 
-
-There are lots of questions when we ask the student to copy the HTML output. We need to explicitly teach them how to do this, and mention it again.
-
-> We often ask you to "copy" from the HTML. It is OK if what you copy looks ugly, has lost its formatting and so on. We just want to make sure that your HTML includes, more or less, the information that it should.
-
-Do we teach how to use `cat` in Terminal? We need to!
-
-How to deal with the _files directory? On the one hand, I like to put it in .gitignore because I want an execuse to teach about that file. Good stuff! But then, for the html to work, you need to use `self-contained`, which seems an absurd hack.
-
-Seems like just using quarto publish gh-pages analysis.qmd is the best approch. I will try it out on Tutorial 5 but, if it looks good, I need to come back to Tutorial 4.
-
-Early on, explain that we often just follow the answer with our answer, without labelling it as such. 
-
-Any reason to explore the Visual editor?
-
-Ask Posit why `Cmd + Shift + K` does quarto preview as opposed to quarto render?
-
-for file in *.png; do pngquant "$file" -o "$file" --force; done
-
-[Posit Connect Cloud](https://connect.posit.cloud/) is the future of free publishing with Positron. So . . .
-
-+ Maybe I should just drop Rpubs altogether since we are only ever going to use it before learning GitHub. Once we do, we never (?) go back. Wouldn't be horrible to just not publish at all in the first two tutorials.
-
-+ Maybe I just use GitHub pages for publishing an html? This seems like it is possible now, whereas it wasn't before? I always prefer using a GitHub tool, and we already use pages for the websites anyway.
-
-Explain Ctrl-C someplace early, and maybe a second time. Use sleep(5) and sleep(60) as an example. Probably belongs in the Terminal.
-
-Deploy with Posit Publisher might be the replacement for RPubs. There is a button! Poking around in the docs, this seems a non-starter, looking like just another part of Posit Connect, requiring payment and all sorts of complex set up stuff.
-
-Explain that an example answer after your answer is just an example, yours may differ for all sorts of reasons. Add this to first tutorial.
-
-Think about what to do with the fact that a default .gitignore file is not added to the repo. 
-
-* Could have them select the default R .gitignore, which is not unreasonable, but also has a dozen or so lines, some quite confusing.
-
-* Could also make a new .gitignore file each time you make a project. Perhaps populated with some good lines.
-
-* Could only make a .gitignore when needed, but also ensure that doing so is regularly needed.
-
-* Could only make a .gitignore when truly needed, which will be fairly rarely.
-
-Tough to know!
-
-
-Just added those .txt files on 03-terminal/images. Is that a good place for them? We don't (?) want them to be in the actual package. Should we add them to .RBuildignore?
-
-Positron GitHub Announcement that there was now the ability to create a second Console easily. Do I want this? Would it be useful for tutorials?
+## Priorities
 
 Add overview of the tutorials to README page.
 
@@ -56,6 +7,32 @@ Clean up tutorial 5.
 Clean up tutorial 6.
 
 Add tutorial about ellmer and other AI issues.
+
+## Things to do earlier
+
+There are lots of questions when we ask the student to copy the HTML output. We need to explicitly teach them how to do this, and mention it again.
+
+> We often ask you to "copy" from the HTML. It is OK if what you copy looks ugly, has lost its formatting and so on. We just want to make sure that your HTML includes, more or less, the information that it should.
+
+Early on, explain that we often just follow the answer with our answer, without labelling it as such. Explain that an example answer after your answer is just an example, yours may differ for all sorts of reasons. Add this to first tutorial.
+
+Explain Ctrl-C someplace early, and maybe a second time. Use sleep(5) and sleep(60) as an example. Probably belongs in the Terminal.
+
+## Other items
+
+If we ever redo the images, make sure to delete the Positron default welcome page first. 
+
+Do we teach how to use `cat` in Terminal? We need to!
+
+Any reason to explore the Visual editor?
+
+Ask Posit why `Cmd + Shift + K` does quarto preview as opposed to quarto render?
+
+for file in *.png; do pngquant "$file" -o "$file" --force; done
+
+Just added those .txt files on 03-terminal/images. Is that a good place for them? We don't (?) want them to be in the actual package. Should we add them to .RBuildignore?
+
+Positron GitHub Announcement that there was now the ability to create a second Console easily. Do I want this? Would it be useful for tutorials?
 
 Update R CMD check YAML to be more like tutorial.helpers, using renv and multiple OS's.
 

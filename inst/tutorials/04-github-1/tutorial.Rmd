@@ -1576,12 +1576,9 @@ If you click the Soure Control button, your Postitron window should look somethi
 include_graphics("images/second-repo-8.png")
 ```
 
-We still need to do two things: first, commit and push our files to GitHub and, second, make our `analysis.html` file available on the web.
-
 Commit your files and push them to GitHub. Don't forget the commit message. Don't forget that "push" means the same thing as "sync."
 
 Using `Ctrl-C` to stop the Quarto watching process. From the Terminal, run `git log -n 1`. CP/CR.
-
 
 ```{r publishing-with-github-pages-17}
 question_text(NULL,
@@ -1606,6 +1603,101 @@ dkane@macbook repo-2 %
 
 We are being a little sloppy to equate "pushing" with "syncing." Strictly speaking, "syncing" does two things: it "pushes" your changes to GitHun *and* it "pulls" any changes made on GitHub to your local computer. But, in this case, because no one else but you can change the GitHub repo, there is nothing to "pull." 
 
+### Exercise 18
+
+Let's publish our results to [GitHub Pages](https://pages.github.com/). Before we do, go the GitHub repo for `repo-2`, click on the "Settings" top menu item and, after that, click on the "Pages" side menu item.
+
+```{r}
+include_graphics("images/second-repo-9.png")
+```
+
+We won't modify these options by hand. But it is useful to know where the details are located.
+
+From the Terminal, run `quarto publish gh-pages analysis.qmd`. Respond with "Y" when it checks that you want to (This might take a minute to run.) 
+
+CP/CR just the first 10 or so lines of what results.
+
+
+```{r publishing-with-github-pages-18-ex}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 12)
+```
+
+###
+
+Here is what I see, broken up to allow for comments:
+
+````
+kane@macbook repo-2 % quarto publish gh-pages analysis.qmd
+? Publish site to https://davidkane9.github.io/repo-2/ using gh-pages? (Y/n) › Yes
+````
+
+There are settings which will cause this question to not be asked every time we update the website. Otherwise, Quarto will check each time.
+
+````
+Switched to a new branch 'gh-pages'
+[gh-pages (root-commit) 7750037] Initializing gh-pages branch
+remote: 
+remote: Create a pull request for 'gh-pages' on GitHub by visiting:        
+remote:      https://github.com/davidkane9/repo-2/pull/new/gh-pages        
+remote: 
+To https://github.com/davidkane9/repo-2.git
+ * [new branch]      HEAD -> gh-pages
+ ````
+
+By default, `quarto publish` follows the standard GitHub Pages approach of creating a new Git "branch" called `gh-pages`. Branches are lightweight pointers to specific commits, allowing you to isolate work in progress, experiment with new features, and collaborate effectively without affecting the main codebase. 
+
+ ````
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+From https://github.com/davidkane9/repo-2
+ * branch            gh-pages   -> FETCH_HEAD
+Rendering for publish:
+
+processing file: analysis.qmd
+1/4                  
+2/4 [unnamed-chunk-1]
+3/4                  
+4/4 [unnamed-chunk-2]
+output file: analysis.knit.md
+````
+
+`quarto publish` processes `analysis.qmd` in the same way that `quarto preview` or `quarto render` does.
+
+### Exercise 19
+
+Go to your `repo-2` page on GitHub. Refresh the page. `quarto publish` has changed some of the items. Copy/paste all the text in the "Visit site" box.
+
+
+```{r publishing-with-github-pages-19-ex}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+Your site is live at https://davidkane9.github.io/repo-2/
+Last deployed by @davidkane9 davidkane9 6 minutes ago
+````
+
+Here is my whole page:
+
+```{r}
+include_graphics("images/second-repo-10.png")
+```
+
+We could have made these changes "by hand" but it is much easier to just let `quarto publish` handle things.
+
+Publishing to GitHub Pages has not changed any of the files in our repo, so the "Source Control" button does not show any changes for us to deal with. Our local repo matches our `repo-2` on GitHub. We are done!
 
 
 ## Summary
