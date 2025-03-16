@@ -29,9 +29,7 @@ library(tidyverse)
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- Windows seems to make the creation of websites more difficult than it is on the Mac, especially with commands like quarto publish. See: https://discord.com/channels/1066524559240597595/1066524726278762608/1252099440496476190 and the following discussion for an example. -->
-
-<!-- Perhaps related to the above:  https://discord.com/channels/1066524559240597595/1066524726278762608/1252082790585991238 -->
+<!-- Confirm that quarto publish gh-pages works on Windows. -->
 
 <!-- Might be nice to have some actual testing, and some clean up of the files thereby created. -->
 
@@ -759,9 +757,9 @@ About
 David Kane
 ````
 
-If you want to stop `quarto preview` you can cancel the command by `Ctrl + c`. This is always the command to use whenever you want the Terminal to stop doing whatever it is doing.
+If you want to stop `quarto preview` you can cancel the command by `Ctrl + C`. This is always the command to use whenever you want the Terminal to stop doing whatever it is doing.
 
-Run `Ctrl + c`.
+Run `Ctrl + C`.
 
 ## Publishing
 ### 
@@ -805,8 +803,9 @@ knitr::include_graphics("images/pages.png")
 Sam Csik provides an [excellent overview](https://ucsb-meds.github.io/creating-quarto-websites/) of the entire process of creating Quarto websites. 
 
 
-
 ### Exercise 2
+
+We won't edit the settings on the GitHub Pages page by hand. Instead, we will allow Quarto to make changes for us. The process for publishing an entire website is similar to the one for publishing a single document.
 
 At the Terminal, run `quarto publish gh-pages`. 
 
@@ -841,12 +840,13 @@ To https://github.com/davidkane9/first-website.git
  ...
 ````
 
-`quarto publish`, like `quarto preview`, first renders all the files on the project. Note the phrase "Rendering for publish" at the bottom of the output. The URL for the website is provided at the end.
-
+[Git branches](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) help us work with multiple people and/or on complex projects. "Git encourages workflows that branch and merge often, even multiple times in a day." Although it is not required, it is standard practice to use a branch named `gh-pages` for publishing with GitHub pages.
 
 ### Exercise 3
 
-<!-- DK: Left off -->
+`quarto publish`, like `quarto preview`, renders all the files on the project. Note the phrase "Rendering for publish" in the middle of the output. 
+
+Copy/paste the 5 or so lines of the output which include the phrase "Rendering for publish".
 
 ```{r publishing-3}
 question_text(NULL,
@@ -854,7 +854,33 @@ question_text(NULL,
 	allow_retry = TRUE,
 	try_again_button = "Edit Answer",
 	incorrect = NULL,
-	rows = 3)
+	rows = 5)
+```
+
+###
+
+````
+Rendering for publish:
+
+[1/2] index.qmd
+[2/2] about.qmd
+````
+
+All pages are rendered whenever you publish. This can be problematic if some of your pages include code which takes minutes, or even hours, to run. In that case, you need to re-arrange your code so that it is only run when you want to run it, not automatically whenever it is rendered.
+
+### Exercise 4
+
+There are other options for publishing besides GitHub Pages. Those would replace `gh-pages` in the call to `quarto publish` with options like `quarto-pub` or `netlify`.  
+
+Copy/paste the last 10 or so lines of the output.
+
+```{r publishing-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 10)
 ```
 
 ###
@@ -869,12 +895,14 @@ To https://github.com/davidkane9/first-website.git
 dkane@macbook first-website % 
 ````
 
+The publishing process may take a minute or two to complete. The URL for your website is provided at the end.
 
-### Exercise 4
+
+### Exercise 5
 
 A link to your new website should be brought up in a browser. Copy/paste the URL for your website. 
 
-```{r publishing-4}
+```{r publishing-5}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -891,13 +919,13 @@ https://davidkane9.github.io/first-website/
 
 When using GitHub Pages, the URL will always have the same base: your GitHub user name followed by `github.io`. The second part of the URL will be the name of the repo. So, use non-stupid names for your repos.
 
-### Exercise 5
+### Exercise 6
 
 If you look closely in the Explorer pane, you will see a new directory, `.quarto`. Neither this directory, nor any of the files within it, appear in the Source Control pane because of the `/.quarto/` line in the `.gitignore` file.
 
 From the Terminal, run `ls .quarto`. CP/CR.
 
-```{r publishing-5}
+```{r publishing-6}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -914,10 +942,10 @@ idx     preview xref
 dkane@macbook first-website % 
 ````
 
-The `.quarto` directory is like the `.git` directory. We will never look at or change the files inside of them. Only the relevant programs --- Quarto and Git --- should work with the contents of these directories. 
+The `.quarto` directory is like the `.git` directory. We will never look at or change the files inside of these directories. Only the relevant programs --- Quarto and Git --- should work with the contents of these directories. 
 
 
-### Exercise 6
+### Exercise 7
 
 Open the `_quarto.yml` file in the Editor. Change `title: "A New Website"` to `title: "A New Website, second edition"`. Save the file.
 
@@ -930,7 +958,7 @@ show_file("_quarto.yml", start = 4, end = 5)
 CP/CR.
 
 
-```{r publishing-6}
+```{r publishing-7}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -948,14 +976,14 @@ website:
 >
 ````
 
-Keep track of the three different places that the title of our project now exists. First, it is present in `_quarto.yml`. We have changed it there. But we have not changed it in the `_site` files which constitute the website nor in files uploaded to Github Pages.
+Keep track of the three different places that the title of our project now exists. First, it is present in `_quarto.yml`. We have changed it there. But we have not changed it in the `_site` files which constitute the website (once published) nor in files uploaded to Github Pages.
 
 
-### Exercise 7
+### Exercise 8
 
 From the Terminal, run `quarto preview`. Copy and paste the text from the home page once it comes up on your browser.
 
-```{r publishing-7}
+```{r publishing-8}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -965,8 +993,6 @@ question_text(NULL,
 ```
 
 ### 
-
-Your answer should look like:
 
 ````
 A New Website, second edition
@@ -981,14 +1007,14 @@ To learn more about Quarto websites visit https://quarto.org/docs/websites.
 
 But, if you look at the Github Pages version of your website, it still uses the "A New Website" title because we have not (yet) published our new version. We have, however, changed the files in the `_site` directory.
 
-### Exercise 8
+### Exercise 9
 
-Stop the `quarto preview` command with `Ctrl-c`. From the Terminal, run `quarto publish`. You may need to hit `return/enter` to confirm that you still want to use GitHub Pages. Refresh once after you are on yout website.
+Stop the `quarto preview` command with `Ctrl + C`. From the Terminal, run `quarto publish`. You may need to hit `return/enter` to confirm that you still want to use GitHub Pages. Refresh once after you are on yout website.
 
 CP/CR.
 
 
-```{r publishing-8}
+```{r publishing-9}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1029,16 +1055,18 @@ button within your web browser to see changes after deployment.
 Davids-MacBook-Pro-2:first-website dkane$ 
 ````
 
+This output is much shorter because you have already created the `gh-pages` branch when you first published to GitHub Pages.
+
 The `gh-pages` branch is a special branch in GitHub repositories used to host static websites via GitHub Pages. It serves as the deployment source for your website, which GitHub publishes at a URL like `https://<username>.github.io/<repository-name>`.
 
 
-### Exercise 9
+### Exercise 10
 
 Commit and push all the files in the project. Run `git log -n 2` in the Terminal. CP/CR. 
 
 The `-n 2` option causes Git to just provide the information on the last two commits.
 
-```{r publishing-9}
+```{r publishing-10}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
