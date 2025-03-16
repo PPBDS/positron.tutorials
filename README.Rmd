@@ -40,4 +40,23 @@ remotes::install_github("PPBDS/positron.tutorials")
 
 **positron.tutorials** is currently not avaible on CRAN.
 
-<!-- Add section with discussion of available tutorials. -->
+## Tutorials
+
+There are sevene tutorials in the package:
+
+  - 01-code       : "Positron and code"
+  - 02-quarto     : "Positron and Quarto"
+  - 03-terminal   : "Terminal"
+  - 04-github-1   : "Positron and GitHub Intr...
+  - 05-github-2   : "Positron and GitHub Adva...
+  - 06-websites-1 : "Quarto Websites Introduc...
+  - 07-websites-2 : "Quarto Websites Advanced"
+
+- *Positron and Code* ("01-code") 
+- *Positron and Quarto* ("02-quarto") 
+- *Terminal* ("03-terminal") 
+- *Positron and GitHub Introduction* ("04-github-1") 
+- *Positron and GitHub Advanced* ("05-github-2") 
+- *Quarto Websites Introduction* ("06-websites-1") 
+- *Quarto Websites Advanced* ("07-websites-2") 
+
