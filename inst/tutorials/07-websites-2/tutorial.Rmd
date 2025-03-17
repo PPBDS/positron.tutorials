@@ -30,6 +30,8 @@ library(tidyverse)
 
 <!-- DK: Make pure quarto publish gh-pages. -->
 
+<!-- DK: These is something wrong such that check_current_tutorial() does not work. -->
+
 <!-- DK: See comments below. -->
 
 ## Introduction
@@ -505,28 +507,13 @@ We recommend that you use a Quarto project for your websites, books, dashboards 
 ## Website 2
 ### 
 
-Let's create a new website with following plot on its home page.
-
-```{r}
-diamonds |> 
-  filter(z != 0) |> 
-  filter(color == "D") |> 
-  ggplot(aes(x = carat, y = price, color = cut)) + 
-    geom_point() +
-    scale_y_continuous(labels = scales::dollar) +
-    labs(title = "Prices and Sizes for Diamonds of Color D",
-         subtitle = "'Round' carat values like 1, 1.5 and 2 are more common.",
-         x = "Carat",
-         y = "Price")
-```
+Let's create a new website with a beautiful plot of the data from the `billboard` tibble from the **tidyr** package.
 
 ### Exercise 1
 
-Create a public GitHub repo (called "website-2"). Make sure to click the "Add a README file" check box.
+Create a public GitHub repo called `website-2`. Make sure to click the "Add a README file" check box.
 
-Connect the `website-2` GitHub repo to an R project on your computer. Name the R project `website-2` also. 
-
-Remember to "Terminate Jobs" this tutorial, if asked. You can always restart it afterwards. 
+Connect the `website-2` GitHub repo to a project on your computer. If needed, close the Positron Welcome window and start an R interpreter.
 
 From the Terminal, run `ls`. CP/CR.
 
@@ -541,13 +528,17 @@ question_text(NULL,
 
 ### 
 
+````
+dkane@macbook website-2 % ls
+README.md
+dkane@macbook website-2 % 
+````
+
 Recall that the `index.qmd` file will always create our "home" page because it is rendered to `index.html`. Browsers, by default, show `index.html`, if one exists, when they visit a new directory. 
 
 ### Exercise 2
 
-In the Terminal, run `quarto create project website .`.  
-
-In the Terminal, run `ls -a`.
+In the Terminal, run `quarto create project website .`.  Use "Website 2" as the title, if asked.
 
 CP/CR.
 
@@ -562,6 +553,18 @@ question_text(NULL,
 
 ### 
 
+````
+dkane@macbook website-2 % quarto create project website .
+? Title (website) › Website 2
+Creating project at /Users/dkane/Desktop/projects/website-2:
+  - Created _quarto.yml
+  - Created .gitignore
+  - Created index.qmd
+  - Created about.qmd
+  - Created styles.css
+dkane@macbook website-2 % 
+````
+
 The `.` in the `quarto create` command refers to the current working directory. That is, we are telling Quarto to put all the necessary files right here.
 
 We are moving faster in the creation of Website 2 than we did when making Website 1 because you should already be familar with the steps. We will go even faster when we make Website 3.
@@ -569,16 +572,9 @@ We are moving faster in the creation of Website 2 than we did when making Websit
 
 ### Exercise 3
 
-Add `*Rproj` and `\_site` to the `.gitignore` files. Save it.
+Add `\_site` to the `.gitignore` files. Save it.
 
-
-In the Console, run:
-
-````
-show_file(".gitignore")
-````
-
-CP/CR.
+In the Terminal, run `cat .gitignore`. CP/CR.
 
 ```{r website-2-3}
 question_text(NULL,
@@ -591,22 +587,20 @@ question_text(NULL,
 
 ### 
 
-Keeping track of all the different files and understanding how they work together is a central skill in creating larger projects.
+````
+dkane@macbook website-2 % cat .gitignore
+/.quarto/
+/_site
+dkane@macbook website-2 % 
+````
 
+Keeping track of all the different files and understanding how they work together is a central skill in creating larger projects.
 
 ### Exercise 4
 
-Delete everything in `index.qmd` except for the `title`, which should be changed to `"My Cool Plot"`, surrounded by the three dashes, above and below. 
+In `index.qmd`, delete everything outside the YAML header. Change `title` to `"Billboard Graphic"`. 
 
-In the Console, run:
-
-````
-show_file("index.qmd")
-````
-
-CP/CR.
-
-(Did you remember to `library(tutorial.helpers)` first? Without this, R can't find he `show_file()` command.)
+In the Termina, run `cat index.qmd`. CP/CR.
 
 ```{r website-2-4}
 question_text(NULL,
@@ -619,8 +613,15 @@ question_text(NULL,
 
 ### 
 
-The material bracketed by the three dashes at the very top is called a **YAML Header**. These files are very sensitive about all sorts of subtle formatting issues. 
+````
+dkane@macbook website-2 % cat index.qmd 
+---
+title: "Billboard Graphic"
+---
+dkane@macbook website-2 % 
+````
 
+Because this is a Quarto website project, the format for all the `qmd` files is `html` by default. So the YAML header does not need to specify that explicitly. 
 
 ### Exercise 5
 
@@ -632,7 +633,7 @@ In the Console, run:
 show_file("index.qmd", chunk = "Last")
 ````
 
-CP/CR.
+CP/CR. (Did you remember to `library(tutorial.helpers)` so that this function is available?)
 
 ```{r website-2-5}
 question_text(NULL,
@@ -645,7 +646,13 @@ question_text(NULL,
 
 ### 
 
-We generally work with Quarto directly at the Terminal. This is often referred to as *working from the command line*. Positron buttons, like "Preview," often call Terminal commands behind the scenes. 
+````
+> show_file("index.qmd", chunk = "Last")
+suppressPackageStartupMessages(library(tidyverse))
+>
+````
+
+Although we did not tell you explicitly to use `suppressPackageStartupMessages()`, you should have done so on your own. You *know* that we won't want to have all those annoying messages on the home page, right?
 
 
 ### Exercise 6
@@ -665,45 +672,27 @@ question_text(NULL,
 
 ### 
 
-You answer should look like this:
-
 ````
-My Cool Plot
-library(tidyverse)
+Website 2
 
-── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+Billboard Graphic
+suppressPackageStartupMessages(library(tidyverse))
 ````
 
-Because we have not yet added any code chunk options, the code is echoed and the package startup message displayed.
+The code is echoed because we have not turned off echoing in the YAML header yet. Do that now with:
 
+````
+execute:
+  echo: false
+````  
+
+Note how changing `index.qmd` causes the `index.html` to be re-rendered, leading to a new homepage display in your browser. Seeing fixes implemented automatically is why many people like working in *preview* mode.
 
 ### Exercise 7
 
-Create another code chunk. Add this code to it:
+Create another code chunk. Ask AI to create a some code which makes a cool looking plot using the billboard tibble from the **tidyr** package and `ggplot()`. Make sure you understand what the plot is showing. Work with the AI to solve any errors, improve the code, make the graphic better and so on. Consider [my dialgue with Grok](https://grok.com/chat/4cc49023-df73-4d2c-ad16-49cb52be7559) as an example.
 
-````
-diamonds |> 
-  filter(z != 0) |> 
-  filter(color == "D") |> 
-  ggplot(aes(x = carat, y = price, color = cut)) + 
-    geom_point() +
-    scale_y_continuous(labels = scales::dollar) +
-    labs(title = "Prices and Sizes for Diamonds of Color D",
-         subtitle = "'Round' carat values like 1, 1.5 and 2 are more common.",
-         x = "Carat",
-         y = "Price")
-````
-
-Save the file. 
+Save the file. `Cmd/Ctrl + Shift + K` to ensure that the plot looks good. If it looks bad, or there are some weird messages/warnings, use the AI to fix things.
 
 In the Console, run:
 
@@ -724,87 +713,100 @@ question_text(NULL,
 
 ### 
 
-Instead of running `quarto preview` from the Terminal, we can also simply render the `index.qmd` page by using:
+What [Grok gave me](https://grok.com/chat/4cc49023-df73-4d2c-ad16-49cb52be7559) after 20 minutes of back-and-forth conversation:
 
-`Cmd/Ctrl + Shift + K`. 
+````
+data("billboard", package = "tidyr")
 
-This does the same thing as hitting the "Render" button.
+# billboard variables:
+# - artist: name of the artist
+# - track: song title
+# - date.entered: date the song entered the Billboard Top 100
+# - wk1 through wk76: weekly rankings from first week on chart, lower is better
 
-You will see a nice plot, along with a lot of junk code and messages. Note that Positron might only redirect you to the plot the first time you render `index.qmd`. Going forward, you may need to affirmatively click on the correct tab on your browser or on the Viewer tab in the Secondary Activity Bar to see the newly rendered page.
+# Step 1: Calculate week offset and find ranks in early July 2000 (approx. week 26)
+billboard <- billboard |> 
+  mutate(date.entered = as.Date(date.entered),
+         week_offset = as.numeric(difftime(date.entered, as.Date("2000-01-01"), units = "weeks")))
+
+# Approximate July 1, 2000 (week 26 from Jan 1)
+jul_week <- 26
+
+# Find the rank of each song around July 1, 2000
+billboard_jul <- billboard |> 
+  filter(date.entered <= as.Date("2000-07-01")) |> 
+  mutate(wk_idx = jul_week - week_offset,
+         wk_idx = if_else(wk_idx >= 1 & wk_idx <= 76, wk_idx, NA_real_),
+         jul_rank = NA_real_)
+
+# Compute jul_rank by extracting values from wk columns
+for (i in seq_len(nrow(billboard_jul))) {
+  wk_idx <- billboard_jul$wk_idx[i]
+  if (!is.na(wk_idx)) {
+    col_name <- paste0("wk", wk_idx)
+    billboard_jul$jul_rank[i] <- as.numeric(billboard_jul[[col_name]][i])
+  }
+}
+
+# Select top 5 songs by jul_rank
+top_5_songs <- billboard_jul |> 
+  filter(!is.na(jul_rank)) |> 
+  arrange(jul_rank) |> 
+  slice(1:5) |> 
+  pull(track)
+
+# Step 2: Filter data to only the top 5 songs for 2000
+billboard_filtered <- billboard |> 
+  filter(track %in% top_5_songs)
+
+# Step 3: Reshape data for plotting, limiting to 2000 (weeks 0 to 52)
+top_songs <- billboard_filtered |> 
+  select(artist, track, wk1:wk76) |> 
+  pivot_longer(cols = starts_with("wk"),
+               names_to = "week_num",
+               values_to = "rank") |> 
+  mutate(week_num = as.numeric(gsub("wk", "", week_num))) |> 
+  left_join(billboard_filtered |> select(track, week_offset), by = "track") |> 
+  mutate(week_num = week_num + week_offset) |> 
+  filter(week_num >= 0 & week_num <= 52) |> 
+  filter(!is.na(rank)) |> 
+  # Create a new column for the legend: "Song (Artist)"
+  mutate(song_artist = paste0(track, " (", artist, ")"))
+
+# Step 4: Plot
+month_breaks <- seq(0, 48, by = 4)  # 13 breaks: 0 to 48
+month_labels <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan")
+
+ggplot(top_songs, aes(x = week_num, y = rank, color = song_artist)) +
+  geom_line(linewidth = 1.2, alpha = 0.8) +
+  geom_point(size = 2) +
+  scale_y_reverse(limits = c(100, 1)) +
+  scale_x_continuous(breaks = month_breaks, labels = month_labels) +
+  scale_color_manual(values = c("#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEEAD")) +
+  labs(title = "Billboard Top 100: Top 5 Songs in Jul 2000",
+       subtitle = "Tracking rank changes from Jan to Dec 2000",
+       x = "Month",
+       y = "Chart Position",
+       color = "Song (Artist)") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 12, hjust = 0.5),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(color = "grey90"),
+    plot.background = element_rect(fill = "#F5F5F5", color = NA)
+  ) +
+  guides(color = guide_legend(nrow = 2))
+````
+
+
+To be honest, I am not totally sure what this plot is doing. And that is OK! I only iterated three times with Grok, asking it to fix a couple of errors and warnings. I could spend more time, both understanding the plot and changing it to be more interesting. The point is to get you to spend more time with AI.
 
 
 ### Exercise 8
-
-Add these code chunk options to the top of the first code chunk, the one which loads the library.
-
-<!-- DK: These reason these aren't in a four backticks area is because format_tutorial() would, for unknown reasons, add a space between # and | if we did that, and such a space makes these no longer function as chunk options when pastes into the students' index.qmd. Without the blanks lines, these are all placed in the same paragraph. -->
-
-`#| message: false`
-
-`#| echo: false`
-
-`#| label: setup`
-
-In the Console, run:
-
-````
-show_file("index.qmd", pattern = "#")
-````
-
-CP/CR.
-
-```{r website-2-8}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 3)
-```
-
-### 
-
-Code that works during your R session will not work when your website is rendered if you have not loaded the required libraries into the document. But our readers don't want to see that code, much less the messages which it produces. So, we hide them.
-
-<!-- DK: Is the really true in Positron? -->
-
-You are generally free to label your chunks however you like, but there is one chunk name that imbues special behavior in Positron: `setup`. When you first open a Quarto document, the chunk named `setup`, if there is one, will be run automatically once, before any other code is run.
-
-
-### Exercise 9
-
-In the second code chunk, add the following options:
-
-<!-- DK: See above comment. Really need to fix format_tutorial so that, first step, it totally ignores anything within four backticks. But, I suspect the real problem is in parsermd. -->
-
-`#| echo: false`
-
-`#| label: diamonds-plot`
-
-In the Console, run:
-
-````
-show_file("index.qmd", pattern = "#")
-````
-
-CP/CR.
-
-```{r website-2-9}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 3)
-```
-
-### 
-
-Assigning labels to code chunks helps keeps you organized and helps others understand your code. You cannot assign the same label to multiple code chunks. 
-
-Your chunk labels should be short but evocative and should not contain spaces. We recommend using dashes (`-`) to separate words (instead of underscores, `_`) and avoiding other special characters in chunk labels.
-
-### Exercise 10
 
 Render the `index.qmd` with the "Render" button. It should show the plot. As always, you could render with `Cmd/Ctrl + Shift + K`. Shortcut keys are lit!
 
@@ -816,7 +818,7 @@ show_file("index.qmd")
 
 CP/CR.
 
-```{r website-2-10}
+```{r website-2-8}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -829,7 +831,7 @@ question_text(NULL,
 
 There are two common modes for working with larger projects. First, as here, we work with an individual file, like `index.qmd`, and ensure that it is working as we want. Second, as before, we work with the project as a whole, using commands like `quarto render`, which render all the files in the project. The former approach is quickest and is how we spend most of our time. But, at the end of the day, we need to build the entire project.
 
-### Exercise 11
+### Exercise 9
 
 It is annoying to use the same code chunk option in every code chunk. In `index.qmd`, both code chunks contain `#| echo: false`. Delete both of them. Edit the YAML header so that it includes:
 
@@ -846,7 +848,7 @@ show_file("index.qmd", end = 5)
 
 CP/CR.
 
-```{r website-2-11}
+```{r website-2-9}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -871,7 +873,7 @@ execute:
 If you added `echo: false` as an `execute` argument in `_quarto.yml`, this would affect all the QMD files in the entire project. In other words, you can set an option like `echo` in three places: individual code chunk, entire QMD file, or entire project. Options set at higher levels can be overruled by changing the setting at a lower level.
 
 
-### Exercise 12
+### Exercise 10
 
 Go to the Git tab. Commit and push your new changes to GitHub. Include a descriptive commit message, e.g. "Added plot to home page".
 
@@ -879,7 +881,7 @@ In the Terminal, run `quarto publish gh-pages`. You may need to hit "enter/retur
 
 Copy/paste the URL below:
 
-```{r website-2-12}
+```{r website-2-10}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -1389,7 +1391,7 @@ This is the fourth time you have created a Github Pages website in the two Quart
 
 ### Exercise 2
 
-Add `*Rproj` and `\_site` to the `.gitignore` files. 
+Add `\_site` to the `.gitignore` files. 
 
 Edit the `_quarto.yml` file to set the `title` to `"My Website"`.
 
@@ -1431,9 +1433,7 @@ question_text(NULL,
 
 ### 
 
-Behind the scenes, `usethis::use_github_pages()` has created a second [*branch*](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) for your repo, named `gh-pages`. "Branching means you diverge from the main line of development and continue to do work without messing with that main line." 
 
-The details of branching are beyond the scope of this package.
 
 ### Exercise 4
 
