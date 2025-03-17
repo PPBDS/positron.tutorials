@@ -1288,6 +1288,24 @@ question_text(NULL,
 
 ### 
 
+````
+dkane@macbook website-2 % head source-1.qmd source-2.qmd 
+==> source-1.qmd <==
+---
+title: "Source 1"
+format: html
+---
+
+
+==> source-2.qmd <==
+---
+title: "Source 2"
+format: html
+---
+
+dkane@macbook website-2 % 
+````
+
 In many Terminal commands, you can provide more than one file as the target of the command. In this case, `head` will be applied to `source-1.qmd` and then `source-2.qmd` sequentially.
 
 
@@ -1335,6 +1353,31 @@ question_text(NULL,
 
 ### 
 
+````
+project:
+  type: website
+
+website:
+  title: "Website 2"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - text: Sources
+        menu:
+          - href: source-1.qmd
+            text: Source 1
+          - href: source-2.qmd
+            text: Source 2 
+      - about.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+````
+
 Run `quarto preview` to see the changes. 
 
 
@@ -1343,8 +1386,6 @@ Run `quarto preview` to see the changes.
 Go to the Source Control pane. Commit and push your new changes to GitHub. Include a descriptive commit message, e.g. "Added source pages".
 
 From the Terminal, run `git log -n 1`. CP/CR. 
-
-(You will probably need to stop the preview. But, if you want to be tricky, you can start a new Terminal by clicking on the small triangle next to the Terminal triangle --- below the Terminal tab in the Console pane --- and selecting "New Terminal".)
 
 ```{r website-2-22}
 question_text(NULL,
@@ -1357,7 +1398,19 @@ question_text(NULL,
 
 ### 
 
-Type `quarto publish` in the Terminal and hit "Enter." Explore the use of the "Sources" menu on your website.
+````
+dkane@macbook website-2 % git log -n 1
+commit f0973447485da8bb8e8e36f65e39b5640519dccc (HEAD -> main, origin/main, origin/HEAD)
+Author: David Kane <dave.kane@gmail.com>
+Date:   Mon Mar 17 18:03:23 2025 -0400
+
+    Added source pages
+dkane@macbook website-2 % 
+````
+
+Type `quarto publish` in the Terminal and hit "Enter." Note how you did not need to specify `gh-pages`. Quarto is smart enough to know that, since GitHub Pages is what you used last time, it is probably what you want now.  
+
+Explore the use of the "Sources" menu on your website. 
 
 
 ## Website 3
