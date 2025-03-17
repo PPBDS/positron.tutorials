@@ -54,24 +54,33 @@
 <div class="section level2">
 <h2 id="about-this-package">About this package<a class="anchor" aria-label="anchor" href="#about-this-package"></a>
 </h2>
-<p><strong>positron.tutorials</strong> is a collection of tutorials for working with Positron. Covers scripts, Quarto documents, the terminal, git, Github, and Quarto websites. Makes extensive use of the tools in the <strong><a href="https://ppbds.github.io/tutorial.helpers/" class="external-link">tutorial.helpers</a></strong> package.</p>
-<p>Before doing these tutorials you should complete the “Tutorials in Positron” tutorial from the <strong><a href="https://ppbds.github.io/tutorial.helpers/" class="external-link">tutorial.helpers</a></strong> package.</p>
+<p><strong>positron.tutorials</strong> is a collection of tutorials for working with Positron. Covers scripts, Quarto documents, git, Github, and Quarto websites. Makes extensive use of the tools in the <strong><a href="https://ppbds.github.io/tutorial.helpers/" class="external-link">tutorial.helpers</a></strong> package.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p><strong>positron.tutorials</strong> is currently not avaible on CRAN.</p>
-<!-- To install the package from CRAN:
-
-``` r
-install.packages("positron.tutorials")
-``` -->
-<p>You can install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>To install the package from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"positron.tutorials"</span><span class="op">)</span></span></code></pre></div>
+<p>You can install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"PPBDS/positron.tutorials"</span><span class="op">)</span></span></code></pre></div>
-<!-- ## Available Tutorials -->
-<!-- Add section with discussion of available tutorials. -->
-<!-- Add discussion of R tools and Byran git/github book. -->
+<p><strong>positron.tutorials</strong> is currently not avaible on CRAN.</p>
+</div>
+<div class="section level2">
+<h2 id="tutorials">Tutorials<a class="anchor" aria-label="anchor" href="#tutorials"></a>
+</h2>
+<p>There are sevene tutorials in the package. In paratheses after the title of the tutorial, we show the code for running the tutoria. Example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>learnr<span class="sc">::</span><span class="fu">run_tutorial</span>(<span class="at">name =</span> <span class="st">"01-code"</span>, <span class="at">package =</span> <span class="st">"positron.tutorials"</span>)</span></code></pre></div>
+<ul>
+<li><p><em>Positron and Code</em> (“01-code”). Introduces students to Positron and how to write R code in simple scripts.</p></li>
+<li><p><em>Positron and Quarto</em> (“02-quarto”). Show students more tricks for working with R code using Positron, and also demonstrates Quarto documents.</p></li>
+<li><p><em>Terminal</em> (“03-terminal”). A basic introduction to the command line. If using Windows, make sure to install RTools first.</p></li>
+<li><p><em>Positron and GitHub Introduction</em> (“04-github-1”). Explain the basics of Git and GitHub, mostly in the context of Positron.</p></li>
+<li><p><em>Positron and GitHub Advanced</em> (“05-github-2”). Provide more practice in working with Git/GitHub, including more details on the use of GitHub Pages.</p></li>
+<li><p><em>Quarto Websites Introduction</em> (“06-websites-1”). Basics of website construction using Quarto projects.</p></li>
+<li><p><em>Quarto Websites Advanced</em> (“07-websites-2”). More practice with Quarto websites, with a focus on splitting data analysis tasks into separate files.</p></li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
