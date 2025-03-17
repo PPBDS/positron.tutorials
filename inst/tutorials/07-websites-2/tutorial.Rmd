@@ -802,86 +802,23 @@ ggplot(top_songs, aes(x = week_num, y = rank, color = song_artist)) +
   guides(color = guide_legend(nrow = 2))
 ````
 
+As AI gets better, less iteration will be necessary. But you still need to be *intentional*, to demonstrate *agency* and *understanding*. You must be able to explain what the plot means. You don't have to *write* the code, but you should be able to *read* the code, perhaps after asking the AI for help.
 
-To be honest, I am not totally sure what this plot is doing. And that is OK! I only iterated three times with Grok, asking it to fix a couple of errors and warnings. I could spend more time, both understanding the plot and changing it to be more interesting. The point is to get you to spend more time with AI.
+
+
 
 
 ### Exercise 8
 
-Render the `index.qmd` with the "Render" button. It should show the plot. As always, you could render with `Cmd/Ctrl + Shift + K`. Shortcut keys are lit!
-
-In the Console, run:
-
-````
-show_file("index.qmd")
-````
-
-CP/CR.
-
-```{r website-2-8}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 12)
-```
-
-### 
-
 There are two common modes for working with larger projects. First, as here, we work with an individual file, like `index.qmd`, and ensure that it is working as we want. Second, as before, we work with the project as a whole, using commands like `quarto render`, which render all the files in the project. The former approach is quickest and is how we spend most of our time. But, at the end of the day, we need to build the entire project.
 
-### Exercise 9
-
-It is annoying to use the same code chunk option in every code chunk. In `index.qmd`, both code chunks contain `#| echo: false`. Delete both of them. Edit the YAML header so that it includes:
-
-````
-execute: 
-  echo: false
-````
-
-In the Console, run:
-
-````
-show_file("index.qmd", end = 5)
-````
-
-CP/CR.
-
-```{r website-2-9}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 3)
-```
-
-### 
-
-Your answer should look like:
-
-````
-> show_file("index.qmd", end = 5)
----
-title: "Website 2"
-execute: 
-  echo: false
----
-````
-
-If you added `echo: false` as an `execute` argument in `_quarto.yml`, this would affect all the QMD files in the entire project. In other words, you can set an option like `echo` in three places: individual code chunk, entire QMD file, or entire project. Options set at higher levels can be overruled by changing the setting at a lower level.
-
-
-### Exercise 10
-
-Go to the Git tab. Commit and push your new changes to GitHub. Include a descriptive commit message, e.g. "Added plot to home page".
+Go to the Source Control pane. Commit and push your new changes to GitHub. Include a descriptive commit message, e.g. "Added plot to home page".
 
 In the Terminal, run `quarto publish gh-pages`. You may need to hit "enter/return" once.
 
 Copy/paste the URL below:
 
-```{r website-2-10}
+```{r website-2-8}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
