@@ -931,7 +931,7 @@ It would be nice if the numbers on the Y-axis were formatted better, i.e., with 
 scale_y_continuous(labels = scales::comma_format())
 ````
 
-Do so. Run the file. Note that you don't need to save the file first. If you execute a file with either "Source" or `Ctrl + Shift + Enter`, RStudio will save the file automatically.
+Do so. Run the file. Note that you don't need to save the file first. If you execute a file with either "Source" or `Ctrl + Shift + Enter`, Positron will save the file automatically.
 
 Don't forget that you will need a `+` after the call to `geom_histogram()`.
 
