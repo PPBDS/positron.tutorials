@@ -1,15 +1,15 @@
 Package: positron.tutorials
 Title: Tutorials for Learning Positron and Related Tools
-Version: 0.0.1.9003
+Version: 0.0.1.9004
 Authors@R: 
     c(
     person(given = "David",
            family = "Kane",
-           role = c("aut", "cre"),
+           role = c("aut", "cre", "cph"),
            email = "dave.kane@gmail.com",
            comment = c(ORCID = "0000-0002-6660-3934")))    
 Description: Collection of tutorials for working with Positron. Covers scripts, 
-    Quarto documents, git, Github, and Quarto websites. Makes extensive use of 
+    Quarto documents, Git, Github, and Quarto websites. Makes extensive use of 
     the tools in the 'tutorial.helpers' package. 
 Depends: R (>= 3.5.0) 
 License: MIT + file LICENSE

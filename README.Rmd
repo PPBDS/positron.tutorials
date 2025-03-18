@@ -45,20 +45,21 @@ remotes::install_github("PPBDS/positron.tutorials")
 There are sevene tutorials in the package. In paratheses after the title of the tutorial, we show the code for running the tutoria. Example:
 
 ```
-learnr::run_tutorial(name = "01-code", package = "positron.tutorials")
+learnr::run_tutorial(name = "01-code", 
+                     package = "positron.tutorials")
 ```
 
-- *Positron and Code* ("01-code"). Introduces students to Positron and how to write R code in simple scripts. 
+- *Positron and Code* ("01-code"). Introduce students to Positron and to writing R code in simple scripts. 
 
-- *Positron and Quarto* ("02-quarto"). Show students more tricks for working with R code using Positron, and also demonstrates Quarto documents. 
+- *Positron and Quarto* ("02-quarto"). Demonstrate more tricks for working with R code using Positron, and also explain Quarto documents. 
 
-- *Terminal* ("03-terminal"). A basic introduction to the command line. If using Windows, make sure to install RTools first. 
+- *Terminal* ("03-terminal"). Teach the command line. 
 
 - *Positron and GitHub Introduction* ("04-github-1").  Explain the basics of Git and GitHub, mostly in the context of Positron.
 
 - *Positron and GitHub Advanced* ("05-github-2"). Provide more practice in working with Git/GitHub, including more details on the use of GitHub Pages. 
 
-- *Quarto Websites Introduction* ("06-websites-1"). Basics of website construction using Quarto projects.  
+- *Quarto Websites Introduction* ("06-websites-1"). Demonstrate the basics of website construction using Quarto projects.  
 
-- *Quarto Websites Advanced* ("07-websites-2"). More practice with Quarto websites, with a focus on splitting data analysis tasks into separate files. 
+- *Quarto Websites Advanced* ("07-websites-2"). Practice Quarto websites, with a focus on splitting data analysis tasks into separate files. 
 
