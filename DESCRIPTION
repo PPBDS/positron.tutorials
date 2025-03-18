@@ -9,7 +9,7 @@ Authors@R:
            email = "dave.kane@gmail.com",
            comment = c(ORCID = "0000-0002-6660-3934")))    
 Description: Collection of tutorials for working with Positron. Covers scripts, 
-    Quarto documents, Git, Github, and Quarto websites. Makes extensive use of 
+    Quarto documents, Git, GitHub, and Quarto websites. Makes extensive use of 
     the tools in the 'tutorial.helpers' package. 
 Depends: R (>= 3.5.0) 
 License: MIT + file LICENSE
