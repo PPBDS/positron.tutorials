@@ -1,4 +1,4 @@
-# positron.tutorials (development version)
+# positron.tutorials 0.1.0
 
 * Use GitHub Pages for all publishing.
 
