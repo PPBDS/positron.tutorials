@@ -22,7 +22,9 @@ There are lots of questions when we ask the student to copy the HTML output. We 
 
 Early on, explain that we often just follow the answer with our answer, without labelling it as such. Explain that an example answer after your answer is just an example, yours may differ for all sorts of reasons. Add this to first tutorial.
 
-Explain Ctrl-C someplace early, and maybe a second time. Use sleep(5) and sleep(60) as an example. Probably belongs in the Terminal.
+Explain `Ctrl + C` someplace early, and maybe a second time. Use sleep(5) and sleep(60) as an example. Probably belongs in the Terminal.
+
+We could do all the example repos in PPBDS and then leave them up forever, so they would be available to students doing the work.
 
 ## Other items
 
@@ -68,6 +70,7 @@ https://ellmer.tidyverse.org/
 https://www.tidyverse.org/blog/2025/01/experiments-llm/
 https://www.youtube.com/watch?v=RBTl94xeKqg
 https://drmowinckels.io/blog/2025/ollama/
+https://www.seascapemodels.org/rstats/2025/03/15/LMs-in-R-with-ellmer.html
 
 
 ## Other tutorials
