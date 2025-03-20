@@ -1,3 +1,9 @@
+# positron.tutorials (development versiom)
+
+* Update DESCRIPTION to follow CRAN guidelines.
+
+* Add process_submissions().
+
 # positron.tutorials 0.1.0
 
 * Use GitHub Pages for all publishing.
