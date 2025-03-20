@@ -1,8 +1,8 @@
 # positron.tutorials (development versiom)
 
-* Update DESCRIPTION to follow CRAN guidelines.
+* Added single quotes for software program names in the TITLE and DESCRIPTION, following CRAN guidelines.
 
-* Add process_submissions().
+* Added the process_submissions() function.
 
 # positron.tutorials 0.1.0
 
