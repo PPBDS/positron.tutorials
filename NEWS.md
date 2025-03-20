@@ -1,3 +1,5 @@
+# positron.tutorials 0.1.1
+
 # positron.tutorials (development versiom)
 
 * Added single quotes for software program names in the TITLE and DESCRIPTION, following CRAN guidelines.
