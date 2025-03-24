@@ -2,6 +2,8 @@
 
 * Clean up functions and tests.
 
+* Clean up DESCRIPTION.
+
 # positron.tutorials 0.1.2
 
 * Added single quotes for software program names in the TITLE and DESCRIPTION, following CRAN guidelines.

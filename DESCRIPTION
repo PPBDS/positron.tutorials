@@ -1,6 +1,6 @@
 Package: positron.tutorials
 Title: Tutorials for Learning 'Positron' and Related Tools
-Version: 0.1.2.9001
+Version: 0.1.2.9002
 Authors@R: 
     c(
     person(given = "David",
@@ -20,13 +20,8 @@ Config/testthat/edition: 3
 BugReports: https://github.com/PPBDS/positron.tutorials/issues
 URL: https://ppbds.github.io/positron.tutorials/, https://github.com/PPBDS/positron.tutorials
 Imports:
-    dplyr,
-    mime,
-    purrr,
-    rvest,
-    tibble
+    tutorial.helpers
 Suggests:
-    gert,
     gitcreds,
     knitr,
     learnr,
@@ -35,5 +30,4 @@ Suggests:
     rsconnect,
     testthat (>= 3.0.0),
     tidyverse,
-    tutorial.helpers,
     usethis
