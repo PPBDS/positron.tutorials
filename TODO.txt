@@ -2,8 +2,6 @@
 
 Get rid of RPubs?
 
-Get rid of rsconnect in DESCRIPTION
-
 Clean up tutorial 7.
 
 Add tutorial about ellmer and other AI issues.
