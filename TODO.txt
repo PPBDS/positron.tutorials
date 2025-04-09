@@ -2,6 +2,8 @@
 
 Get rid of RPubs?
 
+Get rid of rsconnect in DESCRIPTION
+
 Clean up tutorial 7.
 
 Add tutorial about ellmer and other AI issues.
@@ -11,29 +13,6 @@ Add a tutorial about working with large, complex projects? Each topic would invo
 Add more AI questions. Need to make students practice interacting with AI.
 
 Maybe an Advanced Positron tutorial? Covers topics like multiple Terminals and Consoles. Advanced Git/GitHub trickery, especially for when the Git history is rich. 
-
-### Position issues
-
-Here is a discussion of good naming conventions. Also, a useful image.
-
-https://github.com/posit-dev/positron/discussions/6330#discussioncomment-12205188
-
-Example phrasing: "The Console is located in the Panel beneath the Welcome page."
-
-Other useful names: Activity Bar (far left), Primary Side Bar (next in; only appears if 
-you choose something in the Activity Bar; disappears if you click on that thing again),
-Editor (old Source pane), Panel (area lower left by default, with Console) 
-Secondary Side Bar (raw right, with objects like Viewer and Plots). Not clear what 
-differentiates the Panel from the Secondary Side Bar.
-
-`Command + \`` to switch between Positron windows.
-
-This Yoube is good: https://www.youtube.com/watch?v=-jhTjOK4vQ8
-
-Note that guide to using the plot window, toward the end, 
-especially just adding plotly::ggplot() and, thereby, making the current plot
-interactive. I also like the examination of the different panels (Variables, Data, Values) 
-below Session.
 
 ## Things to do earlier
 
