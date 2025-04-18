@@ -4,6 +4,8 @@
 
 * Clean up DESCRIPTION.
 
+* Update for R 4.5.0.
+
 # positron.tutorials 0.1.2
 
 * Added single quotes for software program names in the TITLE and DESCRIPTION, following CRAN guidelines.
