@@ -38,11 +38,9 @@ You can install the development version from [GitHub](https://github.com/) with:
 remotes::install_github("PPBDS/positron.tutorials")
 ```
 
-**positron.tutorials** is currently not avaible on CRAN.
-
 ## Tutorials
 
-There are sevene tutorials in the package. In paratheses after the title of the tutorial, we show the code for running the tutoria. Example:
+There are seven tutorials in the package. In parentheses after the title of the tutorial, we show the code for running the tutorial. Example:
 
 ```
 learnr::run_tutorial(name = "01-code", 
@@ -62,4 +60,3 @@ learnr::run_tutorial(name = "01-code",
 - *Quarto Websites Introduction* ("06-websites-1"). Demonstrate the basics of website construction using Quarto projects.  
 
 - *Quarto Websites Advanced* ("07-websites-2"). Practice Quarto websites, with a focus on splitting data analysis tasks into separate files. 
-

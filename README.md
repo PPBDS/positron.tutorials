@@ -32,12 +32,10 @@ You can install the development version from
 remotes::install_github("PPBDS/positron.tutorials")
 ```
 
-**positron.tutorials** is currently not avaible on CRAN.
-
 ## Tutorials
 
-There are sevene tutorials in the package. In paratheses after the title
-of the tutorial, we show the code for running the tutoria. Example:
+There are seven tutorials in the package. In parentheses after the title
+of the tutorial, we show the code for running the tutorial. Example:
 
     learnr::run_tutorial(name = "01-code", 
                          package = "positron.tutorials")
