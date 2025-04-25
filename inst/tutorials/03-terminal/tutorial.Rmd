@@ -115,7 +115,7 @@ Your answer will look different from mine. Default prompts vary from computer to
 
 ### 
 
-The prompt acts as a quick way to tell you where in the computer you are. The Terminal is sensitive to which folder location you are in, just like the R Console is.
+The prompt acts as a quick way to tell you where in the computer you are. The Terminal is sensitive to which folder location you are in, just like the Console is.
 
 ### Exercise 2
 

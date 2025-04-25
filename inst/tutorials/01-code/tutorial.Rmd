@@ -34,9 +34,6 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- What about Chromebooks??!! Too much to worry about. -->
 
-<!-- Teach about show_file() and how it won't work without doing library(tutorial.helpers) in the Console. First, show it fails. Second, do library() command in Console. Third, show it works now. Fourth, restart R and show it now fails. Lesson: Whenever you get "function not found," it probably means a failure to load a library. -->
-
-
 <!-- To Format the chunk labels you need to comment out the example comment line in Script 1. And there is at least one more example later. -->
 
 <!-- We do not use the Terminal in this tutorial. Maybe mention it, though? -->
@@ -45,6 +42,22 @@ options(tutorial.exercise.timelimit = 60,
 ### 
 
 This tutorial teaches you how to use [**Positron**](https://positron.posit.co) with [**R**](https://www.r-project.org/about.html) scripts.
+
+###
+
+After starting the tutorial, your Positron window looked something like this:
+
+```{r}
+include_graphics("images/start-up.png")
+```
+
+Your Console is currently "busy" running the tutorial. But, you will still want to run R commands, so you will need a second Console. Create it by pressing the "Start a New Session" button, as indicated by the red arrow, and choose the R option, if you are asked. After you do so, the Console should look like:
+
+```{r}
+include_graphics("images/start-up.png")
+```
+
+You can switch back-and-forth between the two Consoles, but you will rarely want to since the first is just running the tutorial.
 
 
 ## Checking your setup
@@ -56,13 +69,11 @@ This tutorial teaches you how to use [**Positron**](https://positron.posit.co) w
 
 <!-- MP: I remember that when I first set up R/RStudio/RTools, my ~ directory was C:\\Users\\mark.p\\. It seems like RS typically defaults ~ to %USERPROFILE% -- see https://tinyurl.com/gpt-default-tilde.  -->
 
-This tutorial assumes that you have read and completed all the steps in the "Tutorials in Positron" tutorial from the [**tutorial.helpers**](https://ppbds.github.io/tutorial.helpers/) package, i.e., this package. We will ask you to **c**opy/**p**aste the **c**ommand/**r**esponse so often, we shorten this instruction to CP/CR.
+This tutorial assumes that you have read and completed all the steps in the "Tutorials in Positron" tutorial from the [**tutorial.helpers**](https://ppbds.github.io/tutorial.helpers/) package. We will ask you to **c**opy/**p**aste the **c**ommand/**r**esponse so often, we shorten this instruction to CP/CR.
 
 ### Exercise 1
 
-Load the **tutorial.helpers** package into your R Console using the `library()` function.
-
-Run `search()` in the Console to see the libraries that you've currently loaded. CP/CR. That is, copy and paste that command and the result into the space below.
+At the Console, type `show_file()`. CP/CR.
 
 ```{r checking-your-setup-1}
 question_text(NULL,
@@ -73,37 +84,172 @@ question_text(NULL,
 	rows = 3)
 ```
 
+###
+
+Your answer should look like this:
+
+````
+> show_file()
+Error in `show_file()`:
+! could not find function "show_file"
+````
+
+Going forward, we won't bother with boilerplate like "Your answer should look like this." Instead, you can assume that any quote directly after a question is our answer to the question.
+
+In this case, the error is that we have not yet loaded the **tutorial.helpers** package, which is where `show_file()` is located.  If we had specified the package as part of the function call, as with `tutorial.helpers::show_file()`, R would have found the function.
+
+
+### Exercise 2
+
+Load the **tutorial.helpers** package into your Console using the `library()` function.
+
+Run `search()` in the Console to see the libraries that you've currently loaded. CP/CR. That is, copy and paste that command and the result into the space below.
+
+```{r checking-your-setup-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
 ### 
 
-Your answer should look something like this:
-
-```
+````
 > library(tutorial.helpers)
 > search()
  [1] ".GlobalEnv"               "package:tutorial.helpers" "tools:rstudio"           
  [4] "tools:positron"           "package:stats"            "package:graphics"        
  [7] "package:grDevices"        "package:utils"            "package:datasets"        
 [10] "package:methods"          "Autoloads"                "package:base"            
->
+````
+
+The string "package:tutorial.helpers" should be in the output. Don't worry if your answer does not match our answer exactly, either in this question or in any other question.
+
+### Exercise 3
+
+At the Console, run:
+
+````
+show_file(file.path(R.home(), "COPYING"), end = 7)
+````
+
+```{r checking-your-setup-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
 ```
 
-Don't worry if your answer does not match our answer exactly, either in this question or in any other question.
+###
 
-### 
+````
+> show_file(file.path(R.home(), "COPYING"), end = 7)
+		    GNU GENERAL PUBLIC LICENSE
+		       Version 2, June 1991
 
-The string "package:tutorial.helpers" should be in the output. If you skip this step, commands like `show_file()` will not work without a `tutorial.helpers::` prefix.
+ Copyright (C) 1989, 1991 Free Software Foundation, Inc.
+                       51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+````
 
-### Exercise 2
+###
 
-Load the **tidyverse** package into your R Console using the `library()` function.
+This command would have failed if we had not loaded the **tutorial.helpers** package already.
 
-If this fails, the most likely cause is that you failed to installed the **tidyverse** package, among others. Run `install.package('tidyverse')` in the Console to fix this and then try `library(tidyverse)` again.
+### Exercise 4
 
-### 
+Restart R within the current Console --- not the Console which is running this tutorial --- by pressing the "Start Console" button, the curling arrow in the Console menu:
 
-Run `search()` in the Console to see the libraries that you've currently loaded. CP/CR. That is, copy and paste that command and the result into the space below.
+```{r}
+include_graphics("images/restart-console.png")
+```
 
-```{r checking-your-setup-2}
+CP/CR the top of the restarted Console.
+
+```{r checking-your-setup-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+R 4.5.0 - 2 exited (preparing for restart)
+R 4.5.0 - 2 restarted.
+>
+````
+
+As always, it is not important that your answer looks *exactly* like our answer.
+
+### Exercise 5
+
+Let's run this command again:
+
+````
+show_file(file.path(R.home(), "COPYING"), end = 7)
+````
+
+CP/CR.
+
+
+```{r checking-your-setup-5}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+> show_file(file.path(R.home(), "COPYING"), end = 7)
+Error in `show_file()`:
+! could not find function "show_file"
+````
+
+It failed, even though it had just worked before, because whenever you restart R, you get clean slate, with nothing but the default packages loaded.
+
+### Exercise 6
+
+Run `library(tutorial)` again. CP/CR.
+
+```{r checking-your-setup-6}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+````
+> library(tutorial.helpers)
+````
+
+Loading some packages prints a bunch of messages to the Console. But most packages, like **tutorial.helpers** print nothing.
+
+### Exercise 7
+
+Load the **tidyverse** package into your Console using the `library()` function.
+
+If this fails, the most likely cause is that you failed to installed the **tidyverse** package. Run `install.package('tidyverse')` in the Console to fix this and then try `library(tidyverse)` again.
+
+CP/CR.
+
+```{r checking-your-setup-7}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -114,19 +260,29 @@ question_text(NULL,
 
 ### 
 
-There should be strings such as "package:tidyverse" in the output. These are the packages that are currently loaded in your workspace.
+````
+> library(tidyverse)
+── Attaching core tidyverse packages ───── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.4     
+── Conflicts ─────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package to force all conflicts to become errors
+````
 
-### Exercise 3
 
-Look at the top left of your Console. Here you should see the version of R you are running. It should look something like the image below.
 
-```{r}
-include_graphics("images/r-version.png")
-```
+### Exercise 8
+
+Look at the upper right of the Positron window. You should see the version of R you are running. 
 
 Type `R.version$version.string` into the Console and hit `Enter`. CP/CR.
 
-```{r checking-your-setup-3}
+```{r checking-your-setup-8}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -139,13 +295,13 @@ question_text(NULL,
 
 This should be the same as the version you saw at the top left of the Console. Make sure it is the [most recently released](https://cran.r-project.org/) version of R.
 
-### Exercise 4
+### Exercise 9
 
 Shortly, we will create a new "project" for you to work in. Before we do this, it might be useful to understand where you are right now.
 
 In the Console, run `getwd()`. CP/CR.
 
-```{r checking-your-setup-4}
+```{r checking-your-setup-9}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -160,7 +316,7 @@ This function returns the "path" to your current working directory. A path is si
 
 More info on paths can be found [here](https://people.ischool.berkeley.edu/~kevin/unix-tutorial/section3.html).
 
-### Exercise 5
+### Exercise 10
 
 <!-- DK: Test to ensure that ~ works on Windows. I am not sure if it does. The environment variable %USERPROFILE% might be what we need, perhaps only if RTools has been installed. -->
 
@@ -168,7 +324,7 @@ Whenever you start a new project, you will want to store it in a location which 
 
 From the Console, run `path.expand("~")`. CP/CR.
 
-```{r checking-your-setup-5}
+```{r checking-your-setup-10}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -195,11 +351,11 @@ The tilde symbol, `~`, refers to a user's home directory. Your answer should loo
 
 The important point is that, in almost all non-pathological set ups, you will have a home directory. It is important to know where that is.
 
-### Exercise 6
+### Exercise 11
 
 Let's take a look at the directories in your home directory. From the Console, run `list.files(path.expand("~"))`. CP/CR.
 
-```{r checking-your-setup-6}
+```{r checking-your-setup-11}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -223,7 +379,7 @@ If you are on a Mac, then the `Desktop` directory is a handy location in which t
 
 **Avoid doing data science in any directory which is backed up by OneDrive, or any other backup service.**
 
-### Exercise 7
+### Exercise 12
 
 Let's make a folder, and call it `projects`, and store it someplace sensible. **If you on a Mac**, then, from the Console, run: 
 
@@ -240,7 +396,7 @@ dir.create(file.path(path.expand("~"), "projects"))
 
 CP/CR. 
 
-```{r checking-your-setup-7}
+```{r checking-your-setup-12}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -812,7 +968,7 @@ Typically, when reading code, you should be able to answer 3 questions fairly ea
   
 The **what** and **how** can be deduced from the code itself. The **why**, though, is a bit trickier, and it is highly recommended that you use comments to make it easier to tell **why** something is being done. 
 
-```{r echo = T, eval = F}
+````
 # This is an example of a poor comment:
 ...
 x <- x + 1    # Increment x
@@ -822,7 +978,7 @@ x <- x + 1    # Increment x
 ...
 x <- x + 1    # Account for borders
 ...
-```
+````
 
 ### Exercise 6
 
@@ -1001,7 +1157,7 @@ Now we have the code which creates a plot in `script-2.R`. How do we use this pl
 
 ### 
 
-We can use the `ggsave()` function. Type `?ggsave` in the R Console. This will open the help page for `ggsave()`. Copy and paste the Description from the help page into the space below.
+We can use the `ggsave()` function. Type `?ggsave` in the Console. This will open the help page for `ggsave()`. Copy and paste the Description from the help page into the space below.
 
 ```{r script-2-11}
 question_text(NULL,
@@ -1042,7 +1198,7 @@ ggsave(plot = hist_p, file = "diamonds.png")
 
 Run your code. CP/CR.
 
-```{r script-2-13-ex}
+```{r script-2-12}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1076,7 +1232,7 @@ You are witnessing a conversation between your script and R. Your script tells R
 
 In the Console, run `list.files()`. CP/CR.
 
-```{r script-2-12}
+```{r script-2-13}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,

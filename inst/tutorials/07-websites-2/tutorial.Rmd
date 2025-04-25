@@ -1707,7 +1707,7 @@ A line of code, like `library(tidyverse)`, might exist in a script, but unless/u
 
 ### Exercise 9
 
-"Source" the entire script by choosing the "Source R File with Echo" menu option from the "Source" button the upper right (the right-pointing right triangle). This takes all the code from the script and feeds it, line-by-line, to the R Console. CP/CR.
+"Source" the entire script by choosing the "Source R File with Echo" menu option from the "Source" button the upper right (the right-pointing right triangle). This takes all the code from the script and feeds it, line-by-line, to the Console. CP/CR.
 
 ```{r website-3-9}
 question_text(NULL,
@@ -2149,7 +2149,7 @@ Second, it starts a new pipe with `x` and then creates our plot. Because the plo
 
 ### Exercise 21
 
-Source (with echo) the entire script. This takes all the code from the script and feeds it, line-by-line, to the R Console. CP/CR.
+Source (with echo) the entire script. This takes all the code from the script and feeds it, line-by-line, to the Console. CP/CR.
 
 ```{r website-3-21}
 question_text(NULL,
