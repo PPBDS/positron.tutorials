@@ -33,6 +33,10 @@ options(tutorial.exercise.timelimit = 60,
 
 This tutorial covers how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents)). Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
+### 
+
+Start a new Console by clicking the "Start a New Session" button --- the `+` sign --- on the Console tab. You will always need to do this when working on a tutorial because the default Console will be busy running the tutorial itself. Use the new Console for the relevant questions below. 
+
 ## Quarto 1
 ### 
 

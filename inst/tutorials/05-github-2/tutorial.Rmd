@@ -46,6 +46,11 @@ This tutorial covers more details in the usage of [Git](https://git-scm.com/) an
 
 The most useful reference for Git/GitHub is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
 
+### 
+
+Start a new Console by clicking the "Start a New Session" button --- the `+` sign --- on the Console tab. You will always need to do this when working on a tutorial because the default Console will be busy running the tutorial itself. Use the new Console for the relevant questions below. 
+
+
 ## Project 1
 ### 
 

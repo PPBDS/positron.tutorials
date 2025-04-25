@@ -859,8 +859,8 @@ question_text(NULL,
 Your answer should look like:
 
 ```
-R 4.4.2 exited (preparing for restart)
-R 4.4.2 restarted.
+R 4.5.0 exited (preparing for restart)
+R 4.5.0 restarted.
 > list.files()
 [1] "script-1.R" "script-2.R"
 >

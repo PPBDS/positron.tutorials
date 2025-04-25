@@ -49,12 +49,19 @@ This tutorial covers [Git](https://git-scm.com/), a program for keeping track of
 
 The most useful reference for Git/GitHub is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
 
+### 
+
+Start a new Console by clicking the "Start a New Session" button --- the `+` sign --- on the Console tab. You will always need to do this when working on a tutorial because the default Console will be busy running the tutorial itself. Use the new Console for the relevant questions below. 
+
+
 ## Terminal Overview
 ### 
 
 The Positron [Terminal](https://docs.posit.co/ide/user/ide/guide/tools/terminal.html) is how you directly communicate with the computer using commands, whereas the Positron [Console](https://docs.posit.co/ide/user/ide/guide/code/console.html) is how you talk to R.
 
-This section will help introduce you to the Terminal so that you'll be up to speed for the commands needed later.
+This section will help introduce you to the Terminal if you have not worked at the command line before, or it will serves as a refresher if you have.
+
+<!-- DK: Keep the above? -->
 
 ### Exercise 1
 
