@@ -54,7 +54,7 @@ include_graphics("images/start-up.png")
 Your Console is currently "busy" running the tutorial. But, you will still want to run R commands, so you will need a second Console. Create it by pressing the "Start a New Session" button, as indicated by the red arrow, and choose the R option, if you are asked. After you do so, the Console should look like:
 
 ```{r}
-include_graphics("images/start-up.png")
+include_graphics("images/start-up-2.png")
 ```
 
 You can switch back-and-forth between the two Consoles, but you will rarely want to since the first is just running the tutorial.
