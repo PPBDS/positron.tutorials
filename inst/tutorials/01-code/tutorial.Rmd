@@ -51,7 +51,7 @@ After starting the tutorial, your Positron window looked something like this:
 include_graphics("images/start-up.png")
 ```
 
-Your Console is currently "busy" running the tutorial. But, you will still want to run R commands, so you will need a second Console. Create it by pressing the "Start a New Session" button, as indicated by the red arrow, and choose the R option, if you are asked. After you do so, the Console should look like:
+Your Console is currently "busy" running the tutorial. But, you will still want to run R commands, so you will need a second Console. Create it by pressing the "Start a New Session" button --- the `+` sign in the Console menu as indicated by the red arrow --- and choose the R option, if you are asked. After you do so, the Console should look like:
 
 ```{r}
 include_graphics("images/start-up-2.png")
@@ -218,11 +218,11 @@ Error in `show_file()`:
 ! could not find function "show_file"
 ````
 
-It failed, even though it had just worked before, because whenever you restart R, you get clean slate, with nothing but the default packages loaded.
+It failed, even though it had just worked before, because whenever you restart R, you get a clean slate, with nothing but the default packages loaded.
 
 ### Exercise 6
 
-Run `library(tutorial)` again. CP/CR.
+Run `library(tutorial.helpers)` again. CP/CR.
 
 ```{r checking-your-setup-6}
 question_text(NULL,
@@ -239,7 +239,7 @@ question_text(NULL,
 > library(tutorial.helpers)
 ````
 
-Loading some packages prints a bunch of messages to the Console. But most packages, like **tutorial.helpers** print nothing.
+Loading some packages prints a bunch of messages to the Console. But most packages, like **tutorial.helpers**, print nothing.
 
 ### Exercise 7
 
@@ -274,7 +274,7 @@ question_text(NULL,
 ℹ Use the conflicted package to force all conflicts to become errors
 ````
 
-
+<!-- DK: Knowledge drop? -->
 
 ### Exercise 8
 
@@ -312,9 +312,17 @@ question_text(NULL,
 
 ### 
 
+````
+> getwd()
+[1] "/Users/dkane"
+>
+````
+
 This function returns the "path" to your current working directory. A path is simply the information which allows you to reach a location on your computer. In this case, if you wanted to find the folder from which R is running, you would follow the path returned by `getwd()`.
 
 More info on paths can be found [here](https://people.ischool.berkeley.edu/~kevin/unix-tutorial/section3.html).
+
+By default, Positron starts in your "home" directory, which is usually located in the `/Users` on a Mac.
 
 ### Exercise 10
 
@@ -346,7 +354,7 @@ The tilde symbol, `~`, refers to a user's home directory. Your answer should loo
 
 ```
 > path.expand("~")
-[1] "C:/Users/dkane/"
+[1] "C:\Users\dkane"
 ```
 
 The important point is that, in almost all non-pathological set ups, you will have a home directory. It is important to know where that is.
@@ -370,9 +378,9 @@ My answer:
 
 ```
 > list.files(path.expand("~"))
- [1] "Applications" "counties.R"   "Desktop"      "Documents"    "Downloads"    "Library"     
- [7] "miniconda3"   "Movies"       "Music"        "Pictures"     "Public"       "temp"        
->
+ [1] "AppData"      "Applications" "Desktop"      "Documents"   
+ [5] "Downloads"    "Library"      "miniconda3"   "Movies"      
+ [9] "Music"        "Pictures"     "Public"       "temp"               
 ```
 
 If you are on a Mac, then the `Desktop` directory is a handy location in which to store all your coding projects. On Windows, however, the `Desktop` is less convenient because OneDrive often backs it up automatically, which can cause all sorts of problems later on.
@@ -407,7 +415,7 @@ question_text(NULL,
 
 ### 
 
-If that command works, you are all set. (If you get a message about the directory already exists, then you are also all set.) If not, you will need to create a `projects` directory by hand. Helpful resources can be found [here](https://support.microsoft.com/en-us/office/create-a-new-folder-cbbfb6f5-59dd-4e5d-95f6-a12577952e17) for Windows, and [here](https://support.apple.com/guide/mac-help/organize-files-using-folders-mh26885/mac) for macOS.
+If that command works, you are all set. (If you get a message that the directory already exists, then you are also all set.) If not, you will need to create a `projects` directory by hand. Helpful resources can be found [here](https://support.microsoft.com/en-us/office/create-a-new-folder-cbbfb6f5-59dd-4e5d-95f6-a12577952e17) for Windows, and [here](https://support.apple.com/guide/mac-help/organize-files-using-folders-mh26885/mac) for macOS.
 
 ### 
 
@@ -433,19 +441,17 @@ Good data scientists keep their work organized. You should place your work in di
 
 ### Exercise 1
 
-<!-- DK: Consider adding more images and/or a gif. -->
-
 **Read all of the instructions before starting this exercise.**
 
-From the `File` menu, select `New Project ...`. (You can also click on the "New Project" icon on the *Welcome* screen.)
+From the `File` menu, select `New Project ...`. 
 
 From the "Project Type" screen, select "R Project." Click "Next." Doing so brings up the "Create New Project" screen:
 
 ```{r}
-include_graphics("images/set-project.png")
+include_graphics("images/set-project-1.png")
 ```
 
-Enter `analysis-1` as your "Project Name."" Set the "Parent Directory" to your `projects` directory. (You may have to "Browse" your computer to find it.) Do **not* initialize the project as a Git repository.
+Enter `analysis-1` as your "Project Name." Set the "Parent Directory" to your `projects` directory. (You may have to "Browse" your computer to find it.) Do **not** initialize the project as a Git repository.
 
 ```{r}
 include_graphics("images/set-project-2.png")
@@ -459,9 +465,24 @@ The "Set up project configuration" screen should appear. Accept the default opti
 include_graphics("images/set-project-3.png")
 ```
 
-You can have multiple "Windows" open when you use Positron. Getting used to moving between Windows is important; the short-cut-key `Command/Ctrl + \`` may be useful.
+Choose "Current Window." Unfortunately, when you do, this Positron window will close, ending the tutorial. 
 
-Select "New Window." You will need to move back-and-forth between the two windows, one of which is this tutorial and the other of which is the actual `analysis-1` project in which we will be working.
+But that is OK. You can create a new Console --- with the `+` button in the Console menu --- and then restarting this tutorial in it with:
+
+````
+learnr::run_tutorial("01-code", "positron.tutorials")
+````
+
+You might want to copy that string now so that you have it on your clipboard when you want it.
+
+This leads to:
+
+
+```{r}
+include_graphics("images/set-project-4.png")
+```
+
+Your answers have been saved. And you are in the `analysis-1` project, as you can see in two ways, indicated by the red arrows.
 
 ### 
 
@@ -469,8 +490,7 @@ Now that you have read all the directions, we can go through the steps.
 
 ### 
 
-In the new window, run `getwd()` in the Console. (In other words, you are **not** doing this in the Console in the window in which you are completely this tutorial, if only because the Console in this window is *busy* running the tutorial itself.)
-
+After you are done, run `getwd()` in the Console. 
 
 CP/CR.
 
@@ -501,14 +521,14 @@ If your path does not include your `projects` folder, you probably did not fill 
 The new window should look like this:
 
 ```{r}
-include_graphics("images/set-project-4.png")
+include_graphics("images/set-project-5.png")
 ```
 
-The *Welcome* screen has disappeared. There is a blank, unsaved file named `Untitled-1` in the Editor pane. You can tell it is unsaved because its name is *italicized*. By deafult, the Explorer button in the Activity Bar on the far left has been activated, showing us that the `analysis-1` directory has no files in it yet.
+The *Welcome* screen has disappeared. There is a blank, unsaved file named `Untitled-1` in the Editor pane. You can tell it is unsaved because its name is *italicized*. By default, the Explorer button in the Activity Bar on the far left has been activated, showing us that the `analysis-1` directory has no files in it yet.
 
 ### 
 
-Run `list.files()`. Again, we are issuing all these commands in the other window, not the window in which this tutorial is running. 
+Run `list.files()`. 
 
 CP/CR.
 
@@ -528,9 +548,6 @@ question_text(NULL,
 Keeping all the files associated with a given project --- input data, R scripts, analytic results, and figures --- together in one directory is very wise.
 
 Everything you need is in one place and cleanly separated from all the other projects that you are working on.
-
-
-
 
 ## Script 1
 ### 
