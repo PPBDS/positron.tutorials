@@ -28,6 +28,8 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
+<!-- This tutorial assumes that they know some R code, like at the level of Introduction from r4ds.tutorials. -->
+
 <!-- Need to deal with the issue of keyboard short cuts. For now, I have mostly deleted them. Need to figure out which set to use and how to add them back. -->
 
 <!-- Make the experience good for Windows users. Key issue is adding Windows hints/clarifications to questions which are written implicitly assuming students are on a Mac. -->
@@ -41,7 +43,7 @@ options(tutorial.exercise.timelimit = 60,
 ## Introduction
 ### 
 
-This tutorial teaches you how to use [**Positron**](https://positron.posit.co) with [**R**](https://www.r-project.org/about.html) scripts.
+This tutorial teaches you how to use [**Positron**](https://positron.posit.co) with [**R**](https://www.r-project.org/about.html) scripts. It assumes that you have some knowledge of R code, perhaps at the level of the "Introduction" tutorial from [**r4ds.tutorials**](https://ppbds.github.io/r4ds.tutorials/) package.
 
 ###
 
@@ -560,7 +562,7 @@ The file `Untitled-1` should already be in your Editor window. If it is not, you
 
 ### 
 
-Type `5 * 5` into your R script file. Save the file. Name it `script-1.R`. (Note that R will provide the `.R` suffix, so you only need to type `script-1`.) 
+Type `5 + 5` into your R script file. Save the file. Name it `script-1.R`. (Note that R will provide the `.R` suffix, so you only need to type `script-1`.) 
 
 In the Console, run:
 
@@ -647,8 +649,6 @@ question_text(NULL,
 
 ### 
 
-Your answer should look like this:
-
 ```
 > source("/Users/dkane/Desktop/projects/analysis-1/script-1.R", echo = TRUE)
 
@@ -663,7 +663,7 @@ The file is sourced, as before. But, this time, each line in the file is "echoed
 
 There are often "shortcut key" combinations which perform the same task as clicking a button. Placing your cursor inside the R script window and using the keyboard shortcut `(Cmd/Ctrl) + Shift + (Return/Enter)` is the same as hitting the "Source R File with Echo" option. 
 
-Note that `Return` is the name of a Mac key and `Enter` the name of the corresponding Windows key, just like `Cmd` ("Command") is a Mac key and `Ctrl` ("Control") is the equivalent Windows key. In other words, on the Mac, we hit `Cmd + Shift + Return` while on Windows it is `Ctrl + Shift + Enter`. However, typing `Return/Enter` all the time is annoying, so, going forward, we will just use `Enter`. Mac users are expected to remember that this means the `Return` key.
+Note that `Return` is the name of a Mac key and `Enter` the name of the corresponding Windows key, just like `Cmd` ("Command") is a Mac key and `Ctrl` ("Control") is the equivalent Windows key. In other words, on the Mac, we hit `Cmd + Shift + Return` while on Windows it is `Ctrl + Shift + Enter`. However, typing `Return/Enter` all the time in these tutorials is annoying, so, going forward, we will just use `Enter`. Mac users are expected to remember that this means the `Return` key.
 
 Try it now. CP/CR.
 
@@ -682,7 +682,7 @@ Using shortcut keys is quicker and more professional than clicking buttons.
 
 ### Exercise 5
 
-In your R script, type `6 * 3` in the line after `5 + 5`. Save the file with `Cmd/Ctrl + S`. (Note that the `S` in that shortcut key just refers to the "S" key on your keyboard. You don't need to capitalize it.)
+In your R script, type `6 * 3` in the line after `5 + 5`. Save the file with `Cmd/Ctrl + s`. 
 
 Source this file with echo. CP/CR.
 
@@ -712,7 +712,7 @@ The answer is what you might expect:
 
 ### 
 
-Each line is echoed. Each line is executed.  The results of each line, if there are any, are printed.
+Each line is *echoed*. Each line is *executed*.  The results of each line, if there are any, are printed.
 
 The output you see is the same as what would happen if you copied each line to the Console and hit `Enter` after each one.
 
@@ -755,6 +755,12 @@ question_text(NULL,
 ```
 
 ### 
+
+````
+> 5 + 5
+[1] 10
+>
+````
 
 Only the first line of the script is executed. `Cmd/Ctrl + Enter` is probably the single most commonly used shortcut key because it is very handy to execute your code line-by-line.
 
@@ -805,16 +811,30 @@ question_text(NULL,
 
 ### 
 
+````
+> ls()
+[1] "x"
+>
+````
+
 `ls()` returns a list of objects present in your environment. These are the same objects displayed under Variables in your Session tab in the Secondary Side Bar in Positron (on the right side). 
 
 ```{r}
 include_graphics("images/source-x.png")
 ```
 
+In this case, the object `x`, which has a value of 10, exists in your workspace. As you can confirm by typing `x` at the Console and hitting `Enter`.
+
+````
+> x
+[1] 10
+>
+````
+
 ## Script 2
 ### 
 
-Let's create this plot:
+Let's create a plot like this one:
 
 ```{r diamond-hist}
 hist_p <- ggplot(data = diamonds,
@@ -837,7 +857,7 @@ Click `File -> New File ... -> R File`. At the top of the Editor, the file shoul
 
 ### 
 
-Click the "Save current document" icon -- the disk image to the right of the Open dropdown menu. Or use the shortcut `Cmd/Ctrl + S` to save the script. Let's call this file `script-2`. The `.R` suffix is added automatically.
+Click the "Save current document" icon -- the disk image to the right of the Open dropdown menu. Or use the shortcut `Cmd/Ctrl + s` to save the script. Let's call this file `script-2`. The `.R` suffix is not always added automatically. Make sure it is there,
 
 In the Console, run `list.files()`. CP/CR.
 
@@ -852,13 +872,18 @@ question_text(NULL,
 
 ### 
 
+````
+> list.files()
+[1] "script-1.R" "script-2.R"
+````
+
 Save your scripts (with informative names) in the project, edit them, run them line-by-line or in their entirety. Restart R frequently to make sure you’ve captured everything in your scripts.
 
-Scripts and projects give you a solid workflow that will serve you well in the future. Always remember to create one project for each data analysis project. That project may contain multiple scripts files, along with other material.
+Scripts and projects give you a solid workflow that will serve you well in the future. Always remember to create one project for each data analysis project. That project may contain multiple script files, along with other material.
 
 ### Exercise 2
 
-Restart your R session with `Cmd/Ctrl + Shift + 0`. (Again, we are assuming that you are doing this work in a different Positron window, not the same one as you are using for this tutorial.)
+Restart your R session with `Cmd/Ctrl + Shift + 0`. 
 
 From the Console, run `list.files()`. CP/CR.
 
@@ -914,7 +939,7 @@ You will see, in the top bar of the Editor, that `script-2.R`, the name of the f
 
 ### 
 
-Run the entire file with `Ctrl + Shift + Enter`. Note how much material --- the "Attaching core tidyverse packages" and so on --- is produced because we are sourcing the file with `echo=TRUE`. 
+Run the entire file with `Cmd/Ctrl + Shift + Enter`. Note how much material --- the "Attaching core tidyverse packages" and so on --- is produced. 
 
 ### 
 
@@ -1036,7 +1061,7 @@ Run the entire file again. Note the sloppiness of the word "run" in this instruc
 
 ### 
 
-This should generate a blank plot in the Plots tab in buttom of the Secondary Side Bar.
+This should generate a blank plot in the Plots tab in bottom of the Secondary Side Bar.
 
 ### 
 
@@ -1191,7 +1216,7 @@ question_text(NULL,
 
 We want to save our entire graph to an object, which can be done by setting our plot equal to a variable. Call this variable `hist_p`.
 
-Now using the `ggsave()` function we can create a png of our plot from our code. In `ggsave()`, set `plot` to `hist_p`, `file` to `"diamonds.png"`.
+Now using the `ggsave()` function we can create a PNG of our plot from our code. In `ggsave()`, set `plot` to `hist_p` and `file` to `"diamonds.png"`.
 
 Your entire file should look like:
 
@@ -1326,7 +1351,14 @@ From the Positron menu, select `File -> New Project ...`. (Again, all of this oc
 
 Use `analysis-2` for the "Project Name." Ensure that "Parent Directory" is set to the location of your `projects` directory. Click "Next" and then "Create." 
 
-Choose "Current Window," rather than "New Window" as we did before, since we no longer need to see the `analysis-1` project. 
+Choose "Current Window". This will close the `analysis-1` project, which is fine because we are done with it. But it will also close the tutorial, which is annoying. So, once the `analysis-2` project appears, restart the tutorial with:
+
+````
+learnr::run_tutorial("01-code", "positron.tutorials")
+````
+
+
+And then start a new Console with `+`.  
 
 ### 
 
@@ -1355,10 +1387,9 @@ Somewhere in the path should be `analysis-2`, the name of the project you just m
 
 Now, we have to create the script where we'll be creating our plot. 
 
-In the menu bar on the top of the window, press `File -> New File -> R Script`. Type `5 * 5` and a newline into the file and hit `Ctrl/Cmd + S` to save it. Save it as `script-3.R` (the `.R` is automatically supplied by the dialog box when you save, so you only need to type `script-3`). 
+In the menu bar on the top of the window, press `File -> New File -> R Script`. Type `5 + 5` and a newline into the file and hit `Cmd/Ctrl + s` to save it. Save it as `script-3.R`. 
 
 In the console, run `list.files()`. CP/CR. 
-
 
 ```{r script-3-4}
 question_text(NULL,
@@ -1375,7 +1406,7 @@ You should see `script-3.R` somewhere in the output.
 
 ### Exercise 5
 
-Go back to editing `script-3.R`. Get rid of everything that's already there. Copy-paste the below code into the script, and save with `Ctrl/Cmd + S`. 
+Go back to editing `script-3.R`. Get rid of everything that's already there. Copy-paste the below code into the script, and save with `Cmd/Ctrl + S`. 
 
 ````
 library(tidyverse)

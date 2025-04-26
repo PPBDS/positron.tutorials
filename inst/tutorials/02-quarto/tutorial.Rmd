@@ -115,7 +115,7 @@ Quarto is a command line interface tool, not an R package. This means that help 
 
 ### Exercise 3
 
-Save the Quarto document with `File -> Save`. You can also click the disk icon toward the upper left of the Source pane or by use the shortcut `Cmd/Ctrl + S`. 
+Save the Quarto document with `File -> Save`. You can also click the disk icon toward the upper left of the Source pane or by use the shortcut `Cmd/Ctrl + s`. 
 
 Name the file `quarto-1.qmd`.
 
