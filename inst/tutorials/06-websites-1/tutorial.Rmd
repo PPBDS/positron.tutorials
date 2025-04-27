@@ -100,7 +100,7 @@ As long as the version is at least 1.6, you are OK.
 
 ### Exercise 3
 
-On Github create a new public Github repo (called "first-website"). Make sure to click the "Add a README file" check box. Copy/paste the URL for its Github location.
+On Github create a new public Github repo (called `first-website`). Make sure to click the "Add a README file" check box. Copy/paste the URL for its Github location.
 
 ```{r creating-files-3}
 question_text(NULL,
@@ -124,9 +124,11 @@ Always start a new data science project with a new Github repo.
 
 ### Exercise 4
 
-Connect the `first-website` Github repo to a project on your computer using the usual procedure: `File -> New Folder from Git...` and so on. Don't forget to check the "Open in a new window" box.  
+Connect the `first-website` Github repo to a project on your computer using the usual procedure: `File -> New Folder from Git...` and so on.  
 
-If necessary, close the "Welcome" window and start an R interpreter.
+As always, you have a choice as to whether or not you want to have two Positron windows: one (this one) in which to complete the tutorial and another one in which you create your actual project. Or you can have just one window, with multiple Consoles. Either approach is fine. 
+
+If you just the "new window" option, you may need to close the "Welcome" window and start an R interpreter for the Console. If you don't create a new window, you will need to restart the tutorial and create a new Console.
 
 From the Terminal (in the new Positron window), run `ls`. CP/CR.
 
@@ -209,7 +211,7 @@ The basic set of files necessary for making a Quarto website has been added to t
 
 ### Exercise 7
 
-In the Termina, run `ls -a`. CP/CR. 
+In the Terminal, run `ls -a`. CP/CR. 
 
 ```{r creating-files-7}
 question_text(NULL,
@@ -229,7 +231,7 @@ dkane@macbook first-website % ls -a
 dkane@macbook first-website % 
 ````
 
-In general, we do not touch/manipulate "dot" directories, meaning directories whose names begin with a period. Such directories are meant to be used by the operating system and other programs. For example, the program Git uses the `.git` directory to store information about changes in all the files in the project.  Also, note that `quarto create` added a `.gitignore` file, which we did not see after issuing the simple `ls` command.
+In general, we do not touch/manipulate "dot" directories, meaning directories whose names begin with a period. Such directories are meant to be used by the operating system and/or other programs. For example, the program Git uses the `.git` directory to store information about changes in all the files in the project.  Also, note that `quarto create` added a `.gitignore` file, which we did not see after issuing the simple `ls` command.
 
 
 ## Examining files
@@ -247,7 +249,7 @@ show_file("_quarto.yml")
 
 CP/CR.
 
-Did you get an error when you ran this? Something about 'could not find function "show_file"'? This is because you need run `library(tutorial.helpers)` in the Console to have direct acccess to `show_file()`, which is a function in the **tutorial.helpers** package. Of course, you could use the double colon notation --- `tutorial.helpers::show_file("_quarto.yml")` --- as we did in previous tutorials. But, at this stage in your R education, we want you to become more comfortable with packages, and knowing yourself when they need to be loaded.
+Did you get an error when you ran this? Something about 'could not find function "show_file"'? This is because you need run `library(tutorial.helpers)` in the Console to have direct access to `show_file()`, which is a function in the **tutorial.helpers** package. Of course, you could use the double colon notation --- `tutorial.helpers::show_file("_quarto.yml")` --- as we did in previous tutorials. But, at this stage in your R education, we want you to become more comfortable with packages, and knowing yourself when they need to be loaded.
 
 
 ```{r examining-files-1}
@@ -303,7 +305,7 @@ website:
       - about.qmd
 ````
 
-Indents and other whitespace matter in the interpretation of a YAML file.
+Indents and other whitespace matter in YAML files. Be careful!
 
 
 ### Exercise 3
@@ -414,11 +416,6 @@ question_text(NULL,
 The leading `/` in `/.quarto/` escapes the `.`. In other words, we need the leading `/` if we want to ignore the files in a dotted directory.
 
 In fact, the `.quarto` directory does not yet exist. But the `quarto create project` command wanted to ensure that, once it does, Git would ignore it and its contents.
-
-
-
-<!-- Good data scientists believe in transparency and reproducibility. We want people --- include "future" us --- to be able to reproduce our work. By default, almost every file belongs on Github. But settings for R projects are both not necessary for replication and often specific to each individual.  -->
-
 
 ### Exercise 6
 
@@ -758,9 +755,9 @@ About
 David Kane
 ````
 
-If you want to stop `quarto preview` you can cancel the command by `Ctrl + C`. This is always the command to use whenever you want the Terminal to stop doing whatever it is doing.
+If you want to stop `quarto preview` you can cancel the command by `Ctrl + c`. This is always the command to use whenever you want the Terminal to stop doing whatever it is doing.
 
-Run `Ctrl + C`.
+Run `Ctrl + c`.
 
 ## Publishing
 ### 
@@ -1010,7 +1007,7 @@ But, if you look at the Github Pages version of your website, it still uses the 
 
 ### Exercise 9
 
-Stop the `quarto preview` command with `Ctrl + C`. From the Terminal, run `quarto publish`. You may need to hit `return/enter` to confirm that you still want to use GitHub Pages. Refresh once after you are on yout website.
+From the Terminal, stop the `quarto preview` command with `Ctrl + c`. Run `quarto publish`. You may need to hit `enter` to confirm that you still want to use GitHub Pages. Refresh once after you are on your website.
 
 CP/CR.
 
