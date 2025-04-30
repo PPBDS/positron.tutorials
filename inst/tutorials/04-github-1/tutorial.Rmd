@@ -32,6 +32,8 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
+<!-- Change repo names to `repo-1`. Then, update all the relevant PNG files. -->
+
 <!-- Couple of DK comments below which indicate how to expand a couple of questions. -->
 
 <!-- Stop being afraid of the command line. Use lots of git commands.  -->
@@ -67,7 +69,7 @@ This section will help introduce you to the Terminal if you have not worked at t
 
 Start by clicking on the Terminal tab in Positron. This is next to the Console tab in the bottom Panel.
 
-You should see some text, which is a portion of the path to the current working directory, followed by a prompt such as a dollar sign. Copy (by highlighting, then right clicking and selecting the "copy" option) and paste the entire prompt into the box below.
+You should see some text, which is a portion of the path to the current working directory, followed by a prompt such as `%` or `$`. Copy and paste the entire prompt into the box below.
 
 We abbreviate the instructions **c**opy/**p**aste the **c**ommand/**r**esponse as CP/CR throughout this tutorial.
 
@@ -98,7 +100,7 @@ Paths differ. They often include the username, which is `dkane` for me. They als
 
 ### Exercise 2
 
-Type the command `pwd` in your Terminal and hit return. CP/CR.
+Type the command `pwd` in your Terminal and hit `enter`. CP/CR.
 
 ```{r terminal-overview-2}
 question_text(NULL,
@@ -202,6 +204,8 @@ Now that you have your GitHub account, you need to connect it to Positron. The f
 
 <!-- Ran into an issue here where `usethis::use_git_config(user.name = "your-username", user.email = "your@email.org")` would produce an error if you had multiple `user.name`s or `user.email`s saved (this can be checked using `usethis::git_sitrep()`). To fix this, I first used the terminal command `git config --global --replace-all user.name "newname"`. However, there seemed to be an issue where the terminal would say it is replaced but it wasn't being recognized. In the end, I was able to locate the actual global Git config file under `C:/User/username/` and edit it directly. In the file, there were fields formatted like `name = ...` and `email = ...`. Deleting these lines completely seemed to work correctly. Afterwards (Good to restart R session here), running `usethis::git_sitrep()` will show that the fields are not set and you should now be able to run `usethis::use_git_config(user.name = "your-username", user.email = "your@email.org")` without error. -->
 
+<!-- Stop using usethis and just run the relevant Git commands from the Terminal? -->
+
 In the Console, run this command, substituting the email and user name you used for your GitHub account:
 
 ```         
@@ -268,8 +272,6 @@ If, in our metaphor, GitHub is your Google Drive, then GitHub repositories, or "
 
 To begin, sign into GitHub and go to the homepage: `www.github.com`. Click the green "New" button on the upper left side of the page.
 
-
-
 ```{r}
 include_graphics("images/github_new_repo.png")
 ```
@@ -280,7 +282,7 @@ Name your repository `First-Repo`. Then, select the "public" option for your rep
 include_graphics("images/new-repo-1.png")
 ```
 
-Then, check the box saying "Add a README file". [README](https://en.wikipedia.org/wiki/README) is a document where programmers explain details of their project. When in doubt follow [these instructions](https://happygitwithr.com/push-pull-github.html#make-a-repo-on-github).
+Then, check the box saying "Add a README file". A [README](https://en.wikipedia.org/wiki/README) is a document where programmers explain details of their project. When in doubt follow [these instructions](https://happygitwithr.com/push-pull-github.html#make-a-repo-on-github).
 
 
 ```{r}
@@ -310,7 +312,7 @@ Your answer should look like:
 github.com/davidkane9/First-Repo
 ```
 
-The "public" option means that anyone will be able to view the repository. But only you can edit it. You might have noticed "Add .gitignore" as another option, but we will never check this box because Positron will automatically create a `.gitignore` file for us when we connect the GitHub repo to an R project on our computer.
+The "public" option means that anyone will be able to view the repository. But only you can edit it. You might have noticed "Add .gitignore" as another option, but we generally prefer to create our own `.gitignore` file.
 
 ### Exercise 6
 
@@ -356,6 +358,8 @@ include_graphics("images/new-git-1.png")
 -   Select `New Folder from Git ...`.
 
 -   Paste in your GitHub URL to the  "Git repository URL" box. Ensure that the "Create folder ..." box specifies your `projects` folder. Click the "Open in new window" box.
+
+<!-- DK: Do we really want a new window? -->
 
 ```{r}
 include_graphics("images/new-from-git.png")
@@ -424,21 +428,23 @@ origin  https://github.com/davidkane9/First-Repo.git (fetch)
 origin  https://github.com/davidkane9/First-Repo.git (push)
 dkane@MacBookPro First-Repo % 
 ```
-Note how my prompt has changed so that it ends with `First-Repo` because this new window opened with `First-Repo` as the current working directory.
+Note how my prompt has changed so that it ends with `First-Repo` because this new Positron window opened with `First-Repo` as the current working directory.
 
-Don't worry too much about the details of "origin," "fetch," and "push." You've successfully linked a repo to an Positron Project!
+Don't worry too much about the details of "origin," "fetch," and "push." You've successfully linked a repo to an Positron project!
 
 ### Exercise 10
 
 <!-- DK: Revisit this to confirm it works. Update images. -->
 
-You have linked your GitHub repo to your R project, but you haven't proven that you are someone with editing access to the project. If we just let anyone with the GitHub link edit our repo, that's obviously going to lead to problems. This is why we use something called a **p**ersonal **a**ccess **t**oken, or a **PAT**.
+You have linked your GitHub repo to your R project, but you haven't proven that you are someone with editing access to the project. If we just let anyone with the GitHub link edit our repo, that's obviously going to lead to problems. This is why we use something called a **p**ersonal **a**ccess **t**oken, or **PAT**.
 
 ### 
 
 A PAT is just a special computer-generated password between your computer and GitHub that lets GitHub connect your GitHub account and your computer. If you want to learn more, see "[Personal access token for HTTPS](https://happygitwithr.com/https-pat.html)" from [*Happy Git and GitHub for the useR*](https://happygitwithr.com/)
 
 ### 
+
+<!-- DK: Switch this to the raw Git commands? Which are? -->
 
 Create a PAT by using the `usethis::create_github_token()` function in the Console. This should redirect you to a GitHub page about creating a PAT.
 
@@ -462,7 +468,7 @@ Run `gitcreds::gitcreds_set()` in the Console and follow the prompts, providing 
 
 ### 
 
-Restart your R session with `Cmd/Ctrl + Shift + 0`. (This is not the same thing as restarting Positron.) You could also use `Cmd/Ctrl + Shift + 0` to restart R. On Windows, this would be `Ctrl + Shift + F10`.
+Restart your R session with `Cmd/Ctrl + Shift + 0`. This is **not** the same thing as restarting Positron.
 
 Run `usethis::git_sitrep()` in the Console. CP/CR.
 
@@ -541,11 +547,12 @@ dkane@MacBookPro First-Repo % ls
 README.md
 dkane@MacBookPro First-Repo % 
 ````
+
 There is only one (non-hidden) file in the directory, `README.md`. It was created when we initially started the repo. Recall how we checked the box saying "Add a README file". If we had not done so, there would not be any files in the directory. 
 
 ### Exercise 3
 
-At the Terminal, run `ls -a`. The `a` option tells `ls` to show all directories/files, including ones that are hidden, i.e., which start with a dot, meaning a`.`. CP/CR.
+At the Terminal, run `ls -a`. The `a` option tells `ls` to show all directories/files, including ones that are hidden, i.e., which start with a dot, meaning a `.`. CP/CR.
 
 ```{r using-git-3}
 question_text(NULL,
@@ -597,7 +604,7 @@ The `README.md` file is a markdown file with only one line, a header with the na
 
 ### Exercise 5
 
-Open `README.md` in the Editor. The easiest way to do so is to click the Explorer button in the Activity Bar on the lefthand side of the Positron Window. This opens the File pane, in which you can see the files in the current directory.
+Open `README.md` in the Editor. The easiest way to do so is to click the Explorer button in the Activity Bar on the lefthand side of the Positron window. This opens the Explorer pane, in which you can see the files in the current directory.
 
 ```{r}
 include_graphics("images/README-1.png")
@@ -680,7 +687,7 @@ The Positron window has changed quite a bit. The Viewer tab has appeared, showin
 include_graphics("images/README-3.png")
 ```
 
-We can stop the monitoring of `README.md` by using `Cntrl-C`.  Once we do, the Viewer tab is empty, so we can close the entire Secondary Activity Bar.
+We can stop the monitoring of `README.md` by using `Cntrl + c`.  Once we do, the Viewer tab is empty, so we can close the entire Secondary Activity Bar.
 
 From the Terminal, run `ls`. CP/CR.
 
@@ -757,8 +764,7 @@ tippy.umd.min.js
 dkane@MacBookPro First-Repo % 
 ````
 
-Whenever you render a document using Quarto, it creates a directory called `base-name-of-your-file_files`. Since the base name of `README.md` is `README`, the new directory created is `README_files`. This directory is filled with the programs/information/etc which helped to turn `README.md` into `README.html`. That file is filled with confusing stuff that we should ignore. In fact, we usually don't even want it monitored by Git or stored on GitHub.
-
+Whenever you render a document using Quarto, it creates a directory called `base-name-of-your-file_files`. Since the base name of `README.md` is `README`, the new directory created is `README_files`. This directory is filled with the programs/information/etc which helped to turn `README.md` into `README.html`. This is mostly confusing stuff that we should ignore. In fact, we usually don't even want it monitored by Git or stored on GitHub.
 
 ### Exercise 9
 
@@ -790,7 +796,7 @@ Because `.gitignore` begins with a `.`, it is a hidden file. It would not appear
 
 ### Exercise 10
 
-The purpose of the `.gitignore` file is to specify those files/directories which **git** should **ignore**. Add a new line to the fle, `README_file`, followed by an empty line. Save your changes.
+The purpose of the `.gitignore` file is to specify those files/directories which **git** should **ignore**. Add a new line to the file, `README_file`, followed by an empty line. Save your changes.
 
 From the Terminal, run `cat .gitignore`. CP/CR.
 
@@ -821,7 +827,7 @@ Note the change in the Source Control pane!
 include_graphics("images/README-5.png")
 ```
 
-Now, according to git, there have been only three changes to the repo. (Of course, there have been more changes, but we are ignoring anything which resides in `README_files`.) One file, `README.md`, has been modified (M). Two files, `README.html` and `.gitigore`, are untracked (U).
+Now, according to Git, there have been only three changes to the repo. (Of course, there have been more changes, but Git is ignoring anything which resides in `README_files`.) One file, `README.md`, has been modified (M). Two files, `README.html` and `.gitigore`, are untracked (U).
 
 ### Exercise 11
 
@@ -848,10 +854,9 @@ question_text(NULL,
 
 Clicking this button gets rid of your changes since the last time you told Git to save them. 
 
-
 ### Exercise 12
 
-Hold your cursor over the symbol (a plus sign) next to the "Discard Changes" button. What is the name for this button?
+Hold your cursor over the symbol --- `+`, a plus sign --- next to the "Discard Changes" button. What is the name for this button?
 
 ```{r using-git-12}
 question_text(NULL,
@@ -868,7 +873,7 @@ Saving changes in Git is, in theory, a two-step process. The first step is to "s
 
 ### Exercise 13
 
-The letters at the end of the line for the file names indicate that `.gitignore` and `README.html` are **U**ntracked and that `README.md` is **M**odified. We can "commit" these files by hitting the Commit buttom. Before doing so, hold your cursor over the button. What does it say?
+The letters at the end of the line for the file names indicate that `.gitignore` and `README.html` are **U**ntracked and that `README.md` is **M**odified. We can "commit" these files by hitting the Commit buttomn. Before doing so, hold your cursor over the button. What does it say?
 
 ```{r using-git-13}
 question_text(NULL,
@@ -879,7 +884,7 @@ question_text(NULL,
 	rows = 2)
 ```
 
-The word `main` references the "branch" of your repo that you are currently working on. We won't worry about branches for a while yet, but they are an important part of using git.
+The word `main` references the "branch" of your repo that you are currently working on. We won't worry about branches for a while yet, but they are an important part of using Git.
 
 ### Exercise 14
 
@@ -922,7 +927,7 @@ Date:   Sun Mar 9 15:46:04 2025 -0400
 dkane@MacBookPro First-Repo % 
 ````
 
-`git log` generates a log of all the Git actions we have taken. In this case, you can see that we have committed changes twice. The first changes involved the initial acceptance of `README.md`. This was done behind the scenes when we created the project by connecting to GitHub. The second change is the commit which we just pushed, the one which adds `.gitignore` and `README.html`, and also modifies `README.md`. 
+`git log` generates a record --- a "log" --- of all the Git actions we have taken. In this case, you can see that we have committed changes twice. The first changes involved the initial acceptance of `README.md`. This was done behind the scenes when we created the project by connecting to GitHub. The second change is the commit which we just pushed, the one which adds `.gitignore` and `README.html`, and also modifies `README.md`. 
 
 
 ### Exercise 15
@@ -933,7 +938,7 @@ The Source Control pane now looks like this:
 include_graphics("images/README-8.png")
 ```
 
-Although you have commited your changes to Git --- i.e., the changes have been made locally --- you still need to "push" the changes to GitHub.  Hover your cursor over the "Sync Changes" button. What does the pop-up say?
+Although you have committed your changes to Git --- i.e., the changes have been made locally --- you still need to "push" the changes to GitHub.  Hover your cursor over the "Sync Changes" button. What does the pop-up say?
 
 
 ```{r using-git-15}
@@ -998,17 +1003,14 @@ A term like "commit 969819f5c16d3776254121570a4853da45f174ba" gives us the addre
 
 If you look at the GitHub page for `First-Repo`, you will see that the changes have been pushed to GitHub. If your computer blows up, you won't lose any of your work.
 
-
-
 ## Publishing with GitHub Pages
 ### 
 
 Let's create a new GitHub repo, connect it our computer, create a Quarto document, publish it to the internet using [GitHub Pages](https://pages.github.com/), and then ensure our work is backed up to GitHub. 
 
-
 ### Exercise 1
 
-On your GitHub account, create a new repo named `repo-2`. Make sure it is public. Make sure to check the box for a README file. After clicking "Create," copy the URL after clicking the "Code" button.
+On your GitHub account, create a new repo named `repo-2`. Make sure it is public. Make sure to check the box for a README file. After clicking "Create," copy the URL after clicking on the "Code" button.
 
 What is the URL for the project?
 
@@ -1029,7 +1031,7 @@ My answer:
 https://github.com/davidkane9/repo-2.git
 ````
 
-No worries if you did not include the `.git` ending. The URL you go to when you want to look at the repo does not include `.git`, obviously. But, for connecting the repo to your computer, you need `.git`.
+No worries if you did not include the `.git` ending. The URL you go to when you want to look at the repo does not include `.git`, obviously. But, for connecting the repo to your computer, you need the `.git` suffix.
 
 ### Exercise 2
 

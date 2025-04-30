@@ -31,6 +31,8 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
+<!-- DK: Stop using Rpubs! -->
+
 <!-- project-3 should require users to fork a repo. -->
 
 <!-- In project 4, use the GitHub created .gitignore and discuss stuff there. -->
