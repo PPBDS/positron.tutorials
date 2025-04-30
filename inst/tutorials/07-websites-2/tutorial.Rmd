@@ -37,7 +37,7 @@ library(tidyverse)
 ## Introduction
 ### 
 
-This tutorial practices the process of creating and organizing the [Quarto websites](https://quarto.org/docs/websites/) using the [Quarto CLI](https://quarto.org/docs/get-started/) (command line interface). You will learn some new skills, such as how to add visualization, edit text, and create new pages. You will also learn how to save the results of your data-manipulation code in an RDS file and how to save your plots as PNG files. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This tutorial practices the process of creating and organizing the [Quarto websites](https://quarto.org/docs/websites/) using the [Quarto CLI](https://quarto.org/docs/get-started/) (command line interface). You will learn some new skills, such as how to add visualization, edit text, and create new pages. You will also learn how to save the results of your data manipulation code in an RDS file and how to save your plots as PNG files. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 ## Website 1
 ### 
@@ -46,7 +46,7 @@ Let's create and publish a [Quarto website](https://quarto.org/docs/websites/).
 
 ### Exercise 1
 
-Create a public GitHub repo (called "website-1"). Make sure to click the "Add a README file" check box. Copy/paste the URL for its GitHub location.
+Create a public GitHub repo (called `website-1`). Make sure to click the "Add a README file" check box. Copy/paste the URL for its GitHub location.
 
 ```{r website-1-1}
 question_text(NULL,
@@ -70,6 +70,10 @@ Always start a new data science project with a new GitHub repo.
 ### Exercise 2
 
 Connect the `website-1` GitHub repo to a project on your computer. Close the Positron welcome page in the Editor and then start the interpreter using R, if necessary.
+
+As always, you have a choice as to whether or not you want to have two Positron windows: one (this one) in which to complete the tutorial and another one in which you create your actual project. Or you can have just one window, with multiple Consoles. Either approach is fine. 
+
+If you choose the "new window" option, you may need to close the "Welcome" window and start an R interpreter for the Console. If you don't create a new window, you will need to restart the tutorial and create a new Console.
 
 From the Terminal, run `ls`. CP/CR.
 
@@ -176,9 +180,7 @@ dkane@macbook website-1 % cat .gitignore
 dkane@macbook website-1 % 
 ````
 
-The `.quarto` directory does not yet exist because we haven't rendered any of our QMD files yet. But when we do, we don't any of the junk in that file to be backed up on GitHub.
-
-
+The `.quarto` directory does not yet exist because we haven't rendered any of our QMD files yet. But when we do, we don't any of the junk in that file to be backed with Git.
 
 ### Exercise 6
 
@@ -224,7 +226,7 @@ format:
 >
 ````
 
-Quarto offers a wide range of output formats. You can find the complete list at https://quarto.org/docs/output-formats/all-formats.html. Many formats share some output options (e.g., `toc: true` for including a table of contents), but others have options that are format specific (e.g., `code-fold: true` collapses code chunks into a `<details>` tag for HTML output so the user can display it on demand, it’s not applicable in a PDF or Word document).
+Quarto offers a wide range of output formats. You can find the complete list at https://quarto.org/docs/output-formats/all-formats.html. Many formats share some output options (e.g., `toc: true` for including a table of contents), but others have options that are format specific e.g., `code-fold: true` collapses code chunks into a `<details>` tag for HTML output so the user can display it on demand. It’s not applicable in a PDF or Word document.
 
 ### Exercise 7
 
@@ -362,7 +364,7 @@ About
 About this site
 ````
 
-Your answer might not match ours. That is OK! How the html display various by browser and screen dimension. The important thing is that, once we have rendered a website, a working version appears in the `_site` directory. 
+Your answer might not match ours. That is OK! How the html display varies by browser and screen dimension. The important thing is that, once we have rendered a website, a working version appears in the `_site` directory. 
 
 
 ### Exercise 11
@@ -387,7 +389,7 @@ about.html      index.html      search.json     site_libs       styles.css
 dkane@macbook website-1 % 
 ````
 
-
+Again, we never edit files in the `_site` directory directly. We run commands, like `quarto render`, which manipulate these files.
 
 ### Exercise 12
 
@@ -475,7 +477,7 @@ You can also use Quarto to produce presentations. You get less visual control th
 
 ### Exercise 15
 
-Press the Source Control button and confirm that there are no changes. There shouldn't be since publishing does not (usually) change any of the files in the project.
+Press the Source Control button and confirm that there are no changes. There shouldn't be since publishing does not (usually) change any of the files in the project, assuming that you have recently rendered them.
 
 Run `git log -n 1` in the Terminal. CP/CR. 
 
@@ -513,7 +515,7 @@ Let's create a new website with a beautiful plot of the data from the `billboard
 
 Create a public GitHub repo called `website-2`. Make sure to click the "Add a README file" check box.
 
-Connect the `website-2` GitHub repo to a project on your computer. If needed, close the Positron Welcome window and start an R interpreter.
+Connect the `website-2` GitHub repo to a project on your computer. Decide whether you want to deal with one Positron window or two. Restart the tutorial, if necessary.
 
 From the Terminal, run `ls`. CP/CR.
 
@@ -567,7 +569,7 @@ dkane@macbook website-2 %
 
 The `.` in the `quarto create` command refers to the current working directory. That is, we are telling Quarto to put all the necessary files right here.
 
-We are moving faster in the creation of Website 2 than we did when making Website 1 because you should already be familar with the steps. We will go even faster when we make Website 3.
+We are moving faster in the creation of Website 2 than we did when making Website 1 because you should already be familiar with the steps. We will go even faster when we make Website 3.
 
 
 ### Exercise 3
@@ -594,13 +596,13 @@ dkane@macbook website-2 % cat .gitignore
 dkane@macbook website-2 % 
 ````
 
-Keeping track of all the different files and understanding how they work together is a central skill in creating larger projects.
+Keeping track of all the different files and understanding how they work together is the central skill in creating larger projects.
 
 ### Exercise 4
 
 In `index.qmd`, delete everything outside the YAML header. Change `title` to `"Billboard Graphic"`. 
 
-In the Termina, run `cat index.qmd`. CP/CR.
+In the Terminal, run `cat index.qmd`. CP/CR.
 
 ```{r website-2-4}
 question_text(NULL,
@@ -811,7 +813,7 @@ There are two common modes for working with larger projects. First, as here, we 
 
 Go to the Source Control pane. Commit and push your new changes to GitHub. Include a descriptive commit message, e.g. "Added plot to home page".
 
-In the Terminal, run `quarto publish gh-pages`. You may need to hit "enter/return" once.
+In the Terminal, run `quarto publish gh-pages`. You may need to hit `Enter` once.
 
 Copy/paste the URL below:
 
@@ -826,7 +828,7 @@ question_text(NULL,
 
 ### 
 
-Your answer should look like this, but with your user name instead of mine.
+Your answer should look like this, but with your username instead of mine.
 
 ````
 https://davidkane9.github.io/website-2/
@@ -916,7 +918,6 @@ My name is David Kane, and I graduated from Williams College.
 
 You can have a Quarto document without a YAML header, if you like. You can also have an empty YAML header. But, it will often be the case that we want all the files in a project to have similar YAML headers in order to create a consistent look-and-feel.
 
-
 ### Exercise 11
 
 Let's bold your name and italicize your school's name. In the description you have already written, surround your name with two asterisks, `**`, on both sides. Let's also put a single asterisk, `*`, around both sides of your school. Example:
@@ -994,7 +995,7 @@ It should look like:
 In the Console, run:
 
 ````
-show_file("about.qmd", pattern = "Kane")
+show_file("about.qmd", pattern = "Bootcamp")
 ````
 
 CP/CR.
@@ -1010,7 +1011,6 @@ question_text(NULL,
 ```
 
 ````
-My name is **David Kane**, and I graduated from *Williams College*.
 [Kane's Free Data Science Bootcamp](https://bootcamp.davidkane.info)
 ````
 
@@ -1019,7 +1019,7 @@ You only need a few [formatting tricks](https://quarto.org/docs/authoring/markdo
 
 ### Exercise 13
 
-Push all the changes to GitHub, and issue the `quarto publish gh-pages` command in the Terminal. You need to hit "Enter" at least once. CP/CR.
+Push all the changes to GitHub, and issue the `quarto publish gh-pages` command in the Terminal. You need to hit `Enter` at least once. CP/CR.
 
 ```{r website-2-13}
 question_text(NULL,
@@ -1032,7 +1032,7 @@ question_text(NULL,
 
 ### 
 
-Troubleshooting Quarto documents can be challenging because you are no longer in an interactive R environment, and you will need to learn some new tricks. Additionally, the error could be due to issues with the Quarto document itself or due to the R code in the Quarto document.
+Troubleshooting Quarto documents can be challenging because you are no longer in an interactive R environment. You will need to learn some new tricks. Additionally, the error could be due to issues with the Quarto document itself or due to the R code in the Quarto document.
 
 If the errors are due to the R code in the document, the first thing you should always try is to recreate the problem in an interactive session. Render the QMD. If you’re lucky, that will recreate the problem, and you can figure out what’s going on interactively.
 
@@ -1138,7 +1138,7 @@ These are my sources. Here are some challenges. Quarto websites are awesome.
 
 A website, when you first look closely, may appear overwhelming in its complexity. But it is usually created from of a small collection of text files, each of them quite simple.
 
-You may be directed to the `localhost` version of your website, showing the "Sources" page. You have rendered the QMD into HTML. But notice that there is no way to get to this page via the website menu . . . 
+You may be directed to the `localhost` version of your website, showing the "Sources" page. You have rendered the QMD into HTML. But notice that there is no way to get to this page via the website menu . . . That is a problem!
 
 ### Exercise 17
 
@@ -1221,11 +1221,11 @@ format:
     toc: true
 ````
 
-**YAML files are *very* tricky!** Tabs and white spaces matter. The code `left` before the navbar items puts the navigation bar on the left side of your site. This can be changed to `right``.
+**YAML files are *very* tricky!** Tabs and white spaces matter. The code `left` before the navbar items puts the navigation bar on the left side of your site. This can be changed to `right`.
 
 ### Exercise 18
 
-Run `quarto preview` from the Terminal. (You may need to first use `Ctrl + c` to end whatever programming is currently running.) You will need to hit "Enter" once. Check out your new project! See how "Sources" now appears on the navigation toolbar. Click on "Sources" and see how the text you added to `sources.qmd` now appears on the web.
+Run `quarto preview` from the Terminal. (You may need to first use `Ctrl + c` to end whatever programming is currently running.) You will need to hit `Enter` once. Check out your new project! See how "Sources" now appears on the navigation toolbar. Click on "Sources" and see how the text you added to `sources.qmd` now appears on the web.
 
 Run `ls _site/*html` in the Terminal. CP/CR.
 
@@ -2263,7 +2263,7 @@ There was nothing wrong, *per se*, with having the plotting code in `index.qmd` 
 
 ### Exercise 25
 
-From the Terminal, run `quarto publish gh-pages`. You will need to hit "Enter" at least once.  Commit and push all the files. 
+From the Terminal, run `quarto publish gh-pages`. You will need to hit `Enter` at least once.  Commit and push all the files. 
 
 From the Terminal, run `git show --name-status HEAD`. CP/CR.
 

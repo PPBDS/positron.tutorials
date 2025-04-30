@@ -279,7 +279,7 @@ Then, choose `Insert Code Cell`, selecting `r` from the list of options. Within 
 include_graphics("images/add-numbers.png")
 ```
 
-You can also insert a code cell with the shortcut key: `Cmd/Ctrl + Option/Alt + i`. (The `Option` key on the Mac is the same as the `Alt` key on Windows.)
+You can also insert a code cell with the shortcut key: `Cmd/Ctrl + Shift + i`. 
 
 Save the file. Render it again.
 
