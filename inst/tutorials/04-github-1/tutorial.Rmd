@@ -32,6 +32,8 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
+<!-- Introduce and illustrate the distinction between Console world and QMD world. -->
+
 <!-- Change repo names to `repo-1`. Then, update all the relevant PNG files. -->
 
 <!-- Couple of DK comments below which indicate how to expand a couple of questions. -->
@@ -40,9 +42,6 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- Maybe delete gitcreds and usethis, and then use the command line? -->
 
-<!-- Can we add some tests? Maybe set up a test environment of some type, perhaps by setting up all sets of scaffolding for testthat? -->
-
-<!-- Consider switching to lower case names for repos. But then we would probably need to redo lots of the images . . . -->
 
 ## Introduction
 ### 
@@ -1198,7 +1197,7 @@ Quarto is "Watching files for changes" at the Terminal. If you change and then r
 include_graphics("images/second-repo-3-b.png")
 ```
 
-We want to "free up" the Terminal so that we can issue some commands. So, when in the Terminal, use `Ctrl-C` to exit Quarto watching mode. CP/CR, but include the few lines above the `Ctrl-C` as well.
+We want to "free up" the Terminal so that we can issue some commands. So, when in the Terminal, use `Ctrl + c` to exit Quarto watching mode. CP/CR, but include the few lines above the `Ctrl + c` as well.
 
 ```{r publishing-with-github-pages-7}
 question_text(NULL,
@@ -1376,7 +1375,7 @@ The commit itself has not changed. It has the same date/author/comment as before
 
 ### Exercise 12
 
-Add an R code chunk with `Cmd/Ctrl + option + i` to `analysis.qmd`. (Recall that "code chunk" and "code cell" mean the same thing.) In that chunk, put `library(tidyverse)`. `Cmd/Ctrl + Shift + K` to render the the document. Your Positron window should look like:
+Add an R code chunk in `analysis.qmd` by using the shortcut key `Cmd/Ctrl + option + i` . (Recall that "code chunk" and "code cell" mean the same thing.) In that chunk, put `library(tidyverse)`. `Cmd/Ctrl + Shift + K` to render the the document. Your Positron window should look like:
 
 ```{r}
 include_graphics("images/second-repo-7.png")
@@ -1587,7 +1586,7 @@ include_graphics("images/second-repo-8.png")
 
 Commit your files and push them to GitHub. Don't forget the commit message. Don't forget that "push" means the same thing as "sync."
 
-Using `Ctrl-C` to stop the Quarto watching process. From the Terminal, run `git log -n 1`. CP/CR.
+Using `Ctrl + c` to stop the Quarto watching process. From the Terminal, run `git log -n 1`. CP/CR.
 
 ```{r publishing-with-github-pages-17}
 question_text(NULL,
@@ -1622,7 +1621,7 @@ include_graphics("images/second-repo-9.png")
 
 We won't modify these options by hand. But it is useful to know where the details are located.
 
-From the Terminal, run `quarto publish gh-pages analysis.qmd`. Respond with "Y" when it checks that you want to (This might take a minute to run.) 
+From the Terminal, run `quarto publish gh-pages analysis.qmd`. Respond with "Y" when it checks that you want to. (This might take a minute to run.) 
 
 CP/CR just the first 10 or so lines of what results.
 

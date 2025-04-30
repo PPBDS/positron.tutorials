@@ -1,6 +1,6 @@
 ## Priorities
 
-Get rid of RPubs?
+Get rid of RPubs!
 
 Clean up tutorial 7.
 
@@ -9,6 +9,9 @@ Add tutorial about ellmer and other AI issues.
 Add a tutorial about working with large, complex projects? Each topic would involve forking an already existing project and then making a bunch of changes, perhaps including getting the raw data.
 
 Add more AI questions. Need to make students practice interacting with AI.
+
+Can we add some tests? Maybe set up a test environment of some type, perhaps by setting up all sets of scaffolding for testthat? 
+
 
 Maybe an Advanced Positron tutorial? Covers topics like multiple Terminals and Consoles. Advanced Git/GitHub trickery, especially for when the Git history is rich. 
 

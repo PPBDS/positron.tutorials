@@ -33,13 +33,17 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- DK: Stop using Rpubs! -->
 
+<!-- DK: Make a decision about the best way to deal with the restart of Positron which seems to  -->
+
+<!-- DK: There should be four projects, each moving more quickly during the creation phase. The core coding is done with AI. -->
+
 <!-- project-3 should require users to fork a repo. -->
 
 <!-- In project 4, use the GitHub created .gitignore and discuss stuff there. -->
 
-<!-- When we say, your answer should look like, we often don't include the command even though your actual answer started with the command, since the instruction was CP/CR. -->
+<!-- More explicit emphasis on QMD world versus Console world. -->
 
-<!-- Can we add some tests? Maybe set up a test environment of some type, perhaps by setting up all sets of scaffolding for testthat? -->
+<!-- Consider getting rid of palmerpenguins. -->
 
 ## Introduction
 ### 
@@ -50,16 +54,19 @@ The most useful reference for Git/GitHub is [*Happy Git and GitHub for the useR*
 
 ### 
 
+<!-- DK: Do we need these instructions given that we make a new window each time? That is, we never actually use the new Console in the window which is running the tutorial. Instead, give instructions about using the two windows approach each time. Mention that we are creating four projects. -->
+
 Start a new Console by clicking the "Start a New Session" button --- the `+` sign --- on the Console tab. You will always need to do this when working on a tutorial because the default Console will be busy running the tutorial itself. Use the new Console for the relevant questions below. 
 
 
 ## Project 1
 ### 
 
+<!-- DK: Project 1 should be slightly more sophisticated and project 2 should be slightly more. Project 1 should not only use code chunk options. It should not use execute or suppressPackage. Project 2 should be the reverse. Project 3 should do what Project 2 does, but without explicit instructions. Project 4 should fork. -->
+
 This first project will simply review the steps which we have already learned. Making the data science work cycle second nature requires practice.
 
-We don't need to set up Git and Github again, having already done so above. In this project, our goal is to publish a nice graphic of data about penguins.
-
+We don't need to set up Git and Github again, having already done so. In this project, our goal is to publish a nice graphic of data about penguins.
 
 ### Exercise 1
 
@@ -80,7 +87,7 @@ question_text(NULL,
 https://github.com/davidkane9/project-1
 ```
 
-As a reminder, we often provide our answer to a question right after asking you for your answer, as we do above. In many cases, our anwer will be different because, as here, we have a different user name on GitHub.
+As a reminder, we often provide our answer to a question right after asking you for your answer, as we do above. In many cases, our answer will be different because, as here, we have a different user name on GitHub.
 
 Always start a new data science project with a new Github repo.
 
@@ -144,7 +151,7 @@ Your answer should look like this:
 >  
 ```
 
-Titles should be in title case, obviously. File names are usually all lower case. Spaces in titles are fine, but there should never be spaces (or other weird characters --- other than underlines, `_`, and, less commonly, dashes `-`) in file names.
+Titles should be in title case, obviously. File names are usually all lower case. Spaces in titles are fine, but there should never be spaces (or other weird characters --- other than underlines, `_`, and, less commonly, dashes, `-`) in file names.
 
 ### Exercise 4
 
@@ -191,13 +198,15 @@ Watching files for changes
 Browse at http://localhost:4817/
 ```
 
-Clicking the "Preview" button runs, behind the scenes on the Terminal, the `quarto preview` command. This command does two things. First, it "renders" `quarto.qmd`, taking this QMD file as input and producing `quarto-1.html` as output. Second, it "watches" the HTML file. If something changes in that file --- because we have edited `quarto.qmd` and then rendered it --- Positron will show the new HTML in the Viewer atb.
+<!-- DK: Is the below true? -->
+
+Clicking the "Preview" button runs, behind the scenes on the Terminal, the `quarto preview` command. This command does two things. First, it "renders" `quarto-1.qmd`, taking this QMD file as input and producing `quarto-1.html` as output. Second, it "watches" the QMD file. If something changes in that file, Positron will render it and then show new HTML in the Viewer tab.
 
 ### Exercise 5
 
 The `pandoc` and `metadata` portions of the previous output give more details on the process. Positron itself is not doing the main work. That is Quarto's job. Instead, Positron is managing Quarto and other processes.
 
-At the Terminal, use `Ctrl-C` to stop the watching process. Then, run `ls`. CP/CR.
+At the Terminal, use `Ctrl + c` to stop the watching process. Then, run `ls`. CP/CR.
 
 ```{r project-1-5}
 question_text(NULL,
@@ -219,7 +228,7 @@ README.md       quarto-1.html   quarto-1.qmd    quarto-1_files
 dkane@macbook project-1 % 
 ````
 
-Note that `^C` symbol, which is how `Ctrl-C` is recorded.
+Note that `^C` symbol, which is how `Ctrl + c` is recorded.
 
 The `quarto-1.html` is our rendered file, as expected. The `quarto-1_files` directory contains a variety of files which were involved in the transformation of `quarto-1.qmd` into `quarto-1.html`. None of the files in `quarto-1_files` are worth understanding, at least at this point in your data science education.
 
@@ -317,7 +326,9 @@ library(tidyverse)
 
 Anytime you use `show_file()` without having a blank line at the end of the file, you will get a warning message.
 
-Recall that you can add a code chunk by either pressing the “Insert” button icon in the editor toolbar (the green button with the letter C and a tiny plus sign) or by using the shortcut key combination: `Command + Option + i` or `Ctrl + Alt + i`.
+<!-- DK: Confirm this. -->
+
+Recall that you can add a code chunk by using the shortcut key combination: `Command + Option + i` (Mac) or `Ctrl + Alt + i` (Windows).
 
 You could also manually type the chunk delimiters ```` ```{r} ```` and ```` ``` ````, but, obviously, that is the worst option.
 
@@ -358,8 +369,6 @@ library(palmerpenguins)
 
 When you render the document, Quarto sends the QMD file to **knitr**, which executes all of the code chunks and creates a new Markdown (`.md`) document which includes the code and its output. The Markdown file generated by **knitr** is then processed by [pandoc](https://pandoc.org/), which is responsible for creating the finished HTML file.
 
-
-
 ### Exercise 10
 
 Add a new code chunk, which just includes `penguins`. Render the document. Copy the displayed bottom contents of `quarto-1.html` below, starting with `penguins`.
@@ -394,7 +403,9 @@ execute:
   echo: false
 ````
 
-Also, we don't want those warnings from loading the **tidyverse** package to be included in the HTML, so add `#| warning: false` to the first code chunk. `Cmd/Ctrl + Shift + K` to confirm that everything looks good. The only thing that should appear in the HTML, other than title and author, is the `penguins` data set.
+Also, we don't want those warnings from loading the **tidyverse** package to be included in the HTML, so replace `library(tidyverse)` with `suppressPackageStartupMessages(library(tidyverse))`. 
+
+`Cmd/Ctrl + Shift + K` to confirm that everything looks good. The only thing that should appear in the HTML, other than title and author, is the `penguins` data set.
 
 In the Console, run `tutorial.helpers::show_file("quarto-1.qmd")`. CP/CR.
 
@@ -420,8 +431,7 @@ execute:
 ---
 
 ```{r}
-#| warning: false
-library(tidyverse)
+suppressPackageStartupMessages(library(tidyverse))
 library(palmerpenguins)
 ```
 
@@ -605,6 +615,8 @@ Note that the name of the file, `quarto-1.html`, plays no part in the URL. We to
 ## Project 2
 ### 
 
+<!-- DK: Project 2 should be a bit faster. For example, exercises 1 and 2 should be combined. -->
+
 With `project-1`, we went through all the steps of a data science project: start with GitHub repo; connect to project on local computer; use a Quarto document for analysis; publish to GitHub Pages; push final changes to the repo.
 
 Restart the R session with `Cmd/Ctrl + Shift + 0`.
@@ -658,13 +670,13 @@ question_text(NULL,
 
 ### 
 
-Your answer should include two files: `README.md` and `project-2.Rproj`.
+Your answer should be `README.md`.
 
-Positron will automatically restart and place you within the `project-2` R project. Recall that the definition of an R project is a directory which includes a `Rproj` file. If you run `tutorial.helpers::show_file("project-2.Rproj")` you will see that a `Rproj` file does not include the name of the project. The name of the project is taken from the directory in which it is located, i.e., the directory which contains the `Rproj` file.
+Positron will automatically restart and place you within the `project-2` R project. 
 
 ### Exercise 3
 
-Select `File -> New File -> Quarto Document ...`. Provide a title ("Quarto 2") and an author (you). Save the document as `quarto-2.qmd`. `Cmd/Ctrl + Shift + K`.
+Select `File -> New File -> Quarto Document`. Provide a title ("Quarto 2") and an author (you). Save the document as `quarto-2.qmd`. `Cmd/Ctrl + Shift + K`.
 
 In the Console, run:
 
@@ -687,6 +699,8 @@ question_text(NULL,
 
 ### 
 
+<!-- DK: Fix this. -->
+
 Your answer should look like this:
 
 ```         
@@ -696,11 +710,11 @@ Your answer should look like this:
 > 
 ```
 
-The single `.` refers to this directory while `..` refers to the directory above, which is `/Users/dkane/Desktop/projects` in this case. `.Rproj.user` and `.git` are directories, meant solely for the use of Positron and Git, respectively. The only other directory is `quarto-2_files`, a junk directory, created for the use of Quarto. We have discussed the other 5 files above.
+The single `.` refers to this directory while `..` refers to the directory above, which is `/Users/dkane/Desktop/projects` for me.  `.git` is a directory meant solely for the use of Git. The only other directory is `quarto-2_files`, a junk directory, created for the use of Quarto. 
 
 ### Exercise 4
 
-Edit the `.gitignore` by adding `*Rproj` and `*_files`.
+Create a `.gitignore` with `*_files` and a blank line.
 
 In the Console, run:
 
@@ -726,23 +740,17 @@ Your answer should look like this:
 
 ```         
 > tutorial.helpers::show_file(".gitignore")
-.Rproj.user                                          
-.Rhistory
-.RData
-.Ruserdata
-
-*Rproj
 *_files
 >
 ```
 
-We could have specified the file/directory to ignore more precisely by using their exact names: `project-2.Rproj` and `quarto-2_files`. Doing so would avoid any weird complications if we end up adding other files to the project which, by coincidence, happen to have names which end with `Rproj` or `_files`.
+We could have specified the file/directory to ignore more precisely by using its exact name: `quarto-2_files`. Doing so would avoid any weird complications if we end up adding other files to the project which, by coincidence, happen to have names which end with `_files`.
 
-But that never (?) happens! And it is just easier to use the `*` versions. Note that `*` is a "regular expression" which matches any characters. So, Git will ignore any files or directories which end with `Rproj` or `_files`, including `project-2.Rproj` and `quarto-2_files`.
+But that never (?) happens! And it is just easier to use the `*` version. Note that `*` is a "regular expression" which matches any characters. So, Git will ignore any files or directories which end with `_files`, including `quarto-2_files`.
 
 ### Exercise 5
 
-Using the Git tab in the Environment pane, add, commit and push the three remaining files: `.gitignore`, `quarto-2.qmd`, and `quarto-2.html`. Use a sensible commit message.
+Commit and sync `.gitignore`, `quarto-2.qmd`, and `quarto-2.html`. Use a sensible commit message.
 
 From the Terminal, run `git log`. CP/CR.
 
@@ -775,9 +783,13 @@ Date:   Tue Feb 20 14:26:05 2024 -0500
 Davids-MBP:project-2 dkane$ 
 ```
 
+<!-- DK: Is this true? -->
+
 There have been two commits in this repo. The first was generated automatically when we create the repo. The second was the one we just committed by hand, along with the commit message "initial version." Note how, next to the word "commit" there is a 40 character string of letters and numbers. This is the "hash" by which Github identifies each commit. The hash is always unique.
 
 ### Exercise 6
+
+<!-- DK: Huh? This does not seem to connect. After all, isn't quarto-2.qmd already empty beneath the YAML header? Also, this is not the code we created in the previous section. Instead, we should be using AI and a new data set. -->
 
 Remove everything below the YAML header from `quarto-2.qmd`. Add the code chunks from the previous section:
 
@@ -990,6 +1002,8 @@ The key lesson is that the Console does not know about the QMD file and the QMD 
 
 ### Exercise 12
 
+<!-- DK: No more labels. -->
+
 We have forgotten to label the code chunks. Not good! Add `#| label: setup` to the first code chunk and `#| label: make-plot` to the second. `Cmd/Ctrl + Shift + K`
 
 In the Console, run:
@@ -1012,7 +1026,7 @@ question_text(NULL,
 
 ### 
 
-`quarto-2.html` is unchanged. Label'ing code chunk does not affect the output, but it is still good practice.
+`quarto-2.html` is unchanged. Label'ing a code chunk does not affect the output, but it is still good practice.
 
 
 ### Exercise 13
@@ -1070,6 +1084,8 @@ question_text(NULL,
 If you turn off warnings, you ought to add some code comments explaining why. A better approach, in this case, would have been to add a command like `drop_na(body_mass_g)` to the pipe. This would have removed the two rows with missing data.
 
 ### Exercise 15
+
+<!-- DK: Switch to quarto publish gh-pages quarto-2.qmd. -->
 
 Press the Publish button. Choose RPubs. Include a sensible slug. (I chose `quarto-2`. A slug should not have any spaces since it is a URL.) Copy/paste the full URL below.
 
