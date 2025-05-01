@@ -31,12 +31,10 @@ library(tidyverse)
 
 <!-- Confirm that quarto publish gh-pages works on Windows. -->
 
-<!-- Might be nice to have some actual testing, and some clean up of the files thereby created. -->
-
 ## Introduction
 ### 
 
-This tutorial introduces the process of creating and organizing the [Quarto websites](https://quarto.org/docs/websites/) using the [Quarto CLI](https://quarto.org/docs/get-started/) (command line interface) and commands like `quarto create project`, `quarto render`, `quarto preview`, and `quarto publish`. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This tutorial introduces the process of creating and organizing [Quarto websites](https://quarto.org/docs/websites/) using the [Quarto CLI](https://quarto.org/docs/get-started/) (command line interface) and commands like `quarto create project`, `quarto render`, `quarto preview`, and `quarto publish`. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 
 ## Creating files
@@ -237,7 +235,7 @@ In general, we do not touch/manipulate "dot" directories, meaning directories wh
 ## Examining files
 ### 
 
-Now that we have created the necessary files, it is useful to examine them one-by-one. The goal is to provide you with a good introduction to how websites are put together.
+Now that we have created the necessary files, it is useful to examine them one-by-one. Our goal is to provide you with a good introduction to how websites are put together.
 
 ### Exercise 1
 

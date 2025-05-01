@@ -1,5 +1,13 @@
 ## Priorities
 
+use Grok to provide one sentence descriptions for each tutorial, and then use that description in two places: the file itself and the home page of the package.
+
+Standardize one whether we are teaching them the one window or two window approach. Or maybe we show them both and then standardize on two window since restarting the tutorial is so annoying.
+
+Build VS Code extension for seeing/starting tutorials.
+
+Shrink all PNG files.
+
 Get rid of RPubs!
 
 Clean up tutorial 7.
@@ -37,8 +45,6 @@ Any reason to make the Tutorial descriptions longer, like a full sentence or two
 
 If we ever redo the images, make sure to delete the Positron default welcome page first. 
 
-Do we teach how to use `cat` in Terminal? We need to!
-
 Any reason to explore the Visual editor?
 
 Ask Posit why `Cmd + Shift + K` does quarto preview as opposed to quarto render?
@@ -47,28 +53,11 @@ find . -type f -name "*.png" -exec pngquant "{}" -o "{}" --force \;
 
 Just added those .txt files on 03-terminal/images. Is that a good place for them? We don't (?) want them to be in the actual package. Should we add them to .RBuildignore?
 
-Positron GitHub Announcement that there was now the ability to create a second Console easily. Do I want this? Would it be useful for tutorials?
-
 Update R CMD check YAML to be more like tutorial.helpers, using renv and multiple OS's.
-
-## Madhavan
-
-Do 01-code tutorial. 
-    Submit your downloaded answers to me. 
-    Submit a PR with fixes and comments.
-
-## Sharav
-
-Install new version of tutorial.helpers.
-Complete "Tutorials in Positron" tutorial.
-Send me the answers.
-Submit a PR with any corrections/questions about that tutorial.
-Read up on Positron.
-
 
  ## AI Links
 
-Apparently, there is active work on a Positron Assistant. More evidence that we are correct to leave RStudio behind.
+Apparently, there is active work on a Positron Assistant. 
 
 
 https://ellmer.tidyverse.org/
