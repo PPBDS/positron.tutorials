@@ -38,6 +38,8 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- Couple of DK comments below which indicate how to expand a couple of questions. -->
 
+<!-- Publish something? -->
+
 <!-- Stop being afraid of the command line. Use lots of git commands.  -->
 
 <!-- Maybe delete gitcreds and usethis, and then use the command line? -->

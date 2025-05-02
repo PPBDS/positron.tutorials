@@ -33,7 +33,7 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- DK: Stop using Rpubs! -->
 
-<!-- DK: Make a decision about the best way to deal with the restart of Positron which seems to  -->
+<!-- DK: Make a decision about the best way to deal with the restart of Positron which seems to be to use two windows. -->
 
 <!-- DK: There should be four projects, each moving more quickly during the creation phase. The core coding is done with AI. -->
 
@@ -62,7 +62,9 @@ Start a new Console by clicking the "Start a New Session" button --- the `+` sig
 ## Project 1
 ### 
 
-<!-- DK: Project 1 should be slightly more sophisticated and project 2 should be slightly more. Project 1 should not only use code chunk options. It should not use execute or suppressPackage. Project 2 should be the reverse. Project 3 should do what Project 2 does, but without explicit instructions. Project 4 should fork. -->
+<!-- DK: Project 1 should be slightly less sophisticated and project 2 should be slightly more. Project 1 should not only use code chunk options. It should not use execute or suppressPackage. Project 2 should be the reverse. Project 3 should do what Project 2 does, but without explicit instructions. Project 4 should fork. -->
+
+<!-- Does Project 1 publish? -->
 
 This first project will simply review the steps which we have already learned. Making the data science work cycle second nature requires practice.
 
