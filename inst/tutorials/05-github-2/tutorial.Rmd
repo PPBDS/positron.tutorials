@@ -1085,13 +1085,37 @@ question_text(NULL,
 
 If you turn off warnings, you ought to add some code comments explaining why. A better approach, in this case, would have been to add a command like `drop_na(body_mass_g)` to the pipe. This would have removed the two rows with missing data.
 
+
 ### Exercise 15
 
-<!-- DK: Switch to quarto publish gh-pages quarto-2.qmd. -->
+Let's publish our results to [GitHub Pages](https://pages.github.com/). 
 
-Press the Publish button. Choose RPubs. Include a sensible slug. (I chose `quarto-2`. A slug should not have any spaces since it is a URL.) Copy/paste the full URL below.
+From the Terminal, run `quarto publish gh-pages quarto-2.qmd`. Respond with "Y" when it checks that you want to. (This might take a minute to run.) 
+
+CP/CR just the first 5 or so lines of what results.
+
 
 ```{r project-2-15}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 7)
+```
+
+###
+
+<!-- DK: Add in correct answer. -->
+
+`quarto publish` processes `quarto-2.qmd` in the same way that `quarto preview` or `quarto render` does.
+
+### Exercise 16
+
+Go to your `project-2` page on GitHub. Refresh the page. `quarto publish` has changed some of the items. Copy/paste all the text in the "Visit site" box.
+
+
+```{r project-2-16}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1100,36 +1124,15 @@ question_text(NULL,
 	rows = 3)
 ```
 
-### 
+###
 
-Your answer should look like:
+````
+Your site is live at https://davidkane9.github.io/project-2/
+Last deployed by @davidkane9 davidkane9 6 minutes ago
+````
 
-```         
-https://rpubs.com/dkane/quarto-2
-```
+Publishing to GitHub Pages has not changed any of the files in our repo, so the "Source Control" button does not show any changes for us to deal with. Our local repo matches our `project-2` on GitHub. We are done!
 
-### Exercise 16
-
-Check out the Git tab. Note the "M" next to `quarto-2.qmd` and `quarto-2.html`. The "M" is Git's (and Positron's) way of telling us that the files have been **M**odified. Note, also, the new directory, `rsconnect`. This is another directory, like `quarto-2_files`, which does not belong on GitHub.
-
-Add `rsconnect` to `.gitignore`. Commit and push `.gitignore`, `quarto-2.qmd` and `quarto-2.html`. Use a sensible commit message like "published version."
-
-From the Terminal, run `git log -n 1`. CP/CR.
-
-```{r project-2-16}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 8)
-```
-
-### 
-
-The `-n 1` argument pulls up just the last commit.
-
-This is the third time that we have started with nothing and gone all the way to publishing something on the web. Well done! The key steps are GitHub repo -\> R project -\> Quarto document -\> HTML -\> RPubs.
 
 ## Summary
 ### 
