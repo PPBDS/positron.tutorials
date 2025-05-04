@@ -39,6 +39,10 @@ library(tidyverse)
 
 This tutorial practices the process of creating and organizing the [Quarto websites](https://quarto.org/docs/websites/) using the [Quarto CLI](https://quarto.org/docs/get-started/) (command line interface). You will learn some new skills, such as how to add visualization, edit text, and create new pages. You will also learn how to save the results of your data manipulation code in an RDS file and how to save your plots as PNG files. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
+### 
+
+Start a new window with `File -> New Window`. This new window is the location in which you will do all the work for the tutorial, including the creation of new projects. The current window, the one in which you are reading these words, is just used to run this tutorial. 
+
 ## Website 1
 ### 
 
@@ -70,10 +74,6 @@ Always start a new data science project with a new GitHub repo.
 ### Exercise 2
 
 Connect the `website-1` GitHub repo to a project on your computer. Close the Positron welcome page in the Editor and then start the interpreter using R, if necessary.
-
-As always, you have a choice as to whether or not you want to have two Positron windows: one (this one) in which to complete the tutorial and another one in which you create your actual project. Or you can have just one window, with multiple Consoles. Either approach is fine. 
-
-If you choose the "new window" option, you may need to close the "Welcome" window and start an R interpreter for the Console. If you don't create a new window, you will need to restart the tutorial and create a new Console.
 
 From the Terminal, run `ls`. CP/CR.
 
@@ -515,7 +515,7 @@ Let's create a new website with a beautiful plot of the data from the `billboard
 
 Create a public GitHub repo called `website-2`. Make sure to click the "Add a README file" check box.
 
-Connect the `website-2` GitHub repo to a project on your computer. Decide whether you want to deal with one Positron window or two. Restart the tutorial, if necessary.
+Connect the `website-2` GitHub repo to a project on your computer. 
 
 From the Terminal, run `ls`. CP/CR.
 

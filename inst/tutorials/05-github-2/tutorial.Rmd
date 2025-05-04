@@ -54,10 +54,7 @@ The most useful reference for Git/GitHub is [*Happy Git and GitHub for the useR*
 
 ### 
 
-<!-- DK: Do we need these instructions given that we make a new window each time? That is, we never actually use the new Console in the window which is running the tutorial. Instead, give instructions about using the two windows approach each time. Mention that we are creating four projects. -->
-
-Start a new Console by clicking the "Start a New Session" button --- the `+` sign --- on the Console tab. You will always need to do this when working on a tutorial because the default Console will be busy running the tutorial itself. Use the new Console for the relevant questions below. 
-
+Start a new window with `File -> New Window`. This new window is the location in which you will do all the work for the tutorial, including the creation of new projects. The current window, the one in which you are reading these words, is just used to run this tutorial. 
 
 ## Project 1
 ### 
@@ -100,8 +97,6 @@ Connect the `project-1` Github repo to a project on your computer. Recall the st
 - `File -> New Folder from Git ...`
 
 - Paste the repo URL (ending in `.git`) into the "Git repository URL" box.
-
-- Check "Open in new window" box.
 
 - Click "OK"
 

@@ -36,6 +36,9 @@ library(tidyverse)
 
 This tutorial introduces the process of creating and organizing [Quarto websites](https://quarto.org/docs/websites/) using the [Quarto CLI](https://quarto.org/docs/get-started/) (command line interface) and commands like `quarto create project`, `quarto render`, `quarto preview`, and `quarto publish`. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
+### 
+
+Start a new window with `File -> New Window`. This new window is the location in which you will do all the work for the tutorial, including the creation of new projects. The current window, the one in which you are reading these words, is just used to run this tutorial. 
 
 ## Creating files
 ### 
@@ -51,7 +54,7 @@ Let's make a [Quarto website](https://quarto.org/docs/websites/).
 
 ### Exercise 1
 
-Run `quarto --version` from the Terminal inside of the Positron window. CP/CR.
+Run `quarto --version` from the Terminal inside of the new Positron window. CP/CR.
 
 ```{r creating-files-1}
 question_text(NULL,
@@ -503,7 +506,7 @@ _quarto.yml     about.qmd       styles.css
 dkane@macbook first-website % 
 ````
 
-Note the addition of a `_site` directory. This is the location in which the HTML files that make up the website are located. The webpages which make up a website are often placed in a directory named either `_site` or `docs`, depending on the setup of your web hosting service.
+Note the addition of a `_site` directory. This is the location in which the HTML files that make up the website are located. The web pages which make up a website are often placed in a directory named either `_site` or `docs`, depending on the setup of your web hosting service.
 
 
 ### Exercise 3
@@ -771,7 +774,7 @@ Go to your `first-website` Github repository.
 
 Click on the "Settings" option on the right side of the top menu.
 
-Click on the "Pages" option on the lefthand side menu.  
+Click on the "Pages" option on the left-hand side menu.  
 
 Copy/paste the resulting URL.
 
