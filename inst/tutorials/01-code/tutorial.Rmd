@@ -28,17 +28,12 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- This tutorial assumes that they know some R code, like at the level of Introduction from r4ds.tutorials. -->
-
-<!-- Need to deal with the issue of keyboard short cuts. For now, I have mostly deleted them. Need to figure out which set to use and how to add them back. -->
 
 <!-- Make the experience good for Windows users. Key issue is adding Windows hints/clarifications to questions which are written implicitly assuming students are on a Mac. -->
 
 <!-- What about Chromebooks??!! Too much to worry about. -->
 
 <!-- To Format the chunk labels you need to comment out the example comment line in Script 1. And there is at least one more example later. -->
-
-<!-- We do not use the Terminal in this tutorial. Maybe mention it, though? -->
 
 ## Introduction
 ### 
@@ -60,6 +55,10 @@ include_graphics("images/start-up-2.png")
 ```
 
 You can switch back-and-forth between the two Consoles, but you will rarely want to since the first is just running the tutorial.
+
+###
+
+The other solution to the problem of a busy-running-the-tutorial Console is to start a new Positron window with `File -> New Window`. You then move back and forth between the two windows. This is generally the better approach for any tutorial beyond the introductory level. We will demonstrate this workflow later in the tutorial.
 
 
 ## Checking your setup
@@ -440,10 +439,7 @@ Again, you can place your `projects` directory where you want, as long as you ke
 
 Good data scientists keep their work organized. You should place your work in different projects, which are simply folders (that is, directories) on your computer. Each separate project is a folder within your main folder for your data science work, i.e.,  `/Users/dkane/Desktop/projects/`.  
 
-
 ### Exercise 1
-
-**Read all of the instructions before starting this exercise.**
 
 From the `File` menu, select `New Project ...`. 
 
@@ -467,32 +463,19 @@ The "Set up project configuration" screen should appear. Accept the default opti
 include_graphics("images/set-project-3.png")
 ```
 
-Choose "Current Window." Unfortunately, when you do, this Positron window will close, ending the tutorial. 
+**Choose "New Window."** You need two Positron windows to work on tutorials. The first one --- this one --- runs the tutorial. The second one is where you do the work. So, you need to select the "New Window" option.
 
-But that is OK. You can create a new Console --- with the `+` button in the Console menu --- and then restarting this tutorial in it with:
-
-````
-learnr::run_tutorial("01-code", "positron.tutorials")
-````
-
-You might want to copy that string now so that you have it on your clipboard when you want it.
-
-This leads to:
-
+<!-- DK: Below image is wrong because it has two Consoles. -->
 
 ```{r}
 include_graphics("images/set-project-4.png")
 ```
 
-Your answers have been saved. And you are in the `analysis-1` project, as you can see in two ways, indicated by the red arrows.
+You are in the `analysis-1` project, as you can see in two ways, indicated by the red arrows.
 
 ### 
 
-Now that you have read all the directions, we can go through the steps. 
-
-### 
-
-After you are done, run `getwd()` in the Console. 
+Run `getwd()` in the Console in the new Window, the one which is running the `analysis-1` porject.
 
 CP/CR.
 
