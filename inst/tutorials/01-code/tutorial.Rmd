@@ -441,6 +441,8 @@ Good data scientists keep their work organized. You should place your work in di
 
 ### Exercise 1
 
+**Read all the instructions before starting the steps.**
+
 From the `File` menu, select `New Project ...`. 
 
 From the "Project Type" screen, select "R Project." Click "Next." Doing so brings up the "Create New Project" screen:
@@ -465,17 +467,17 @@ include_graphics("images/set-project-3.png")
 
 **Choose "New Window."** You need two Positron windows to work on tutorials. The first one --- this one --- runs the tutorial. The second one is where you do the work. So, you need to select the "New Window" option.
 
-<!-- DK: Below image is wrong because it has two Consoles. -->
+Your new window should look like this:
 
 ```{r}
 include_graphics("images/set-project-4.png")
 ```
 
-You are in the `analysis-1` project, as you can see in two ways, indicated by the red arrows.
+You are in the `analysis-1` project, as you can see in four ways, indicated by the red arrows.
 
 ### 
 
-Run `getwd()` in the Console in the new Window, the one which is running the `analysis-1` porject.
+Run `getwd()` in the Console in the new Window, the one which is running the `analysis-1` project.
 
 CP/CR.
 

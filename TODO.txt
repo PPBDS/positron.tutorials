@@ -2,8 +2,6 @@
 
 Confirm the use of two Windows throughout.
 
-Fix set-project 4 and 5 in 01 tutorial.
-
 use Grok to provide one sentence descriptions for each tutorial, and then use that description in two places: the file itself and the home page of the package.
 
 Standardize one whether we are teaching them the one window or two window approach. Or maybe we show them both and then standardize on two window since restarting the tutorial is so annoying.
