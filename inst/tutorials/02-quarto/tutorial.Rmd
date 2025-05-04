@@ -52,7 +52,7 @@ Set the "Project Name" to `tutorial-2` and ensure that the "Parent Directory" is
 
 Click "Next" and then "Create."
 
-Click "New Window" because the Console in your current Positron window is being used to run the tutorial. You always need two windows when completeing a tutorial.
+Click "New Window" because the Console in your current Positron window is being used to run the tutorial. You always need two windows when completing a tutorial.
 
 Run `getwd()` in the Console. CP/CR.
 
