@@ -5,6 +5,8 @@ Confirm the use of two Windows throughout.
 Understand fully how Windows will work in the terminal in Positron, at least for modern window shells.
 
 Revisit Terminal tutorial.
+ 
+What about Chromebooks??!! Too much to worry about. 
 
 use Grok to provide one sentence descriptions for each tutorial, and then use that description in two places: the file itself and the home page of the package.
 
