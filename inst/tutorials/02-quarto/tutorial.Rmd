@@ -167,6 +167,44 @@ Again, there is no necessary connection between the **title** of a Quarto docume
 
 ### Exercise 5
 
+raw
+
+```{r}
+1 + 1
+```
+
+pre
+
+<pre>
+```{r}
+1 + 1
+```
+</pre>
+
+code
+
+<code>
+```{r}
+1 + 1
+```
+</code>
+
+eval
+
+````{r, eval = FALSE}
+```{r}
+1 + 1
+```
+````
+
+inline backticks
+
+
+`` ```{r} ``
+`` 1 + 1 ``
+`` ``` ``
+
+
 Here is an example of a Quarto file:
 
 ````
