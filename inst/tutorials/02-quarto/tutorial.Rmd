@@ -31,11 +31,11 @@ options(tutorial.exercise.timelimit = 60,
 ## Introduction
 ### 
 
-This tutorial covers how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents)). Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This tutorial covers how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents) using [Positron](https://positron.posit.co/). Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 ### 
 
-Start a new Console by clicking the "Start a New Session" button --- the `+` sign --- on the Console tab. You will always need to do this when working on a tutorial because the default Console will be busy running the tutorial itself. Use the new Console for the relevant questions below. 
+From the Positron menu, use `File -> New Window` to create a new window in which you will do the work for this tutorial. Having one window for the tutorial (this window) and one window to do the work in is the recommended approach.
 
 ## Quarto 1
 ### 
@@ -44,7 +44,9 @@ Quarto is a file format for making dynamic documents with R and other languages,
 
 ### Exercise 1
 
-Always do your data science work in a project. From the Positron menu, select `File -> New Project ...`. 
+Always do your data science work in a project. Read these instructions and then follow them **in the other Positron window**, the one not running this tutorial.
+
+From the Positron menu, select `File -> New Project ...`. 
 
 Select "R Project" and click "Next."
 
@@ -52,10 +54,9 @@ Set the "Project Name" to `tutorial-2` and ensure that the "Parent Directory" is
 
 Click "Next" and then "Create."
 
-Click "New Window" because the Console in your current Positron window is being used to run the tutorial. You always need two windows when completing a tutorial.
+Click "Current Window" because that window is not the window running this tutorial, so you can re-start it. You always need two windows when completing a tutorial.
 
 Run `getwd()` in the Console. CP/CR.
-
 
 ```{r quarto-1-1}
 question_text(NULL,
@@ -68,19 +69,17 @@ question_text(NULL,
 
 ### 
 
-Your answer should be something like:
-
 ```
 > getwd()
 [1] "/Users/dkane/Desktop/projects/tutorial-2"
 >
 ```
 
-Soon, we will stop providing these step-by-step instructions for making a new project. Instead, we will just tell you to create a new project and leave it to you to do so.
+Soon, we will stop providing these step-by-step instructions for making a new project. Instead, we will just tell you to create a new project and leave it to you to do so. Remember to run commands after switching to the other Positron window. If you don't, then you might close this window by mistake, which would then require that you restart this tutorial.
 
 ### Exercise 2
 
-Click `File -> New File ... -> Quarto Document` at the top left of your Positron window. 
+Click `File -> New File ... -> Quarto Document` in the Positron menu at the top of your screen. 
 
 This will bring up a new file in your Editor, usually named `Untitled-2`. (If there is already an `Untitled-1` document, you can just close it.) 
 
@@ -108,9 +107,15 @@ question_text(NULL,
 
 ### 
 
+````
+> list.files()
+character(0)
+>
+````
+
 Since we have not saved the file yet, it does not appear in this listing.
 
-Quarto is a command line interface tool, not an R package. This means that help is, by-and-large, not available through `?` at the Console. Instead, as you work through this tutorial, and use Quarto in the future, you should refer to the [Quarto documentation](https://quarto.org/).
+Quarto is a command line interface tool, not an R package. This means that help is, by-and-large, not available through `?` at the Console. Instead, as you work through this tutorial, and use Quarto in the future, you should refer to the [Quarto documentation](https://quarto.org/). Of course, in the modern world, we just ask an AI when we have a problem.
 
 
 ### Exercise 3
@@ -139,7 +144,7 @@ There will probably just be one file, `quarto-1.qmd`, the file you just made.
 In the Console, run:
 
 ````
-tutorial.helpers::show_file("quarto-1.qmd", end = 2)
+tutorial.helpers::show_file("quarto-1.qmd", end = 4)
 ````
 
 CP/CR.
@@ -155,7 +160,7 @@ question_text(NULL,
 
 ### 
 
-The argument `end = 2` to `show_file()` causes just the first two lines of `quarto-1.qmd` to be printed.
+The argument `end = 4` to `show_file()` causes just the first four lines of `quarto-1.qmd` to be printed.
 
 Again, there is no necessary connection between the **title** of a Quarto document --- which is “My First Quarto Document” in this case --- and the **name** of the file --- which here is `quarto-1.qmd`.
 
@@ -164,18 +169,14 @@ Again, there is no necessary connection between the **title** of a Quarto docume
 
 Here is an example of a Quarto file:
 
-````
+````{verbatim}
 ---
 title: "My First Quarto Document"
 author: "Your Name"
 format: html
 ---
 
-## Quarto
-
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
 
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
@@ -197,7 +198,7 @@ The `echo: false` option disables the printing of code (only output is displayed
 
 As you can see, a lot of the text is regular plain text, not code. However, there are code chunks (denoted by triple backticks on both ends, \`\`\`[code here]\`\`\`) which allow us to execute code when the document is "rendered." (To "render" a Quarto document is to transform it into an html/pdf/docx or other output file format while also running any embedded code.) Here's an example of an R code chunk (note the triple backticks):
 
-````
+````{verbatim}
 ```{r}
 1 + 1
 ```
@@ -247,8 +248,6 @@ question_text(NULL,
 ```
 
 ### 
-
-Our answer:
 
 ```
 > list.files()
@@ -413,8 +412,6 @@ You can find a full list of Markdown formatting styles and commands [here](https
 
 To encourage the use of shortcut keys going forward, we will start using them directly in our instructions to you. So, instead of writing "Render the document," we will just write `Cmd/Ctrl + Shift + K`. 
 
-<!-- DK: Is what happens in the Console tab whenever we render a document confusing? -->
-
 ## Quarto 2
 ### 
 
@@ -455,7 +452,7 @@ Add a code cell by using the shortcut key combination: `Cmd/Ctrl + Option/Alt + 
 
 The newly created code chunk will be empty, looking like:
 
-````
+````{verbatim}
 ```{r}
 
 ```
@@ -511,7 +508,7 @@ We see both the code itself and the result of the code. This is an example of a 
 You can add options to executable code. For example, add `#| echo: false` within the code chunk, above the `2 * 2` calculation. It should look like:
 
 
-````
+````{verbatim}
 ```{r}
 #| echo: false
 
@@ -911,7 +908,7 @@ We want the actual value of `x` to appear in the document, in place of the `?`. 
 
 Replace the `?` in your sentence with:
 
-````
+````{verbatim}
 r x
 ````
 
@@ -938,7 +935,7 @@ But, depending on your system and settings, the result is often ugly. I get "1.2
 
 Replace the inline code in your sentence with 
 
-````
+````{verbatim}
 r scales::comma(x)
 ````
 
@@ -1187,7 +1184,7 @@ Generative AI is the future of coding, and much else. Practice using it as much 
 ## Summary
 ### 
 
-This tutorial covered how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents). Some material was from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This tutorial covered how to create [Quarto documents](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html#creating-new-documents) using [Positron](https://positron.posit.co/). Some material was from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 
 ```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
