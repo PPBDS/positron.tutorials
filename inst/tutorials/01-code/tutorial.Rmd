@@ -16,6 +16,13 @@ library(learnr)
 library(tutorial.helpers)
 library(tidyverse)
 library(knitr)
+
+# Needed because fs::path_home() seems to be the best thing to use to identify the core home 
+# directory on Windows, and it works on the Mac as well. ?fs::path_home gives lots of details
+# and discussion.
+
+library(fs)
+
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(out.width = '90%')
 options(tutorial.exercise.timelimit = 60, 
@@ -93,7 +100,6 @@ Error in `show_file()`:
 Going forward, we won't bother with boilerplate like "Your answer should look like this." Instead, you can assume that any quote directly after a question is our answer to the question.
 
 In this case, the error is that we have not yet loaded the **tutorial.helpers** package, which is where `show_file()` is located.  If we had specified the package as part of the function call, as with `tutorial.helpers::show_file()`, R would have found the function.
-
 
 ### Exercise 2
 
@@ -214,7 +220,7 @@ Error in `show_file()`:
 ! could not find function "show_file"
 ````
 
-It failed, even though it had just worked before, because whenever you restart R, you get a clean slate, with nothing but the default packages loaded.
+It failed, even though it had just worked before. Because whenever you restarted R, you got a "clean slate," with nothing but the default packages loaded.
 
 ### Exercise 6
 
@@ -308,27 +314,33 @@ question_text(NULL,
 
 ### 
 
+If you are on a Mac, you answer probably looks like:
+
 ````
 > getwd()
 [1] "/Users/dkane"
 >
 ````
 
-If I were on Windows, then the home directory would be something like: `C:\Users\dkane`. The Windows file system starts on the `C:` drive and the directories are separated with backward slashes, instead of the forward slashes which we see on the Mac.
+This is especially true if you new to Positron. If you have used Positron before, then it might start you our in the last directory in which you were working. Otherwise, it defaults to your "home" directory.
 
-This function returns the "path" to your current working directory. A path is simply the information which allows you to reach a location on your computer. In this case, if you wanted to find the folder from which R is running, you would follow the path returned by `getwd()`.
+###
 
-More info on paths can be found [here](https://people.ischool.berkeley.edu/~kevin/unix-tutorial/section3.html).
+If I were on Windows, then the home directory would be something like `C:\Users\dkane\Documents` or even  `C:\Users\dkane\OneDrive\Documents` or even one of these with `\\` instead of `\`. Note that on Windows:
 
-By default, Positron starts in your "home" directory, which is usually located in the `/Users` directory on a Mac.
+* The file system starts on the `C:` drive.
+
+* The directories are separated with backward slashes, instead of the forward slashes which we see on the Mac.
+
+* The notion of a "home" directory is tricky, both in general and when compared with a Mac. On the Mac, the "home" directory is almost something like `/Users/dkane`. On Windows, the "home" directory generally refers to a user's `Documents` folder, which is sometimes housed on `OneDrive`.
+
+* `OneDrive`, like many cloud-backup systems, does not play particularly well with Git, the program almost everyone uses to keep tack of changes in your code. **Do not put your data science projects in a folder which is backed up with OneDrive.**
 
 ### Exercise 10
 
-<!-- Test to ensure that ~ works on Windows. I am not sure if it does. The environment variable %USERPROFILE% might be what we need, perhaps only if RTools has been installed. -->
+In the Console, run `fs::path_home()`. If this fails, then you probably need to install the **fs** package. Please do so and try again. The purpose of this function is to 
 
-Whenever you start a new project, you will want to store it in a location which you can easily find. Right now, you are likely in an arbitrary location on your computer. It would be much more useful to have a location dedicated to your projects.
-
-From the Console, run `path.expand("~")`. CP/CR.
+CP/CR.
 
 ```{r checking-your-setup-10}
 question_text(NULL,
@@ -339,27 +351,31 @@ question_text(NULL,
 	rows = 3)
 ```
 
-### 
+###
 
-My answer:
+````
+> fs::path_home()
+/Users/dkane
+````
 
-```
-> path.expand("~")
-[1] "/Users/dkane"
-```
+This function returns the "path" to your home directory. A path is simply the information which allows you to reach a location on your computer. In this case, if you wanted to find the folder from which R is running, you would use `getwd()` to **get** the **w**orking **d**irectory.
 
-The tilde symbol, `~`, refers to a user's home directory. Your answer should look similar. If you are on Windows, the directory separators will be backward slashes rather than forward slashes, as on my Mac. And there will also be a disk, generally `C:`, on which these directories are placed. So, on Windows, the answer might be:
+More info on paths can be found [here](https://people.ischool.berkeley.edu/~kevin/unix-tutorial/section3.html).
 
-```
-> path.expand("~")
-[1] "C:\Users\dkane"
-```
+If you are on Windows, you should have gotten a similar answer, something like:
+
+````
+C:\Users\dkane
+````
+
+Because it is Windows, the path begins with `C:` and the slashes are backwards slashes. 
 
 The important point is that, in almost all non-pathological set ups, you will have a home directory. It is important to know where that is.
 
+
 ### Exercise 11
 
-Let's take a look at the directories in your home directory. From the Console, run `list.files(path.expand("~"))`. CP/CR.
+Let's take a look at the directories in your home directory. From the Console, run `list.files(fs::path_home())`. CP/CR.
 
 ```{r checking-your-setup-11}
 question_text(NULL,
@@ -375,34 +391,63 @@ question_text(NULL,
 My answer:
 
 ```
-> list.files(path.expand("~"))
+> list.files(fs::path_home())
  [1] "AppData"      "Applications" "Desktop"      "Documents"   
  [5] "Downloads"    "Library"      "miniconda3"   "Movies"      
- [9] "Music"        "Pictures"     "Public"       "temp"               
+ [9] "Music"        "Pictures"     "Public"       "temp"        
+>           
 ```
 
-If you are on a Mac, then the `Desktop` directory is a handy location in which to store all your coding projects. On Windows, however, the `Desktop` is less convenient because OneDrive often backs it up automatically, which can cause all sorts of problems later on.
+If you are on a Mac, then the `Desktop` directory is a handy location in which to store all your coding projects.  If you are on Windows, then the `Desktop` directory might be less convenient because it is backed up on OneDrive.
 
 **Avoid doing data science in any directory which is backed up by OneDrive, or any other backup service.**
 
 ### Exercise 12
 
-Let's make a folder, and call it `projects`, and store it someplace sensible. **If you on a Mac**, then, from the Console, run: 
+Whenever you start a new project, you will want to store it in a location which you can easily find. Right now, you are likely in an arbitrary location on your computer. It would be much more useful to have a location dedicated to your projects.
+
+From the Console, run `file.exists(file.path(fs::path_home(), "Desktop"))`. 
+
+CP/CR.
+
+```{r checking-your-setup-12}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+My answer:
 
 ```
-dir.create(file.path(path.expand("~/Desktop"), "projects"))
+> file.exists(file.path(fs::path_home(), "Desktop"))
+[1] TRUE
 ```
 
-**If you on Windows**, then, from the Console, run: 
+For almost all Mac users and many Windows users, this should return `TRUE` because there is a `Desktop` directory. For some Windows users, it will return `FALSE` because their `Desktop` directory is within a `OneDrive` directory which is automatically backed up to the cloud.
+
+
+### Exercise 13
+
+Let's make a folder, and call it `projects`. If `file.exists(file.path(fs::path_home(), "Desktop"))` returned `TRUE`, then run this at the Console:
 
 ```
-dir.create(file.path(path.expand("~"), "projects"))
+dir.create(file.path(fs::path_home(), "Desktop", "projects"))
 ```
 
+If `file.exists(file.path(fs::path_home(), "Desktop"))` returned `FALSE`, then run this at the Console:
+
+```
+dir.create(file.path(fs::path_home(), "projects"))
+```
 
 CP/CR. 
 
-```{r checking-your-setup-12}
+```{r checking-your-setup-13}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,

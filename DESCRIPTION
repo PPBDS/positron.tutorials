@@ -22,6 +22,7 @@ URL: https://ppbds.github.io/positron.tutorials/, https://github.com/PPBDS/posit
 Imports:
     tutorial.helpers
 Suggests:
+    fs,
     gitcreds,
     knitr,
     learnr,
