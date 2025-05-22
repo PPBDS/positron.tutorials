@@ -338,7 +338,7 @@ If I were on Windows, then the home directory would be something like `C:\Users\
 
 ### Exercise 10
 
-In the Console, run `fs::path_home()`. If this fails, then you probably need to install the **fs** package. Please do so and try again. The purpose of this function is to 
+In the Console, run `fs::path_home()`. If this fails, then you probably need to install the **fs** package. Please do so and try again. 
 
 CP/CR.
 
