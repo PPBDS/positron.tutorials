@@ -35,8 +35,6 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- Make the experience good for Windows users. Key issue is adding Windows hints/clarifications to questions which are written implicitly assuming students are on a Mac. -->
-
 ## Introduction
 ### 
 
@@ -65,12 +63,6 @@ The other solution to the problem of a busy-running-the-tutorial Console is to s
 
 ## Checking your setup
 ### 
-
-<!-- Make it as easy to use for Windows students. For example, the use of forward versus backward slashes. -->
-
-<!-- Should provide better guidance for Windows students. I think that their ~ directories are actually their Documents/ folders, which are often backed up on One Drive. So, have them put, by hand, a projects directory on their Desktop and then use that. Or maybe dir.create("~/../Desktop/projects) would work. -->
-
-<!-- MP: I remember that when I first set up R/RStudio/RTools, my ~ directory was C:\\Users\\mark.p\\. It seems like RS typically defaults ~ to %USERPROFILE% -- see https://tinyurl.com/gpt-default-tilde.  -->
 
 This tutorial assumes that you have read and completed all the steps in the "Tutorials in Positron" tutorial from the [**tutorial.helpers**](https://ppbds.github.io/tutorial.helpers/) package. We will ask you to **c**opy/**p**aste the **c**ommand/**r**esponse so often, we shorten this instruction to CP/CR.
 
@@ -220,7 +212,7 @@ Error in `show_file()`:
 ! could not find function "show_file"
 ````
 
-It failed, even though it had just worked before. Because whenever you restarted R, you got a "clean slate," with nothing but the default packages loaded.
+It failed, even though it had just worked before. The reason is that, whenever you restart R, you get a "clean slate," with nothing but the default packages loaded.
 
 ### Exercise 6
 
@@ -295,7 +287,7 @@ question_text(NULL,
 
 ### 
 
-This should be the same as the version you saw at the top left of the Console screen and at the top right on the Positron window. Make sure it is the [most recently released](https://cran.r-project.org/) version of R.
+This should be the same as the version you see at the top left of the Console screen and at the top right on the Positron window. Make sure it is the [most recently released](https://cran.r-project.org/) version of R.
 
 ### Exercise 9
 
@@ -322,19 +314,19 @@ If you are on a Mac, you answer probably looks like:
 >
 ````
 
-This is especially true if you new to Positron. If you have used Positron before, then it might start you our in the last directory in which you were working. Otherwise, it defaults to your "home" directory.
+This is especially true if you are new to Positron. If you have used Positron before, then it might start out in the last directory in which you were working. Otherwise, it defaults to your "home" directory.
 
 ###
 
-If I were on Windows, then the home directory would be something like `C:\Users\dkane\Documents` or even  `C:\Users\dkane\OneDrive\Documents` or even one of these with `\\` instead of `\`. Note that on Windows:
+If I were on Windows, then the home directory would be something like `C:\Users\dkane\Documents` or even  `C:\Users\dkane\OneDrive\Documents` or even one of these with`\\` instead of `\` to separate out the directories. Note that on Windows:
 
 * The file system starts on the `C:` drive.
 
 * The directories are separated with backward slashes, instead of the forward slashes which we see on the Mac.
 
-* The notion of a "home" directory is tricky, both in general and when compared with a Mac. On the Mac, the "home" directory is almost something like `/Users/dkane`. On Windows, the "home" directory generally refers to a user's `Documents` folder, which is sometimes housed on `OneDrive`.
+* The notion of a "home" directory is tricky, both in general and when compared with a Mac. On the Mac, the "home" directory is almost always something like `/Users/dkane`. On Windows, the "home" directory generally refers to a user's `Documents` folder, which is sometimes housed on `OneDrive`.
 
-* `OneDrive`, like many cloud-backup systems, does not play particularly well with Git, the program almost everyone uses to keep tack of changes in your code. **Do not put your data science projects in a folder which is backed up with OneDrive.**
+* `OneDrive`, like many cloud-backup systems, does not play particularly well with Git, the program almost everyone uses to keep track of changes in your code. **Do not put your data science projects in a folder which is backed up with OneDrive.**
 
 ### Exercise 10
 
@@ -398,7 +390,7 @@ My answer:
 >           
 ```
 
-If you are on a Mac, then the `Desktop` directory is a handy location in which to store all your coding projects.  If you are on Windows, then the `Desktop` directory might be less convenient because it is backed up on OneDrive.
+If you are on a Mac, then the `Desktop` directory is a handy location in which to store all your coding projects.  If you are on Windows, then the `Desktop` directory might be less convenient because it is often, but not always, backed up on OneDrive.
 
 **Avoid doing data science in any directory which is backed up by OneDrive, or any other backup service.**
 
@@ -439,11 +431,15 @@ Let's make a folder, and call it `projects`. If `file.exists(file.path(fs::path_
 dir.create(file.path(fs::path_home(), "Desktop", "projects"))
 ```
 
+That should put your `projects` directory in your `Desktop` directory. (Note that "folder" and "directory" mean the same thing.) If you get a warning message, here or below, that this directory "already exists," then you are all set.
+
 If `file.exists(file.path(fs::path_home(), "Desktop"))` returned `FALSE`, then run this at the Console:
 
 ```
 dir.create(file.path(fs::path_home(), "projects"))
 ```
+
+That will also create a `projects` directory, but n your home directory. 
 
 CP/CR. 
 
