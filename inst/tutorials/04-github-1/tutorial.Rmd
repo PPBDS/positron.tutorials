@@ -2,7 +2,7 @@
 title: Positron and GitHub Introduction
 author: David Kane
 tutorial:
-  id: positron-and-github-introduction
+  id: positron-and-github-1
 output:
   learnr::tutorial:
     progressive: yes

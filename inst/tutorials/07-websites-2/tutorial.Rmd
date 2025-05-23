@@ -2,7 +2,7 @@
 title: Quarto Websites Advanced
 author: David Kane
 tutorial:
-  id: quarto-websites-advanced
+  id: quarto-websites-2
 output:
   learnr::tutorial:
     progressive: yes
