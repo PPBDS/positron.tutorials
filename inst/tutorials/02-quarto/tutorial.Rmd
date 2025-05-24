@@ -980,7 +980,9 @@ Replace the `?` in your sentence with:
 r x
 ````
 
-surrounded by backticks. They `r` tells Quarto that you want to evaluate the code (`x`) using the R language. In this case, that code is just the letter `x`, which evaluates to (i.e., prints out) the number we have assigned to it. `Cmd/Ctrl + Shift + K`.
+surrounded by backticks. They `r` tells Quarto that you want to evaluate the code using the R language. In this case, that code is just the letter `x`, which evaluates to (i.e., prints out) the number we have assigned to it. 
+
+`Cmd/Ctrl + Shift + K`.
 
 Copy/paste the resulting HTML.
 
