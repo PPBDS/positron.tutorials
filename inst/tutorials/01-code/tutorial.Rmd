@@ -35,6 +35,13 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
+<!-- From Luit:
+
+For tutorial code 01
+Could we add that 
+If I wanted to choose my own file name to put the project into I should put dir.create("filename", recursive = TRUE) -->
+
+
 ## Introduction
 ### 
 
@@ -239,7 +246,7 @@ Loading some packages prints a bunch of messages to the Console. But most packag
 
 Load the **tidyverse** package into your Console using the `library()` function.
 
-If this fails, the most likely cause is that you failed to installed the **tidyverse** package. Run `install.package('tidyverse')` in the Console to fix this and then try `library(tidyverse)` again.
+If this fails, the most likely cause is that you failed to installed the **tidyverse** package. Run `install.packages('tidyverse')` in the Console to fix this and then try `library(tidyverse)` again.
 
 CP/CR.
 
