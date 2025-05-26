@@ -1,7 +1,5 @@
 ## Priorities
 
-The ```` is not working, which matters when trying to show students stuff in 02-quarto.
-
 Distinguish between render and preview.
 
 Confirm the use of two Windows throughout.

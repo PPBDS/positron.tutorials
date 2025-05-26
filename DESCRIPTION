@@ -1,6 +1,6 @@
 Package: positron.tutorials
 Title: Tutorials for Learning 'Positron' and Related Tools
-Version: 0.1.2.9011
+Version: 0.1.2.9012
 Authors@R: 
     c(
     person(given = "David",
@@ -27,6 +27,7 @@ Suggests:
     knitr,
     learnr,
     palmerpenguins,
+    pkgbuild,
     quarto,
     rsconnect,
     testthat (>= 3.0.0),

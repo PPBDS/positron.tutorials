@@ -16,6 +16,9 @@ library(learnr)
 library(tutorial.helpers)
 library(tidyverse)
 library(knitr)
+
+library(pkgbuild)
+
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(out.width = '90%')
 options(tutorial.exercise.timelimit = 60, 
@@ -28,36 +31,28 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
+<!-- Won't just about everyone doing this tutorial be in their projects directory? So I should be too! -->
+
+<!-- The second time we use echo, we act like we haven't explained it before. -->
+
+<!-- Can we check for the installation of RTools from the Terminal? Might be nice to not have to use the Console at all in this tutorial? -->
+
 <!-- Might be useful to add a test which confirms that those files exist, before we ask students to download them. Of course, that will only work if we have web access. -->
 
 <!-- By default, RTools leaves Windows users using the Powershell. I have some notes in tutorial.helpers about changing this in "Tutorials in Positron." If we did this, then we could simplify a lot of the code below and stop with all the translation nonsense.  -->
-
-<!-- Get rid of lots of the translation nonsense, like forward/backward slashes. -->
 
 <!-- Add a brief discussion of environment variables? -->
 
 <!-- Consider adding a third files download exercise and/or making the current one more like the actual work that students do on this topic, which generally involves an R project, making data/ directory, putting a new file there and so on. -->
 
-<!-- Make sure that everything makes sense to a student using Windows. Note all the comments which mention adding Windows explanations. Do more to make Windows users more comfortable. They shouldn't have to translate! -->
-
 <!-- Consider adding a bunch more images. Might be very useful in the paths section, especially taking images from the Explorer and showing how they correspond to the commands. -->
 
-<!-- Always showing the correct answer afterwards is a good idea. But there are a score of questions in which we have failed to do this. Fix this. -->
-
 <!-- Could have test cases which confirm that these commands match what I think they should, I think. -->
-
 
 ## Introduction
 ### 
 
 This tutorial introduces the structure and uses of the Terminal from within Positron. The older, more general term for the terminal is the "command line." All modern operating systems provide a command line, from which sophisticated users can modify files and directories, using commands like `pwd`, `ls`, `echo`, `mkdir`, `mv`, `rm`, and `cd`. We also discuss regular expressions as well as some of the metacharacters (like, `*`, `^` and `$`) from which they are constructed. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
-
-
-### 
-
-Note that a default Windows installation is different from Mac or Linux. If you are using Windows, you must first install RTools. Download the latest version from [here](https://cran.r-project.org/bin/windows/Rtools/). Currently, the Rtools44 installer is what you want. The link is in the seventh paragraph of [this page](https://cran.r-project.org/bin/windows/Rtools/rtools44/rtools.html).
-
-Once you install RTools, you should restart your Positron session. If you are using Windows and are having trouble doing this, you may need to "translate" some if the instructions we give.
 
 ### 
 
@@ -71,7 +66,7 @@ For the most part, Windows works like Mac/Unix. There are three main exceptions 
 
 ###
 
-The tutorial defaults use Mac/Unix nomenclature. If you are using Windows, you may need to translate, for example:
+The tutorial defaults to Mac/Unix nomenclature. If you are using Windows, you may need to translate, for example:
 
 ```
 ls $HOME/Desktop
@@ -82,6 +77,41 @@ into
 ```
 ls %USERPROFILE%\Desktop
 ```
+
+## RTools
+###
+
+If you are using Windows, you must install RTools. Download the latest version from [here](https://cran.r-project.org/bin/windows/Rtools/). Currently, the Rtools45 installer is what you want, assuming that your installed R version is at least 4.5.0. The link is in the seventh paragraph of [this page](https://cran.r-project.org/bin/windows/Rtools/rtools45/rtools.html). Use your favorite AI to help determine whether to use the Rtools45 installer or 64-bit ARM Rtools45 installer. 
+
+Once you install RTools, you should restart your Positron session. If you are using Windows and are having trouble doing this, you may need to "translate" some of the instructions we give.
+
+### Exercise 1
+
+Start a second Positron window, as usual.
+
+From the Console, run `pkgbuild::has_rtools()`. CP/CR.
+
+```{r rtools-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+On the Mac, you should see:
+
+````
+> pkgbuild::has_rtools()
+[1] FALSE
+>
+````
+
+This makes sense since we only RTools can only be installed on Windows machines. However, if you are on Windows, this should return `TRUE`. If it does not, install/fix RTools until you get `TRUE`, otherwise, much of this tutorial won't work for you.
+
 
 ## Terminal
 ### 
@@ -144,8 +174,7 @@ Davids-MacBook-Pro-2:averages dkane$ pwd
 Davids-MacBook-Pro-2:averages dkane$ 
 ````
 
-Notice how the last directory (folder) in the path is included in the prompt.
-
+Notice how the last directory (folder) in the path is included in the my prompt. But, again, prompts vary, so yours may behave differently.
 
 ### Exercise 3
 
@@ -160,7 +189,7 @@ question_text(NULL,
     rows = 3)
 ```
 
-### 
+###
 
 If you do not give it any more information, `ls` assumes that you want a list of what is in your current working directory.
 
@@ -206,8 +235,7 @@ Davids-MacBook-Pro-2:example dkane$ pwd
 Davids-MacBook-Pro-2:example dkane$ 
 ````
 
-The `example` directory is one level below the directory in which I started.
-
+The `example` directory is one level below the directory in which you started.
 
 ### Exercise 6
 
@@ -290,7 +318,6 @@ Davids-MacBook-Pro-2:example dkane$
 
 From the computer's point of view, **renaming** a file is the same thing as **moving** a file. In fact, moving is more general since it allows us to change both the name *and* the location of a file.
 
-
 ### Exercise 9
 
 Let's **r**e**m**ove the file `fake.txt`. Run `rm fake.txt`. Run `ls` to confirm. CP/CR.
@@ -345,7 +372,6 @@ Davids-MacBook-Pro-2:averages dkane$
 
 Again, note how the prompt changed because we moved directories. The `..` symbol --- two periods --- always indicates the directory one level up, i.e., the directory in which `example` is located.
 
-
 ### Exercise 11
 
 Run `rm -r example` to remove the directory `example`. CP/CR.
@@ -359,7 +385,7 @@ question_text(NULL,
     rows = 3)
 ```
 
-`-r` is an **option** that allows us to delete a directory. The `r` stands for **r**ecursive because, in order to delete a directory, you must also (recursively) deleting every directory and file within that directory.
+`-r` is an **option** that allows us to delete a directory. The `r` stands for **r**ecursive because, in order to delete a directory, you must also (recursively) delete every directory and file within that directory.
 
 It is good to clean up. Don't leave junk files lying around.
 
@@ -387,7 +413,7 @@ question_text(NULL,
 
 The Actvity Bar (left side, colored blue) in Positron includes several buttons. When you click on of these buttons, a "pane" of some sort is opened next to the Activty Bar. (Pressing the button again closes the pain.)
 
-The top one of which is the Explorer. Pressing it opens the Explorer pane, also called Project Explorer. This functions like the Mac Finder or the Windows Explorer. 
+The top button is the Explorer. Pressing it opens the Explorer pane, also called Project Explorer. This functions like the Mac Finder or the Windows Explorer. 
 
 ### Exercise 2
 
@@ -447,8 +473,6 @@ question_text(NULL,
 
 ### 
 
-Your answer should look like this:
-
 ````
 Davids-MacBook-Pro-2:paths dkane$ mkdir lessons
 Davids-MacBook-Pro-2:paths dkane$ ls
@@ -459,6 +483,8 @@ Davids-MacBook-Pro-2:paths dkane$
 Because we have changed working directories, the `lessons` directory is created inside the `paths` directory. It is the only object in the `paths` directory.
 
 ### Exercise 5
+
+<!-- DK: Is this correct? -->
 
 Make a directory within `lessons` called `fruits` by running `mkdir lessons/fruits`. In Windows, this would be `mkdir lessons\fruits`. The only difference between the Mac/Linux command and the Windows command is that the former uses a forward slash, `/`, to separate out directories while the latter uses a back slash, `\`.
 
@@ -474,8 +500,6 @@ question_text(NULL,
 ```
 
 ### 
-
-Your answer should look like this:
 
 ````
 Davids-MacBook-Pro-2:paths dkane$ mkdir lessons/fruits
@@ -524,7 +548,7 @@ question_text(NULL,
     rows = 3)
 ```
 
-Your answer should look like this:
+###
 
 ````
 Davids-MacBook-Pro-2:fruits dkane$ echo "" > pineapple.txt
@@ -532,10 +556,11 @@ Davids-MacBook-Pro-2:fruits dkane$ ls
 pineapple.txt
 Davids-MacBook-Pro-2:fruits dkane$ 
 ````
-
 ### 
 
 `pineapple.txt` is still a relative path, but since the location is directly inside the assumed starting point, i.e. the working directory, the name of the file is all we need. If we had used `lessons/fruits/apple.txt`, as we would have had to do if our working directory were `paths`, we would have gotten an error because those directories would not be recognized within our actual starting point of `fruits`.
+
+Read this paragraph again. No skimming!
 
 ### Exercise 8
 
@@ -552,7 +577,7 @@ question_text(NULL,
     rows = 3)
 ```
 
-Your answer should look like this:
+###
 
 ````
 Davids-MacBook-Pro-2:fruits dkane$ echo "" > pear.txt & echo "" > does-not-belong
@@ -562,7 +587,6 @@ Davids-MacBook-Pro-2:fruits dkane$
 ````
 
 The `&` symbol simply tells the operating system to do both the command which came before it and the command which comes after.
-
 
 ### Exercise 9
 
@@ -594,7 +618,6 @@ Davids-MacBook-Pro-2:lessons dkane$
 
 Use `mkdir` to make a directory within `lessons`, named `tbd`. Run `ls` to confirm. CP/CR.
 
-
 ```{r paths-10}
 question_text(NULL,
     answer(NULL, correct = TRUE),
@@ -606,8 +629,6 @@ question_text(NULL,
 
 ### 
 
-Your answer should look like this:
-
 ````
 Davids-MacBook-Pro-2:lessons dkane$ mkdir tbd
 Davids-MacBook-Pro-2:lessons dkane$ ls
@@ -615,7 +636,7 @@ fruits  tbd
 Davids-MacBook-Pro-2:lessons dkane$ 
 ````
 
-
+In the same way that `..` refers to the directory above the current directory, `.` --- a single period --- refers to the current directory, the one in which we are currently located.
 
 ### Exercise 11
 
@@ -634,8 +655,6 @@ question_text(NULL,
 
 ### 
 
-Your answer should look like this:
-
 ````
 Davids-MacBook-Pro-2:lessons dkane$ mv fruits/does-not-belong tbd
 Davids-MacBook-Pro-2:lessons dkane$ ls tbd
@@ -647,10 +666,7 @@ Davids-MacBook-Pro-2:lessons dkane$
 
 We can act on files which are not in the working directory as long as we provide a path --- either relative, as here, or absolute --- to those files. In this case, neither `mv` nor `ls` are acting on the current directory. Instead, they are acting on lower directories: `fruits` and `tbd`.
 
-
 ### Exercise 12
-
-In the same way that `..` refers to the directory above the current directory, `.` --- a single period --- refers to the current directory, the one in which we are currently located.
 
 Use `cd` to change the working directory up to `paths` by running `cd ..`. Confirm with `pwd`. Use `mv` and the `.` shorthand to move the directory `tbd` directly inside of `paths` by running `mv lessons/tbd .`. Confirm with `ls`. CP/CR.
 
@@ -664,8 +680,6 @@ question_text(NULL,
 ```
 
 ### 
-
-Your answer should look like:
 
 ````
 Davids-MacBook-Pro-2:lessons dkane$ cd ..
@@ -683,7 +697,6 @@ When using `mv`, there is no difference between moving a directory and moving a 
 
 Move up one more directory, back to the original working directory, by running `cd ..`. Confirm with `pwd`. Run `rm -r paths` to remove all the directories and files with which we have been working. CP/CR.
 
-
 ```{r paths-13}
 question_text(NULL,
     answer(NULL, correct = TRUE),
@@ -693,7 +706,7 @@ question_text(NULL,
     rows = 3)
 ```
 
-Your answer should look like:
+###
 
 ````
 Davids-MacBook-Pro-2:paths dkane$ cd ..
@@ -714,7 +727,6 @@ In olden times, professional programmers would spend a lot of time learning the 
 
 We have seen two important symbols --- `..` and `.` --- already. This section will explore those along with `~`.  The most common English terms for these symbols are "dot" for `.`, "dot dot" for `..`, and "tilde" for `~`. The `.` symbol indicates the current directory. The `..` symbol is for the directory one above the current directory. The `~` symbol is for your "home" directory.
 
-
 ### Exercise 1
 
 Use `mkdir symbols` to create a new directory called `symbols`. `cd` into that directory by running `cd symbols`. Confirm the change with `pwd`. Confirm that the directory is empty by running `ls`.
@@ -732,8 +744,6 @@ question_text(NULL,
 
 ### 
 
-Your answer should look like:
-
 ````
 Davids-MacBook-Pro-2:averages dkane$ mkdir symbols
 Davids-MacBook-Pro-2:averages dkane$ cd symbols
@@ -743,7 +753,7 @@ Davids-MacBook-Pro-2:symbols dkane$ ls
 Davids-MacBook-Pro-2:symbols dkane$ 
 ````
 
-The more practice we get with command line commands --- often called "shell" comamnds --- the easier it is to string together several of them in a row.
+The more practice we get with command line commands --- often called "shell" commands --- the easier it is to string together several of them in a row.
 
 ### Exercise 2
 
@@ -830,7 +840,6 @@ I cut off the long list of directories in my `projects` directory. The `symbols`
 
 Your answer will look different because you have a different collection of projects, presumably many fewer.
 
-
 ### Exercise 5
 
 Run `pwd` again. This returns the current working directory. Note that the return value is an **absolute path**. It tells you exactly where you --- meaning your Terminal session or instance --- are located on your computer.
@@ -886,7 +895,7 @@ Davids-MacBook-Pro-2:~ dkane$
 
 In Mac/Linux, the most common location for a user's home directory is within the `Users` directory. Note how, after we run `cd`, the prompt changes to report `~` as the current working directory. `~` is the symbol for the current user's home directory.
 
-<!-- Add stuff like whoami? -->
+<!-- DK: What happens for Windows? -->
 
 ### Exercise 7
 
@@ -902,8 +911,6 @@ question_text(NULL,
 ```
 
 ### 
-
-My answer looks like this:
 
 ````
 Davids-MacBook-Pro-2:~ dkane$ cd /Users/dkane/Desktop/projects/averages/symbols
@@ -957,12 +964,12 @@ Davids-MacBook-Pro-2:averages dkane$ rm -rf symbols
 Davids-MacBook-Pro-2:averages dkane$ 
 ````
 
-Note that `rm -rf symbols` and `rm -rf symbols/`, with the trailing slash, have the same effect. Except in unusual circumstances, including the trailing slash in the name of a directory has no effect.
+Note that `rm -rf symbols` and `rm -rf symbols/`, with the trailing slash, have the same effect. Except in unusual circumstances, including (or not including) the trailing slash in the name of a directory does not matter.
 
 ## Options
 ### 
 
-Options modify the behavior of command line functions like `ls`.
+Options modify the behavior of command line functions like `ls`, as we saw with `ls -a` above.
 
 ### Exercise 1
 
@@ -980,8 +987,6 @@ question_text(NULL,
 
 ### 
 
-My answer looks like:
-
 ````
 Davids-MacBook-Pro-2:averages dkane$ pwd
 /Users/dkane/Desktop/projects/averages
@@ -993,11 +998,9 @@ Davids-MacBook-Pro-2:options dkane$
 
 Note how easy it is to string together several commands in order to accomplish our goals.
 
-
 ### Exercise 2
 
 Add a text file to the `options` directory, named `.my-hidden.txt` --- make sure to include the `.` at the front of the file name --- by running `echo "" > .my-hidden.txt`.  CP/CR.
-
 
 ```{r options-2}
 question_text(NULL,
@@ -1034,8 +1037,7 @@ Davids-MacBook-Pro-2:options dkane$ ls
 Davids-MacBook-Pro-2:options dkane$ 
 ````
 
-If you did the previous exercise correctly, you should **not** see the new file. This is because we prefixed the name with `.`, which hid the file from normal view. Files whose name begins with a `.` are called "hidden" files for this reason.
-
+If you did the previous exercise correctly, you should **not** see the new file. This is because we prefixed the name with `.`, which hides the file from normal view. Files whose name begins with a `.` are called "hidden" files for this reason.
 
 ### Exercise 4
 
@@ -1053,7 +1055,7 @@ question_text(NULL,
 
 ### 
 
-Options are rpreceded by a `-` and come before the argument. Your answer should look like:
+Options are preceded by a `-` and come before the argument. Your answer should look like:
 
 ````
 Davids-MacBook-Pro-2:options dkane$ ls -a
@@ -1061,7 +1063,7 @@ Davids-MacBook-Pro-2:options dkane$ ls -a
 Davids-MacBook-Pro-2:options dkane$ 
 ````
 
-The `.` file refers to the options directory itself. The `..` refers to the directory in which the options directy is located. Every directory has both a `.` and a `..` file inside of it, but we only see those files if we use the `-a` option.
+The `.` file refers to the `options` directory itself. The `..` refers to the directory in which the options directory is located. Every directory has both a `.` and a `..` file inside of it, but we only see those files if we use the `-a` option.
 
 ### 
 
@@ -1071,7 +1073,7 @@ Hidden files live all over your computer.
 
 The **environmental variable** `HOME` represents the path to your home directory. Type and enter `echo $HOME` alone to make sure we are telling you the truth. 
 
-Recall that, on Windows, we accomplish the same goal `echo %USERPROFILE%`. Windows does not usually have an `HOME` environmental value.
+Recall that, on Windows, we accomplish the same goal with `echo %USERPROFILE%`. Windows does not usually have an `HOME` environmental value.
 
 CP/CR.
 
@@ -1086,7 +1088,7 @@ question_text(NULL,
 
 ### 
 
-Your answer should look like:
+Your answer (on a Mac) should look like:
 
 ````
 Davids-MacBook-Pro-2:options dkane$ echo $HOME
@@ -1095,7 +1097,6 @@ Davids-MacBook-Pro-2:options dkane$
 ````
 
 Note how the prompt has changed because I am now in the `options` directory.
-
 
 ### Exercise 6
 
@@ -1117,7 +1118,7 @@ question_text(NULL,
 
 ### 
 
-There are many different environmental variables. You can also make your own. My anwer looks like:
+There are many different environmental variables. You can also make your own. My answer looks like:
 
 ````
 Davids-MacBook-Pro-2:options dkane$ ls $HOME
@@ -1130,8 +1131,9 @@ Don't worry about the details of these files. Our main point is that environment
 
 ### Exercise 7
 
-In the Terminal, run `ls -l $HOME`, so that we can see more information in a **l**ong list.  CP/CR.
+In the Terminal, run `ls -l $HOME`, so that we can see more information in a **l**ong list.  If you are on Windows, use `ls -l %USERPROFILE%`. 
 
+CP/CR.
 
 ```{r options-7}
 question_text(NULL,
@@ -1166,9 +1168,6 @@ Davids-MacBook-Pro-2:options dkane$
 
 In a long list, names are in the last column and file type is in the first: if the string in the first column begins with `d` it is a **d**irectory; if it begins with `-` it is a file; if it begins with `l` it is a **l**ink to another file or directory on the computer. The middle columns give, from left to right, the number of files, author, permission, file size (in bytes), and the date/time last modified.
 
-
-
-
 ### Exercise 8
 
 Let's download a copy of the `AUTHORS` document from the R source code. It is available at:
@@ -1177,7 +1176,9 @@ Let's download a copy of the `AUTHORS` document from the R source code. It is av
 https://github.com/wch/r-source/blob/trunk/doc/AUTHORS
 ````
 
-Press the "Download raw file" button. This should place a copy of the file in your `Downloads` directory. At the Terminal, run `ls ~/Downloads/A*`. CP/CR.
+Press the "Download raw file" button. This should place a copy of the file in your `Downloads` directory. At the Terminal, run `ls ~/Downloads/A*`. If you are on Windows (and this command does not work), try to figure out a command which does.
+
+CP/CR.
 
 ```{r options-8}
 question_text(NULL,
@@ -1211,7 +1212,6 @@ AUTHORS.txt
 Davids-MacBook-Pro-2:options dkane$ 
 ````
 
-
 ```{r options-9}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
@@ -1225,11 +1225,9 @@ question_text(NULL,
 
 Like `mv`, `cp` can change a file name. Like `mv`, if the destination file name is omitted, `cp` will retain the same name by default.
 
-
 ### Exercise 10
 
 Let's view just the initial lines of the `AUTHORS.txt`. Run `head AUTHORS`.  CP/CR.
-
 
 ```{r options-10}
 question_text(NULL,
@@ -1248,14 +1246,13 @@ Now you know how R got its name. If your operating system did not add `.txt` as 
 
 Let's view more than just the initial 10 lines. The option `-n` allows you to specify the number of initial lines you want to see. Run `head -n 18 AUTHORS.txt`.  CP/CR.
 
-
 ```{r options-11}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
     try_again_button = "Edit Answer",
     incorrect = NULL,
-    rows = 3)
+    rows = 20)
 ```
 
 ### 
@@ -1273,7 +1270,7 @@ question_text(NULL,
     allow_retry = TRUE,
     try_again_button = "Edit Answer",
     incorrect = NULL,
-    rows = 3)
+    rows = 20)
 ```
 
 ### 
@@ -1290,12 +1287,12 @@ question_text(NULL,
     allow_retry = TRUE,
     try_again_button = "Edit Answer",
     incorrect = NULL,
-    rows = 3)
+    rows = 25)
 ```
 
 ### 
 
-`cat` stands for con**cat**enate, which means "to chain together." While it is often used to a single text file, the command can take two arguments and print the files together.
+`cat` stands for con**cat**enate, which means "to chain together." While it is often used on a single text file, the command can take two arguments and print the files together.
 
 ### Exercise 14
 
@@ -1308,7 +1305,7 @@ question_text(NULL,
     allow_retry = TRUE,
     try_again_button = "Edit Answer",
     incorrect = NULL,
-    rows = 3)
+    rows = 20)
 ```
 
 ### 
@@ -1318,7 +1315,6 @@ question_text(NULL,
 ### Exercise 15
 
 Let's make our own text file. Start by running `echo` which takes a quoted string, for example, "Your First and Last Name Here" as its argument. This "echoes" the argument by printing it in the next line of the terminal.  CP/CR.
-
 
 ```{r options-15}
 question_text(NULL,
@@ -1345,7 +1341,6 @@ Davids-MacBook-Pro-2:options dkane$
 
 We can change the place that we `echo` to, from the Terminal to a text file, using `>` to redirect the output Run `echo "Your First and Last Name Here" > test.txt`. Then use `ls` to see if the file `test.txt` exists within your working directory. Then use `cat` to read this file. After you have confirmed that the file contains your name, use `rm` to remove `test.txt`.  CP/CR.
 
-
 ```{r options-16}
 question_text(NULL,
     answer(NULL, correct = TRUE),
@@ -1371,7 +1366,7 @@ Davids-MacBook-Pro-2:options dkane$  options %
 
 ### Exercise 17
 
-`>` can be used to redirect the output of any command, not just `echo`. Let's try to make a new text file in `options` with just the first 28 lines of `AUTHORS.txt` called `AUTHORS-fake`. Run `head -n 25 AUTHORS.txt > AUTHORS-fake`. Run `ls` to confirm that it worked. CP/CR.
+`>` can be used to redirect the output of any command, not just `echo`. Let's try to make a new text file in `options` with just the first 25 lines of `AUTHORS.txt` called `AUTHORS-fake`. Run `head -n 25 AUTHORS.txt > AUTHORS-fake`. Run `ls` to confirm that it worked. CP/CR.
 
 
 ```{r options-17}
@@ -1385,15 +1380,12 @@ question_text(NULL,
 
 ### 
 
-My answer looks like:
-
 ````
 Davids-MacBook-Pro-2:options dkane$ head -n 25 AUTHORS.txt > AUTHORS-fake
 Davids-MacBook-Pro-2:options dkane$ ls
 AUTHORS-fake    AUTHORS.txt
 Davids-MacBook-Pro-2:options dkane$ 
 ````
-
 
 ### Exercise 18
 
@@ -1412,7 +1404,7 @@ question_text(NULL,
     allow_retry = TRUE,
     try_again_button = "Edit Answer",
     incorrect = NULL,
-    rows = 3)
+    rows = 10)
 ```
 
 ### 
@@ -1437,7 +1429,6 @@ Davids-MacBook-Pro-2:options dkane$
 
 Like `>`, `>>` is not limited to `echo`, but can be used to append the output of any command.
 
- 
 
 ### Exercise 19
 
@@ -1485,6 +1476,13 @@ question_text(NULL,
 
 ### 
 
+````
+Davids-MacBook-Pro-2:averages dkane$ pwd
+/Users/dkane/Desktop/projects/averages
+Davids-MacBook-Pro-2:averages dkane$ mkdir wildcards
+Davids-MacBook-Pro-2:averages dkane$ 
+````
+
 The `mkdir` command does not produce any output. To confirm that it had the desired effect, you could run `ls`. 
 
 ### Exercise 2
@@ -1501,8 +1499,6 @@ question_text(NULL,
 ```
 
 ### 
-
-You answer should look something like:
 
 ````
 Davids-MacBook-Pro-2:averages dkane$ cd wildcards/
@@ -1538,7 +1534,18 @@ question_text(NULL,
 
 ### 
 
+````
+Davids-MacBook-Pro-2:wildcards dkane$ echo "" > hat.txt & echo "" > cat.txt & echo "" > ate.txt 
+[1] 59474
+[2] 59475
+[1]  - done       echo "" > hat.txt                                                                                
+[2]  + done       echo "" > cat.txt
+Davids-MacBook-Pro-2:wildcards dkane$ ls
+ate.txt cat.txt hat.txt
+Davids-MacBook-Pro-2:wildcards dkane$ 
+````
 
+Output if you are on Windows will look different. If you are curious about how those commands work, ask your favorite AI. The more you interact with AI, the better.
 
 ### Exercise 4
 
@@ -1559,6 +1566,12 @@ question_text(NULL,
 
 ### 
 
+````
+Davids-MacBook-Pro-2:wildcards dkane$ ls a
+ls: a: No such file or directory
+Davids-MacBook-Pro-2:wildcards dkane$ 
+````
+
 Though we have been using `ls` to return all the content of a directory, `ls` can also take a name as an argument, as above.
 
 ### Exercise 5
@@ -1576,11 +1589,17 @@ question_text(NULL,
 
 ### 
 
-Though `*` will match strings of any length, its positioning matters. `a*` is not the same thing as `*a`. The first matches any string (i.e., any file name) which starts with `a`. The second matches any string which ends with `a`.
+````
+Davids-MacBook-Pro-2:wildcards dkane$ ls a*
+ate.txt
+Davids-MacBook-Pro-2:wildcards dkane$ 
+````
+
+Though `*` will match strings of any length, its positioning matters. `a*` is not the same thing as `*a`. The first matches any string (i.e., any filename) which starts with `a`. The second matches any filename which ends with `a`.
 
 ### Exercise 6
 
-Now run `ls *a*`. This should return `hat.txt cat.txt ate.txt`. CP/CR.
+Now run `ls *a*`. This should return all three files. CP/CR.
 
 ```{r wildcards-6}
 question_text(NULL,
@@ -1591,11 +1610,17 @@ question_text(NULL,
     rows = 3)
 ```
 
+###
+
+````
+Davids-MacBook-Pro-2:wildcards dkane$ ls *a*
+ate.txt cat.txt hat.txt
+Davids-MacBook-Pro-2:wildcards dkane$ 
+````
+
 Note that these **regular expressions** are case-sensitive. A regular expression is a "pattern" which you can use for many purposes, including as a search criteria.
 
 ### Exercise 7
-
-<!-- Too big a jump to this question? -->
 
 Make a list of all the files with names, before the suffix, which end in `t` by running `ls *t.*` CP/CR.
 
@@ -1609,6 +1634,12 @@ question_text(NULL,
 ```
 
 ### 
+
+````
+Davids-MacBook-Pro-2:wildcards dkane$ ls *t.*
+cat.txt hat.txt
+Davids-MacBook-Pro-2:wildcards dkane$ 
+````
 
 This should return `hat.txt` and `cat.txt`. Read this regular expression --- `*t.*` --- as matching any string which includes a `t` followed directly by a period, regardless of any characters which are also included, before or after. `ate.txt` is not matched because the `t` and the `.` are separated by `e`.
 
@@ -1631,7 +1662,14 @@ question_text(NULL,
 
 ### 
 
-You can use your `up` and `down` arrow keys to navigate command history. The `>` symbol outputs the result of the left-hand side command into the right-hand side location.
+````
+Davids-MacBook-Pro-2:wildcards dkane$ ls *a* > afiles.txt
+Davids-MacBook-Pro-2:wildcards dkane$ ls
+afiles.txt      ate.txt         cat.txt         hat.txt
+Davids-MacBook-Pro-2:wildcards dkane$ 
+````
+
+You can use your `up` and `down` arrow keys to navigate command history. The `>` symbol outputs the result of the lefthand side command into the righthand side location.
 
 ### Exercise 9
 
@@ -1678,9 +1716,20 @@ question_text(NULL,
 
 ### 
 
+````
+Davids-MBP:wildcards dkane$ ls -l
+total 32
+-rw-r--r--@ 1 dkane  staff  24 May 26 20:20 afiles.txt
+-rw-r--r--@ 1 dkane  staff   1 May 26 20:15 ate.txt
+-rw-r--r--@ 1 dkane  staff   1 May 26 20:15 cat.txt
+-rw-r--r--@ 1 dkane  staff   1 May 26 20:15 hat.txt
+drwxr-xr-x@ 2 dkane  staff  64 May 26 20:22 seuss
+Davids-MBP:wildcards dkane$ 
+````
+
 The `-l` option provides a **l**ong-format listing of the contents of the directory, including information about the type of content (file versus directory) and creation date/times. The leading `d` in the line for `seuss` indicates that it is a directory. 
 
-<!-- Give a tour of what the different columns mean?  -->
+<!-- Give a tour of what the different columns mean? Note this is the second time we have used ls -l. -->
 
 ### Exercise 11
 
@@ -1696,6 +1745,12 @@ question_text(NULL,
 ```
 
 ### 
+
+````
+Davids-MBP:wildcards dkane$ ls *t.*
+cat.txt hat.txt
+Davids-MBP:wildcards dkane$ 
+````
 
 Before moving or otherwise acting on a group of files, we often want to ensure that we have the correct grouping. Running `ls` with the appropriate regular expression is an easy way to test.
 
@@ -1713,6 +1768,11 @@ question_text(NULL,
 ```
 
 ### 
+
+````
+Davids-MBP:wildcards dkane$ mv *t.* seuss
+Davids-MBP:wildcards dkane$ 
+````
 
 The `mv` command, like `mkdir`, does not produce any output. You need to check by hand to ensure it has done what you wanted.
 
@@ -1759,7 +1819,14 @@ question_text(NULL,
 
 ### 
 
-In order to delete a directory, you can not be located within that directory. We want to delete (that is, "remove") the `wildcards` directory since we always want to clean up any temporary files/directories which we have created.
+````
+Davids-MBP:wildcards dkane$ cd ..
+Davids-MBP:wildcards dkane$ pwd
+/Users/dkane/Desktop/projects/averages
+Davids-MBP:averages dkane$ 
+````
+
+In order to delete a directory, you can not be located within that directory. We want to delete (that is, "remove") the `wildcards` directory since we always want to --- at least for this tutorial --- clean up any temporary files/directories which we have created.
 
 ### Exercise 15
 
@@ -1775,6 +1842,13 @@ question_text(NULL,
 ```
 
 ### 
+
+````
+Davids-MBP:averages dkane$  rm wildcards 
+rm: wildcards: is a directory
+Davids-MBP:averages dkane$  rm -rf wildcards/
+Davids-MBP:averages dkane$ 
+````
 
 Note that both `wildcards` and `wildcards/` refer to the same entity, the `wildcards` directory. The Terminal often "adds" a forward slash (`/`) --- or, on Windows, a backward slash (`\`) --- to the end of directory names to indicate that the object is a directory, not simply a file.
 
@@ -1797,8 +1871,6 @@ question_text(NULL,
 ```
 
 ### 
-
-Your answer should look like:
 
 ````
 Davids-MacBook-Pro-2:averages dkane$ pwd
@@ -1863,7 +1935,7 @@ Click on the "Download raw file" symbol to download the `TODO.txt` file to your 
 knitr:: include_graphics("images/download-file.png")
 ```
 
-Run `ls ~/Dowloads/T*`. CP/CR.
+Run `ls ~/Downloads/T*`. CP/CR.
 
 
 ```{r files-3}
@@ -1886,7 +1958,7 @@ Davids-MacBook-Pro-2:files dkane$ ls ~/Downloads/T*
 Davids-MacBook-Pro-2:files dkane$ 
 ````
 
-The `*` is a wildcard character, meaning that the `ls` command should return all the files which begin with a capital `T`. For me, there are three such files in my `Downloads` directory. 
+The `*` is a wildcard character, meaning that the `ls` command should return all the files which begin with a capital `T`. For me, there are three such files in the `Downloads` directory. 
 
 ### Exercise 4
 
@@ -1943,7 +2015,7 @@ Recall that the `.` symbol indicates the current directory. Since we did not giv
 mv /Users/dkane/Downloads/TODO.txt TODO_2.txt
 ````
 
-We also could gave used `~` to avoid providing the absolute path by running:
+We also could have used `~` to avoid providing the absolute path by running:
 
 ````
 mv ~/Downloads/TODO.txt .
@@ -2024,14 +2096,19 @@ question_text(NULL,
 When I run this, I see:
 
 ````
-kane@Davids-MacBook-Pro-3 grepping % echo hat.txt > files.txt & echo cat.txt >> files.txt & echo ate.txt >> files.txt & echo "" >> files.txt
+Davids-MacBook-Pro-2:averages dkane$ cd grepping
+Davids-MacBook-Pro-2:grepping dkane$ echo hat.txt > files.txt & echo cat.txt >> files.txt & echo ate.txt >> files.txt & echo "" >> files.txt
 [1] 98048
 [2] 98049
 [3] 98050
 [1]    done       echo hat.txt > files.txt
 [3]  + done       echo ate.txt >> files.txt                                                                      
 [2]  + done       echo cat.txt >> files.txt
-Davids-MacBook-Pro-2:grepping dkane$ 
+Davids-MacBook-Pro-2:grepping dkane$ cat files.txt 
+hat.txt
+cat.txt
+ate.txt
+Davids-MacBook-Pro-2:grepping dkane$
 ````
 
 This is showing how three different commands are run, one after the other.
@@ -2052,6 +2129,14 @@ question_text(NULL,
 ```
 
 ### 
+
+````
+Davids-MacBook-Pro-2:grepping dkane$ grep a files.txt
+hat.txt
+cat.txt
+ate.txt
+Davids-MacBook-Pro-2:grepping dkane$
+````
 
 Remember to use the *tab* key to take advantage of auto-completion. Don't type! Tab complete!
 
@@ -2074,7 +2159,11 @@ question_text(NULL,
 
 ### 
 
-This should return `ate.txt`.
+````
+Davids-MacBook-Pro-2:grepping dkane$ grep ^a files.txt
+ate.txt
+Davids-MacBook-Pro-2:grepping dkane$
+````
 
 `^` is put at the beginning of a regular expression to indicate that the expression must occur at the beginning of a line. A dollar sign --- `$` --- at the end of a regular expression indicates that the expression must occur at the end of the line.
 
@@ -2127,6 +2216,12 @@ question_text(NULL,
 
 ### 
 
+````
+Davids-MacBook-Pro-2:grepping dkane$ 
+       7       7      38 grepping.txt
+Davids-MacBook-Pro-2:grepping dkane$ 
+````
+
 The first number returned by `wc` is the number of lines in the file. The second is the total number of words. The third is the number of characters. In this case, the number of lines is the same as the number of words.
 
 ### Exercise 7
@@ -2148,7 +2243,15 @@ question_text(NULL,
 
 ### 
 
+````
+Davids-MacBook-Pro-2:grepping dkane$ grep R grepping.txt
+R
+Robert
+aRe
+Davids-MacBook-Pro-2:grepping dkane$ 
+````
 
+`aRe` is included because the pattern `R` matches any line which includes an `R`, regardless of where that `R` is on the line.
 
 ### Exercise 8
 
@@ -2168,6 +2271,13 @@ question_text(NULL,
 ```
 
 ### 
+
+````
+Davids-MacBook-Pro-2:grepping dkane$ grep ^R grepping.txt
+R
+Robert
+Davids-MacBook-Pro-2:grepping dkane$ 
+````
 
 `^` and `$` are called metacharacters. It is often useful to put quotes around a regular expression which includes metacharacters.
 
@@ -2190,12 +2300,12 @@ question_text(NULL,
 
 ### 
 
-This should return three lines: 
-
 ````
+Davids-MacBook-Pro-2:grepping dkane$ grep e$ grepping.txt
 whose
 these
-are
+aRe
+Davids-MacBook-Pro-2:grepping dkane$ 
 ````
 
 `egrep` is an even more powerful version of `grep`.  Learning more about `egrep` is beyond the scope of this tutorial.
@@ -2215,6 +2325,12 @@ question_text(NULL,
 
 ### 
 
+````
+Davids-MacBook-Pro-2:grepping dkane$ cd ..
+/Users/dkane/Desktop/projects/averages
+Davids-MacBook-Pro-2:averages dkane$ 
+````
+
 If you keep your R projects in the same place on your computer, only the last directory in the path for the default working directory will change between projects.
 
 ### Exercise 11
@@ -2232,7 +2348,12 @@ question_text(NULL,
 
 ### 
 
-It is always a good idea to clean up after yourself. As the signs say when taking a hike in the forest: "Take only photos. Leave only footprints."
+````
+Davids-MacBook-Pro-2:grepping dkane$ rm -r grepping
+Davids-MacBook-Pro-2:grepping dkane$ 
+````
+
+It is always a good idea to clean up after yourself. As the sign says when taking a hike in the forest: "Take only photos. Leave only footprints."
 
 ## Summary
 ### 
