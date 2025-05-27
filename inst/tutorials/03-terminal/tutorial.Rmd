@@ -2,7 +2,7 @@
 title: Terminal
 author: David Kane
 tutorial:
-  id: terminal
+  id: 03-terminal
 output:
   learnr::tutorial:
     progressive: yes

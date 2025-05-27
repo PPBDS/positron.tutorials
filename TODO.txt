@@ -1,20 +1,14 @@
 ## Priorities
 
-Should the directory name (04-guthub-1) match the id (positron-and-github-1)? No?
-
 Distinguish between render and preview.
 
 Confirm the use of two Windows throughout.
 
 Understand fully how Windows will work in the terminal in Positron, at least for modern window shells.
-
-Revisit Terminal tutorial.
  
 What about Chromebooks??!! Too much to worry about. 
 
 use Grok to provide one sentence descriptions for each tutorial, and then use that description in two places: the file itself and the home page of the package.
-
-Standardize one whether we are teaching them the one window or two window approach. Or maybe we show them both and then standardize on two window since restarting the tutorial is so annoying.
 
 Build VS Code extension for seeing/starting tutorials.
 
@@ -57,8 +51,6 @@ Any reason to make the Tutorial descriptions longer, like a full sentence or two
 If we ever redo the images, make sure to delete the Positron default welcome page first. 
 
 Any reason to explore the Visual editor?
-
-Ask Posit why `Cmd + Shift + K` does quarto preview as opposed to quarto render?
 
 find . -type f -name "*.png" -exec pngquant "{}" -o "{}" --force \;
 

@@ -2,7 +2,7 @@
 title: Positron and code
 author: David Kane
 tutorial:
-  id: positron-and-code
+  id: 01-code
 output:
   learnr::tutorial:
     progressive: yes

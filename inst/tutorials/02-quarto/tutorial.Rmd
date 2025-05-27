@@ -2,7 +2,7 @@
 title: Positron and Quarto
 author: David Kane
 tutorial:
-  id: positron-and-quarto
+  id: 02-quarto
 output:
   learnr::tutorial:
     progressive: yes

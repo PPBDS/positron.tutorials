@@ -2,7 +2,7 @@
 title: Quarto Websites Introduction
 author: David Kane
 tutorial:
-  id: quarto-websites-1
+  id: 06-websites-1
 output:
   learnr::tutorial:
     progressive: yes
