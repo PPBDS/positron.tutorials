@@ -31,15 +31,13 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- DK: Stop using Rpubs! -->
+<!-- DK: Don't forget about removing the comments which allow check_current_tutorial() to work. -->
 
-<!-- DK: Make a decision about the best way to deal with the restart of Positron which seems to be to use two windows. -->
+<!-- DK: Are there code chunks nestled win quadruple backticks that don't work!??! -->
 
-<!-- DK: There should be four projects, each moving more quickly during the creation phase. The core coding is done with AI. -->
+<!-- Should there be more projects, each moving more quickly during the creation phase, the core coding is done with AI? Only if this current tutorial only takes 45 minutes. -->
 
-<!-- project-3 should require users to fork a repo. -->
-
-<!-- In project 4, use the GitHub created .gitignore and discuss stuff there. -->
+<!-- Project 1 should be slightly less sophisticated and project 2 should be slightly more. Project 1 should only use code chunk options. It should not use execute or suppressPackage. Project 2 should be the reverse. Project 3 should do what Project 2 does, but without explicit instructions. Project 4 should fork. Or maybe 3 forks? Should any project use the GitHub created .gitignore and discuss stuff there. -->
 
 <!-- More explicit emphasis on QMD world versus Console world. -->
 
@@ -58,10 +56,6 @@ Start a new window with `File -> New Window`. This new window is the location in
 
 ## Project 1
 ### 
-
-<!-- DK: Project 1 should be slightly less sophisticated and project 2 should be slightly more. Project 1 should not only use code chunk options. It should not use execute or suppressPackage. Project 2 should be the reverse. Project 3 should do what Project 2 does, but without explicit instructions. Project 4 should fork. -->
-
-<!-- Does Project 1 publish? -->
 
 This first project will simply review the steps which we have already learned. Making the data science work cycle second nature requires practice.
 
@@ -195,7 +189,7 @@ Watching files for changes
 Browse at http://localhost:4817/
 ```
 
-<!-- DK: Is the below true? -->
+<!-- Is the below true? -->
 
 Clicking the "Preview" button runs, behind the scenes on the Terminal, the `quarto preview` command. This command does two things. First, it "renders" `quarto-1.qmd`, taking this QMD file as input and producing `quarto-1.html` as output. Second, it "watches" the QMD file. If something changes in that file, Positron will render it and then show new HTML in the Viewer tab.
 
@@ -323,9 +317,7 @@ library(tidyverse)
 
 Anytime you use `show_file()` without having a blank line at the end of the file, you will get a warning message.
 
-<!-- DK: Confirm this. -->
-
-Recall that you can add a code chunk by using the shortcut key combination: `Command + Option + i` (Mac) or `Ctrl + Alt + i` (Windows).
+Recall that you can add a code chunk by using the shortcut key combination: `Cmd/Ctrl + Shift + I`.
 
 You could also manually type the chunk delimiters ```` ```{r} ```` and ```` ``` ````, but, obviously, that is the worst option.
 
@@ -354,12 +346,11 @@ question_text(NULL,
 
 Your answer should look like:
 
+
 ````
 > tutorial.helpers::show_file("quarto-1.qmd", chunk = "Last")
-```{r}
 library(tidyverse)
 library(palmerpenguins)
-```
 ````
 
 ### 
@@ -417,26 +408,8 @@ question_text(NULL,
 
 ###
 
-````
-> tutorial.helpers::show_file("quarto-1.qmd")
----
-title: "Quarto 1"
-author: David Kane
-format: html
-execute: 
-  echo: false
----
-
-```{r}
-suppressPackageStartupMessages(library(tidyverse))
-library(palmerpenguins)
+```{r file = "images/quarto-1-1.txt", echo = TRUE, eval = FALSE}
 ```
-
-```{r}
-penguins
-```
->
-````
 
 
 ### Exercise 12
@@ -457,7 +430,6 @@ theme_custom <- theme_minimal(base_size = 14) +
     panel.grid.minor = element_blank()
   )
 
-# Plot: Flipper Length vs Body Mass
 penguins |> 
     drop_na() |> 
     ggplot(aes(x = flipper_length_mm, 
@@ -495,9 +467,10 @@ question_text(NULL,
 
 ### 
 
+My answer looks like this, but yours will be different, of course.
+
 ````
 > tutorial.helpers::show_file("quarto-1.qmd", chunk = "Last")
-# Basic clean theme
 theme_custom <- theme_minimal(base_size = 14) +
   theme(
     plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
@@ -507,7 +480,6 @@ theme_custom <- theme_minimal(base_size = 14) +
     panel.grid.minor = element_blank()
   )
 
-# Plot: Flipper Length vs Body Mass
 penguins |> 
     drop_na() |> 
     ggplot(aes(x = flipper_length_mm, 
@@ -552,43 +524,18 @@ question_text(NULL,
 
 That command generates a lot of text. Let me highlight some key parts:
 
-````
-dkane@macbook project-1 % quarto publish gh-pages quarto-1.qmd
-? Publish site to https://davidkane9.github.io/project-1/ using gh-pages? (Y/n) › Yes
-````
-
-The first time you publish, Quarto will confirm the location, which is just the standard GitHub Pages address, using your user name and the repo name.
-
-````
-Saved working directory and index state WIP on main: 71e6d06 initial version
-Switched to a new branch 'gh-pages'
-[gh-pages (root-commit) b8263f3] Initializing gh-pages branch
-remote: 
-remote: Create a pull request for 'gh-pages' on GitHub by visiting:        
-remote:      https://github.com/davidkane9/project-1/pull/new/gh-pages        
-remote: 
-To https://github.com/davidkane9/project-1.git
- * [new branch]      HEAD -> gh-pages
- ````
-
- Quarto interacts with your GitHub repo directly, creating a new branch, `gh-pages`, which will be used to construct the website. 
-
-````
-[✓] Deploying gh-pages branch to website (this may take a few minutes)
-[✓] Published to https://davidkane9.github.io/project-1/
-
-dkane@macbook project-1 % 
-````
+```{r file = "images/quarto-1-2.txt", echo = TRUE, eval = FALSE}
+```
 
 Quarto keeps you informed as it completes the work.
 
-<!-- DK: Could add some screen shots from GitHub Pages site to help understand what is going on. -->
+<!-- Could add some screen shots from GitHub Pages site to help understand what is going on. -->
 
 ### Exercise 14
 
 Commit and sync all the files in the project. Report the URL for the new webpage.
 
-```{r project-1-14-ex}
+```{r project-1-14}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -607,16 +554,12 @@ https://davidkane9.github.io/project-1/
 
 Note that the name of the file, `quarto-1.html`, plays no part in the URL. We told Quarto that we wanted a website with just one page, not a collection of pages. So, it could simplify by making `quarto-1.html` the default page for the `project-1` directory.
 
-<!-- DK: Not sure this explanation is correct. -->
-
 ## Project 2
 ### 
 
-<!-- DK: Project 2 should be a bit faster. For example, exercises 1 and 2 should be combined. -->
-
 With `project-1`, we went through all the steps of a data science project: start with GitHub repo; connect to project on local computer; use a Quarto document for analysis; publish to GitHub Pages; push final changes to the repo.
 
-Restart the R session with `Cmd/Ctrl + Shift + 0`.
+Restart the R session in the other Positron window with `Cmd/Ctrl + Shift + 0`.
 
 ### Exercise 1
 
@@ -645,7 +588,7 @@ Note that Github looks different depending on which page you go to, whether it i
 
 ### Exercise 2
 
-Connect the `project-2` Github repo to an R project on your computer. Name the R project `project-2` also. (Don't forget the "tab" key trick.) Keeping the names of repos/projects aligned makes organization simpler.
+Connect the `project-2` Github repo to a project on your computer. Name the project `project-2` also. Keeping the names of repos/projects aligned makes organization simpler.
 
 In the Console, run:
 
@@ -696,14 +639,12 @@ question_text(NULL,
 
 ### 
 
-<!-- DK: Fix this. -->
-
 Your answer should look like this:
 
 ```         
 > list.files(all.files = TRUE)
- [1] "."               ".."              ".git"            ".gitignore"      ".Rproj.user"     "project-2.Rproj"
- [7] "quarto-2_files"  "quarto-2.html"   "quarto-2.qmd"    "README.md"      
+ [1] "."               ".."              ".git"            
+ [4] "quarto-2_files"  "quarto-2.html"   "quarto-2.qmd"    "README.md"      
 > 
 ```
 
@@ -738,6 +679,7 @@ Your answer should look like this:
 ```         
 > tutorial.helpers::show_file(".gitignore")
 *_files
+
 >
 ```
 
@@ -780,31 +722,18 @@ Date:   Tue Feb 20 14:26:05 2024 -0500
 Davids-MBP:project-2 dkane$ 
 ```
 
-<!-- DK: Is this true? -->
+<!-- Is this true? -->
 
 There have been two commits in this repo. The first was generated automatically when we create the repo. The second was the one we just committed by hand, along with the commit message "initial version." Note how, next to the word "commit" there is a 40 character string of letters and numbers. This is the "hash" by which Github identifies each commit. The hash is always unique.
 
 ### Exercise 6
 
-<!-- DK: Huh? This does not seem to connect. After all, isn't quarto-2.qmd already empty beneath the YAML header? Also, this is not the code we created in the previous section. Instead, we should be using AI and a new data set. -->
+<!-- Do some new AI stuff here. -->
 
-Remove everything below the YAML header from `quarto-2.qmd`. Add the code chunks from the previous section:
+Add these code chunks from the previous section to `quarto-2.qmd`.
 
-````
-```{r}
-library(tidyverse)
-library(palmerpenguins)
+```{r file = "images/quarto-2-1.txt", echo = TRUE, eval = FALSE}
 ```
-
-```{r}
-penguins |> 
-  ggplot(aes(x = body_mass_g, y = flipper_length_mm, color = species)) +
-    geom_point() +
-    labs(title = "Penguins Body Mass compared to Flipper Length", 
-         x = "Body Mass", 
-         y = "Flipper Length")
-```
-````
 
 Render the document. Copy-and-paste the "Warning" message which appears in `quarto-2.html`.
 
@@ -919,33 +848,8 @@ question_text(NULL,
 
 Your answer should look like:
 
-````
-> tutorial.helpers::show_file("quarto-2.qmd")
----
-title: "Quarto 2"
-author: "David Kane"
-format: html
-execute: 
-  echo: false
----
-
-```{r}
-#| message: false
-
-library(tidyverse)
-library(palmerpenguins)
+```{r file = "images/quarto-2-2.txt", echo = TRUE, eval = FALSE}
 ```
-
-```{r}
-penguins |> 
-  ggplot(aes(x = body_mass_g, y = flipper_length_mm, color = species)) +
-    geom_point() +
-    labs(title = "Penguins Body Mass compared to Flipper Length", 
-         x = "Body Mass", 
-         y = "Flipper Length")
-```
->
-````
 
 Render `quarto-2.qmd` to make sure everything still works. Fix anything which doesn't.
 
@@ -997,40 +901,12 @@ The return value from `search()` should include `"package:palmerpenguins"` along
 
 The key lesson is that the Console does not know about the QMD file and the QMD file does not know about the Console. You need to keep them in sync.
 
+
 ### Exercise 12
-
-<!-- DK: No more labels. -->
-
-We have forgotten to label the code chunks. Not good! Add `#| label: setup` to the first code chunk and `#| label: make-plot` to the second. `Cmd/Ctrl + Shift + K`
-
-In the Console, run:
-
-````
-tutorial.helpers::show_file("quarto-2.qmd", chunk = "Last")
-````
-
-CP/CR.
-
-
-```{r project-2-12}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 3)
-```
-
-### 
-
-`quarto-2.html` is unchanged. Label'ing a code chunk does not affect the output, but it is still good practice.
-
-
-### Exercise 13
 
 From the Console, run `summary(penguins$body_mass_g)`. CP/CR.
 
-```{r project-2-13}
+```{r project-2-12}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1052,7 +928,7 @@ Your answer should look like this:
 
 Note the two missing values. This is what is causing the warning message.
 
-### Exercise 14
+### Exercise 13
 
 There are two standard ways to get rid of a warning message. First, we can make deal with the substance of the issue, determine the problem with our code/data which is causing the warning and solve it. Second (and much easier) we can simply hide the warning, although in that case, we should really add a code comment explaining what is going on.
 
@@ -1067,7 +943,7 @@ tutorial.helpers::show_file("quarto-2.qmd", chunk = "Last")
 CP/CR.
 
 
-```{r project-2-14}
+```{r project-2-13}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1081,7 +957,7 @@ question_text(NULL,
 If you turn off warnings, you ought to add some code comments explaining why. A better approach, in this case, would have been to add a command like `drop_na(body_mass_g)` to the pipe. This would have removed the two rows with missing data.
 
 
-### Exercise 15
+### Exercise 14
 
 Let's publish our results to [GitHub Pages](https://pages.github.com/). 
 
@@ -1090,7 +966,7 @@ From the Terminal, run `quarto publish gh-pages quarto-2.qmd`. Respond with "Y" 
 CP/CR just the first 5 or so lines of what results.
 
 
-```{r project-2-15}
+```{r project-2-14}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1105,12 +981,12 @@ question_text(NULL,
 
 `quarto publish` processes `quarto-2.qmd` in the same way that `quarto preview` or `quarto render` does.
 
-### Exercise 16
+### Exercise 15
 
 Go to your `project-2` page on GitHub. Refresh the page. `quarto publish` has changed some of the items. Copy/paste all the text in the "Visit site" box.
 
 
-```{r project-2-16}
+```{r project-2-15}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,

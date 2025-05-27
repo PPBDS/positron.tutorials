@@ -38,6 +38,8 @@ options(tutorial.exercise.timelimit = 60,
 
 <!-- Should we be using suppressPack..() and execute: trickery in our publishing example? Or should we make it simpler, just using code chunk options?  -->
 
+<!-- Should we have a repo-3? Only if this tutorial only takes 45 minutes now, which I doubt. -->
+
 ## Introduction
 ### 
 
@@ -116,8 +118,6 @@ dkane@MacBookPro projects %
 Your answer will be different, not least because your username is unlikely to be `dkane`. This result of `pwd` is the location on your computer in which the R program started up when you opened Positron.
 
 Going forward, make sure to pay special attention to whether given commands are supposed to be run in the *Console* or the *Terminal*.
-
-<!-- DK: Add a guide to the window, including the Source Control button? -->
 
 ## Setting up Git
 ### 
@@ -451,7 +451,7 @@ Don't worry too much about the details of "origin," "fetch," and "push." You've 
 
 ### Exercise 11
 
-<!-- DK: Revisit this to confirm it works. Update images. -->
+<!-- Revisit this to confirm it works. Update images. -->
 
 You have linked your GitHub repo to your project, but you haven't proven that you are someone with editing access to the project. If we just let anyone with the GitHub link edit our repo, that's obviously going to lead to problems. This is why we use something called a **p**ersonal **a**ccess **t**oken, or **PAT**.
 
@@ -607,13 +607,7 @@ question_text(NULL,
 
 ###
 
-Your answer should look like:
-
-````
-dkane@MacBookPro First-Repo % cat README.md 
-# First-Repo%                                                                                   
-dkane@MacBookPro First-Repo % 
-````
+Your answer should have one line: `# First-Repo`.
 
 The `README.md` file is a markdown file with only one line, a header with the name of the repo. It, unfortunately, lacks an empty line at the end of the file, thereby causing my prompt to "wrap" around in the print out above.
 
@@ -640,15 +634,7 @@ question_text(NULL,
 
 ###
 
-Your answer should look like:
-
-````
-dkane@MacBookPro First-Repo % cat README.md
-# First-Repo
-
-David Kane is a data maestro!
-dkane@MacBookPro First-Repo % 
-````
+Your answer should now have three lines.
 
 You can close the Files pane by clicking the Explorer button again. Each of the buttons in the Activity Bar opens up a different pane.
 
@@ -1075,8 +1061,6 @@ question_text(NULL,
 ````
 
 Going forward, we will just write "Start a new project named `X`," with the understanding that this always means to follow the above steps.
-
-<!-- DK: So, should we have a repo-3? -->
 
 ### Exercise 3
 
@@ -1592,7 +1576,7 @@ ggplot(mpg, aes(x = displ, y = hwy, color = class)) +
 
 Generative AI is the future of coding. You need to practice more.
 
-<!-- DK: Maybe we should publish first and then do the final commit. -->
+<!-- Maybe we should publish first and then do the final commit. -->
 
 ### Exercise 17
 
