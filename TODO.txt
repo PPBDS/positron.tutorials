@@ -1,5 +1,7 @@
 ## Priorities
 
+Should the directory name (04-guthub-1) match the id (positron-and-github-1)? No?
+
 Distinguish between render and preview.
 
 Confirm the use of two Windows throughout.

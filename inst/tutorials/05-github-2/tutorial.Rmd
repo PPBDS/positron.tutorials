@@ -31,9 +31,9 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- DK: Don't forget about removing the comments which allow check_current_tutorial() to work. -->
+<!-- Ought to use #| in the first tutorial and tricks like suppress() and execute in the second. -->
 
-<!-- DK: Are there code chunks nestled win quadruple backticks that don't work!??! -->
+<!-- Add more about Console/QMD world in the first example. It works well in the second already. Really ought to just switch the first example with the second! -->
 
 <!-- Should there be more projects, each moving more quickly during the creation phase, the core coding is done with AI? Only if this current tutorial only takes 45 minutes. -->
 
@@ -46,7 +46,7 @@ options(tutorial.exercise.timelimit = 60,
 ## Introduction
 ### 
 
-This tutorial covers more details in the usage of [Git](https://git-scm.com/) and [GitHub](https://github.com/). Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This tutorial covers more details about [Git](https://git-scm.com/) and [GitHub](https://github.com/). Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 The most useful reference for Git/GitHub is [*Happy Git and GitHub for the useR*](https://happygitwithr.com/). Refer to that book whenever you have a problem.
 
@@ -59,7 +59,7 @@ Start a new window with `File -> New Window`. This new window is the location in
 
 This first project will simply review the steps which we have already learned. Making the data science work cycle second nature requires practice.
 
-We don't need to set up Git and Github again, having already done so. In this project, our goal is to publish a nice graphic of data about penguins.
+We don't need to set up Git and Github again, having already done so. In this project, our goal is to publish a nice graphic about penguins.
 
 ### Exercise 1
 
@@ -86,7 +86,7 @@ Always start a new data science project with a new Github repo.
 
 ### Exercise 2
 
-Connect the `project-1` Github repo to a project on your computer. Recall the steps:
+Connect the `project-1` Github repo to a project on your computer using the other Positron window, not the one in which you are reading these words. Recall the steps:
 
 - `File -> New Folder from Git ...`
 
@@ -191,7 +191,7 @@ Browse at http://localhost:4817/
 
 <!-- Is the below true? -->
 
-Clicking the "Preview" button runs, behind the scenes on the Terminal, the `quarto preview` command. This command does two things. First, it "renders" `quarto-1.qmd`, taking this QMD file as input and producing `quarto-1.html` as output. Second, it "watches" the QMD file. If something changes in that file, Positron will render it and then show new HTML in the Viewer tab.
+Clicking the "Preview" button runs, behind the scenes on the Terminal, the `quarto preview` command. This command does two things. First, it "renders" `quarto-1.qmd`, taking this QMD file as input and producing `quarto-1.html` as output. Second, it "watches" the QMD file. If something changes in that file, Positron will render it and then show the new HTML in the Viewer tab.
 
 ### Exercise 5
 
@@ -319,7 +319,7 @@ Anytime you use `show_file()` without having a blank line at the end of the file
 
 Recall that you can add a code chunk by using the shortcut key combination: `Cmd/Ctrl + Shift + I`.
 
-You could also manually type the chunk delimiters ```` ```{r} ```` and ```` ``` ````, but, obviously, that is the worst option.
+You could also manually type the chunk delimiters ```` ```{r} ```` and ```` ``` ````, but, obviously, that is an annoying option.
 
 ### Exercise 9
 
@@ -361,7 +361,7 @@ When you render the document, Quarto sends the QMD file to **knitr**, which exec
 
 Add a new code chunk, which just includes `penguins`. Render the document. Copy the displayed bottom contents of `quarto-1.html` below, starting with `penguins`.
 
-We often ask you to "copy" from the HTML. It is OK if what you copy looks ugly, has lost its formatting and so on. We just want to make sure that your HTML includes, more or less, the information that it should.
+We often ask you to "copy" from the HTML. It is OK if what your copy looks ugly, has lost its formatting and so on. We just want to make sure that your HTML includes, more or less, the information that it should.
 
 ```{r project-1-10}
 question_text(NULL,
@@ -524,6 +524,8 @@ question_text(NULL,
 
 That command generates a lot of text. Let me highlight some key parts:
 
+<!-- This looks a little ugly in that you can't easily see what is the original output and what is my comments. Not sure why we can't just use four backticks. The text includes neither a hash mark nor triple backticks, the usual culprits.  -->
+
 ```{r file = "images/quarto-1-2.txt", echo = TRUE, eval = FALSE}
 ```
 
@@ -558,6 +560,8 @@ Note that the name of the file, `quarto-1.html`, plays no part in the URL. We to
 ### 
 
 With `project-1`, we went through all the steps of a data science project: start with GitHub repo; connect to project on local computer; use a Quarto document for analysis; publish to GitHub Pages; push final changes to the repo.
+
+Let's do it all again, albeit a bit more quickly.
 
 Restart the R session in the other Positron window with `Cmd/Ctrl + Shift + 0`.
 
@@ -612,7 +616,7 @@ question_text(NULL,
 
 Your answer should be `README.md`.
 
-Positron will automatically restart and place you within the `project-2` R project. 
+Positron will automatically restart and place you within the `project-2` project. 
 
 ### Exercise 3
 
@@ -679,7 +683,6 @@ Your answer should look like this:
 ```         
 > tutorial.helpers::show_file(".gitignore")
 *_files
-
 >
 ```
 
@@ -722,15 +725,13 @@ Date:   Tue Feb 20 14:26:05 2024 -0500
 Davids-MBP:project-2 dkane$ 
 ```
 
-<!-- Is this true? -->
-
-There have been two commits in this repo. The first was generated automatically when we create the repo. The second was the one we just committed by hand, along with the commit message "initial version." Note how, next to the word "commit" there is a 40 character string of letters and numbers. This is the "hash" by which Github identifies each commit. The hash is always unique.
+There have been two commits in this repo. The first was generated automatically when we created the repo. The second was the one we just committed by hand, along with the commit message "initial version." Note how, next to the word "commit," there is a 40 character string of letters and numbers. This is the "hash" by which Git identifies each commit. The hash is always unique.
 
 ### Exercise 6
 
 <!-- Do some new AI stuff here. -->
 
-Add these code chunks from the previous section to `quarto-2.qmd`.
+Add these code chunks to `quarto-2.qmd`.
 
 ```{r file = "images/quarto-2-1.txt", echo = TRUE, eval = FALSE}
 ```
@@ -932,7 +933,7 @@ Note the two missing values. This is what is causing the warning message.
 
 There are two standard ways to get rid of a warning message. First, we can make deal with the substance of the issue, determine the problem with our code/data which is causing the warning and solve it. Second (and much easier) we can simply hide the warning, although in that case, we should really add a code comment explaining what is going on.
 
-Because this section has gone on long enough, we take the second approach. To the `make-plot` code chunk, add `#| warning: false`. Render `quarto-2.qmd`.
+Because this section has gone on long enough, we take the second approach. To plotting code chunk, add `#| warning: false`. Render `quarto-2.qmd`.
 
 In the Console, run:
 
@@ -956,7 +957,6 @@ question_text(NULL,
 
 If you turn off warnings, you ought to add some code comments explaining why. A better approach, in this case, would have been to add a command like `drop_na(body_mass_g)` to the pipe. This would have removed the two rows with missing data.
 
-
 ### Exercise 14
 
 Let's publish our results to [GitHub Pages](https://pages.github.com/). 
@@ -976,8 +976,6 @@ question_text(NULL,
 ```
 
 ###
-
-<!-- DK: Add in correct answer. -->
 
 `quarto publish` processes `quarto-2.qmd` in the same way that `quarto preview` or `quarto render` does.
 
@@ -1002,8 +1000,7 @@ Your site is live at https://davidkane9.github.io/project-2/
 Last deployed by @davidkane9 davidkane9 6 minutes ago
 ````
 
-Publishing to GitHub Pages has not changed any of the files in our repo, so the "Source Control" button does not show any changes for us to deal with. Our local repo matches our `project-2` on GitHub. We are done!
-
+Commit/sync all the files in your project so that your work is saved at GitHub.
 
 ## Summary
 ### 

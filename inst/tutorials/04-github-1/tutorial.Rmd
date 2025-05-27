@@ -122,9 +122,9 @@ Going forward, make sure to pay special attention to whether given commands are 
 ## Setting up Git
 ### 
 
-Professionals store their work on GitHub, or a similar "source control" tool. If your computer blows up, you don't want to lose your work. GitHub is like Google Drive --- both live in the cloud --- but for your computational work rather than your documents.
+Professionals store their work on GitHub, or a similar *source control* tool. If your computer blows up, you don't want to lose your work. GitHub is like Google Drive --- both live in the cloud --- but for your computational work rather than your documents.
 
-GitHub is an online drive for all your R code and projects. In the professional world, what you have on your GitHub account is more important than what you have on your resume. It is a verifiable demonstration of your abilities.
+GitHub is an online drive for all your R code and projects. In the professional world, what you have on your GitHub account is sometimes more important than what you have on your resume. It is a verifiable demonstration of your abilities.
 
 
 ### Exercise 1
@@ -152,7 +152,7 @@ dkane@MacBookPro projects %
 
 The details will differ. Don't worry if you have a different version of Git installed.
 
-If this fails, you need to install [Git](https://git-scm.com/) by following the instructions of the [Install Git](https://happygitwithr.com/install-git.html) chapter in [*Happy Git and GitHub for the useR*](https://happygitwithr.com/).
+If this fails, you need to install [Git](https://git-scm.com/) by following the instructions from the [Install Git](https://happygitwithr.com/install-git.html) chapter in [*Happy Git and GitHub for the useR*](https://happygitwithr.com/).
 
 ### Exercise 2
 
@@ -216,23 +216,27 @@ https://github.com/your-username
 
 ### Exercise 4
 
-Now that you have your GitHub account, you need to connect it to Positron. The first step of doing this is to give Positron your GitHub account user name and email.
+Now that you have your GitHub account, you need to connect it to Positron. The first step of doing this is to give Git your GitHub email (which is how it connects you to GitHub) and a GitHub username, which does not have to be the same as your Git username, and generally won't be.
 
 ### 
-
-<!-- Stop using usethis and just run the relevant Git commands from the Terminal? -->
 
 In the Console, run this command, substituting the email and user name you used for your GitHub account:
 
 ```         
-usethis::use_git_config(user.name = "your-username", user.email = "your@email.org")
+usethis::use_git_config(user.name = "Your Name", user.email = "your@email.org")
 ```
 
-Note that this will not return anything. As long as you don't get an error message, it (probably) worked.
+Note that this will not return anything. As long as you don't get an error message, it (probably) worked. When I ran this command, I used:
+
+```         
+usethis::use_git_config(user.name = "David Kane", user.email = "dave.kane@gmail.com")
+```
+
+This Git username ("David Kane") is not the same as my GitHub username ("davekane9"), but the email for both ("dave.kane@gmail.com") is the same.
 
 ### 
 
-Run `git config --global user.name` in the *Terminal* to make sure your computer remembers your GitHub username. Note that you should be always be working in the Terminal associated with your new Positron window, not in the Terminal in the window in which this tutorial is being run.
+Run `git config --global user.name` in the *Terminal* to make sure your computer remembers your Git username. Note that you should be always be working in the Terminal associated with your new Positron window, not in the Terminal in the window in which this tutorial is being run.
 
 CP/CR.
 
@@ -259,7 +263,9 @@ Of course, it should be your username, not mine!
 
 ### Exercise 5
 
-Run `git config --global user.email` in the *Terminal* to make sure your GitHub email is stored too. CP/CR.
+Run `git config --global user.email` in the *Terminal* to make sure your Git email is stored too. And make sure that it is the same as the email you used to create your GitHub account.
+
+CP/CR.
 
 ```{r setting-up-git-5}
 question_text(NULL,
@@ -280,7 +286,7 @@ dave.kane@gmail.com
 dkane@MacBookPro projects % 
 ```
 
-Now, your GitHub username and email are stored so that your computer can automate a lot of the tedious steps required to communicate with GitHub.
+Now, your Git username and email are stored so that your computer can automate a lot of the tedious steps required to communicate with GitHub.
 
 ### Exercise 6
 
@@ -609,7 +615,7 @@ question_text(NULL,
 
 Your answer should have one line: `# First-Repo`.
 
-The `README.md` file is a markdown file with only one line, a header with the name of the repo. It, unfortunately, lacks an empty line at the end of the file, thereby causing my prompt to "wrap" around in the print out above.
+The `README.md` file is a markdown file with only one line, a header with the name of the repo. It, unfortunately, lacks an empty line at the end of the file, thereby probably causing your prompt to "wrap" around after the `cat` command.
 
 ### Exercise 5
 
