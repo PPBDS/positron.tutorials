@@ -342,7 +342,7 @@ This will rewrite the current `quarto-1.html` file, both in the current director
 
 ###
 
-Strictly speaking, the HTML file is being changed. This is the file which your Viewer pane (or your browser) are looking at. Depending on your cmputer settings, you might have to "resfresh" the Viewer/browser to see your changes.
+Strictly speaking, the HTML file is being changed. This is the file which your Viewer pane (or your browser) are looking at. Depending on your computer settings, you might have to "resfresh" the Viewer/browser to see your changes.
 
 In the following box, copy all of the text from your rendered Quarto document, from the Viewer/browser. That is, copy/paste from the HTML. Don't worry about formatting.
 

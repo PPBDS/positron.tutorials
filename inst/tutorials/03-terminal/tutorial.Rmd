@@ -2078,7 +2078,7 @@ We call this folder `grepping` rather than `grep` because you should not use a c
 echo hat.txt > files.txt & echo cat.txt >> files.txt & echo ate.txt >> files.txt & echo "" >> files.txt
 ```
 
-The trick with this command is the `>` pipes the results into a file, deleting anything already in he file, while `>>` appends to an already existing file. So, we are creating `files.txt` line-by-line.
+The trick with this command is the `>` pipes the results into a file, deleting anything already in the file, while `>>` appends to an already existing file. So, we are creating `files.txt` line-by-line.
 
 Run `cat files.txt`. CP/CR.
 
