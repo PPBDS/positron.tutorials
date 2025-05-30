@@ -1,6 +1,6 @@
 ## Priorities
 
-Distinguish between render and preview.
+Add images for early tutorials, especially pictures of the Terminal.
 
 Confirm the use of two Windows throughout.
 

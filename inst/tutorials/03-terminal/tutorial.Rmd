@@ -52,7 +52,7 @@ options(tutorial.exercise.timelimit = 60,
 ## Introduction
 ### 
 
-This tutorial introduces the structure and uses of the Terminal from within Positron. The older, more general term for the terminal is the "command line." All modern operating systems provide a command line, from which sophisticated users can modify files and directories, using commands like `pwd`, `ls`, `echo`, `mkdir`, `mv`, `rm`, and `cd`. We also discuss regular expressions as well as some of the metacharacters (like, `*`, `^` and `$`) from which they are constructed. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This tutorial introduces the structure and uses of the Terminal from within Positron. The older, more general term for the Terminal is the "command line." All modern operating systems provide a command line, from which sophisticated users can modify files and directories, using commands like `pwd`, `ls`, `echo`, `mkdir`, `mv`, `rm`, and `cd`. We also discuss regular expressions as well as some of the metacharacters (like, `*`, `^` and `$`) from which they are constructed. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 ### 
 
@@ -77,41 +77,6 @@ into
 ```
 ls %USERPROFILE%\Desktop
 ```
-
-## RTools
-###
-
-If you are using Windows, you must install RTools. Download the latest version from [here](https://cran.r-project.org/bin/windows/Rtools/). Currently, the Rtools45 installer is what you want, assuming that your installed R version is at least 4.5.0. The link is in the seventh paragraph of [this page](https://cran.r-project.org/bin/windows/Rtools/rtools45/rtools.html). Use your favorite AI to help determine whether to use the Rtools45 installer or 64-bit ARM Rtools45 installer. 
-
-Once you install RTools, you should restart your Positron session. If you are using Windows and are having trouble doing this, you may need to "translate" some of the instructions we give.
-
-### Exercise 1
-
-Start a second Positron window, as usual.
-
-From the Console, run `pkgbuild::has_rtools()`. CP/CR.
-
-```{r rtools-1}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 3)
-```
-
-###
-
-On the Mac, you should see:
-
-````
-> pkgbuild::has_rtools()
-[1] FALSE
->
-````
-
-This makes sense since we only RTools can only be installed on Windows machines. However, if you are on Windows, this should return `TRUE`. If it does not, install/fix RTools until you get `TRUE`, otherwise, much of this tutorial won't work for you.
-
 
 ## Terminal
 ### 
