@@ -1,12 +1,28 @@
 ## Priorities
 
+Does the Git Bash hack really work? I only do this in settings.json:
+
+"terminal.integrated.defaultProfile.windows": "Git Bash"
+
+But note this (from I don't know where):
+
+{
+  "terminal.integrated.profiles.windows": {
+    "RTools Bash": {
+      "path": "C:\\rtools45\\usr\\bin\\bash.exe",
+      "args": ["--login"]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "RTools Bash"
+}
+
+Check with Sophia on this. Maybe what I have works because, even without it, installing Git Bash seems to add Git Bash to the set of choices from `+`, the add Terminal button. If so, all we need to change is the default. But then maybe just changing the default to RTools Bash is enough, since RTools also installs its own bash, and it also seems to be available from the `+`.
+
+So, maybe just adding the default is enough, even before we install either Rtools or Git, just as we define the files.dialog.defaultPath before we have created the `projects` directory.
+
 Add images for early tutorials, especially pictures of the Terminal.
 
-Confirm the use of two Windows throughout.
-
 Understand fully how Windows will work in the terminal in Positron, at least for modern window shells.
- 
-What about Chromebooks??!! Too much to worry about. 
 
 use Grok to provide one sentence descriptions for each tutorial, and then use that description in two places: the file itself and the home page of the package.
 
@@ -77,3 +93,5 @@ Maybe we need another tutorial about putting large projects together. Might cove
 Maybe a different tutorial which walked through a bunch of different Quarto project types, not because we are especially interested in Dashboards, but because we want to give students more practice dealing with projects with lots of different files doing different things.
 
 What they forgot to teach you tutorial: https://rstats.wtf/
+
+What about Chromebooks??!! Too much to worry about. 

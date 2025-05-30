@@ -31,10 +31,17 @@ library(tidyverse)
 
 <!-- Confirm that quarto publish gh-pages works on Windows. -->
 
+<!-- Should I learn more about where Quarto is installed? Does it matter? I currently find it in at least two places on my computer:
+
+/Applications/quarto/bin/quarto
+/usr/local/bin/quarto
+
+And I also think it is bundled with Positron somehow? -->
+
 ## Introduction
 ### 
 
-This tutorial introduces the process of creating and organizing [Quarto websites](https://quarto.org/docs/websites/) using the [Quarto CLI](https://quarto.org/docs/get-started/) (command line interface) and commands like `quarto create project`, `quarto render`, `quarto preview`, and `quarto publish`. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This tutorial introduces the process of creating and organizing [Quarto websites](https://quarto.org/docs/websites/) using the [Quarto CLI](https://quarto.org/docs/get-started/) (command line interface) and commands like `quarto create`, `quarto render`, `quarto preview`, and `quarto publish`. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 ### 
 
@@ -42,13 +49,6 @@ Start a new window with `File -> New Window`. This new window is the location in
 
 ## Creating files
 ### 
-
-<!-- DK: Should I learn more about where Quarto is installed? Does it matter? I currently find it in at least two places on my computer:
-
-/Applications/quarto/bin/quarto
-/usr/local/bin/quarto
-
-And I also think it is bundled with Positron somehow? -->
 
 Let's make a [Quarto website](https://quarto.org/docs/websites/).
 
@@ -125,13 +125,11 @@ Always start a new data science project with a new Github repo.
 
 ### Exercise 4
 
-Connect the `first-website` Github repo to a project on your computer using the usual procedure: `File -> New Folder from Git...` and so on.  
+In the other window, connect the `first-website` Github repo to a project on your computer using the usual procedure: `File -> New Folder from Git...` and so on.  
 
-As always, you have a choice as to whether or not you want to have two Positron windows: one (this one) in which to complete the tutorial and another one in which you create your actual project. Or you can have just one window, with multiple Consoles. Either approach is fine. 
+You may need to close the "Welcome" window and start an R interpreter for the Console. 
 
-If you choose the "new window" option, you may need to close the "Welcome" window and start an R interpreter for the Console. If you don't create a new window, you will need to restart the tutorial and create a new Console.
-
-From the Terminal (in the new Positron window), run `ls`. CP/CR.
+From the Terminal (in the other window), run `ls`. CP/CR.
 
 ```{r creating-files-4}
 question_text(NULL,
@@ -451,7 +449,7 @@ If you want to learn more about how to work with Git/Github and R, check out [Ha
 ## Rendering and previewing
 ### 
 
-We now have the infrastructure for our website. We want to create (or "render") the webpages themselves and then "preview" them to see what they will look like when we place them on the web.
+We now have the infrastructure for our website. We want to create (or "render") the web pages themselves and then "preview" them to see what they will look like when we place them on the web.
 
 ### Exercise 1
 
@@ -508,7 +506,6 @@ dkane@macbook first-website %
 
 Note the addition of a `_site` directory. This is the location in which the HTML files that make up the website are located. The web pages which make up a website are often placed in a directory named either `_site` or `docs`, depending on the setup of your web hosting service.
 
-
 ### Exercise 3
 
 From the Terminal, run `ls _site`. CP/CR.
@@ -532,7 +529,7 @@ about.html      index.html      search.json     site_libs       styles.css
 dkane@macbook first-website % 
 ````
 
-The `about.html` and `index.html` files are simply the rendered `about.qmd` and `index.qmd` input files. They are placed into the `_site` directory because the convention, when constructing websites and other large projects, is to separate out the outputs from the inputs.
+The `about.html` and `index.html` files are simply the rendered `about.qmd` and `index.qmd` input files. They are placed into the `_site` directory because the convention, when constructing websites and other large projects, is to separate the outputs (HTML files) from the inputs (QMD files, in this case).
 
 ### 
 
@@ -542,7 +539,7 @@ We won't discuss the `search.json` and `styles.css` files. The `site_libs` direc
 
 Look the Source Control button. Note how many new files there are. Most of this is garbage which does not belong on GitHub.
 
-Add `/_site` to the `.gitignore`. Don't forget that the last line of a `.gitignore` should always be blank. Save the file. 
+Add `/_site` to the `.gitignore`. Don't forget that the last line of `.gitignore` should always be blank. Save the file. 
 
 In the Console, run:
 
@@ -574,7 +571,7 @@ This command is [convenient](https://quarto.org/docs/publishing/github-pages.htm
 
 ### 
 
-The initial backslash in `/_site` allows Git to interpret `_site` correctly. The `/` escapes the `_`, allowing it to be treated as a literal, rather than special, character. `_site` is a directory, so we could end the expression with a backslash, but Git, like most programs interpret `_site` and `_site/` to refer to the same thing, which they do.
+The initial backslash in `/_site` allows Git to interpret `_site` correctly. The `/` escapes the `_`, allowing it to be treated as a literal, rather than special, character. `_site` is a directory, so we could end the expression with a backslash, but Git, like most programs, interprets `_site` and `_site/` to refer to the same thing, which they do.
 
 ### Exercise 5
 
@@ -634,11 +631,9 @@ GET: /about.html
 
 Quarto is hanging out, still running in the background, monitoring your website. So, when you clicked the "About" link, it went to "GET" the `about.html` page to show to you.
 
-
 ### Exercise 7
 
-Look again at your website in the browser. Click on the "Home" link and then copy/paste the entire HTML screen.
-
+Look again at your website in the Viewer/browser. Click on the "Home" link and then copy/paste the entire HTML screen.
 
 ```{r rendering-and-previewing-7}
 question_text(NULL,
@@ -664,7 +659,6 @@ The title of the entire project ("A New Website"), taken from the `_quarto.yml` 
 
 (Depending on your browser and other settings, the copy/paste might also capture the "Home" and "About" links. No worry either way.)
 
-
 ### Exercise 8
 
 Copy/paste the URL for your previewed website.
@@ -687,7 +681,6 @@ http://localhost:7193/
 ````
 
 The website is being "hosted" on your computer. That is what the word "localhost" refers to. It is not available on the web.
-
 
 ### Exercise 9
 
@@ -758,7 +751,7 @@ About
 David Kane
 ````
 
-If you want to stop `quarto preview` you can cancel the command by `Ctrl + c`. This is always the command to use whenever you want the Terminal to stop doing whatever it is doing.
+If you want to stop `quarto preview` you can cancel the command with `Ctrl + c` if the Terminal is the active pane, i.e, where your cursor is. This is always the command to use whenever you want the Terminal to stop doing whatever it is doing.
 
 Run `Ctrl + c`.
 
@@ -803,7 +796,6 @@ knitr::include_graphics("images/pages.png")
 
 Sam Csik provides an [excellent overview](https://ucsb-meds.github.io/creating-quarto-websites/) of the entire process of creating Quarto websites. 
 
-
 ### Exercise 2
 
 We won't edit the settings on the GitHub Pages page by hand. Instead, we will allow Quarto to make changes for us. The process for publishing an entire website is similar to the one for publishing a single document.
@@ -813,7 +805,6 @@ At the Terminal, run `quarto publish gh-pages`.
 You will then need to type "Yes" to accept the default settings. 
 
 CP/CR the first 10 or lines of the output.
-
 
 ```{r publishing-2}
 question_text(NULL,
@@ -841,7 +832,7 @@ To https://github.com/davidkane9/first-website.git
  ...
 ````
 
-[Git branches](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) help us work with multiple people and/or on complex projects. "Git encourages workflows that branch and merge often, even multiple times in a day." Although it is not required, it is standard practice to use a branch named `gh-pages` for publishing with GitHub pages.
+[Git branches](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) help us work with multiple people and/or on complex projects. "Git encourages workflows that branch and merge often, even multiple times in a day." Although it is not required, it is standard practice to use a branch named `gh-pages` for publishing with GitHub Pages.
 
 ### Exercise 3
 
@@ -898,7 +889,6 @@ dkane@macbook first-website %
 
 The publishing process may take a minute or two to complete. The URL for your website is provided at the end.
 
-
 ### Exercise 5
 
 A link to your new website should be brought up in a browser. Copy/paste the URL for your website. 
@@ -945,7 +935,6 @@ dkane@macbook first-website %
 
 The `.quarto` directory is like the `.git` directory. We will never look at or change the files inside of these directories. Only the relevant programs --- Quarto and Git --- should work with the contents of these directories. 
 
-
 ### Exercise 7
 
 Open the `_quarto.yml` file in the Editor. Change `title: "A New Website"` to `title: "A New Website, second edition"`. Save the file.
@@ -978,7 +967,6 @@ website:
 ````
 
 Keep track of the three different places that the title of our project now exists. First, it is present in `_quarto.yml`. We have changed it there. But we have not changed it in the `_site` files which constitute the website (once published) nor in files uploaded to Github Pages.
-
 
 ### Exercise 8
 
@@ -1014,7 +1002,6 @@ From the Terminal, stop the `quarto preview` command with `Ctrl + c`. Run `quart
 
 CP/CR.
 
-
 ```{r publishing-9}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
@@ -1025,7 +1012,6 @@ question_text(NULL,
 ```
 
 ### 
-
 
 ````
 Davids-MacBook-Pro-2:first-website dkane$ quarto publish
@@ -1060,7 +1046,6 @@ This output is much shorter because you have already created the `gh-pages` bran
 
 The `gh-pages` branch is a special branch in GitHub repositories used to host static websites via GitHub Pages. It serves as the deployment source for your website, which GitHub publishes at a URL like `https://<username>.github.io/<repository-name>`.
 
-
 ### Exercise 10
 
 Commit and push all the files in the project. Run `git log -n 2` in the Terminal. CP/CR. 
@@ -1080,14 +1065,12 @@ question_text(NULL,
 
 Note both the simplicity *and* the complexity of your project. It is simple in that, even if our computer blew up we would be able to recreate everything from the files on Github. It is complex in that there are a lot of files, interacting in a fairly sophisticated fashion.
 
-
 ## Summary
 ### 
 
-This tutorial introduced the process of creating and organizing the [Quarto websites](https://quarto.org/docs/websites/) using the [Quarto CLI](https://quarto.org/docs/get-started/) (command line interface) and commands like `quarto create project`, `quarto render`, `quarto preview`, and `quarto publish`. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This tutorial introduced the process of creating and organizing the [Quarto websites](https://quarto.org/docs/websites/) using the [Quarto CLI](https://quarto.org/docs/get-started/) (command line interface) and commands like `quarto create`, `quarto render`, `quarto preview`, and `quarto publish`. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
 Sam Csik provides an [excellent overview](https://ucsb-meds.github.io/creating-quarto-websites/) of the entire process of creating Quarto websites.
-
 
 ```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
 ```
