@@ -31,15 +31,13 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
+<!-- Do we need the Windows translation now that we are forcing (?) the use of a Unix-like? -->
+
 <!-- Won't just about everyone doing this tutorial be in their projects directory? So I should be too! -->
 
 <!-- The second time we use echo, we act like we haven't explained it before. -->
 
-<!-- Can we check for the installation of RTools from the Terminal? Might be nice to not have to use the Console at all in this tutorial? -->
-
 <!-- Might be useful to add a test which confirms that those files exist, before we ask students to download them. Of course, that will only work if we have web access. -->
-
-<!-- By default, RTools leaves Windows users using the Powershell. I have some notes in tutorial.helpers about changing this in "Tutorials in Positron." If we did this, then we could simplify a lot of the code below and stop with all the translation nonsense.  -->
 
 <!-- Add a brief discussion of environment variables? -->
 
@@ -54,7 +52,50 @@ options(tutorial.exercise.timelimit = 60,
 
 This tutorial introduces the structure and uses of the Terminal from within Positron. The older, more general term for the Terminal is the "command line." All modern operating systems provide a command line, from which sophisticated users can modify files and directories, using commands like `pwd`, `ls`, `echo`, `mkdir`, `mv`, `rm`, and `cd`. We also discuss regular expressions as well as some of the metacharacters (like, `*`, `^` and `$`) from which they are constructed. Some material is from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
+###
+
+Windows users should use a Unix-like shell rather than the default PowerShell. With luck, this will be automatic because you have already done three things.
+
+First, you installed [Git for Windows](https://gitforwindows.org/), including Git Bash, which will provide the shell we need.
+
+Second, from the Console, you have run:
+
+````
+tutorial.helpers::set_positron_settings(
+  positron_settings = 
+   list("terminal.integrated.defaultProfile.windows" = 
+        "Git Bash"))
+````
+
+Third, you have restarted Positron. 
+
+###
+
+When you first click on "Terminal," you should see something like this:
+
+```{r}
+knitr::include_graphics("images/tut-terminal-1.png")
+```
+
+Because I am using a Mac, the shell being used is already a "Unix-like." If you are on Windows, and are lucky, then the set up work you have already done will also, by default, give you a Unix-like shell. You can test this by entering `pwd` and hitting `Enter`. A Unix-like shell will give you something like:
+
+````
+dkane@macbook ~ % pwd
+/Users/dkane
+dkane@macbook ~ % 
+````
+
+PowerShell, the default Williams shell (in modern systems), will give you an error. If so, you should be able to access a Unix-like shell by clicking the downward arrow next to the `+` on the Terminal menu. When you do, Positron should provide you with a list of shells to choose from. Look for something called "Git Bash" or "bash" or, really, anything other than PowerShell. 
+
+```{r}
+knitr::include_graphics("images/tut-terminal-2.png")
+```
+
+Once that is pulled up, see if `pwd` works. If it does, you are all set. If not, ask AI to help you. To complete this tutorial, you should be using a Unix-like shell.
+
 ### 
+
+If, for whatever reason, you are a Windows user still using PowerShell, then keep the following in mind.
 
 For the most part, Windows works like Mac/Unix. There are three main exceptions which are important for this tutorial:
 
@@ -110,7 +151,7 @@ Your answer will look different from mine. Default prompts vary from computer to
 
 ### 
 
-The prompt acts as a quick way to tell you where in the computer you are. The Terminal is sensitive to which folder location you are in, just like the Console is.
+My prompt acts as a quick way to tell you where in the computer you are. The Terminal is sensitive to which folder location you are in, just like the Console is.
 
 ### Exercise 2
 

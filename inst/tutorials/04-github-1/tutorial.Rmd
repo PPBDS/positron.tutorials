@@ -1383,7 +1383,7 @@ The commit itself has not changed. It has the same date/author/comment as before
 
 ### Exercise 12
 
-Add an R code chunk in `analysis.qmd` by using the shortcut key `Cmd/Ctrl + option + i` . (Recall that "code chunk" and "code cell" mean the same thing.) In that chunk, put `library(tidyverse)`. `Cmd/Ctrl + Shift + K` to render the the document. Your Positron window should look like:
+Add an R code chunk in `analysis.qmd` by using the shortcut key `Cmd/Ctrl + option + i`. (Recall that "code chunk" and "code cell" mean the same thing.) In that chunk, put `library(tidyverse)`. `Cmd/Ctrl + Shift + K` to render the the document. Your Positron window should look like:
 
 ```{r}
 include_graphics("images/second-repo-7.png")
