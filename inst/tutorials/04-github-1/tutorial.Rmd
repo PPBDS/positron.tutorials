@@ -803,7 +803,7 @@ Because `.gitignore` begins with a `.`, it is a hidden file. It would not appear
 
 ### Exercise 10
 
-The purpose of the `.gitignore` file is to specify those files/directories which **git** should **ignore**. Add a new line to the file, `README_file`, followed by an empty line. Save your changes.
+The purpose of the `.gitignore` file is to specify those files/directories which **git** should **ignore**. Add a new line to the file, `README_files`, followed by an empty line. Save your changes.
 
 From the Terminal, run `cat .gitignore`. CP/CR.
 
@@ -1586,7 +1586,7 @@ Generative AI is the future of coding. You need to practice more.
 
 ### Exercise 17
 
-If you click the Soure Control button, your Postitron window should look something like this:
+If you click the Source Control button, your Postitron window should look something like this:
 
 ```{r}
 include_graphics("images/second-repo-8.png")
@@ -1621,7 +1621,7 @@ We are being a little sloppy to equate "pushing" with "syncing." Strictly speaki
 
 ### Exercise 18
 
-Let's publish our results to [GitHub Pages](https://pages.github.com/). Before we do, go the GitHub repo for `repo-2`, click on the "Settings" top menu item and, after that, click on the "Pages" side menu item.
+Let's publish our results to [GitHub Pages](https://pages.github.com/). Before we do, go to the GitHub repo for `repo-2`, click on the "Settings" top menu item and, after that, click on the "Pages" side menu item.
 
 ```{r}
 include_graphics("images/second-repo-9.png")

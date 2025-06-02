@@ -1,5 +1,49 @@
 ## Priorities
 
+Explain `Ctrl-c` someplace early, and maybe a second time. Use sleep(5) and sleep(60) as an example. Probably belongs in the Terminal.
+
+New version to CRAN
+
+Build VS Code extension for seeing/starting tutorials.
+
+Windows and the Terminal; see below.
+
+Add images for early tutorials, especially pictures of the Terminal.
+
+Add more AI questions. Need to make students practice interacting with AI.
+
+## Things to do earlier
+
+In total, we make 5 websites. We need to make their construction more consistent, making things simpler in the initial ones and more complex, with more skipped steps, in later ones. Students will probably be doing all these within a day or two.
+
+There are lots of questions when we ask the student to copy the HTML output. We need to explicitly teach them how to do this, and mention it again.
+
+## Other items
+
+Any reason to make the Tutorial descriptions longer, like a full sentence or two? Use Grok to provide one sentence descriptions for each tutorial, and then use that description in two places: the file itself and the home page of the package.
+
+If we ever redo the images, make sure to delete the Positron default welcome page first, but only if this is no longer shown by default. I think it is when you start up but not in a new Window.
+
+Any reason to explore the Visual editor?
+
+To shrink the size of all the PNG files, do:
+
+find . -type f -name "*.png" -exec pngquant "{}" -o "{}" --force \;
+
+Update R CMD check YAML to be more like tutorial.helpers, using renv and multiple OS's.
+
+ ## AI Links
+
+Apparently, there is active work on a Positron Assistant. 
+
+https://ellmer.tidyverse.org/
+https://www.tidyverse.org/blog/2025/01/experiments-llm/
+https://www.youtube.com/watch?v=RBTl94xeKqg
+https://drmowinckels.io/blog/2025/ollama/
+https://www.seascapemodels.org/rstats/2025/03/15/LMs-in-R-with-ellmer.html
+
+## Windows and the Terminal
+
 Does the Git Bash hack really work? I only do this in settings.json:
 
 "terminal.integrated.defaultProfile.windows": "Git Bash"
@@ -16,77 +60,20 @@ But note this (from I don't know where):
   "terminal.integrated.defaultProfile.windows": "RTools Bash"
 }
 
-Check with Sophia on this. Maybe what I have works because, even without it, installing Git Bash seems to add Git Bash to the set of choices from `+`, the add Terminal button. If so, all we need to change is the default. But then maybe just changing the default to RTools Bash is enough, since RTools also installs its own bash, and it also seems to be available from the `+`.
+Check with Sophia on this. Maybe what I have works because, even without it, installing Git Bash seems to add Git Bash to the set of choices from `+`, then add Terminal button. If so, all we need to change is the default. But then maybe just changing the default to RTools Bash is enough, since RTools also installs its own bash, and it also seems to be available from the `+`.
 
 So, maybe just adding the default is enough, even before we install either Rtools or Git, just as we define the files.dialog.defaultPath before we have created the `projects` directory.
 
-Add images for early tutorials, especially pictures of the Terminal.
-
 Understand fully how Windows will work in the terminal in Positron, at least for modern window shells.
 
-use Grok to provide one sentence descriptions for each tutorial, and then use that description in two places: the file itself and the home page of the package.
 
-Build VS Code extension for seeing/starting tutorials.
+## Other tutorials
 
-Shrink all PNG files.
-
-Clean up tutorial 7.
+Maybe an Advanced Positron tutorial? Covers topics like multiple Terminals and Consoles. Advanced Git/GitHub trickery, especially for when the Git history is rich. Branching
 
 Add tutorial about ellmer and other AI issues.
 
 Add a tutorial about working with large, complex projects? Each topic would involve forking an already existing project and then making a bunch of changes, perhaps including getting the raw data.
-
-Add more AI questions. Need to make students practice interacting with AI.
-
-Can we add some tests? Maybe set up a test environment of some type, perhaps by setting up all sets of scaffolding for testthat? 
-
-
-
-Maybe an Advanced Positron tutorial? Covers topics like multiple Terminals and Consoles. Advanced Git/GitHub trickery, especially for when the Git history is rich. 
-
-## Things to do earlier
-
-In total, we make 5 websites. We need to make their construction more consistent, making things simpler in the initial ones and more complex, with more skipped steps, in later ones. Students will probably be doing all these within a day or two.
-
-For later websites, show how to add a link to the website to the GitHub repo.
-
-There are lots of questions when we ask the student to copy the HTML output. We need to explicitly teach them how to do this, and mention it again.
-
-> We often ask you to "copy" from the HTML. It is OK if what you copy looks ugly, has lost its formatting and so on. We just want to make sure that your HTML includes, more or less, the information that it should.
-
-Early on, explain that we often just follow the answer with our answer, without labelling it as such. Explain that an example answer after your answer is just an example, yours may differ for all sorts of reasons. Add this to first tutorial.
-
-Explain  someplace early, and maybe a second time. Use sleep(5) and sleep(60) as an example. Probably belongs in the Terminal.
-
-We could do all the example repos in PPBDS and then leave them up forever, so they would be available to students doing the work.
-
-## Other items
-
-Any reason to make the Tutorial descriptions longer, like a full sentence or two?
-
-If we ever redo the images, make sure to delete the Positron default welcome page first. 
-
-Any reason to explore the Visual editor?
-
-find . -type f -name "*.png" -exec pngquant "{}" -o "{}" --force \;
-
-Just added those .txt files on 03-terminal/images. Is that a good place for them? We don't (?) want them to be in the actual package. Should we add them to .RBuildignore?
-
-Update R CMD check YAML to be more like tutorial.helpers, using renv and multiple OS's.
-
- ## AI Links
-
-Apparently, there is active work on a Positron Assistant. 
-
-
-https://ellmer.tidyverse.org/
-https://www.tidyverse.org/blog/2025/01/experiments-llm/
-https://www.youtube.com/watch?v=RBTl94xeKqg
-https://drmowinckels.io/blog/2025/ollama/
-https://www.seascapemodels.org/rstats/2025/03/15/LMs-in-R-with-ellmer.html
-
-
-## Other tutorials
 
 Maybe we need another tutorial about putting large projects together. Might cover things like the **here** package. Cover material in book titled something like R Stuff that it is not in the manual.
 
@@ -94,4 +81,9 @@ Maybe a different tutorial which walked through a bunch of different Quarto proj
 
 What they forgot to teach you tutorial: https://rstats.wtf/
 
+## For Later
+
 What about Chromebooks??!! Too much to worry about. 
+
+We could do all the example repos in PPBDS and then leave them up forever, so they would be available to students doing the work.
+

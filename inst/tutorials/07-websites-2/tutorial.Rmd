@@ -30,6 +30,8 @@ library(tidyverse)
 
 <!-- Maybe have 4 websites to split things up a bit more. website-3 has too many questions. 3 should just do the data. 4 should be the plot, perhaps after forking the final version of 3. -->
 
+<!-- For later websites, show how to add a link to the website to the GitHub repo. -->
+
 ## Introduction
 ### 
 

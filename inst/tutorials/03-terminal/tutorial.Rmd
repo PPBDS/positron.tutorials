@@ -417,7 +417,7 @@ question_text(NULL,
 
 ### 
 
-The Actvity Bar (left side, colored blue) in Positron includes several buttons. When you click on of these buttons, a "pane" of some sort is opened next to the Activty Bar. (Pressing the button again closes the pain.)
+The Actvity Bar (left side, colored blue) in Positron includes several buttons. When you click on of these buttons, a "pane" of some sort is opened next to the Activty Bar. (Pressing the button again closes the pane.)
 
 The top button is the Explorer. Pressing it opens the Explorer pane, also called Project Explorer. This functions like the Mac Finder or the Windows Explorer. 
 

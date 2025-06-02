@@ -414,7 +414,7 @@ question_text(NULL,
 
 ### Exercise 12
 
-Ask your favorite AI to create a beautiful graphic using the `penguins` data. Phrase the question however you like. I [asked](https://chatgpt.com/c/67d4e9fb-48cc-8002-abe5-dc29fba775e7) [chattGPT](https://chatgpt.com/):
+Ask your favorite AI to create a beautiful graphic using the `penguins` data. Phrase the question however you like. I [asked](https://chatgpt.com/c/67d4e9fb-48cc-8002-abe5-dc29fba775e7) [chatGPT](https://chatgpt.com/):
 
 > Using R and the tidyverse package, create a beautiful graphic using the penguins data from the palmerpenguins package.
 
