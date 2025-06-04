@@ -19,6 +19,7 @@ options(tutorial.exercise.timelimit = 240,
 
 library(learnr)
 library(tutorial.helpers)
+library(knitr)
 library(tidyverse)
 ```
 
