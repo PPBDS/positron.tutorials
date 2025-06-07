@@ -385,7 +385,7 @@ Again, we never edit files in the `_site` directory directly. We run commands, l
 
 ### Exercise 12
 
-Add `/_site` to the `.gitignore`. Don't forget that the last line of `.gitignore` should always be blank. Save the file. 
+Add `_site` to the `.gitignore`. Don't forget that the last line of `.gitignore` should always be blank. Save the file. 
 
 In the Terminal, run `cat .ignore`. CP/CR.
 
@@ -403,11 +403,11 @@ question_text(NULL,
 ````
 dkane@macbook website-1 % cat .gitignore 
 /.quarto/
-/_site
+_site
 dkane@macbook website-1 % 
 ````
 
-The initial backslash in `/_site` allows Git to interpret `_site` correctly. The `/` escapes the `_`, allowing it to be treated as a literal, rather than special, character. `_site` is a directory, so we could end the expression with a backslash, but Git, like most programs interpret `_site` and `_site/` to refer to the same thing, which they do.
+Note that `_site` ignores any file or directory named `_site` anywhere in the repository, which is generally what we want.
 
 ### Exercise 13
 
@@ -565,7 +565,7 @@ We are moving faster in the creation of Website 2 than we did when making Websit
 
 ### Exercise 3
 
-Add `\_site` to the `.gitignore` files. Save it.
+Add `_site` to the `.gitignore` files. Save it.
 
 In the Terminal, run `cat .gitignore`. CP/CR.
 
@@ -583,7 +583,7 @@ question_text(NULL,
 ````
 dkane@macbook website-2 % cat .gitignore
 /.quarto/
-/_site
+_site
 dkane@macbook website-2 % 
 ````
 
@@ -682,7 +682,7 @@ Note how changing `index.qmd` causes the `index.html` to be re-rendered, leading
 
 ### Exercise 7
 
-Create another code chunk. Ask AI to create a some code which makes a cool looking plot using the `billboard` tibble from the **tidyr** package and `ggplot()`. Make sure you understand what the plot is showing. Work with the AI to solve any errors, improve the code, make the graphic better and so on. Consider [my dialogue with Grok](https://grok.com/chat/4cc49023-df73-4d2c-ad16-49cb52be7559) as an example.
+Create another code chunk. Ask AI to create a some code which makes a cool looking plot using the `billboard` tibble from the **tidyr** package and `ggplot()`. Make sure you understand what the plot is showing. Work with the AI to solve any errors, improve the code, make the graphic better and so on. 
 
 `Cmd/Ctrl + Shift + K` to ensure that the plot looks good. If it looks bad, or there are some weird messages/warnings, use the AI to fix things.
 
@@ -1465,7 +1465,7 @@ Date:   Mon Mar 17 18:27:19 2025 -0400
 dkane@macbook website-3 % 
 ````
 
-There are some subtleties in whether we add `_site` or `/_site`. The former matches any directory named `_site` regardless of where in the repo it is located, even if it is nested several levels down.  `/_site`, on the other hand, is anchored to the same directory as the `.gitgnore` in which it lives which, in this case, is at the top of the repo. 
+There are some subtleties in whether we add `_site` or `/_site`. The former matches any directory named `_site` regardless of where in the repo it is located, even if it is nested several levels down.  `/_site`, on the other hand, is "anchored" to the same directory as the `.gitgnore` in which it lives which, in this case, is at the top of the repo. 
 
 ### Exercise 3
 

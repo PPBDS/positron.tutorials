@@ -540,7 +540,7 @@ We won't discuss the `search.json` and `styles.css` files. The `site_libs` direc
 
 Look the Source Control button. Note how many new files there are. Most of this is garbage which does not belong on GitHub.
 
-Add `/_site` to the `.gitignore`. Don't forget that the last line of `.gitignore` should always be blank. Save the file. 
+Add `_site` to the `.gitignore`. Don't forget that the last line of `.gitignore` should always be blank. Save the file. 
 
 In the Console, run:
 
@@ -564,15 +564,11 @@ question_text(NULL,
 ````
 > show_file(".gitignore")
 /.quarto/
-/_site
+_site
 >
 ````
 
 This command is [convenient](https://quarto.org/docs/publishing/github-pages.html) because the `_site` directory contains of lot of weird files that change often enough to annoy us. We don't create any of them directly, so we don't really need to back them up. Moreover, they will still get published directly to the web from our computer.
-
-### 
-
-The initial backslash in `/_site` allows Git to interpret `_site` correctly. The `/` escapes the `_`, allowing it to be treated as a literal, rather than special, character. `_site` is a directory, so we could end the expression with a backslash, but Git, like most programs, interprets `_site` and `_site/` to refer to the same thing, which they do.
 
 ### Exercise 5
 

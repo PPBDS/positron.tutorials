@@ -20,6 +20,10 @@ There are lots of questions when we ask the student to copy the HTML output. We 
 
 ## Other items
 
+Drop the use of palmerpenguins?
+
+teach use()
+
 Any reason to make the Tutorial descriptions longer, like a full sentence or two? Use Grok to provide one sentence descriptions for each tutorial, and then use that description in two places: the file itself and the home page of the package.
 
 If we ever redo the images, make sure to delete the Positron default welcome page first, but only if this is no longer shown by default. I think it is when you start up but not in a new Window.
