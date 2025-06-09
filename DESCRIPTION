@@ -30,5 +30,6 @@ Suggests:
     palmerpenguins,
     pkgbuild,
     quarto,
+    rsconnect,
     testthat (>= 3.0.0),
     tidyverse
