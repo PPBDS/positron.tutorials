@@ -1522,7 +1522,7 @@ Keep track of your current location. There is a difference between being in the 
 Using `echo`, make three text files named `hat.txt`, `cat.txt`, and `ate.txt` by running: 
 
 ````
-echo hat.txt > files.txt & echo cat.txt >> files.txt & echo ate.txt >> files.txt & echo "" >> files.txt
+echo "" > hat.txt & echo "" > cat.txt & echo "" > ate.txt
 ````
 
 Confirm that you have done so by running `ls`. (No worries if you make a mistake. Just fix it by removing the misnamed file.) 
@@ -1535,7 +1535,7 @@ question_text(NULL,
     allow_retry = TRUE,
     try_again_button = "Edit Answer",
     incorrect = NULL,
-    rows = 3)
+    rows = 5)
 ```
 
 ### 
