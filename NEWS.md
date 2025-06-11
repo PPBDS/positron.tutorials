@@ -1,5 +1,7 @@
 # positron.tutorials (development version)
 
+* Fix errors in tutorials.
+
 # positron.tutorials 0.2.0
 
 * Clean up functions and tests.

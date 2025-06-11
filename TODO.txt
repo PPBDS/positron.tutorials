@@ -2,7 +2,7 @@
 
 Explain `Ctrl-c` someplace early, and maybe a second time. Use sleep(5) and sleep(60) as an example. Probably belongs in the Terminal.
 
-New version to CRAN
+For when we revisit the details of the terminal: https://code.visualstudio.com/docs/terminal/basics
 
 Build VS Code extension for seeing/starting tutorials.
 

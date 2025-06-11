@@ -387,7 +387,7 @@ Again, we never edit files in the `_site` directory directly. We run commands, l
 
 Add `_site` to the `.gitignore`. Don't forget that the last line of `.gitignore` should always be blank. Save the file. 
 
-In the Terminal, run `cat .ignore`. CP/CR.
+In the Terminal, run `cat .gitignore`. CP/CR.
 
 ```{r website-1-12}
 question_text(NULL,
@@ -1498,30 +1498,8 @@ With luck, you have done these steps enough times that, going forward, we can ju
 
 Replace the contents of `index.qmd` with the below.
 
-````
----
-title: "My Home Page"
-execute: 
-  echo: false
----
-
-```{r}
-suppressPackageStartupMessages(library(tidyverse))
+```{r file = "images/website-3.txt", echo = TRUE, eval = FALSE}
 ```
-
-```{r}
-diamonds |> 
-  filter(z != 0) |> 
-  filter(color == "D") |> 
-  ggplot(aes(x = carat, y = price, color = cut)) + 
-    geom_point() +
-    scale_y_continuous(labels = scales::dollar) +
-    labs(title = "Prices and Sizes for Diamonds of Color D",
-         subtitle = "'Round' carat values like 1, 1.5 and 2 are more common.",
-         x = "Carat",
-         y = "Price")
-```
-````
 
 Publish the website and commit this change. Make sure everything looks OK.
 
