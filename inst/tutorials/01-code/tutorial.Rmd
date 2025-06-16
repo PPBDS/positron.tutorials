@@ -613,7 +613,14 @@ tutorial.helpers::set_positron_settings(positron_settings =
    list("files.dialog.defaultPath" = "/Users/dkane/Desktop/projects"))
 ````
 
-But you should not run that! That only works for me. You need to run the command with your `projects` path.
+If you are using Windows, you should have double backslashes. Something like:
+
+````
+tutorial.helpers::set_positron_settings(positron_settings = 
+   list("files.dialog.defaultPath" = "C://Users//dkane//projects"))
+````
+
+But you should not run either of those! Those only work for me. You need to run the command with your `projects` path.
 
 CP/CR.
 

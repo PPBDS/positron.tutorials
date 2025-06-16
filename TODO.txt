@@ -1,3 +1,19 @@
+## 2025 Issues
+
+Which menu item you click to quit positron?
+
+More emphasis on loading library(tutorial.helpers) so that show_file works.
+
+Exercise 14 of 01-code. Need to \\ not just \ for Windows users, otherwise the system thinks you are giving it Hex code:
+
+https://discord.com/channels/1066524559240597595/1066524726278762608/1383526964031393904
+
+Also:
+
+https://discord.com/channels/1066524559240597595/1066524726278762608/1383584479188353104
+
+01-code took 112 minutes, which is too long.
+
 ## Priorities
 
 Explain `Ctrl-c` someplace early, and maybe a second time. Use sleep(5) and sleep(60) as an example. Probably belongs in the Terminal.
