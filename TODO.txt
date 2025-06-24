@@ -1,5 +1,7 @@
 ## 2025 Issues
 
+Add how to delete a repo, and then delete one of the ones you made.
+
 Which menu item you click to quit positron?
 
 More emphasis on loading library(tutorial.helpers) so that show_file works.

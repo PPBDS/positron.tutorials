@@ -31,8 +31,6 @@ options(tutorial.exercise.timelimit = 60,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- Do we need the Windows translation now that we are forcing (?) the use of a Unix-like? -->
-
 <!-- Won't just about everyone doing this tutorial be in their projects directory? So I should be too! -->
 
 <!-- The second time we use echo, we act like we haven't explained it before. -->
@@ -107,17 +105,7 @@ For the most part, Windows works like Mac/Unix. There are three main exceptions 
 
 ###
 
-The tutorial defaults to Mac/Unix nomenclature. If you are using Windows, you may need to translate, for example:
-
-```
-ls $HOME/Desktop
-```
-
-into
-
-```
-ls %USERPROFILE%\Desktop
-```
+But, again, if you are a Windows user, everything will work the same for you as it does on Mac, as long as you are using a Unix-like shell like bash.
 
 ## Terminal
 ### 
@@ -490,9 +478,9 @@ Because we have changed working directories, the `lessons` directory is created 
 
 ### Exercise 5
 
-<!-- DK: Is this correct? -->
+<!-- DK: Delete the Windows option? -->
 
-Make a directory within `lessons` called `fruits` by running `mkdir lessons/fruits`. In Windows, this would be `mkdir lessons\fruits`. The only difference between the Mac/Linux command and the Windows command is that the former uses a forward slash, `/`, to separate out directories while the latter uses a back slash, `\`.
+Make a directory within `lessons` called `fruits` by running `mkdir lessons/fruits`. In Windows with Powershell, this would be `mkdir lessons\fruits`. The only difference between the Mac/Linux command and the Windows command is that the former uses a forward slash, `/`, to separate out directories while the latter uses a back slash, `\`.
 
 Run `ls lessons` to check to see if `fruits` exists inside the `lessons` directory. CP/CR.
 
@@ -520,7 +508,7 @@ We could not, as before, simply give `fruits` as an argument to `mkdir` because 
 
 ### Exercise 6
 
-Let's change our working directory to `fruits`. Run `cd lessons/fruits`. In Windows, `cd lessons\fruits`.
+Let's change our working directory to `fruits`. Run `cd lessons/fruits`. 
 
 As you are typing this command, type only the `f` in `fruits` and then press the tab key (twice may be necessary on some computers). Pressing tab autocompletes the name of a file or directory. 
 
@@ -901,8 +889,6 @@ Davids-MacBook-Pro-2:~ dkane$
 
 In Mac/Linux, the most common location for a user's home directory is within the `Users` directory. Note how, after we run `cd`, the prompt changes to report `~` as the current working directory. `~` is the symbol for the current user's home directory.
 
-<!-- DK: What happens for Windows? -->
-
 ### Exercise 7
 
 Use `cd`, along with the full path to the `symbols` directory which you determined above, to change the the working directory back to the `symbols` directory. Run `pwd` to confirm. CP/CR.
@@ -1077,9 +1063,7 @@ Hidden files live all over your computer.
 
 ### Exercise 5
 
-The **environmental variable** `HOME` represents the path to your home directory. Type and enter `echo $HOME` alone to make sure we are telling you the truth. 
-
-Recall that, on Windows, we accomplish the same goal with `echo %USERPROFILE%`. Windows does not usually have an `HOME` environmental value.
+The **environment variable** `HOME` represents the path to your home directory. Type and enter `echo $HOME` alone to make sure we are telling you the truth. 
 
 CP/CR.
 
@@ -1094,7 +1078,7 @@ question_text(NULL,
 
 ### 
 
-Your answer (on a Mac) should look like:
+Your answer should look like:
 
 ````
 Davids-MacBook-Pro-2:options dkane$ echo $HOME
@@ -1108,10 +1092,7 @@ Note how the prompt has changed because I am now in the `options` directory.
 
 Run `ls $HOME`. This should generate a list of the items in your home directory. 
 
-If you are on Windows, use `ls %USERPROFILE%`. 
-
 CP/CR.
-
 
 ```{r options-6}
 question_text(NULL,
@@ -1137,7 +1118,7 @@ Don't worry about the details of these files. Our main point is that environment
 
 ### Exercise 7
 
-In the Terminal, run `ls -l $HOME`, so that we can see more information in a **l**ong list.  If you are on Windows, use `ls -l %USERPROFILE%`. 
+In the Terminal, run `ls -l $HOME`, so that we can see more information in a **l**ong list.  
 
 CP/CR.
 
@@ -1182,7 +1163,7 @@ Let's download a copy of the `AUTHORS` document from the R source code. It is av
 https://github.com/wch/r-source/blob/trunk/doc/AUTHORS
 ````
 
-Press the "Download raw file" button. This should place a copy of the file in your `Downloads` directory. At the Terminal, run `ls ~/Downloads/A*`. If you are on Windows (and this command does not work), try to figure out a command which does.
+Press the "Download raw file" button. This should place a copy of the file in your `Downloads` directory. At the Terminal, run `ls ~/Downloads/A*`. If this command does not work for you, use AI to figure out a command which does.
 
 CP/CR.
 
@@ -1551,7 +1532,7 @@ ate.txt cat.txt hat.txt
 Davids-MacBook-Pro-2:wildcards dkane$ 
 ````
 
-Output if you are on Windows will look different. If you are curious about how those commands work, ask your favorite AI. The more you interact with AI, the better.
+If you are curious about how those commands work, ask your favorite AI. The more you interact with AI, the better.
 
 ### Exercise 4
 
