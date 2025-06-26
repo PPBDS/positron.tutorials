@@ -1776,7 +1776,7 @@ We have created a new object in the environment, called `D_diamonds`. You can al
 
 Restart your R session again. You can never restart your R session too often! The best way to do this is with the shortcut command: `Cmd/Ctrl + Shift + 0`. (This is the number zero, not the letter "O.")
 
-From the Terminal, run `ls()`. CP/CR.
+From the Console, run `ls()`. CP/CR.
 
 ```{r website-3-12}
 question_text(NULL,
@@ -1801,7 +1801,7 @@ character(0)
 
 ### Exercise 13
 
-Source `process_data.R`. From the Terminal, run `ls()`. CP/CR.
+Source `process_data.R`. From the Console, run `ls()`. CP/CR.
 
 ```{r website-3-13}
 question_text(NULL,
