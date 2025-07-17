@@ -1497,10 +1497,30 @@ With luck, you have done these steps enough times that, going forward, we can ju
 <!-- Should this be AI generated? -->
 
 Replace the contents of `index.qmd` with the below.
+<pre><code>
+---
+title: "My Home Page"
+execute: 
+  echo: false
+---
 
-```{r file = "images/website-3.txt", echo = TRUE, eval = FALSE}
-```
 
+<pre><code>```{r}
+suppressPackageStartupMessages(library(tidyverse))
+```</code></pre>
+<pre><code>```{r}
+diamonds |> 
+  filter(z != 0) |> 
+  filter(color == "D") |> 
+  ggplot(aes(x = carat, y = price, color = cut)) + 
+    geom_point() +
+    scale_y_continuous(labels = scales::dollar) +
+    labs(title = "Prices and Sizes for Diamonds of Color D",
+         subtitle = "'Round' carat values like 1, 1.5 and 2 are more common.",
+         x = "Carat",
+         y = "Price")
+```</code></pre>
+</code></pre>
 Publish the website and commit this change. Make sure everything looks OK.
 
 From the Terminal, run `git log -n 1`. CP/CR.
