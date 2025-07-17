@@ -408,9 +408,25 @@ question_text(NULL,
 
 ###
 
-```{r file = "images/quarto-1-1.txt", echo = TRUE, eval = FALSE}
-```
+<pre><code>
+> tutorial.helpers::show_file("quarto-1.qmd")
+---
+title: "Quarto 1"
+author: David Kane
+format: html
+execute: 
+  echo: false
+---
 
+<pre><code>```{r}
+suppressPackageStartupMessages(library(tidyverse))
+library(palmerpenguins)
+```</code></pre>
+<pre><code>```{r}
+penguins
+```</code></pre>
+>
+</code></pre>
 
 ### Exercise 12
 
@@ -526,8 +542,33 @@ That command generates a lot of text. Let me highlight some key parts:
 
 <!-- This looks a little ugly in that you can't easily see what is the original output and what is my comments. Not sure why we can't just use four backticks. The text includes neither a hash mark nor triple backticks, the usual culprits.  -->
 
-```{r file = "images/quarto-1-2.txt", echo = TRUE, eval = FALSE}
-```
+````
+dkane@macbook project-1 % quarto publish gh-pages quarto-1.qmd
+? Publish site to https://davidkane9.github.io/project-1/ using gh-pages? (Y/n) › Yes
+````
+
+The first time you publish, Quarto will confirm the location, which is just the standard GitHub Pages address, using your user name and the repo name.
+
+````
+Saved working directory and index state WIP on main: 71e6d06 initial version
+Switched to a new branch 'gh-pages'
+[gh-pages (root-commit) b8263f3] Initializing gh-pages branch
+remote: 
+remote: Create a pull request for 'gh-pages' on GitHub by visiting:        
+remote:  https://github.com/davidkane9/project-1/pull/new/gh-pages        
+remote: 
+To https://github.com/davidkane9/project-1.git
+ * [new branch]      HEAD -> gh-pages
+ ````
+
+ Quarto interacts with your GitHub repo directly, creating a new branch, `gh-pages`, which will be used to construct the website. 
+
+````
+[✓] Deploying gh-pages branch to website (this may take a few minutes)
+[✓] Published to https://davidkane9.github.io/project-1/
+
+dkane@macbook project-1 % 
+```` 
 
 Quarto keeps you informed as it completes the work.
 
@@ -733,8 +774,20 @@ There have been two commits in this repo. The first was generated automatically 
 
 Add these code chunks to `quarto-2.qmd`.
 
-```{r file = "images/quarto-2-1.txt", echo = TRUE, eval = FALSE}
+```{r}
+library(tidyverse)
+library(palmerpenguins)
 ```
+
+<pre><code>```{r}
+penguins |> 
+  ggplot(aes(x = body_mass_g, y = flipper_length_mm, color = species)) +
+    geom_point() +
+    labs(title = "Penguins Body Mass compared to Flipper Length", 
+         x = "Body Mass", 
+         y = "Flipper Length")
+```</code></pre>
+
 
 Render the document. Copy-and-paste the "Warning" message which appears in `quarto-2.html`.
 
@@ -849,9 +902,31 @@ question_text(NULL,
 
 Your answer should look like:
 
-```{r file = "images/quarto-2-2.txt", echo = TRUE, eval = FALSE}
-```
+<pre><code>
+> tutorial.helpers::show_file("quarto-2.qmd")
+---
+title: "Quarto 2"
+author: "David Kane"
+format: html
+execute: 
+  echo: false
+---
+<pre><code>```{r}
+#| message: false
 
+library(tidyverse)
+library(palmerpenguins)
+```</code></pre>
+
+<pre><code>```{r}
+penguins |> 
+  ggplot(aes(x = body_mass_g, y = flipper_length_mm, color = species)) +
+    geom_point() +
+    labs(title = "Penguins Body Mass compared to Flipper Length", 
+         x = "Body Mass", 
+         y = "Flipper Length")
+```</code></pre>
+</code></pre>
 Render `quarto-2.qmd` to make sure everything still works. Fix anything which doesn't.
 
 ### Exercise 10
