@@ -1,3 +1,12 @@
+## Items added after class
+
+* Posit introduction website has a better image for naming elements of the screen.
+
+* Add introduction 01 from r4ds.tutorials, maybe? Need something which introduces R, I think.
+
+* Add Positron Assistant introduction.
+
+
 ## 2025 Issues
 
 Add how to delete a repo, and then delete one of the ones you made.
