@@ -1,5 +1,7 @@
 ## Items added after class
 
+How long do these tutorials take? Try to get them down to 60-90 minutes each.
+
 01-code needs major redactions since so much of the material is in Getting Started.
 
 In the old days, putting a cursor any place in a pipe, and then hitting `Cmd/Ctrl + Enter` caused the entire pipe to be executed. Now, it just executes the one line, which is never what we want. Figure this out.
