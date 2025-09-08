@@ -1,8 +1,14 @@
 ## Items added after class
 
-* Posit introduction website has a better image for naming elements of the screen.
+01-code needs major redactions since so much of the material is in Getting Started.
 
-* Add introduction 01 from r4ds.tutorials, maybe? Need something which introduces R, I think.
+In the old days, putting a cursor any place in a pipe, and then hitting `Cmd/Ctrl + Enter` caused the entire pipe to be executed. Now, it just executes the one line, which is never what we want. Figure this out.
+
+`Cmd/Ctrl + Enter` no longer does a whole pipe or plot. Explain that you now need `Cmd/Ctrl + Shift + Enter`.
+
+Does source'ing a script work on Postitron?
+
+* Posit introduction website has a better image for naming elements of the screen.
 
 * Add Positron Assistant introduction.
 
