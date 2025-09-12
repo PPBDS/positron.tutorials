@@ -1,10 +1,19 @@
-## Items added after class
+## Priorities
 
-How long do these tutorials take? Try to get them down to 60-90 minutes each.
+Tutorial times from 2025
 
-01-code needs major redactions since so much of the material is in Getting Started.
+# A tibble: 7 × 3
+  source                minutes     N
+  <fct>                   <dbl> <int>
+1 01-code_answers          119     68
+2 02-quarto_answers         90     50
+3 03-terminal_answers      112.    46
+4 04-github-1_answers      120     53
+5 05-github-2_answers       60     44
+6 06-websites-1_answers     60     39
+7 07-websites-2_answers    120     33
 
-In the old days, putting a cursor any place in a pipe, and then hitting `Cmd/Ctrl + Enter` caused the entire pipe to be executed. Now, it just executes the one line, which is never what we want. Figure this out.
+01-code needs major redactions since so much of the material is in Getting Started. Also, update the images, perhaps just the first.
 
 `Cmd/Ctrl + Enter` no longer does a whole pipe or plot. Explain that you now need `Cmd/Ctrl + Shift + Enter`.
 
@@ -31,15 +40,13 @@ Also:
 
 https://discord.com/channels/1066524559240597595/1066524726278762608/1383584479188353104
 
-01-code took 112 minutes, which is too long.
+
 
 ## Priorities
 
 Explain `Ctrl-c` someplace early, and maybe a second time. Use sleep(5) and sleep(60) as an example. Probably belongs in the Terminal.
 
 For when we revisit the details of the terminal: https://code.visualstudio.com/docs/terminal/basics
-
-Build VS Code extension for seeing/starting tutorials.
 
 Windows and the Terminal; see below.
 

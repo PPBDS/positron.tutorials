@@ -39,6 +39,8 @@ If I wanted to choose my own file name to put the project into I should put dir.
 
 <!-- DK: Get rid of Start New Session. Only use New Window. -->
 
+<!-- Use positron-interface.jpeg image. -->
+
 
 ## Introduction
 ### 
@@ -55,25 +57,15 @@ This tutorial includes some information from [*R for Data Science (2e)*](https:/
 
 After starting the tutorial, your Positron window looked something like this:
 
+<!-- DK: Fix these images. No Welcome screen. -->
+
 ```{r}
 include_graphics("images/start-up.png")
 ```
 
-Your Console is currently "busy" running the tutorial. But, you will still want to run R commands, so you will need a second Console. Create it by pressing the "Start a New Session" button --- the `+` sign in the Console menu as indicated by the red arrow --- and choose the R option, if you are asked. After you do so, the Console should look like:
+Your Console is currently "busy" running the tutorial. But, you will still want to run R commands, so you will need a second Console. Start a new Positron window with `File -> New Window`. You then move back and forth between the two windows. 
 
-```{r}
-include_graphics("images/start-up-2.png")
-```
 
-You can switch back-and-forth between the two Consoles, but you will rarely want to since the first is just running the tutorial.
-
-###
-
-The other solution to the problem of a busy-running-the-tutorial Console is to start a new Positron window with `File -> New Window`. You then move back and forth between the two windows. This is generally the better approach for any tutorial beyond the introductory level. We recommend this workflow.
-
-### 
-
-This tutorial assumes that you have read and completed all the steps in the "Getting Started" tutorial from the [**tutorial.helpers**](https://ppbds.github.io/tutorial.helpers/) package. We will ask you to **c**opy/**p**aste the **c**ommand/**r**esponse so often, we shorten this instruction to CP/CR.
 
 
 ## Checking your setup
@@ -83,7 +75,8 @@ Let's turn our attention to working with Positron and R.
 
 ### Exercise 1
 
-In the Terminal, run `echo $0`. CP/CR.
+In the Terminal, run `echo $0`. Copy/paste both the command and the response below.  We will ask you to **C**opy/**P**aste the **C**ommand/**R**esponse so often, we shorten this instruction to CP/CR.
+
 
 ```{r checking-your-setup-1}
 question_text(NULL,
@@ -102,7 +95,7 @@ dkane@MacBookPro positron.tutorials % echo $0
 dkane@MacBookPro positron.tutorials % 
 ```
 
-You answer should indicate some sort of UNIX-alike shell. In Windows, you should get something like `/bin/bash`. If not, investigate further.
+You answer should indicate some sort of UNIX-alike shell. In Windows, you should get something like `/bin/bash`. If not, investigate further, especially if it seems like you are using Powershell.
 
 ### Exercise 2
 
@@ -159,7 +152,9 @@ In this case, the error is that we have not yet loaded the **tutorial.helpers** 
 
 Load the **tutorial.helpers** package into your Console using the `library()` function.
 
-Run `search()` in the Console to see the libraries that you've currently loaded. CP/CR. That is, copy and paste that command and the result into the space below.
+Run `search()` in the Console to see the libraries that you've currently loaded. 
+
+CP/CR. 
 
 ```{r checking-your-setup-4}
 question_text(NULL,
@@ -167,7 +162,7 @@ question_text(NULL,
 	allow_retry = TRUE,
 	try_again_button = "Edit Answer",
 	incorrect = NULL,
-	rows = 3)
+	rows = 5)
 ```
 
 ### 
@@ -197,7 +192,7 @@ question_text(NULL,
 	allow_retry = TRUE,
 	try_again_button = "Edit Answer",
 	incorrect = NULL,
-	rows = 3)
+	rows = 8)
 ```
 
 ###
@@ -311,7 +306,7 @@ question_text(NULL,
     allow_retry = TRUE,
     try_again_button = "Edit Answer",
     incorrect = NULL,
-    rows = 8)
+    rows = 12)
 ```
 
 ### 
@@ -388,9 +383,11 @@ The "Set up project configuration" screen should appear. Accept the default opti
 include_graphics("images/set-project-3.png")
 ```
 
-**Choose "New Window."** You need two Positron windows to work on tutorials. The first one --- this one --- runs the tutorial. The second one is where you do the work. So, you need to select the "New Window" option.
+DK: Update image.
 
-Your new window should look like this:
+**Choose "Current Window."** You only need two Positron windows to work on tutorials. The first one --- this one --- runs the tutorial. The second one is where you do the work. 
+
+The current window (i.e., not the one which runs the tutorial) should look like this:
 
 ```{r}
 include_graphics("images/set-project-4.png")
@@ -398,11 +395,9 @@ include_graphics("images/set-project-4.png")
 
 You are in the `analysis-1` project, as you can see in four ways, indicated by the red arrows.
 
-**Instructions ended. Please follow them now.**
-
 ### 
 
-Run `getwd()` in the Console in the new Window, the one which is running the `analysis-1` project.
+Run `getwd()` in the Console in the window  which is running the `analysis-1` project.
 
 CP/CR.
 
@@ -430,13 +425,15 @@ If your path does not include your `projects` folder, you probably did not fill 
 
 ### Exercise 2
 
-The new window should look like this:
+The window should look like this:
 
 ```{r}
 include_graphics("images/set-project-5.png")
 ```
 
-The *Welcome* screen has disappeared. There is a blank, unsaved file named *`Untitled-1`* in the Editor pane. You can tell it is unsaved because its name is *italicized*. By default, the Explorer button in the Activity Bar on the far left has been activated, showing us that the `analysis-1` directory has no files in it yet.
+<!-- DK: Is the below correct? -->
+
+There is a blank, unsaved file named *`Untitled-1`* in the Editor pane. You can tell it is unsaved because its name is *italicized*. By default, the Explorer button in the Activity Bar on the far left has been activated, showing us that the `analysis-1` directory has no files in it yet.
 
 ### 
 
@@ -468,7 +465,7 @@ So far, we have only worked in the Console, but it's quite difficult to type mor
 
 ### Exercise 1
 
-The file `Untitled-1` should already be in your Editor window. If it is not, you can create a new file by clicking the `File -> New File ...` drop down menu, and then selecting `R File`.
+The file `Untitled-1` should already be in your Editor window. If it is not, you can create a new file by clicking the `File -> New File ...`, leading to a drop down menu from which you select `R File`.
 
 ### 
 
