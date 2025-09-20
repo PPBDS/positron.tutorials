@@ -1537,7 +1537,6 @@ question_text(NULL,
 ### 
 
 ````
----
 dkane@macbook website-3 % git log -n 1
 commit b83259042267be2d6b64b5ad4bb3115c2ade9c00 (HEAD -> main, origin/main, origin/HEAD)
 Author: David Kane <dave.kane@gmail.com>

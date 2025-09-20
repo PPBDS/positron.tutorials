@@ -1,0 +1,2220 @@
+---
+title: A Fifth Tutorial for R4DS
+author: Sruthi Gandhi and David Kane
+tutorial:
+  id: r4ds-5
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description:  'This tutorial for "R for Data Science" covers Chapter 23: Hierarchical Data, Chapter 24: Web Scraping, Chapter 25: Functions, and Chapter 26: Iterations.'
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(tutorial.helpers)
+
+library(tidyverse)
+library(leaflet)
+library(rvest)   
+library(ggrepel)     
+library(httr2)
+
+knitr::opts_chunk$set(echo = FALSE)
+options(tutorial.exercise.timelimit = 60, 
+        tutorial.storage = "local") 
+
+convert_earthquake_time <- function(milliseconds) {
+   as.POSIXct(milliseconds / 1000, origin = "1970-01-01", tz = "UTC")
+ }
+categorize_magnitude <- function(mag) {
+   case_when(
+     mag < 3.0 ~ "Minor",
+     mag < 4.0 ~ "Light", 
+    mag < 5.0 ~ "Moderate",
+     mag < 6.0 ~ "Strong",
+     mag < 7.0 ~ "Major",
+     TRUE ~ "Great"
+   )
+ }
+
+earthquake_df <- jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )|>
+ 	mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x))) |>
+ 	filter(!if_any(c(properties_mag, longitude, latitude), is.na))|>
+		mutate(
+  			datetime = convert_earthquake_time(as.numeric(properties_time)),
+  			mag_category = categorize_magnitude(as.numeric(properties_mag))
+		)|>
+mutate(across(c(properties_mag, depth), as.numeric)) |>
+  filter(datetime >= Sys.Date() - 7) |>
+  filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
+  mutate(
+    hour = hour(datetime),
+    day_of_week = wday(datetime, label = TRUE),
+    depth_category = case_when(
+      depth < 70 ~ "Shallow",
+      depth < 300 ~ "Intermediate", 
+      depth < 600 ~ "Deep"
+    )
+  )|>
+  select(longitude, latitude, properties_mag, properties_place, datetime, depth, mag_category, depth_category) |>
+  mutate(
+    tooltip_text = paste0(
+      "Magnitude: ", properties_mag, " (", mag_category, ")<br>",
+      "Location: ", properties_place, "<br>",
+      "Time: ", format(datetime, "%Y-%m-%d %H:%M"), "<br>",
+      "Depth: ", round(depth, 1), " km (", depth_category, ")"
+    )
+  )|>
+  filter(
+    longitude >= -180, longitude <= 180,
+    latitude >= -90, latitude <= 90,
+    properties_mag >= 0, properties_mag <= 10
+  ) |>
+  mutate(
+    color = case_when(
+      properties_mag >= 6 ~ "red",
+      properties_mag >= 5 ~ "orange", 
+      properties_mag >= 4 ~ "yellow",
+      properties_mag >= 3 ~ "green",
+      TRUE ~ "blue"
+    )
+  ) |>
+  arrange(desc(properties_mag))
+
+extract_rating_info <- function(url) {
+  read_html(url) |>
+    html_element("table") |>
+    html_table() |>
+    select(
+      rank_title_year = `Rank & Title`,
+      rating = `IMDb Rating`
+    ) |>
+    mutate(
+      rank_title_year = str_replace_all(rank_title_year, "\n +", " ")
+    ) |>
+    separate_wider_regex(
+      rank_title_year,
+      patterns = c(
+        rank = "\\d+", "\\. ",
+        title = ".+", " +\\(",
+        year = "\\d+", "\\)"
+      )
+    )
+}
+
+top_movies <- request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table() |>
+  select(
+    rank_title_year = `Rank & Title`,
+    rating = `IMDb Rating`
+  ) |>
+  mutate(
+    rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
+    rating_details = request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+      html_elements("td strong") |>
+      html_attr("title")
+  ) |>
+  separate_wider_regex(
+    rank_title_year,
+    patterns = c(
+      rank = "\\d+", "\\. ",
+      title = ".+", " +\\(",
+      year = "\\d+", "\\)"
+    )
+  ) |>
+  separate_wider_regex(
+    rating_details,
+    patterns = c(
+      "[0-9.]+ based on ",
+      number = "[0-9,]+",
+      " user ratings"
+    )
+  ) |>
+  mutate(
+    number = parse_number(number),
+    across(c(rank, year), as.numeric),
+    decade = paste0(floor(year/10)*10, "s"),
+    rating_category = case_when(
+      rating >= 9.0 ~ "Masterpiece (9.0+)",
+      rating >= 8.5 ~ "Excellent (8.5-8.9)", 
+      rating >= 8.0 ~ "Great (8.0-8.4)",
+      TRUE ~ "Good (<8.0)"
+    ),
+    popularity = case_when(
+      number >= 2000000 ~ "Very Popular (2M+)",
+      number >= 1000000 ~ "Popular (1M-2M)",
+      number >= 500000 ~ "Moderate (500K-1M)",
+      TRUE ~ "Niche (<500K)"
+    )
+  ) |>
+  select(rank, title, year, rating, number) |>
+  arrange(rank)
+
+```
+
+```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
+```
+
+<!-- DK: Package takes too long to compile, especially earthquake stuff. -->
+
+## Introduction
+###
+
+This section covers key concepts from [Chapter 23: Hierarchical Data](https://r4ds.hadley.nz/hierarchical), [Chapter 24: Web Scraping](https://r4ds.hadley.nz/webscraping), [Chapter 25: Functions](https://r4ds.hadley.nz/functions), and [Chapter 26: Iterations](https://r4ds.hadley.nz/iteration) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. 
+
+You will learn about working with nested data structures, web scraping techniques, and creating custom functions using core packages such as **[jsonlite](https://cran.r-project.org/package=jsonlite)**, **[rvest](https://rvest.tidyverse.org/)**, **[httr2](https://httr2.r-lib.org/)**, and **[purrr](https://purrr.tidyverse.org/)**. Important functions include: [`pluck()`](https://purrr.tidyverse.org/reference/pluck.html), [`unnest_wider()`](https://tidyr.tidyverse.org/reference/unnest_wider.html), [`html_table()`](https://rvest.tidyverse.org/reference/html_table.html), and [`separate_wider_regex()`](https://tidyr.tidyverse.org/reference/separate_wider_delim.html).
+
+
+### Exercise 1
+
+Create a Github repo called `XX`. Make sure to click the "Add a README file" check box.
+
+Connect the repo to a project on your computer using `File -> New Folder from Git ...`.  Make sure to select the "Open in a new window" box. 
+
+You need two Positon windows: this one for running the tutorial and the one you just created for writing your code and interacting with the Console.
+
+In the new window, select `File -> New File -> Quarto Document ...`. Provide a title -- `"XX"` -- and an author (you). Render the document and save it as `analysis.qmd`.
+
+Create a `.gitignore` file with `analysis_files` on the first line and then a blank line. Save and push.
+
+In the Console, run:
+
+```         
+show_file(".gitignore")
+```
+
+If that fails, it is probably because you have not yet loaded `library(tutorial.helpers)` in the Console.
+
+CP/CR.
+
+```{r introduction-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+List-columns tend to come in two basic forms: named and unnamed. When the children are named, they tend to have the same names in every row.
+When the children are unnamed, the number of elements tends to vary from row-to-row. **`tidyr`** provides two functions for these two cases: `unnest_wider()` and `unnest_longer()`.
+
+### Exercise 2
+
+In your QMD, paste the following `library()` commands in a new code chunk.
+
+```
+library(tidyverse)
+library(leaflet)
+library(rvest)        
+library(httr2)
+library(ggrepel)   
+```
+Render the file using `Cmd/Ctrl + Shift + K`.
+
+Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also, add the following to the YAML header to remove all code echos from the HTML:
+
+```         
+execute: 
+  echo: false
+```
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r introduction-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+### 
+
+Explicit missing values usually show up as NA, but missing values can also be implicitly missing, if an entire row of data is simply absent from the data.
+
+### Exercise 3
+
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line. Do this for the consecutive lines as well.
+
+Note that this causes `library(tidyverse)` to be copied down to the Console and then executed. 
+
+CP/CR.
+
+```{r introduction-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 8)
+```
+
+###
+
+JSON is a simple format designed to be easily read and written by machines, not humans. It has six key data types. Four of them are scalars. 1. Null Type: plays the same role as NA in R.2. String:  much like a string in R, but must always use double quotes.3. Number: similar to R’s numbers: they can use integer (e.g., 123), decimal (e.g., 123.45), or scientific (e.g., 1.23e3) notation. JSON doesn’t support `Inf`, `-Inf`, or `NaN`4. Boolean: similar to R’s `TRUE` and `FALSE`, but uses lowercase `true` and `false`.
+
+### Exercise 4
+
+From the Console, run these three commands:
+
+`getwd()`
+`dir.create("data")`
+`list.files()`
+
+This will create a `data` directory in your project. This is a good place to store any data that you are working with.
+
+CP/CR
+
+```{r introduction-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+You answer should look something like, although your path will be different.
+
+````
+> getwd()
+[1] "/Users/dkane/Desktop/projects/XX"
+> dir.create("data")
+> list.files()
+ [1] "analysis.qmd"        "data"    "README.md"
+>
+````
+###
+
+ **jsonlite** has another important function called `fromJSON()`. We don’t use it here because it performs automatic simplification `(simplifyVector = TRUE)`. This often works well, particularly in simple cases, but we think you’re better off doing the rectangling yourself so you know exactly what’s happening and can more easily handle the most complicated nested structures.
+
+## Earthquakes
+###
+
+This section focuses on working with hierarchical JSON data structures and creating custom functions using **[jsonlite](https://cran.r-project.org/package=jsonlite)**, **[tidyr](https://tidyr.tidyverse.org/)**, and **[leaflet](https://rstudio.github.io/leaflet/)**. You will learn how to extract nested data from GeoJSON files, convert Unix timestamps to datetime objects, and create interactive maps. Key functions include: [`pluck()`](https://purrr.tidyverse.org/reference/pluck.html) for extracting nested elements, [`unnest_wider()`](https://tidyr.tidyverse.org/reference/unnest_wider.html) for expanding list columns, [`hoist()`](https://tidyr.tidyverse.org/reference/hoist.html) for selective extraction, and custom functions like `convert_earthquake_time()` and `categorize_magnitude()` for data transformation.
+
+For this tutorial, we use `earthquakes.geojson` which comes from the **USGS real-time earthquake feed**, which is a live GeoJSON feed maintained by the U.S. Geological Survey, providing a programmatic interface for accessing recent seismic activity—including magnitude, location, depth, and other metadata—in an easily consumable JSON format with options from the past hour to the past 30 days.
+
+### Exercise 1
+
+We begin by downloading our JSON file `data/earthquakes.geojson` directly from GitHub using `download.file()`. 
+
+This adds the JSON file `earthquakes.geojson` to our working directory so we can use it in this tutorial.
+
+In the Console, run:
+
+```         
+download.file(
+  "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-5/data/earthquakes.geojson",
+  destfile = "data/earthquakes.geojson"
+)
+```
+
+CP/CR.
+
+```{r earthquakes-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+### Exercise 2
+
+Ask AI to help you read the JSON file `data/earthquakes.geojson` by using `jsonlite::read_json()` and then piping it into `str()` to explore its structure. Add this code to a new code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r earthquakes-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r earthquakes-2-test, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+	str(max.levels = 2)
+```
+
+###
+
+### Exercise 3
+
+"Ask AI to use `jsonlite::read_json()` to read the `data/earthquakes.geojson` file, then use `pluck()` to extract the `features` list. Convert it into a tibble with `tibble(data = _)`. Use `unnest_wider()` to expand the `data` column, and then use `unnest_wider(properties, names_sep = "_")` to expand the `properties` list into separate columns such as `properties_mag`, `properties_place`, and `properties_time`. Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+
+```{r earthquakes-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r earthquakes-3-test, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_")   
+```
+
+###
+
+`expand_dates()` uses **lubridate** functions to expand all date columns within a tibble into year, month, and day columns.
+
+### Exercise 4
+
+Ask AI to continue our pipe using `hoist()` to extract the coordinates directly from the geometry column without fully unnesting it.Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r earthquakes-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r earthquakes-4-test, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_")   |>
+  hoist(geometry, coordinates = "coordinates")
+```
+
+###
+
+Another interesting function associated with `across()` is `pivot_longer()`, which makes data sets longer by increasing the number of rows and decreasing the number of columns.
+
+### Exercise 5
+
+The coordinates column now contains lists with `longitude`,`latitude`, and `depth`. Ask AI to continue your pipe using `unnest_wider()` to separate these into individual columns, naming them appropriately using the `rename()` function. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r earthquakes-5}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r earthquakes-5-test, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )
+```
+
+###
+
+`list_rbind()` combines elements into a data frame by row-binding them together with `vctrs::vec_rbind()`.
+
+### Exercise 6
+
+Ask AI to use `across()` with `where()` to identify all character columns that might contain missing values coded as "null" strings, and convert them to actual NA values. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r earthquakes-6}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r earthquakes-6-test, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )|>
+ mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x)))
+```
+
+###
+
+`across()` makes it easy to apply the same transformation to multiple columns, allowing you to use `select()` semantics inside "data-masking" functions like `summarize()` and `mutate()`.  
+
+### Exercise 7
+
+Ask AI to continue the pipe using `filter()` and `if_any()` to filter rows that have missing values in critical columns (`properties_mag`, `latitude`, `longitude`). Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r earthquakes-7}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r earthquakes-7-test, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )|>
+ mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x))) |>
+filter(!if_any(c(properties_mag, longitude, latitude), is.na))
+```
+
+###
+
+`!where(is.numeric)` selects all non-numeric columns.
+
+### Exercise 8
+
+You can write your own functions. We need to convert the time values from milliseconds since epoch to proper datetime. Ask AI to write a custom function called `convert_earthquake_time()` that converts milliseconds since Unix epoch to a datetime object using `as.POSIXct()`. Tell AI that the function should take a numeric vector of milliseconds and return a POSIXct datetime vector. Add this code to as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `convert_eathquake_time...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r earthquakes-8}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 10)
+```
+
+###
+
+Our code:
+
+```{r, echo = TRUE}
+ convert_earthquake_time <- function(milliseconds) {
+   as.POSIXct(milliseconds / 1000, origin = "1970-01-01", tz = "UTC")
+ }
+```
+
+###
+
+Writing custom functions helps you encapsulate logic that you'll use repeatedly. The Unix epoch (January 1, 1970) is a common reference point for timestamps in data systems.
+
+### Exercise 9
+
+Ask AI to create another custom function called `categorize_magnitude()` that takes magnitude values and returns categories like "Minor" (< 3.0), "Light" (3.0-3.9), "Moderate" (4.0-4.9), "Strong" (5.0-5.9), "Major" (6.0-6.9), and "Great" (7.0+). Use your function to add a magnitude category column to the data. Add this code as a addition to your current code in the code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `categorize_magnitude...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r earthquakes-9}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 10)
+```
+
+###
+
+Our code:
+
+```{r, echo = TRUE}
+convert_earthquake_time <- function(milliseconds) {
+   as.POSIXct(milliseconds / 1000, origin = "1970-01-01", tz = "UTC")
+ }
+categorize_magnitude <- function(mag) {
+   case_when(
+     mag < 3.0 ~ "Minor",
+     mag < 4.0 ~ "Light", 
+    mag < 5.0 ~ "Moderate",
+     mag < 6.0 ~ "Strong",
+     mag < 7.0 ~ "Major",
+     TRUE ~ "Great"
+   )
+ }
+```
+
+###
+
+The function `coalesce()` replaces NAs with 0.
+
+### Exercise 10
+
+Pipe from Exercise 7:
+
+```
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )|>
+ 	mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x))) |>
+ 	filter(!if_any(c(properties_mag, longitude, latitude), is.na))
+```
+
+Paste our pipe from Exercise 7 into AI and ask AI to continue our pipe and apply our `convert_earthquake_time()` and `categorize_magnitude()` functions to create datetime and magnitude category columns. Make sure to use `as.numeric()`.  Add this code to a new code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r earthquakes-10}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 15)
+```
+
+###
+
+Our code:
+
+```{r, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )|>
+ 	mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x))) |>
+ 	filter(!if_any(c(properties_mag, longitude, latitude), is.na))|>
+		mutate(
+  			datetime = convert_earthquake_time(as.numeric(properties_time)),
+  			mag_category = categorize_magnitude(as.numeric(properties_mag))
+		)
+```
+
+###
+
+`if_any()` is the same as using `|` in-between the arguments.
+
+### Exercise 11
+
+Ask AI to continue your pipe using `across()` and convert magnitude and depth to numeric if they aren't already and then filter earthquakes from the last 7 days using `filter()` and `datetime >= Sys.Date() - 7`. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r earthquakes-11}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r earthquakes-11-test, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )|>
+ 	mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x))) |>
+ 	filter(!if_any(c(properties_mag, longitude, latitude), is.na))|>
+		mutate(
+  			datetime = convert_earthquake_time(as.numeric(properties_time)),
+  			mag_category = categorize_magnitude(as.numeric(properties_mag))
+		)|>
+mutate(across(c(properties_mag, depth), as.numeric)) |>
+  filter(datetime >= Sys.Date() - 7) 
+```
+
+###
+
+### Exercise 12
+
+Ask AI to continue your pipe by using `filter()` function on `longitude` and `latitude` variables to restrict data to continental US bounds, then use `mutate()` to extract time features from `datetime` and categorize `depth` into shallow, intermediate, and deep groups. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r earthquakes-12}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r earthquakes-12-test, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )|>
+ 	mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x))) |>
+ 	filter(!if_any(c(properties_mag, longitude, latitude), is.na))|>
+		mutate(
+  			datetime = convert_earthquake_time(as.numeric(properties_time)),
+  			mag_category = categorize_magnitude(as.numeric(properties_mag))
+		)|>
+mutate(across(c(properties_mag, depth), as.numeric)) |>
+  filter(datetime >= Sys.Date() - 7) |>
+filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
+mutate(
+  hour = hour(datetime),
+  day_of_week = wday(datetime, label = TRUE),
+  depth_category = case_when(
+    depth < 70 ~ "Shallow",
+    depth < 300 ~ "Intermediate",
+    depth < 600 ~ "Deep"
+  )
+)
+```
+
+###
+
+There are two more functions that combine list elements into a single data structure than just `list_rbind()`:
+1. `list_c()` combines elements into a vector by **concatenating them together** with `vctrs::vec_c()`.
+2. `list_rbind()` combines elements into a data frame by **row-binding them together** with `vctrs::vec_rbind()`.
+3. `list_cbind()` combines elements into a data frame by **column-binding them together** with `vctrs::vec_cbind()`
+
+### Exercise 13
+
+Ask AI to continue your pipe by using the `select()` function on `longitude, latitude, properties_mag, properties_place, datetime, depth, mag_category, depth_category`, then use `mutate()` to create a `tooltip_text` column that combines `magnitude, location, time, and depth` information into HTML-formatted text. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r earthquakes-13}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r earthquakes-13-test, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )|>
+ 	mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x))) |>
+ 	filter(!if_any(c(properties_mag, longitude, latitude), is.na))|>
+		mutate(
+  			datetime = convert_earthquake_time(as.numeric(properties_time)),
+  			mag_category = categorize_magnitude(as.numeric(properties_mag))
+		)|>
+mutate(across(c(properties_mag, depth), as.numeric)) |>
+  filter(datetime >= Sys.Date() - 7) |>
+filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
+mutate(
+  hour = hour(datetime),
+  day_of_week = wday(datetime, label = TRUE),
+  depth_category = case_when(
+    depth < 70 ~ "Shallow",
+    depth < 300 ~ "Intermediate",
+    depth < 600 ~ "Deep"
+  )
+) |>
+	select(longitude, latitude, properties_mag, properties_place, datetime, depth, mag_category, depth_category) |>
+mutate(
+  tooltip_text = paste0(
+    "Magnitude: ", properties_mag, " (", mag_category, ")<br>",
+    "Location: ", properties_place, "<br>",
+    "Time: ", format(datetime, "%Y-%m-%d %H:%M"), "<br>",
+    "Depth: ", round(depth, 1), " km (", depth_category, ")"
+  )
+)
+```
+
+###
+
+`parse_number` parses the first number it finds, dropping any non-numeric characters before the first number and all characters after the first number. The grouping mark specified by the locale is ignored inside the number.
+
+### Exercise 14
+
+Ask AI to continue your pipe by using `filter()`  on `longitude`,` latitude`, and `properties_mag`  to ensure all values are within valid geographic bounds. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r earthquakes-14}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r earthquakes-14-test, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )|>
+ 	mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x))) |>
+ 	filter(!if_any(c(properties_mag, longitude, latitude), is.na))|>
+		mutate(
+  			datetime = convert_earthquake_time(as.numeric(properties_time)),
+  			mag_category = categorize_magnitude(as.numeric(properties_mag))
+		)|>
+mutate(across(c(properties_mag, depth), as.numeric)) |>
+  filter(datetime >= Sys.Date() - 7) |>
+filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
+mutate(
+  hour = hour(datetime),
+  day_of_week = wday(datetime, label = TRUE),
+  depth_category = case_when(
+    depth < 70 ~ "Shallow",
+    depth < 300 ~ "Intermediate",
+    depth < 600 ~ "Deep"
+  )
+) |>
+	select(longitude, latitude, properties_mag, properties_place, datetime, depth, mag_category, depth_category) |>
+	mutate(
+		tooltip_text = paste0(
+		"Magnitude: ", properties_mag, " (", mag_category, ")<br>",
+		"Location: ", properties_place, "<br>",
+		"Time: ", format(datetime, "%Y-%m-%d %H:%M"), "<br>",
+		"Depth: ", round(depth, 1), " km (", depth_category, ")"
+	)
+	)|>
+	filter(
+  		longitude >= -180, longitude <= 180,
+  		latitude >= -90, latitude <= 90,
+  		properties_mag >= 0, properties_mag <= 10
+	)
+```
+
+###
+
+`is.na()` is used to deal with missing values in the dataset or data frame.
+
+### Exercise 15
+
+Ask AI to continue your pipe by using `mutate()` on `properties_mag`  to create a color column that assigns colors based on earthquake magnitude severity, then use `arrange()` to sort by magnitude in descending order.
+
+```{r earthquakes-15}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r earthquakes-15-test, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )|>
+ 	mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x))) |>
+ 	filter(!if_any(c(properties_mag, longitude, latitude), is.na))|>
+		mutate(
+  			datetime = convert_earthquake_time(as.numeric(properties_time)),
+  			mag_category = categorize_magnitude(as.numeric(properties_mag))
+		)|>
+mutate(across(c(properties_mag, depth), as.numeric)) |>
+  filter(datetime >= Sys.Date() - 7) |>
+filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
+mutate(
+  hour = hour(datetime),
+  day_of_week = wday(datetime, label = TRUE),
+  depth_category = case_when(
+    depth < 70 ~ "Shallow",
+    depth < 300 ~ "Intermediate",
+    depth < 600 ~ "Deep"
+  )
+) |>
+	select(longitude, latitude, properties_mag, properties_place, datetime, depth, mag_category, depth_category) |>
+	mutate(
+		tooltip_text = paste0(
+		"Magnitude: ", properties_mag, " (", mag_category, ")<br>",
+		"Location: ", properties_place, "<br>",
+		"Time: ", format(datetime, "%Y-%m-%d %H:%M"), "<br>",
+		"Depth: ", round(depth, 1), " km (", depth_category, ")"
+	)
+	)|>
+	filter(
+  		longitude >= -180, longitude <= 180,
+  		latitude >= -90, latitude <= 90,
+  		properties_mag >= 0, properties_mag <= 10
+	) |>
+mutate(
+  color = case_when(
+    properties_mag >= 6 ~ "red",
+    properties_mag >= 5 ~ "orange",
+    properties_mag >= 4 ~ "yellow",
+    properties_mag >= 3 ~ "green",
+    TRUE ~ "blue"
+  )
+) |>
+arrange(desc(properties_mag))
+```
+
+###
+
+ There are two additional functions worth mentioning.`map_if()` allows you to selectively modify elements of a list based on their values.`map_at()` allows you to selectively modify elements based on their names.
+
+### Exercise 16
+
+Before creating a plot, we need to ensure that your data matches our data. In the QMD, replace your code from the previous exercise with our code.
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r earthquakes-16}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+`unnest_auto()` automatically picks between `unnest_longer()` and `unnest_wider()` based on the structure of the list-column. It’s great for rapid exploration, but ultimately it’s a bad idea because it doesn’t force you to understand how your data is structured, and makes your code harder to understand.
+
+### Exercise 17
+
+Within the latest code chunk, add the option: `#| cache: true`. Assign the result of the pipe to `earthquake_df`. 
+
+`Cmd/Ctrl + Shift + K`. By including `#| cache: true` you cause Quarto to cache the results of the chunk. The next time you render your QMD, as long as you have not changed the code, Quarto will just load up the saved object.
+
+If you have not done so already, you should add `analysis_cache` to the `.gitginore`. The content of the cache file does not belong on GitHub.
+
+Place your cursor on the line where the pipe is assigned to `earthquake_df`, run `Cmd/Ctrl + Enter`, thus ensuring that the workspace also includes a copy of `earthquake_df`.
+
+CP/CR.
+
+```{r earthquakes-17}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+###
+
+Our code:
+
+```{r, echo = TRUE}
+earthquake_df <- jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )|>
+ 	mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x))) |>
+ 	filter(!if_any(c(properties_mag, longitude, latitude), is.na))|>
+		mutate(
+  			datetime = convert_earthquake_time(as.numeric(properties_time)),
+  			mag_category = categorize_magnitude(as.numeric(properties_mag))
+		)|>
+mutate(across(c(properties_mag, depth), as.numeric)) |>
+  filter(datetime >= Sys.Date() - 7) |>
+  filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
+  mutate(
+    hour = hour(datetime),
+    day_of_week = wday(datetime, label = TRUE),
+    depth_category = case_when(
+      depth < 70 ~ "Shallow",
+      depth < 300 ~ "Intermediate", 
+      depth < 600 ~ "Deep"
+    )
+  )|>
+  select(longitude, latitude, properties_mag, properties_place, datetime, depth, mag_category, depth_category) |>
+  mutate(
+    tooltip_text = paste0(
+      "Magnitude: ", properties_mag, " (", mag_category, ")<br>",
+      "Location: ", properties_place, "<br>",
+      "Time: ", format(datetime, "%Y-%m-%d %H:%M"), "<br>",
+      "Depth: ", round(depth, 1), " km (", depth_category, ")"
+    )
+  )|>
+  filter(
+    longitude >= -180, longitude <= 180,
+    latitude >= -90, latitude <= 90,
+    properties_mag >= 0, properties_mag <= 10
+  ) |>
+  mutate(
+    color = case_when(
+      properties_mag >= 6 ~ "red",
+      properties_mag >= 5 ~ "orange", 
+      properties_mag >= 4 ~ "yellow",
+      properties_mag >= 3 ~ "green",
+      TRUE ~ "blue"
+    )
+  ) |>
+  arrange(desc(properties_mag))
+```
+
+###
+
+`possibly()` is a function operator: it takes a function and returns a function with modified behavior. 
+
+### Exercise 18
+
+Within the Console, type `earthquake_df`, which we previously assigned to a pipe and ran in the Console. Hit `Enter`.
+
+CP/CR.
+
+```{r earthquakes-18}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+###
+
+
+Our code:
+
+```{r, echo=TRUE}
+earthquake_df
+```
+
+###
+
+`group_nest()` is used to nest a tibble using a grouping specification. The output is a tibble with as many rows as there are values for the grouping variable. 
+
+### Exercise 19
+
+Ask AI to generate R code that uses the `earthquake_df` tibble to create an interactive map showing earthquakes in the U.S. Mention that you want to use the data from `earthquake_df` and include the top 3 rows (mainly to show column names). The map should use `leaflet()` with `addTiles()` and `addCircleMarkers()` to plot points with `longitude` and `latitude`, sized by `properties_mag`, colored by `color`, and showing `tooltip_text` on popups. Also, add a legend with `addLegend()` to label earthquake magnitudes with colors and categories.
+
+Within `labs()`, edit or add a proper title, subtitle, and caption. If axis labels would be useful, add them, but if unnecessary, don't bother. Don't assign the code for the plot to any variable. Put the plot code in a new code chunk. Run `Cmd/Ctrl + Shift + K` to ensure that everything works. Make your plot look nice.
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r earthquakes-19}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 12)
+```
+
+###
+
+Our code:
+
+```{r, echo=TRUE}
+leaflet(earthquake_df) |>
+  addTiles() |>
+  addCircleMarkers(
+    lng = ~longitude,
+    lat = ~latitude,
+    radius = ~properties_mag * 2,
+    color = ~color,
+    popup = ~tooltip_text,
+    fillOpacity = 0.7,
+    stroke = TRUE,
+    weight = 1
+  ) |>
+  addLegend(
+    position = "bottomright",
+    colors = c("red", "orange", "yellow", "green", "blue"),
+    labels = c("Major (6.0+)", "Strong (5.0-5.9)", "Moderate (4.0-4.9)", 
+              "Light (3.0-3.9)", "Minor (<3.0)"),
+    title = "Earthquake Magnitude"
+  )
+```
+
+###
+
+Remember that `ggsave()` is a convenient function for saving a plot. It defaults to saving the last plot that you displayed, using the size of the current graphics device. It also guesses the type of graphics device from the extension.
+
+## Top Movies
+###
+
+This section covers web scraping techniques and data extraction from HTML tables using **[rvest](https://rvest.tidyverse.org/)**, **[httr2](https://httr2.r-lib.org/)**, and **[stringr](https://stringr.tidyverse.org/)**. You will learn how to scrape IMDb's Top 250 movies list, extract structured data from HTML elements, and clean messy text data. Important functions include: [`html_element()`](https://rvest.tidyverse.org/reference/html_element.html) and [`html_elements()`](https://rvest.tidyverse.org/reference/html_element.html) for selecting HTML nodes, [`html_table()`](https://rvest.tidyverse.org/reference/html_table.html) for extracting tabular data, [`html_attr()`](https://rvest.tidyverse.org/reference/html_attr.html) for accessing element attributes, and [`separate_wider_regex()`](https://tidyr.tidyverse.org/reference/separate_wider_delim.html) for parsing complex text patterns.
+
+For this section, we use a archived version **The IMDb Top 250 Movies list** which is a curated ranking of the top-rated films on IMDb, based on user ratings and votes . The data includes attributes such as movie titles, release years, directors, and user ratings. 
+
+### Exercise 1
+
+We begin by web scraping `https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/` directly from the internet.  
+Instead of using `read_html()`, we use `httr2::request()` and `resp_body_html()` for a more reliable connection.
+
+Paste this into a new code chunk in your current QMD:
+
+```r
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html()
+```
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+The RStudio `view()` lets you interactively explore a complex list. The viewer opens showing only the top level of the list.
+
+### Exercise 2
+
+Ask AI to help you scrape the IMDb Top 250 page by using `resp_body_html()` to read the archived URL and then use `html_element()` with `table` selector followed by `html_table()` to extract the main data table.
+
+Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 10)
+```
+
+###
+
+Our code:
+
+```{r top-movies-2-test, echo = TRUE}
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table()
+```
+
+###
+
+Lists can also live inside a tibble, where we call them list-columns. List-columns are useful because they allow you to place objects in a tibble that wouldn’t usually belong in there. In particular, list-columns are used a lot in the [tidymodels](https://www.tidymodels.org/) ecosystem, because they allow you to store things like model outputs or resamples in a data frame.
+
+### Exercise 3
+
+Ask AI to continue the pipe using `select()` to choose just the `Rank & Title` and `IMDb Rating` columns, renaming them to `rank_title_year` and `rating` respectively. 
+Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r top-movies-3-test, echo = TRUE}
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table() |>
+  select(
+    rank_title_year = `Rank & Title`,
+    rating = `IMDb Rating`
+  )
+```
+
+###
+
+Both arrays and objects are similar to lists in R; the difference is whether or not they’re named. An array is like an unnamed list, and is written with `[]`. For example `[1, 2, 3]` is an array containing 3 numbers, and `[null, 1, "string", false]` is an array that contains a null, a number, a string, and a boolean.
+
+### Exercise 4
+
+Ask AI to continue the pipe using `mutate()` and `str_replace_all()` to clean up the `rank_title_year` column by replacing newlines and multiple spaces with single spaces. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r top-movies-4-test, echo = TRUE}
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table() |>
+  select(
+    rank_title_year = `Rank & Title`,
+    rating = `IMDb Rating`
+  ) |>
+  mutate(
+    rank_title_year = str_replace_all(rank_title_year, "\n +", " ")
+  )
+```
+
+###
+
+When each row has the same number of elements with the same names, it’s natural to put each component into its own column with `unnest_wider()` 
+
+### Exercise 5
+
+Ask AI to continue the pipe using `separate_wider_regex()` to split the `rank_title_year` column into separate `rank`, `title`, and `year` columns using regex patterns to match the structure. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-5}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r top-movies-5-test, echo = TRUE}
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table() |>
+  select(
+    rank_title_year = `Rank & Title`,
+    rating = `IMDb Rating`
+  ) |>
+  mutate(
+    rank_title_year = str_replace_all(rank_title_year, "\n +", " ")
+  ) |>
+  separate_wider_regex(
+    rank_title_year,
+    patterns = c(
+      rank = "\\d+", "\\. ",
+      title = ".+", " +\\(",
+      year = "\\d+", "\\)"
+    )
+  )
+```
+
+###
+
+When each row contains an unnamed list, it’s most natural to put each element into its own row with `unnest_longer()`
+
+### Exercise 6
+
+Ask AI to write a custom function called `extract_rating_info()` that takes a URL as input and returns the cleaned tibble with `rank`, `title`, `year`, and `rating` columns. The function should encapsulate all the scraping and cleaning steps. Add this code as a replacement of your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-6}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r top-movies-6-test, echo = TRUE}
+extract_rating_info <- function(url) {
+  read_html(url) |>
+    html_element("table") |>
+    html_table() |>
+    select(
+      rank_title_year = `Rank & Title`,
+      rating = `IMDb Rating`
+    ) |>
+    mutate(
+      rank_title_year = str_replace_all(rank_title_year, "\n +", " ")
+    ) |>
+    separate_wider_regex(
+      rank_title_year,
+      patterns = c(
+        rank = "\\d+", "\\. ",
+        title = ".+", " +\\(",
+        year = "\\d+", "\\)"
+      )
+    )
+}
+```
+
+###
+
+ HTML stands for **H**yper**T**ext **M**arkup **L**anguage, the underlying text of the web. The main difference between HTML and plain text is the use of various "elements" and "attributes" which tell your browser how to display the text.
+
+### Exercise 7
+
+Test your function. In the Console, run:
+
+```
+extract_rating_info("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/")
+```
+CP/CR.
+
+```{r top-movies-7}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r top-movies-7-test, echo = TRUE}
+extract_rating_info("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/")
+```
+
+###
+
+`html_elements()` pulls out all the elements that match the selector, which is provided to the `css` argument. "Elements" consist of a start tag (e.g. \<p\>), optional attributes (id='first'), an end tag4 (like \</p\>). The "contents" of an element are everything in between the start and end tag.
+
+### Exercise 8
+
+Ask AI to start a new pipe that reads the IMDb HTML and uses `html_elements()` with the `td strong` selector to extract rating elements, then use `html_attr()` to get the `title` attribute containing rating details. Add this code as a replacement of your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-8}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r top-movies-8-test, echo = TRUE}
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_elements("td strong") |>
+  html_attr("title")
+```
+
+###
+
+ When using `html_elements()` to select nodes on the basis of the class attribute rather than a tags we need a leading dot. Tags, on the other hand, are provided as is. Notice that the result of a call to `html_elements()` is an "xml_nodeset" rather than a full HTML document.
+
+
+### Exercise 9
+
+Ask AI to change our pipe by creating a tibble that combines the table data with the rating details, using your previous table extraction code and adding the rating attribute data as a new column using `html_element()` and `mutate()`.  Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-9}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r top-movies-9-test, echo = TRUE}
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table() |>
+  select(
+    rank_title_year = `Rank & Title`,
+    rating = `IMDb Rating`
+  ) |>
+  mutate(
+    rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
+    rating_details = request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+      html_elements("td strong") |>
+      html_attr("title")
+  )
+```
+
+###
+
+ The last step of a web scrape is often `html_text2()`, since we (almost always) want to get rid of any weird formatting.
+
+### Exercise 10
+
+Ask AI to continue the pipe using `separate_wider_regex()` on the `rank_title_year` column to extract `rank`, `title`, and `year`, and then apply another `separate_wider_regex()` on `rating_detail` and `patterns = ...` to extract the number of user ratings. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-10}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r top-movies-10-test, echo = TRUE}
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table() |>
+  select(
+    rank_title_year = `Rank & Title`,
+    rating = `IMDb Rating`
+  ) |>
+  mutate(
+    rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
+    rating_details = request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+      html_elements("td strong") |>
+      html_attr("title")
+  ) |>
+  separate_wider_regex(
+    rank_title_year,
+    patterns = c(
+      rank = "\\d+", "\\. ",
+      title = ".+", " +\\(",
+      year = "\\d+", "\\)"
+    )
+  ) |>
+  separate_wider_regex(
+    rating_details,
+    patterns = c(
+      "[0-9.]+ based on ",
+      number = "[0-9,]+",
+      " user ratings"
+    )
+  )
+```
+
+###
+
+`html_text2()` differs from `html_text()` slightly. while `html_text()` collapses all the text into a single string, `html_text2()` preserves the white space between elements, allowing you to retain the structure and formatting of the text as it appears on the web page.
+
+### Exercise 11
+
+Ask AI to continue the pipe using `mutate()` and `parse_number()` to convert the `number` column from character to numeric, removing commas and other formatting.  Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-11}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r top-movies-11-test, echo = TRUE}
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table() |>
+  select(
+    rank_title_year = `Rank & Title`,
+    rating = `IMDb Rating`
+  ) |>
+  mutate(
+    rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
+    rating_details = request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+      html_elements("td strong") |>
+      html_attr("title")
+  ) |>
+  separate_wider_regex(
+    rank_title_year,
+    patterns = c(
+      rank = "\\d+", "\\. ",
+      title = ".+", " +\\(",
+      year = "\\d+", "\\)"
+    )
+  ) |>
+  separate_wider_regex(
+    rating_details,
+    patterns = c(
+      "[0-9.]+ based on ",
+      number = "[0-9,]+",
+      " user ratings"
+    )
+  ) |>
+  mutate(
+    number = parse_number(number)
+  )
+```
+
+###
+
+[`str_squish()`](https://stringr.tidyverse.org/reference/str_trim.html) removes whitespace at the start and end or a character variable, and replaces all internal whitespace with a single space.
+
+### Exercise 12
+
+Ask AI to continue the pipe using `mutate()` with `across()` to convert `rank` and `year` columns to numeric, and create a new `decade` column based on the year.  Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-12}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r top-movies-12-test, echo = TRUE}
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table() |>
+  select(
+    rank_title_year = `Rank & Title`,
+    rating = `IMDb Rating`
+  ) |>
+  mutate(
+    rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
+    rating_details = request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+      html_elements("td strong") |>
+      html_attr("title")
+  ) |>
+  separate_wider_regex(
+    rank_title_year,
+    patterns = c(
+      rank = "\\d+", "\\. ",
+      title = ".+", " +\\(",
+      year = "\\d+", "\\)"
+    )
+  ) |>
+  separate_wider_regex(
+    rating_details,
+    patterns = c(
+      "[0-9.]+ based on ",
+      number = "[0-9,]+",
+      " user ratings"
+    )
+  ) |>
+  mutate(
+    number = parse_number(number),
+    across(c(rank, year), as.numeric),
+    decade = paste0(floor(year/10)*10, "s")
+  )
+```
+
+###
+
+### Exercise 13
+
+Ask AI to continue the pipe using `mutate()` and `case_when()` to create rating categories based on the rating values, and add a popularity category based on the number of ratings. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-13}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r top-movies-13-test, echo = TRUE}
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table() |>
+  select(
+    rank_title_year = `Rank & Title`,
+    rating = `IMDb Rating`
+  ) |>
+  mutate(
+    rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
+    rating_details = request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+      html_elements("td strong") |>
+      html_attr("title")
+  ) |>
+  separate_wider_regex(
+    rank_title_year,
+    patterns = c(
+      rank = "\\d+", "\\. ",
+      title = ".+", " +\\(",
+      year = "\\d+", "\\)"
+    )
+  ) |>
+  separate_wider_regex(
+    rating_details,
+    patterns = c(
+      "[0-9.]+ based on ",
+      number = "[0-9,]+",
+      " user ratings"
+    )
+  ) |>
+  mutate(
+    number = parse_number(number),
+    across(c(rank, year), as.numeric),
+    decade = paste0(floor(year/10)*10, "s"),
+    rating_category = case_when(
+      rating >= 9.0 ~ "Masterpiece (9.0+)",
+      rating >= 8.5 ~ "Excellent (8.5-8.9)", 
+      rating >= 8.0 ~ "Great (8.0-8.4)",
+      TRUE ~ "Good (<8.0)"
+    ),
+    popularity = case_when(
+      number >= 2000000 ~ "Very Popular (2M+)",
+      number >= 1000000 ~ "Popular (1M-2M)",
+      number >= 500000 ~ "Moderate (500K-1M)",
+      TRUE ~ "Niche (<500K)"
+    )
+  )
+```
+
+###
+
+ Vector functions reduce code repetition in **dplyr** verbs. When duplicating verbs multiple times in a pipeline, consider writing a data frame function. These functions, like **dplyr** verbs, take a data frame as the first argument, additional arguments for operations, and return a data frame or vector.
+
+### Exercise 14
+
+Ask AI to continue the pipe using `select()` to keep only the `rank`, `title`, `year`, `rating`, and `number` columns, and `arrange()` to ensure the data is sorted by rank. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r top-movies-14}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r top-movies-14-test, echo = TRUE}
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table() |>
+  select(
+    rank_title_year = `Rank & Title`,
+    rating = `IMDb Rating`
+  ) |>
+  mutate(
+    rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
+    rating_details = request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+      html_elements("td strong") |>
+      html_attr("title")
+  ) |>
+  separate_wider_regex(
+    rank_title_year,
+    patterns = c(
+      rank = "\\d+", "\\. ",
+      title = ".+", " +\\(",
+      year = "\\d+", "\\)"
+    )
+  ) |>
+  separate_wider_regex(
+    rating_details,
+    patterns = c(
+      "[0-9.]+ based on ",
+      number = "[0-9,]+",
+      " user ratings"
+    )
+  ) |>
+  mutate(
+    number = parse_number(number),
+    across(c(rank, year), as.numeric),
+    decade = paste0(floor(year/10)*10, "s"),
+    rating_category = case_when(
+      rating >= 9.0 ~ "Masterpiece (9.0+)",
+      rating >= 8.5 ~ "Excellent (8.5-8.9)", 
+      rating >= 8.0 ~ "Great (8.0-8.4)",
+      TRUE ~ "Good (<8.0)"
+    ),
+    popularity = case_when(
+      number >= 2000000 ~ "Very Popular (2M+)",
+      number >= 1000000 ~ "Popular (1M-2M)",
+      number >= 500000 ~ "Moderate (500K-1M)",
+      TRUE ~ "Niche (<500K)"
+    )
+  ) |>
+  select(rank, title, year, rating, number) |>
+  arrange(rank)
+```
+
+###
+
+`fct_infreq()` and `fct_rev()`  sort the bars by frequency from highest to lowest for a vertical bar graph.
+
+### Exercise 15
+
+Before creating a plot, we need to ensure that your data matches our data. In the QMD, replace your code from the previous exercise with our code.
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r top-movies-15}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+`unnest()` expands both rows and columns. It’s useful when you have a list-column that contains a 2d structure like a data frame.
+
+### Exercise 16
+
+Within the latest code chunk, add the option: `#| cache: true`. Assign the result of the pipe to `top_movies`. 
+
+`Cmd/Ctrl + Shift + K`. By including `#| cache: true` you cause Quarto to cache the results of the chunk. The next time you render your QMD, as long as you have not changed the code, Quarto will just load up the saved object.
+
+If you have not done so already, you should add `analysis_cache` to the `.gitginore`. The content of the cache file does not belong on GitHub.
+
+Place your cursor on the line where the pipe is assigned to `top_movies`, run `Cmd/Ctrl + Enter`, thus ensuring that the workspace also includes a copy of `top_movies`.
+
+CP/CR.
+
+```{r top-movies-16}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+###
+
+Our code:
+
+```{r top-movies-16-test, echo = TRUE}
+top_movies <- request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table() |>
+  select(
+    rank_title_year = `Rank & Title`,
+    rating = `IMDb Rating`
+  ) |>
+  mutate(
+    rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
+    rating_details = request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+      html_elements("td strong") |>
+      html_attr("title")
+  ) |>
+  separate_wider_regex(
+    rank_title_year,
+    patterns = c(
+      rank = "\\d+", "\\. ",
+      title = ".+", " +\\(",
+      year = "\\d+", "\\)"
+    )
+  ) |>
+  separate_wider_regex(
+    rating_details,
+    patterns = c(
+      "[0-9.]+ based on ",
+      number = "[0-9,]+",
+      " user ratings"
+    )
+  ) |>
+  mutate(
+    number = parse_number(number),
+    across(c(rank, year), as.numeric),
+    decade = paste0(floor(year/10)*10, "s"),
+    rating_category = case_when(
+      rating >= 9.0 ~ "Masterpiece (9.0+)",
+      rating >= 8.5 ~ "Excellent (8.5-8.9)", 
+      rating >= 8.0 ~ "Great (8.0-8.4)",
+      TRUE ~ "Good (<8.0)"
+    ),
+    popularity = case_when(
+      number >= 2000000 ~ "Very Popular (2M+)",
+      number >= 1000000 ~ "Popular (1M-2M)",
+      number >= 500000 ~ "Moderate (500K-1M)",
+      TRUE ~ "Niche (<500K)"
+    )
+  ) |>
+  select(rank, title, year, rating, number) |>
+  arrange(rank)
+```
+
+###
+
+You can often get the same results from `across()` by first using `pivot_longer()`, summarizing by groups, and then reshaping back with `pivot_wider()`. This approach is especially powerful when you need to work with paired columns (e.g., values and weights) that across() can’t currently handle, such as calculating weighted means.
+
+### Exercise 17
+
+Within the Console, type `top_movies`, which we previously assigned to a pipe and ran in the Console. Hit `Enter`.
+
+CP/CR.
+
+```{r top-movies-17}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+###
+
+Our code:
+
+```{r top-movies-17-test, echo=TRUE}
+top_movies
+```
+
+###
+
+Note that JSON doesn’t have any native way to represent dates or date-times, so they’re often stored as strings, and you’ll need to use `readr::parse_date()` or `readr::parse_datetime(`) to turn them into the correct data structure. Similarly, JSON’s rules for representing floating point numbers in JSON are a little imprecise, so you’ll also sometimes find numbers stored in strings. Apply `readr::parse_double()` as needed to get the correct variable type.
+
+### Exercise 18
+
+Ask AI to generate R code that uses `top_movies` to plot a basic graph showing the relationship between `year` and `rating` from 1990 - 2010 using `geom_point()` and `geom_smooth()`. Map `size` to `number/1000` and `color` to `rating_category` within `geom_point()`. Add scale breaks on the x and y axis and `theme_minimal()`. Mention you want to use the data from `top_movies` and copy/paste the `top_movies` you ran in the Console with the resulting tibble. You only need the top 3 lines, mainly to include column names.
+
+Within `labs()`, edit or add a proper title, subtitle, and caption. If axis labels would be useful, add them, but if unnecessary, don't bother. Don't assign the code for the plot to any variable. Put the plot code in a new code chunk. Run `Cmd/Ctrl + Shift + K` to ensure that everything works. Make your plot look nice.
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r top-movies-18}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 12)
+```
+
+###
+
+Our code:
+
+<!-- DK: Revisit this graph. Need to color something . . . -->
+
+```{r top-movies-18-test, echo=TRUE}
+top_movies |>
+filter(year >= 1990, year <= 2010) |>
+ ggplot(aes(x = year, y = rating)) +
+  geom_point(aes(size = number/1000), 
+             alpha = 0.8, stroke = 0.5) +
+  geom_smooth(method = "loess", se = TRUE, color = "navy", 
+              linewidth = 1.2, alpha = 0.3) +
+  geom_text_repel(aes(label = ifelse(rating >= 9.0, 
+                                    str_wrap(title, 15), "")), 
+                 size = 3, max.overlaps = 8, 
+                 box.padding = 0.5, point.padding = 0.3) +
+  scale_size_continuous(name = "Votes\n(thousands)", 
+                       range = c(2, 12), 
+                       breaks = c(500, 1000, 1500, 2000, 2500),
+                       labels = c("500", "1,000", "1,500", "2,000", "2,500")) +
+  scale_x_continuous(breaks = seq(1990, 2010, 2)) +
+  scale_y_continuous(breaks = seq(8.0, 9.2, 0.2), limits = c(7.9, 9.3)) +
+  labs(
+    title = "IMDb Top 250: The Golden Age (1990-2010)",
+    subtitle = "Masterpiece films labeled • Size shows popularity • Color indicates rating tier",
+    x = "Release Year",
+    y = "IMDb Rating",
+    caption = "Data from IMDb Top 250 (archived February 2022) | Only movies ranking in Top 250"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 18, face = "bold", color = "navy"),
+    plot.subtitle = element_text(size = 12, color = "gray40"),
+    plot.caption = element_text(size = 9, color = "gray50"),
+    axis.title = element_text(size = 12, face = "bold"),
+    axis.text = element_text(size = 10),
+    legend.position = "right",
+    legend.title = element_text(size = 10, face = "bold"),
+    legend.text = element_text(size = 9),
+    panel.grid.major = element_line(color = "gray90", linewidth = 0.5),
+    panel.grid.minor = element_blank(),
+    panel.background = element_rect(fill = "white"),
+    plot.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 11, face = "bold")
+  )
+```
+
+###
+
+`fct_reorder()` takes three arguments:
+
+1. `.f`, the factor whose levels you want to modify.
+2. `.x`, a numeric vector that you want to use to reorder the levels.
+3. Optionally, `.fun`, a function that’s used if there are multiple values of .x for each value of .f. The default value is median.
+
+## Summary
+###
+
+This section covered key concepts from [Chapter 23: Hierarchical Data](https://r4ds.hadley.nz/hierarchical), [Chapter 24: Web Scraping](https://r4ds.hadley.nz/webscraping), [Chapter 25: Functions](https://r4ds.hadley.nz/functions), and [Chapter 26: Iterations](https://r4ds.hadley.nz/iteration) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+
+You learned about working with nested data structures, web scraping techniques, and creating custom functions using core packages such as **[jsonlite](https://cran.r-project.org/package=jsonlite)**, **[rvest](https://rvest.tidyverse.org/)**, **[httr2](https://httr2.r-lib.org/)**, and **[purrr](https://purrr.tidyverse.org/)**. Important functions included [`pluck()`](https://purrr.tidyverse.org/reference/pluck.html), [`unnest_wider()`](https://tidyr.tidyverse.org/reference/unnest_wider.html), [`html_table()`](https://rvest.tidyverse.org/reference/html_table.html), and [`separate_wider_regex()`](https://tidyr.tidyverse.org/reference/separate_wider_delim.html).
+
+
+### Exercise 1
+
+`Cmd/Ctrl + Shift + K` to ensure that everything works.  The resulting HTML page should be attractive, showing clean versions of your plots.
+
+At the Console, run:
+
+```
+tutorial.helpers::show_file("analysis.qmd")
+```
+
+CP/CR.
+
+```{r summary-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 30)
+```
+
+### 
+
+If you want to collapse a lot of levels, `fct_collapse()` is a useful variant of `fct_recode()`.
+
+### Exercise 2
+
+Publish your rendered QMD to GitHub Pages. In the Terminal --- not the Console! --- run:
+
+````
+quarto publish gh-pages analysis.qmd
+````
+
+Copy/paste the resulting URL below.
+
+```{r summary-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 1)
+```
+
+### 
+
+There’s one special type of missing value that you’ll encounter from time to time: a NaN (pronounced “nan”), or **n**ot **a** **n**umber. In the rare case you need to distinguish an NA from a NaN, you can use `is.nan(x)`.
+
+### Exercise 3
+
+Commit and push all your files. Copy/paste the URL to your Github repo.
+
+```{r summary-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+<!-- XX: The tutorial is now over. Add any necessary acknowledgements and/or provide a link to further high quality readings, ideally readings which you mentioned in at least one knowledge drop above. -->
+
+```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
+```

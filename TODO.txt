@@ -15,6 +15,8 @@ Tutorial times from 2025
 
 01-code needs major redactions since so much of the material is in Getting Started. Also, update the images, perhaps just the first.
 
+Should longer tutorials like 1, 4 and 7 have one of their exercises removed?
+
 `Cmd/Ctrl + Enter` no longer does a whole pipe or plot. Explain that you now need `Cmd/Ctrl + Shift + Enter`.
 
 Does source'ing a script work on Postitron?
@@ -23,6 +25,7 @@ Does source'ing a script work on Postitron?
 
 * Add Positron Assistant introduction.
 
+* Does devtools::test() work?
 
 ## 2025 Issues
 
@@ -44,7 +47,6 @@ https://discord.com/channels/1066524559240597595/1066524726278762608/13835844791
 
 ## Priorities
 
-Explain `Ctrl-c` someplace early, and maybe a second time. Use sleep(5) and sleep(60) as an example. Probably belongs in the Terminal.
 
 For when we revisit the details of the terminal: https://code.visualstudio.com/docs/terminal/basics
 
@@ -57,8 +59,6 @@ Add more AI questions. Need to make students practice interacting with AI.
 ## Things to do earlier
 
 In total, we make 5 websites. We need to make their construction more consistent, making things simpler in the initial ones and more complex, with more skipped steps, in later ones. Students will probably be doing all these within a day or two.
-
-There are lots of questions when we ask the student to copy the HTML output. We need to explicitly teach them how to do this, and mention it again.
 
 ## Other items
 

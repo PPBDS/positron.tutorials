@@ -1,0 +1,1395 @@
+---
+title: A Second Tutorial for R4DS
+author: Sruthi Gandhi and David Kane
+tutorial:
+  id: r4ds-2
+output:
+  learnr::tutorial:
+    progressive: yes
+    allow_skip: yes
+runtime: shiny_prerendered
+description: 'This tutorial for "R for Data Science" covers Chapter 9: Layers, Chapter 10: Exploratory Data Analysis, Chapter 11: Communication, and Chapter 20: Spreadsheets.'
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(tutorial.helpers)
+
+library(tidyverse)
+library(readxl)
+library(dbplyr)
+
+knitr::opts_chunk$set(echo = FALSE)
+options(tutorial.exercise.timelimit = 600, 
+        tutorial.storage = "local") 
+
+
+cheese_tibble<- read_excel("data/cheeses.xlsx") |>
+  filter(!is.na(country)) |>
+  add_count(country, name = "country_total") |>
+  filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
+  filter(!is.na(milk)) |>
+  count(country, milk) |>
+  group_by(country) |>
+  arrange(country, desc(n))
+
+wine_tibble <- read_excel("data/wine.xlsx")|>
+  select(Phenols, Color, Flavanoids)
+```
+
+```{r copy-code-chunk, child = system.file("child_documents/copy_button.Rmd", package = "tutorial.helpers")}
+```
+
+```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
+```
+
+
+## Introduction
+###
+
+This section covers key concepts from [Chapter 9: Layers](https://r4ds.hadley.nz/layers.html), [Chapter 10: Exploratory Data Analysis](https://r4ds.hadley.nz/eda.html), [Chapter 11: Communication](https://r4ds.hadley.nz/communication.html), and [Chapter 20: Spreadsheets](https://r4ds.hadley.nz/spreadsheets.html) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+
+You will learn about working with categorical and continuous variables using different types of variation and exploratory data analysis using core packages such as **[readxl](https://readxl.tidyverse.org/)**, **[dbplyr](https://dbplyr.tidyverse.org/)**, and **[ggplot2](https://ggplot2.tidyverse.org/)**. Important functions include: [`facet_wrap()`](https://ggplot2.tidyverse.org/reference/facet_wrap.html), [`coord_flip()`](https://ggplot2.tidyverse.org/reference/coord_flip.html), and  [`geom_jitter()`](https://ggplot2.tidyverse.org/reference/geom_jitter.html). 
+
+
+### Exercise 1
+
+Create a Github repo called `r4ds-2`. Make sure to click the "Add a README file" check box.
+
+Connect the repo to a project on your computer using `File -> New Folder from Git ...`.  Make sure to select the "Open in a new window" box. 
+
+You need two Positon windows: this one for running the tutorial and the one you just created for writing your code and interacting with the Console.
+
+Select `File -> New File -> Quarto Document ...`. Provide a title -- `"Analyzing Cheese and Wine"` -- and an author (you). Render the document and save it as `analysis.qmd`.
+
+Create a `.gitignore` file with `analysis_files` on the first line and then a blank line. Save and push.
+
+In the Console, run:
+
+```         
+show_file(".gitignore")
+```
+
+If that fails, it is probably because you have not yet loaded `library(tutorial.helpers)` in the Console.
+
+CP/CR.
+
+```{r introduction-1}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 3)
+```
+
+### 
+
+**googlesheets4** uses v4 of the [Google Sheets API v4](https://developers.google.com/sheets/api/) to provide an R interface to Google Sheets, hence the name.
+You can create a brand new sheet with [`gs4_create()`](https://googlesheets4.tidyverse.org/reference/gs4_create.html) or write to an existing sheet with [`sheet_write()`](https://googlesheets4.tidyverse.org/articles/write-sheets.html) and friends.
+
+### Exercise 2
+
+In your QMD, put `library(tidyverse)`, `library(readxl)`, and `library(dbplyr)` in a new code chunk. Render the file using `Cmd/Ctrl + Shift + K`.
+
+Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also add the following to the YAML header to remove all code echos from the HTML:
+
+```         
+execute: 
+  echo: false
+```
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r introduction-2}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 6)
+```
+
+### 
+
+You can read a single worksheet from a spreadsheet with the `sheet` argument in `read_excel()` from the **readxl** package.
+
+### Exercise 3
+
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line. Do this again for the `library(readxl)` line and the `library(dbplyr)` line. 
+
+Note that this causes `library(tidyverse)`, `library(readxl)`, and `library(dbplyr)` to be copied down to the Console and then executed. 
+
+CP/CR.
+
+```{r introduction-3}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 3)
+```
+
+###
+
+You can use `excel_sheets()` to get information on all worksheets in an Excel spreadsheet, and then read the one(s) you’re interested in.
+
+### Exercise 4
+
+From the Console, run these three commands:
+
+`getwd()`
+`dir.create("data")`
+`list.files()`
+
+This will create a `data` directory in your project. This is a good place to store any data that you are working with.
+
+CP/CR.
+
+```{r introduction-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+You answer should look something like, although your path will be different.
+
+````
+> getwd()
+[1] "/Users/dkane/Desktop/projects/XX"
+> dir.create("data")
+> list.files()
+ [1] "analysis.qmd"        "data"    "README.md"
+>
+````
+
+## Cheese
+###
+
+The [cheese.csv](https://github.com/rfordatascience/tidytuesday/blob/main/data/2024/2024-06-04/readme.md) dataset is a [TidyTuesday](https://github.com/rfordatascience/tidytuesday) dataset on Github which contains data scraped from [cheese.com](https://www.cheese.com) about data from 2046 different types of cheese. Our spreadsheet `data/cheeses.xlsx` contains this data in a spreadsheet format. 
+
+### Exercise 1
+
+We begin by downloading our spreadsheet `data/cheeses.xlsx` directly from GitHub using `download.file()`. 
+
+This adds the spreadsheet, `data/cheeses.xlsx`, to our working directory so we can use it in this tutorial.
+
+In the Console, run:
+
+```         
+download.file(
+  "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-2/data/cheeses.xlsx",
+  destfile = "data/cheeses.xlsx"
+)
+```
+
+CP/CR.
+
+```{r cheese-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+The function, `geom_freqpoly()`, visualizes the distribution of a single continuous variable by dividing the x-axis into bins and counting the number of observations in each bin. Frequency polygons display the counts with lines. Frequency polygons are more suitable when you want to compare the distribution across the levels of a categorical variable.
+
+### Exercise 2
+
+Ask AI how to read a `.xlsx` spreadsheet called `data/cheeses.xlsx` using `read_excel()`. Add this code to a new code chunk in your QMD. Make sure the code is not assigned to a variable. Place your cursor at the beginning of the line where it says `read_excel()` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r cheese-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r cheese-2-test, echo = TRUE}
+read_excel("data/cheeses.xlsx")
+```
+
+###
+
+Most of **readxl**’s functions allow you to load Excel spreadsheets into R:
+
+`read_xls()` reads Excel files with `xls` format.
+`read_xlsx()` read Excel files with `xlsx` format.
+`read_excel(`) can read files with both `xls` and `xlsx` format. It guesses the file type based on the input.
+
+### Exercise 3
+
+Ask AI to give you code to make a stacked bar plot using `geom_bar()` to explore the relationship between countries and the milks they use to produce different cheeses by using the `country` and `milk` columns. Mention you want to use the data from `data/cheeses.xlsx` and copy and paste the `read_excel("data/cheeses.xlsx")` you ran in the Console with the resulting dataframe. You only need the top 3 lines, mainly to include column names.
+
+Add this code as a replacement to your current code in the same code cell in your QMD. Run `Cmd/Ctrl + Enter`.
+
+CP/CR. 
+
+```{r cheese-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r cheese-3-test, echo = TRUE}
+read_excel("data/cheeses.xlsx") |>
+  ggplot(aes(x = country, fill = milk)) +
+  geom_bar(position = "stack") +
+  labs(
+    title = "Cheese Production by Milk Type Across Countries",
+    subtitle = "Exploring the relationship between country and type of milk used",
+    caption = "Data source: cheese dataset"
+  )
+```
+
+###
+
+The stacking is performed automatically using the position adjustment specified by the position argument. If you don’t want a stacked bar chart, you can use one of three other options: `identity`, `dodge`, or `fill`.
+
+`position = "dodge"` places overlapping objects directly beside one another.
+`position = "fill"` works like stacking, but makes each set of stacked bars the same height.
+`position = "identity"` will place each object exactly where it falls in the context of the graph. This is not very useful for bars, because it overlaps them.
+
+### Exercise 4
+
+Our plot is crowded because it includes all countries and has many `NA`values. We need to identify the top 3 countries by filter our data accordingly.
+Paste our prompt into your favorite AI to filter the top 3 countries in the data through a single pipe.
+
+Here's the prompt we used: 
+
+Write R code that starts with `read_excel("data/cheeses.xlsx")` and pipes it through several operations. First, filter out rows where country is NA using `filter(!is.na(country))`, then add a column showing the total count for each country using `add_count(country, name = "country_total")`. Next, keep only the top 3 countries by filtering where the `country_total` is greater than or equal to the 3rd highest value using `filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3])`. After that, filter out any NA values in the `milk `column with `!is.na(milk)`, then count the combinations of `country` and `milk` type using `count(country, milk)`, group the results by `country`, and finally arrange them by country name and then by count in descending order.
+
+Add the resulting code as a replacement of your current code to the code chunk in your QMD. Run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r cheese-4}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 3)
+```
+
+###
+
+Our code:
+
+```{r cheese-4-test, echo = TRUE}
+read_excel("data/cheeses.xlsx") |>
+  filter(!is.na(country)) |>
+  add_count(country, name = "country_total") |>
+  filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
+  filter(!is.na(milk)) |>
+  count(country, milk) |>
+  group_by(country) |>
+  arrange(country, desc(n))
+```
+
+###
+
+`count()` outputs a tibble with values of the variable(s) you selected, along with the number of observations corresponding to each value. We can pipe this output directly into `ggplot()`, along with `aes(x = cut, y = n)`.
+
+To visualize the covariation between categorical variables, you’ll need to count the number of observations for each combination of levels of these categorical variables. One way to do that is to rely on the built-in `geom_count()`
+
+### Exercise 5
+
+Ask AI how to pipe your filtered data into a dot plot using `geom_point()` where you map `country` to the x-axis, `milk` to the y-axis, and `n` to the size of the points. Also map `country` to `color` for better distinction between countries. Add this code as a continuation of your current pipe in the same code chunk in your current QMD. Place your cursor at the beginning of the line and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r cheese-5}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r cheese-5-test, echo = TRUE}
+read_excel("data/cheeses.xlsx") |>
+  filter(!is.na(country)) |>
+  add_count(country, name = "country_total") |>
+  filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
+  filter(!is.na(milk)) |>
+  count(country, milk) |>
+  group_by(country) |>
+  arrange(country, desc(n))|>
+    ggplot(aes(x = country, y = milk, size = n, color = country)) +
+    geom_point() +
+    labs(
+      title = "Cheese Production by Milk Type: Dot Plot View",
+      subtitle = "Point size represents number of cheeses",
+      x = "Country",
+      y = "Milk Type",
+     size = "Number of Cheeses",
+      color = "Country"
+  ) +
+    theme_minimal()
+```
+
+###
+
+Many graphs, like scatterplots, plot the raw values of your dataset. Other graphs, like bar charts, calculate new values to plot:
+
+* Bar charts, histograms, and frequency polygons bin your data and then plot bin counts, the number of points that fall in each bin.
+
+* Smoothers fit a model to your data and then plot predictions from the model.
+
+* Boxplots compute the five-number summary of the distribution and then display that summary as a specially formatted box.
+
+### Exercise 6
+
+Paste our pipe from the last question and ask AI to change the pipe so that it makes a grouped bar chart using `geom_col()` with `position = "dodge"` to separate bars by country. Add this code as a replacement of your current code in the same code chunk in your QMD. Place your cursor at the beginning of the line where it says `read_excel("data/cheeses.xlsx") |> ` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r cheese-6}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r cheese-6-test, echo = TRUE}
+read_excel("data/cheeses.xlsx") |>
+  filter(!is.na(country)) |>
+  add_count(country, name = "country_total") |>
+  filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
+  filter(!is.na(milk)) |>
+  count(country, milk) |>
+  group_by(country) |>
+  arrange(country, desc(n))|>
+  ggplot(aes(x = milk, y = n, fill = country)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Cheese Production by Milk Type and Country",
+    subtitle = "Grouped bars with exact counts labeled",
+    x = "Milk Type",
+    y = "Number of Cheeses",
+    fill = "Country"
+  ) +
+  theme_minimal() 
+```
+
+###
+
+Dodging preserves the vertical position of an geom while adjusting the horizontal position. `position_dodge()` requires the grouping variable to be be specified in the global or `geom_*` layer. 
+
+### Exercise 7
+
+The `milk` types on the x-axis are barely readable and it's hard to tell the count of each bar. 
+
+Fix this by asking AI to use our pipe from the last exercise and add `geom_text()` to display the count values on top of each bar and use `position_dodge()` in `geom_text()` to align the text with the bars. Within `theme()` change the x-axis text to be angled at 45 degrees using `element_text`.
+
+ Add this code as a replacement of your current code in the same code chunk in your QMD. Place your cursor at the beginning of the line where it says `read_excel("data/cheeses.xlsx") |> ` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r cheese-7}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r cheese-7-test, echo = TRUE}
+read_excel("data/cheeses.xlsx") |>
+  filter(!is.na(country)) |>
+  add_count(country, name = "country_total") |>
+  filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
+  filter(!is.na(milk)) |>
+  count(country, milk) |>
+  group_by(country) |>
+  arrange(country, desc(n))|>
+  ggplot(aes(x = milk, y = n, fill = country)) +
+  geom_col(position = "dodge") +
+  geom_text(aes(label = n), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5, size = 3) +
+  labs(
+    title = "Cheese Production by Milk Type and Country",
+    subtitle = "Grouped bars with exact counts labeled",
+    x = "Milk Type",
+    y = "Number of Cheeses",
+    fill = "Country"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+###
+
+Another handy function for adding annotations to plots is `annotate()`. As a rule of thumb, geoms are generally useful for highlighting a subset of the data while `annotate()` is useful for adding one or few annotation elements to a plot.
+
+### Exercise 8
+
+Make another plot by asking AI how to add a layer to our pipe so that our plot is faceted using `facet_wrap` that shows the number of cheeses by milk type using the columns `milk` and `n` and map the `fill` to `milk`. 
+
+Add this code as a replacement to your current code chunk in the same QMD. Place your cursor at the beginning of the line where it says `read_ excel` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r cheese-8}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r cheese-8-test, echo = TRUE}
+read_excel("data/cheeses.xlsx") |>
+  filter(!is.na(country)) |>
+  add_count(country, name = "country_total") |>
+  filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
+  filter(!is.na(milk)) |>
+  count(country, milk) |>
+  group_by(country) |>
+  arrange(country, desc(n))|>
+  ggplot(aes(x = milk, y = n, fill = country)) +
+  geom_col(position = "dodge") +
+  geom_text(aes(label = n), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5, size = 3) +
+  labs(
+    title = "Cheese Production by Milk Type and Country",
+    subtitle = "Grouped bars with exact counts labeled",
+    x = "Milk Type",
+    y = "Number of Cheeses",
+    fill = "Country"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  facet_wrap(~ country)
+```
+
+###
+
+To facet your plot by a single variable, use `facet_wrap()`. The first argument of `facet_wrap()` is a formula, which you create with `~` followed by a variable name. The variable that you pass to `facet_wrap()` should be categorical, i.e., either character or factor.
+
+### Exercise 9
+
+Ask AI to delete the`facet_wrap()` and continue the pipe by adding `coord_flip()` and add use `show.legend = FALSE` so that there is no legend. Add this code as a continuation of your pipe to the same chunk in your QMD. Place your cursor at the beginning of the line where it says `cheese_tibble|> ` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r cheese-9}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r cheese-9-test, echo = TRUE}
+read_excel("data/cheeses.xlsx") |>
+  filter(!is.na(country)) |>
+  add_count(country, name = "country_total") |>
+  filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
+  filter(!is.na(milk)) |>
+  count(country, milk) |>
+  group_by(country) |>
+  arrange(country, desc(n))|>
+  ggplot(aes(x = milk, y = n, fill = country)) +
+  geom_col(position = "dodge") +
+  geom_text(aes(label = n), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5, size = 3) +
+  labs(
+    title = "Cheese Production by Milk Type and Country",
+    subtitle = "Grouped bars with exact counts labeled",
+    x = "Milk Type",
+    y = "Number of Cheeses",
+    fill = "Country"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  coord_flip()
+```
+
+###
+
+The function, `coord_cartesian()`, also has an `xlim` argument for when you need to zoom into the x-axis. **ggplot2** also has `xlim()` and `ylim()` functions that work slightly differently: they throw away the data outside the limits. 
+
+### Exercise 10
+
+This plot is good, but it's difficult to see the tiny slivers of data because of the stacking. 
+
+Paste our pipe into AI and ask it to change our code so that the plot is polar using `coord_polar()` and does not display the count of each column anymore. Add this code as a replacement of your current code in the same code chunk in your QMD. Place your cursor at the beginning of the line where it says `read_excel("data/cheeses.xlsx") |> ` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r cheese-10}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code: 
+
+```{r cheese-10-test, echo = TRUE}
+read_excel("data/cheeses.xlsx") |>
+  filter(!is.na(country)) |>
+  add_count(country, name = "country_total") |>
+  filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
+  filter(!is.na(milk)) |>
+  count(country, milk) |>
+  group_by(country) |>
+  arrange(country, desc(n))|>
+  ggplot(aes(x = milk, y = n, fill = country)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Cheese Production by Milk Type and Country",
+    subtitle = "Grouped bars with exact counts labeled",
+    x = "Milk Type",
+    y = "Number of Cheeses",
+    fill = "Country"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  coord_polar()
+```
+
+###
+
+`coord_quickmap()` sets the aspect ratio correctly for geographic maps. This is very important if you’re plotting spatial data with `ggplot2`.
+
+This plot is make it diffcult to see the relationship between the countries and types of milk. Polar plots should be used sparingly in data analysis because they can make it harder to compare values accurately. The human eye is better at comparing lengths (as in regular bar charts) than angles or areas (as in polar charts). Reserve polar plots for when the circular representation adds meaningful context to your data.
+
+### Exercise 11
+
+Ask AI to change the code so that `theta` is set to `y` within `coord_polar()`. This makes the plot look like a donut plot rather than a pie chart. Add this code as a replacement of your current code in the same code chunk in your QMD. Place your cursor at the beginning of the line where it says `read_excel("data/cheeses.xlsx") |> ` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r cheese-11}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+Our code:
+
+```{r cheese-11-test, echo = TRUE}
+read_excel("data/cheeses.xlsx") |>
+  filter(!is.na(country)) |>
+  add_count(country, name = "country_total") |>
+  filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
+  filter(!is.na(milk)) |>
+  count(country, milk) |>
+  group_by(country) |>
+  arrange(country, desc(n))|>
+  ggplot(aes(x = milk, y = n, fill = country)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Cheese Production by Milk Type and Country",
+    subtitle = "Grouped bars with exact counts labeled",
+    x = "Milk Type",
+    y = "Number of Cheeses",
+    fill = "Country"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    coord_polar(theta = "y")
+
+```
+
+###
+
+The `coord_polar()` function transforms your plot from Cartesian coordinates to polar coordinates, creating circular plots like pie charts and donut charts. The key parameter is `theta`, which determines which aesthetic gets wrapped around the circle.
+
+When `theta = "x"` (the default), the x-axis variable gets wrapped around the circle's circumference, creating a traditional pie chart where each slice represents a different x-value.
+
+When `theta = "y"`, the y-axis values get wrapped around the circle. This creates a donut-style plot where the radius represents the x-axis and the angle represents the y-values. 
+
+### Exercise 12
+
+Ask AI how to pipe your filtered data into a stacked bar chart using `geom_bar()` with the `position` argument set to `stacked` to explore the relationship between the `country` column and `milk` column. Set the `weight` to `n`. Ask AI to add a `title`, `subtitle`, and `axis` labels using the `labs()` function.  Add this code as a replacement of your current code in the same code chunk in your QMD. 
+
+Place your cursor at the beginning of the line where it says `read_excel("data/cheeses.xlsx") |>` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r cheese-12}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r cheese-12-test, echo = TRUE}
+read_excel("data/cheeses.xlsx") |>
+  filter(!is.na(country)) |>
+  add_count(country, name = "country_total") |>
+  filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
+  filter(!is.na(milk)) |>
+  count(country, milk) |>
+  group_by(country) |>
+  arrange(country, desc(n)) |>
+  ggplot(aes(x = country, weight = n, fill = milk)) +
+    geom_bar(position = "stack") +
+    labs(
+      title = "Milk Types Used in Cheeses from Top 3 Countries",
+      x = "Country",
+      y = "Number of Cheeses",
+      fill = "Milk Type"
+    ) +
+    theme_minimal()
+
+```
+
+###
+
+You can use labels in the same way (a character vector the same length as breaks), but you can also set it to NULL to suppress the labels altogether. This can be useful for maps, or for publishing plots where you do want to share the absolute numbers.
+
+The [**ggrepel**](https://ggrepel.slowkow.com) package will automatically adjust labels so that they don’t overlap. To help others quickly build up a good mental model of the data, you will need to invest considerable effort in making your plots as self-explanatory as possible.
+
+### Exercise 13
+
+Now that we have filtered our dataset through a pipe, we need to be on track with the same, correct, code. Replace your code with our code in your QMD.
+
+Delete everything after `arrange(country, desc(n))` within your recent code chunk so we end with just the filtered data. The chunk should look like this:
+
+```
+read_excel("data/cheeses.xlsx") |>
+  filter(!is.na(country)) |>
+  add_count(country, name = "country_total") |>
+  filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
+  filter(!is.na(milk)) |>
+  count(country, milk) |>
+  group_by(country) |>
+  arrange(country, desc(n))
+```
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r cheese-13}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 6)
+```
+
+###
+
+Just like with `read_excel()`, we can read in a portion of a Google Sheet by defining a range in `read_sheet()` from the **googlesheets4** package.
+
+### Exercise 14
+
+Within the recent code chunk, add the option: `#| cache: true`. Assign the result of our pipe to `cheese_tibble`. 
+
+`Cmd/Ctrl + Shift + K`. By including `#| cache: true` you cause Quarto to cache the results of the chunk. The next time you render your QMD, as long as you have not changed the code, Quarto will just load up the saved fitted object.
+
+Place your cursor on the line where the pipe is assigned to `cheese_tibble`, run `Cmd/Ctrl + Enter`. Now, the workspace also includes a copy of `cheese_tibble`.
+
+CP/CR.
+
+```{r cheese-14}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 6)
+```
+
+###
+
+Our code:
+
+```{r cheese-14-test, echo=TRUE}
+cheese_tibble <- read_excel("data/cheeses.xlsx") |>
+  filter(!is.na(country)) |>
+  add_count(country, name = "country_total") |>
+  filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
+  filter(!is.na(milk)) |>
+  count(country, milk) |>
+  group_by(country) |>
+  arrange(country, desc(n))
+
+```
+
+###
+
+`geom_bin2d()` and `geom_hex()` divide the coordinate plane into 2d bins and then use a fill color to display how many points fall into each bin. `geom_bin2d()` creates rectangular bins. `geom_hex()` creates hexagonal bins. You will need to install the **hexbin** package to use `geom_hex()`.
+
+### Exercise 15
+
+Within the Console, type `cheese_tibble`, which we previously assigned to a pipe and ran in the Console. Hit `Enter`.
+
+CP/CR.
+
+```{r cheese-15}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+###
+
+Our code:
+
+```{r, echo=TRUE}
+cheese_tibble
+```
+
+###
+
+The function [`linear_reg()`](https://parsnip.tidymodels.org/reference/linear_reg.html) defines a model that can predict numeric values from predictors using a linear function. This function can fit regression models. There are different ways to fit this model, and the method of estimation is chosen by setting the model `engine`.
+
+### Exercise 16
+
+You add labels with the `labs()` function.
+
+Ask AI to use the `labs()` function and add a `title`, `subtitle`, `caption`, and labels for the `x` and `y` axes. Add this code as a continuation of your pipe to the same chunk in your QMD. Place your cursor at the beginning of the line where it says `cheese_tibble|> ` and run `Cmd/Ctrl + Shift + K` to render.
+
+In the Console, run:
+
+```
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r cheese-16}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r cheese-16-test, echo = TRUE}
+cheese_tibble|>
+    ggplot(aes(x = milk, y = n, fill = milk))+
+    geom_col(show.legend = FALSE) +
+    facet_wrap(~ country, scales = "fixed") +
+    coord_flip() +
+    scale_y_sqrt() +
+    theme_gray() +
+    labs(
+    title = "Milk Types Used in Cheeses by Country",
+    subtitle = "Italy has the most variety of cheese",
+    caption = "Source: cheese.com",
+    x = "Type of Milk",
+    y = "Number of Cheeses (sqrt scale)"
+  
+  )
+```
+
+###
+
+Note the naming scheme for scales: `scale_` followed by the name of the aesthetic, then `_`, then the name of the scale. The default scales are named according to the type of variable they align with: `continuous`, `discrete`, `datetime`, or `date`.
+
+Another scale that is frequently customized is color. The default categorical scale picks colors that are evenly spaced around the color wheel. Useful alternatives are the ColorBrewer and Viridis scales which have been hand-tuned to work better for people with common types of color blindness
+
+## Wine
+###
+
+The `wine` dataset contains the results of a chemical analysis of wines grown in a specific area of Italy. Three types of wine are represented in the 178 samples, with the results of 13 chemical analyses recorded for each sample. This data is the UCI Machine Learning Repository.  Our spreadsheet `data/wine.xlsx` contains this data in a spreadsheet format. 
+
+### Exercise 1
+
+We begin by downloading our spreadsheet `data/wine.xlsx` directly from GitHub using `download.file()`. 
+
+This adds the spreadsheet, `data/wine.xlsx`, to our working directory so we can use it in this tutorial.
+
+In the Console, run:
+
+```         
+download.file(
+  "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-2/data/wine.xlsx",
+  destfile = "data/wine.xlsx"
+)
+```
+
+CP/CR.
+
+```{r wine-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+You can write data back to disk as an Excel file using the `write_xlsx()` function from the **writexl** package.
+
+### Exercise 2
+
+Ask AI how to read a `.xlsx` spreadsheet called `data/wine.xlsx` using `read_excel()`. Add this code to a new code chunk in your QMD. Place your cursor at the beginning of the line and run `Cmd/Ctrl + Enter`. Type `wine` in the Console to retrieve the contents of `wine`.
+
+CP/CR.
+
+```{r wine-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r wine-2-test, echo = TRUE}
+read_excel("data/wine.xlsx")
+```
+
+###
+
+We use `scale_y_continuous()` when we want to modify the y-axis for continuous data. [This documentation here](https://ggplot2.tidyverse.org/reference/scale_continuous.html) will tell you more, and all the possible arguments you can use with `scale_y_continuous()`.
+
+### Exercise 3
+
+In the Console, run:
+
+```         
+summary(read_excel("data/wine.xlsx"))
+```
+
+CP/CR. 
+
+```{r wine-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r wine-3-test, echo = TRUE}
+summary(read_excel("data/wine.xlsx"))
+```
+
+###
+
+You can also create a brand new Google sheet using with `gs4_create()` or write to an existing sheet with `sheet_write()` using the **googlesheets4** package.
+
+If two variables covary, you can use the values of one variable to make better predictions about the values of the second. If the covariation is due to a causal relationship (a special case), then you can use the value of one variable to control the value of the second.z
+
+### Exercise 4
+
+Ask AI to pipe `read_excel("data/wine.xlsx")` into a bar plot with `aes` only mapped to `x = Type` using `geom_bar()`. Add this code to a new code chunk in your QMD. Place your cursor on the first line of the code in your current code chunk at the start of `read_excel` and run `Cmd/Ctrl + Enter`.
+
+
+CP/CR.
+
+```{r wine-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r wine-4-test, echo = TRUE}
+read_excel("data/wine.xlsx")|>
+  ggplot(aes(x = Type)) + 
+  geom_bar()
+```
+
+###
+
+`count` appears in the plot but is not a variable in `wine`. `count` is an example of a `stat`, short for statistical transformation, something calculated from the raw data for display in the graphic.
+
+### Exercise 5
+
+Ask AI to start a pipe from `wine_tibble` to make a plot using `geom_point()` and the columns `Malic` and `Hue` and set `color = Color`. Add this code to a new code chunk in your QMD. Place your cursor on the first line of the code in your current code chunk at the start of `read_excel("data/wine.xlsx")` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r wine-5}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 6)
+```
+
+###
+
+Our code:
+
+```{r wine-5-test, echo=TRUE}
+read_excel("data/wine.xlsx") |>
+  ggplot(aes(x = Malic, y = Hue, color = Color)) +
+  geom_point()
+```
+
+###
+
+Once you map an aesthetic, **ggplot2** takes care of the rest. It selects a reasonable scale to use with the aesthetic, and it constructs a legend that explains the mapping between levels and values. For x and y aesthetics, **ggplot2** does not create a legend, but it creates an axis line with tick marks and a label. The axis line provides the same information as a legend; it explains the mapping between locations and values.
+
+### Exercise 6
+
+Ask AI to continue this pipe and change the size of the points to 2 and set the transparancy to .5 using `alpha()`. Add this code as a continuation of your pipe to the same chunk in your QMD.  Place your cursor on the first line of the code in your current code chunk at the start of `read_excel("data/wine.xlsx")` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r wine-6}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 6)
+```
+
+###
+
+Our code:
+
+```{r wine-6-test, echo=TRUE}
+read_excel("data/wine.xlsx") |>
+  ggplot(aes(x = Malic, y = Hue, color = Color)) +
+  geom_point(size = 2, alpha = 0.5)
+```
+
+###
+
+Using `alpha` helps, first, to highlight where the data is densest and, second, to lessen the business of the plot, the better to allow space for labels.
+
+### Exercise 7
+
+If you have a small dataset, it’s sometimes useful to use `geom_jitter()` to avoid overplotting to more easily see the relationship between two variables. The **ggbeeswarm** package provides a number of methods similar to `geom_jitter()`.
+
+Ask AI to  continue the pipe into the function `geom_jitter()` . Add this code as a continuation of your pipe to the same chunk in your QMD.  Place your cursor on the first line of the code in your current code chunk at the start of `read_excel("data/wine.xlsx")` and run run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r wine-7}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+###
+
+Our code:
+
+```{r wine-7-test, echo=TRUE}
+read_excel("data/wine.xlsx") |>
+  ggplot(aes(x = Malic, y = Hue, color = Color)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_jitter() 
+```
+
+###
+
+Adding randomness seems like a strange way to improve your plot, but while it makes your graph less accurate at small scales, it makes your graph more revealing at large scales. Because this is such a useful operation, **ggplot2** comes with a shorthand for `geom_point(position = "jitter")`: `geom_jitter()`.
+
+### Exercise 8
+
+Ask the same AI to continue the plot using `geom_smooth()` to make a smooth line fitted to the data. Set the `method` argument to `lm`. Add this code as a continuation of your pipe to the same chunk in your QMD.  Place your cursor on the first line of the code in your current code chunk at the start of `read_excel("data/wine.xlsx")` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r wine-8}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r wine-8-test, echo = TRUE}
+read_excel("data/wine.xlsx")|>
+  ggplot(aes(x = Malic, y = Hue, color = Color)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_jitter() +
+  geom_smooth(method = "lm", se = TRUE, color = "black") 
+```
+
+###
+
+`geom_smooth(method = "lm")` fits a linear regression line to the data.
+
+`geom_smooth(method = "loes")` fits a smooth curve by locally weighting points, capturing complex nonlinear patterns without assuming a specific form.
+
+### Exercise 9
+
+Ask the same AI to set the `method` argument to `loess` for `geom_smooth()`. Add this code as a replacement of `method = "lm"` to the same chunk in your QMD. Place your cursor on the first line of the code in your current code chunk at the start of `read_excel("data/wine.xlsx")` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r wine-9}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r wine-9-test, echo = TRUE}
+read_excel("data/wine.xlsx") |>
+  ggplot(aes(x = Malic, y = Hue, color = Color)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_jitter() +
+  geom_smooth(method = "loess", se = TRUE, color = "black") 
+```
+
+###
+
+The `se`, which stands for "standard error," determines whether or not error bars around the line are included. By default, the value of `se` is `TRUE`.
+
+### Exercise 10
+
+ Ask AI to add a color scale using green and red to make the points of the plot have higher contrast using `scale_color_gradient`. Tell AI to set one of your colors as `low` and the other as `high`. Add this code as a continuation of your pipe to the same chunk in your QMD.  Place your cursor on the first line of the code in your current code chunk at the start of `read_excel("data/wine.xlsx")` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r wine-10}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r wine-10-test, echo = TRUE}
+read_excel("data/wine.xlsx") |>
+  ggplot(aes(x = Malic, y = Hue, color = Color)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_jitter() +
+  geom_smooth(method = "loess", se = TRUE, color = "black") +
+  scale_color_gradient(low = "red", high = "green") 
+```
+
+###
+
+Many geoms, like `geom_smooth()`, use a single geometric object to display multiple rows of data. For these geoms, you can set the `group` aesthetic to a categorical variable to draw multiple objects. 
+
+### Exercise 11
+
+Ask AI to add a `theme()` argument. Set this to `classic` Add this code as a continuation of your pipe to the same chunk in your QMD.  Place your cursor on the first line of the code in your current code chunk at the start of `read_excel("data/wine.xlsx") ` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r wine-11}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r wine-11-test, echo = TRUE}
+read_excel("data/wine.xlsx") |>
+  ggplot(aes(x = Malic, y = Hue, color = Color)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_jitter() +
+  geom_smooth(method = "loess", se = TRUE, color = "black") +
+  scale_color_gradient(low = "red", high = "green") +
+  theme_classic() 
+```
+
+###
+
+`geom_boxplot()` helps to highlight the two outlier data points. **ggplot2** provides more than 40 geoms but these don’t cover all possible plots one could make. If you need a different geom, look at extension packages first to see if someone else has already implemented it (see https://exts.ggplot2.tidyverse.org/gallery/ for a sampling).
+
+### Exercise 12
+
+Ask AI how to select the `Phenols`, `Flavanoids`, and `Color` columns from `wine` using `select()`. Add this code as a replacement to your current code to the same chunk in your QMD. Place your cursor on the first line of the code in your current code chunk at the start of `read_excel` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r wine-12}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 6)
+```
+
+###
+
+Our code:
+
+```{r wine-12-test, echo=TRUE}
+read_excel("data/wine.xlsx") |>
+  select(Phenols, Color, Flavanoids)
+```
+
+###
+
+Just like we did with `read_excel()`, we can supply column names, NA strings, and column types to `read_sheet()` when working with Google sheets.
+
+### Exercise 13
+
+Now that we have filtered our dataset through a pipe, we need to be on track with the same, correct, code. Replace your code with our code in your QMD.
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r wine-13}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 6)
+```
+
+###
+
+Just like with `read_excel()`, we can read in a portion of a Google Sheet by defining a range in `read_sheet()`.
+
+### Exercise 14
+
+Within the recent code chunk, add the option: `#| cache: true`. Assign the result of our pipe to `wine_tibble`. 
+
+`Cmd/Ctrl + Shift + K`. By including `#| cache: true` you cause Quarto to cache the results of the chunk. The next time you render your QMD, as long as you have not changed the code, Quarto will just load up the saved fitted object.
+
+Place your cursor on the line where the pipe is assigned to `wine_tibble`, run `Cmd/Ctrl + Enter`. Now, the workspace also includes a copy of `wine_tibble`.
+
+CP/CR.
+
+```{r wine-14}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 6)
+```
+
+###
+
+Our code:
+
+```{r wine-14-test, echo=TRUE}
+wine_tibble <- read_excel("data/wine.xlsx")|>
+  select(Phenols, Color, Flavanoids)
+```
+
+Variation is the tendency of the values of a variable to change from measurement to measurement. You can see variation easily in real life; if you measure any continuous variable twice, you will get two different results.
+
+### Exercise 15
+
+Within the Console, type `wine_tibble`, which we previously assigned to a pipe and ran in the Console. Hit `Enter`.
+
+CP/CR.
+
+```{r wine-15}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+###
+
+Our code:
+
+```{r wine-15-test, echo=TRUE}
+wine_tibble
+```
+
+Covariation is the tendency for the values of two or more variables to vary together in a related way. The best way to spot covariation is to visualize the relationship between two or more variables.
+
+### Exercise 16 
+
+Ask AI to write R code to create a scatter plot form `wine_tibble` to explore the relationship of `Phenols` and `Flavanoids`, two categorical variables with a loess smoothing curve that shows the outlier.
+
+Copy and paste our specific prompt into the AI:
+
+"Please write R code using `ggplot2` to create a scatter plot from the `wine_tibble` dataset. Use `ggplot(aes(x = Phenols, y = Flavanoids, color = Color))` and add points with `geom_point(size = 2, alpha = 0.5)` followed by `geom_jitter()` to spread overlapping points. Add a LOESS smoothing curve using `geom_smooth(method = "loess", se = TRUE, color = "black")`. Use `geom_text()` with `dplyr::filter()` inside a lambda function to label only the row where `Flavanoids` is equal to its maximum, setting `label = "Outlier"`, `nudge_y = 0.2`, `color = "magenta"`, and `fontface = "bold"`. Apply `scale_color_gradient(low = "blue", high = "orange")`, then format the plot with `theme_classic()` and `labs(title = "Wine: Flavanoids vs Phenols", x = "Phenols", y = "Flavanoids")`."
+
+ Add this code into a new code chunk in your QMD.  Place your cursor on the first line of the code in your current code chunk at the start of `wine_tibble` and run `Cmd/Ctrl + Shift + K` to render.
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r wine-16}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Our code:
+
+```{r wine-16-test, echo = TRUE}
+wine_tibble |>
+  ggplot(aes(x = Phenols, y = Flavanoids, color = Color)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_jitter() +
+  geom_smooth(method = "loess", se = TRUE, color = "black") +
+  geom_text(
+    data = \(d) d |> filter(Flavanoids == max(Flavanoids)),
+    aes(label = "Outlier"),
+    nudge_y = 0.2,
+    color = "magenta",
+    fontface = "bold"
+  ) +
+  scale_color_gradient(low = "blue", high = "orange") +
+  theme_classic() +
+  labs(
+    title = "Wine: Flavanoids vs Phenols",
+    x = "Phenols", 
+    y = "Flavanoids"
+  )
+```
+
+###
+
+In addition to `geom_text()` and `geom_label()`, you have many other geoms in **ggplot2** available to help annotate your plot. For example, you can use `geom_hline()` and `geom_vline()` to add reference lines. We often make them thick (`linewidth = 2`) and white (`color = "white"`), and draw them underneath the primary data layer. That makes them easy to see, without drawing attention away from the data.
+
+## Summary
+###
+
+This section covered key concepts from [Chapter 9: Layers](https://r4ds.hadley.nz/layers.html), [Chapter 10: Exploratory Data Analysis](https://r4ds.hadley.nz/eda.html), [Chapter 11: Communication](https://r4ds.hadley.nz/communication.html), and [Chapter 20: Spreadsheets](https://r4ds.hadley.nz/spreadsheets.html) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+
+You learned about working with categorical and continuous variables using different types of variation and exploratory data analysis with core packages such as **[readxl](https://readxl.tidyverse.org/)**, **[dbplyr](https://dbplyr.tidyverse.org/)**, and **[ggplot2](https://ggplot2.tidyverse.org/)**. Important functions included: [`facet_wrap()`](https://ggplot2.tidyverse.org/reference/facet_wrap.html), [`coord_flip()`](https://ggplot2.tidyverse.org/reference/coord_flip.html), and [`geom_jitter()`](https://ggplot2.tidyverse.org/reference/geom_jitter.html).
+
+```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
+```

@@ -1,0 +1,1118 @@
+---
+title: Overview
+author: David Kane and Ansh Pathak
+tutorial:
+  id: tidycensus-1
+output:
+  learnr::tutorial:
+    progressive: yes
+    allow_skip: yes
+runtime: shiny_prerendered
+description: 'Overview tutorial for entire book'
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(tutorial.helpers)
+library(tidycensus)
+library(tidyverse)
+library(knitr)
+
+
+# income_tx <- get_acs(
+#   geography = "county",
+#   variables = "B19013_001",
+#   state = "TX",
+#   year = 2020,
+#   geometry = TRUE
+# )
+# write_rds(income_tx, "data/income_tx.rds")
+
+income_tx <- read_rds("data/income_tx.rds")
+
+
+# edu_ca <- get_acs(
+#   geography = "county",
+#   variables = c("B15003_001", "B15003_022", "B15003_023", "B15003_024", "B15003_025"),
+#   state = "CA",
+#   year = 2020,
+#   geometry = TRUE,
+#   summary_var = "B15003_001"
+# )
+#  write_rds(edu_ca, "data/edu_ca.rds")
+
+edu_ca <- read_rds("data/edu_ca.rds")
+
+
+# age_ca <- get_acs(
+#   geography = "county",
+#   variables = c(median_age = "B01002_001", population = "B01003_001"),
+#   state = "CA",
+#   year = 2020,
+#   geometry = FALSE
+# )
+# write_rds(age_ca, "data/age_ca.rds")
+
+age_ca <- read_rds("data/age_ca.rds")
+
+
+
+
+knitr::opts_chunk$set(echo = FALSE)
+options(tutorial.exercise.timelimit = 600, 
+        tutorial.storage = "local") 
+```
+
+```{r copy-code-chunk, child = system.file("child_documents/copy_button.Rmd", package = "tutorial.helpers")}
+```
+
+```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
+```
+
+
+## Introduction
+
+<!-- DK: Overview introduction. Link to the book.  -->
+
+
+This tutorial covers an overview of [Analyzing US Census Data](https://walker-data.com/census-r/index.html) by Kyle Walker. You will learn about using the [**tidycensus**] package for collecting, interacting, and plotting US Census data. You will mainly focus on collecting data from the Decennial Census and the American Community Survey (ACS).
+
+### Exercise 1
+
+Create a Github repo called `tidycensus-plots`. Make sure to click the "Add a README file" check box.
+
+Connect the repo to a project on your computer using `File -> New Folder from Git ...`. Make sure to select the "Open in a new window" box. 
+
+You need two Positon windows: this one for running the tutorial and the one you just created for writing your code and interacting with the Console.
+
+Select `File -> New File -> Quarto Document ...`. Provide a title -- `"TexasIncome"` -- and an author (you). Render the document and save it as `TexasIncome.qmd`.
+
+Create a `.gitignore` file with `_files` on the first line and then a blank line. Save and push.
+
+In the Console, run:
+
+```         
+show_file(".gitignore")
+```
+
+If that fails, it is probably because you have not yet loaded `library(tutorial.helpers)` in the Console.
+
+CP/CR.
+
+```{r introduction-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+Professionals keep their data science work in the cloud because laptops fail.
+
+### Exercise 2
+
+In your QMD, put `library(tidyverse)` and  `library(tidycensus)` in a new code chunk. Press `Ctrl/Cmd + Shift + K` to render the file
+
+Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also add the following to the YAML header to remove all code echos from the HTML:
+
+```         
+execute: 
+  echo: false
+```
+
+In the Console, run:
+
+```         
+tutorial.helpers::show_file("TexasIncome.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r introduction-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+### 
+
+Render again. Everything looks nice, albeit empty, because we have added code to make the file look better and more professional.
+
+### Exercise 3
+
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line.
+
+Note that this causes `library(tidyverse)` to be copied down to the Console and then executed. 
+
+CP/CR.
+
+```{r introduction-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+This is how professionals work, they type code in the quarto document and send it down to the console to execute it!
+
+## Texas Income
+
+<!-- DK: Clean up as we discussed. No wasted words. -->
+
+A critical part of the Census data analysis process is data visualization, where an analyst examines patterns and trends found in their data graphically. This first section illustrates some examples for getting started with exploratory Census data visualization with [ggplot2](https://ggplot2.tidyverse.org/). You will be using the `get_acs()` and the `geom_sf()` functions as well.
+
+
+
+
+### Exercise 1
+
+Ask AI to use **tidycensus** to get data on the median household income for all counties in Texas for 2020.
+
+Put what it gives you in a new code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the Console.
+
+CP/CR.
+
+```{r texas-income-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+Our answer:
+
+````
+income_tx <- get_acs(
+  geography = "county",
+  variables = "B19013_001",
+  state = "TX",
+  year = 2020,
+  geometry = FALSE
+)
+````
+
+###
+
+
+### Exercise 2
+
+Copy and paste our code to replace it with what you have.
+
+
+In the Console, run:
+
+```         
+tutorial.helpers::show_file("TexasIncome.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r texas-income-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+`get_acs()` is part of the **tidycensus** package and allows downloading American Community Survey (ACS) data.
+
+### Exercise 3
+
+Edit your QMD, to change the value of `geometry` to `TRUE`.
+
+Take your code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the Console.
+
+In the Console, run:
+
+```         
+tutorial.helpers::show_file("TexasIncome.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r texas-income-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+````
+> income_tx <- get_acs(
++   geography = "county",
++   variables = "B19013_001",
++   state = "TX",
++   year = 2020,
++   geometry = TRUE
++ )
+Getting data from the 2016-2020 5-year ACS
+Downloading feature geometry from the Census website.  To cache shapefiles for use in future sessions, set `options(tigris_use_cache = TRUE)`.
+Using FIPS code '48' for state 'TX'
+  |========================================================================================================================| 100%
+>
+````
+
+ The `geometry = TRUE` argument returns spatial polygons, useful for maps and spatial analysis.
+
+### Exercise 4
+
+Run `glimpse()` on `income_tx` in the Console.
+
+CP/CR.
+
+```{r texas-income-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+### Exercise 5
+
+Run `summary(income_tx)` in the console.
+
+CP/CR.
+
+
+```{r texas-income-5}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+<!-- DK: Chance to define the estimate and moe. -->
+
+
+
+### Exercise 6
+
+Now, type `income_tx` in the console.
+
+CP/CR the first few lines.
+
+```{r texas-income-6}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+`ggplot2` is ideal for Census data due to its support for basic charts, group comparisons, and geospatial visualizations.
+
+
+### Exercise 7
+
+Now copy the first few lines into your AI and say that you are working with **tidyverse**. Tell it to take the data in `income_tx` and make a choropleth map of median household income.
+
+
+Put what it gives you in a new code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+
+CP/CR.
+
+```{r texas-income-7}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+Our answer:
+
+````
+ggplot(income_tx) +
+  geom_sf(aes(fill = estimate), color = "white", size = 0.2)
+````
+
+### Exercise 8
+
+Now, tell the AI to color counties by the estimate column and add an approprite title and theme. 
+
+
+Replace your code with this code in your chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+
+CP/CR.
+
+```{r texas-income-8}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+###
+
+
+When mapping spatial Census data, use `geom_sf()` in `ggplot2` and apply `fill = estimate` to show choropleth patterns.
+
+
+### Exercise 9
+
+Here is our code. It is okay if your code is different. That will happen when using AI!
+Replace your code with what it gave you using this code: 
+
+````
+ggplot(income_tx) +
+  geom_sf(aes(fill = estimate), color = "white", size = 0.2) +
+  scale_fill_viridis_c(option = "plasma", name = "Median Income") +
+  labs(
+    title = "Median Household Income by County, Texas (2020)",
+    caption = "Data source: ACS 5-year estimates"
+  ) +
+  theme_minimal()
+````
+
+###
+
+`geom_sf()` plots spatial data stored as simple features (`sf` objects). The `fill` aesthetic maps color to median income. The `viridis` color scale provides perceptually uniform colors for better interpretation.
+```{r}
+#| message: false
+ggplot(income_tx) +
+  geom_sf(aes(fill = estimate), color = "white", size = 0.2) +
+  scale_fill_viridis_c(option = "plasma", name = "Median Income") +
+  labs(
+    title = "Median Household Income by County, Texas (2020)",
+    caption = "Data source: ACS 5-year estimates"
+  ) +
+  theme_minimal()
+```
+
+### Exercise 10
+
+
+In the Console, run the following command to display the last chunk of your `.qmd` file: CP/CR
+
+```         
+tutorial.helpers::show_file("TexasIncome.qmd", chunk = "Last")
+```
+
+```{r texas-income-10}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 15)
+```
+
+###
+
+The `show_file()` function from **tutorial.helpers** is a convenient way to check the contents of files without leaving R. It helps confirm that your edits were saved properly.
+
+
+## California Bachelors Degree
+
+In this activity, we will be using **ggplot**, `geom_sf`, and be modifying data to turn it into percentages.
+
+
+### 
+
+Select `File -> New File -> Quarto Document ...`. Provide a title -- `"CaliforniaBachelors"` -- and an author (you). Render the document and save it as `CaliforniaBachelors.qmd`.
+
+In this exercise, we’ll get the percentage of adults with a bachelor’s degree or higher in each California county.
+
+### Exercise 1
+
+In your QMD, put `library(tidyverse)` and  `library(tidycensus)` in a new code chunk. Press Ctrl/Cmd + Shift + K to render the file
+
+Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also add the following to the YAML header to remove all code echos from the HTML:
+
+```         
+execute: 
+  echo: false
+```
+
+In the Console, run:
+
+```         
+tutorial.helpers::show_file("CaliforniaBachelors.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r california-bachelors-degree-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+### 
+
+Render again. Everything looks nice, albeit empty, because we have added code to make the file look better and more professional.
+
+### Exercise 2
+
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line.
+
+Note that this causes `library(tidyverse)` to be copied down to the Console and then executed. 
+
+CP/CR.
+
+```{r california-bachelors-degree-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Working in the console like this is how professionals work!
+
+### Exercise 3
+
+Ask AI to generate R code that uses tidycensus to get educational attainment variables for all California counties in 2020 and save it in a variable called `edu_ca`
+
+Put what it gives you in a new code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+
+CP/CR
+
+
+```{r california-bachelors-degree-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+
+###
+
+Our code:
+
+````
+edu_ca <- get_acs(
+  geography = "county",
+  variables = c("B15003_001", "B15003_022", "B15003_023", "B15003_024", "B15003_025"),
+  state = "CA",
+  year = 2020,
+  geometry = FALSE,
+  summary_var = "B15003_001"
+)
+````
+
+### Exercise 4
+
+Using our code, set `geometry = TRUE`.
+
+Take your code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the Console.
+
+In the Console, run:
+
+```         
+tutorial.helpers::show_file("CaliforniaBachelors.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r california-bachelors-degree-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+````
+edu_ca <- get_acs(
+  geography = "county",
+  variables = c("B15003_001", "B15003_022", "B15003_023", "B15003_024", "B15003_025"),
+  state = "CA",
+  year = 2020,
+  geometry = TRUE,
+  summary_var = "B15003_001"
+)
+````
+
+The American Community Survey (ACS) provides annual demographic, economic, and housing data based on samples, while the Decennial Census gives a complete count every 10 years.
+
+### Exercise 5
+
+Let's explore the data, run `glimpse(edu_ca)` in the console.
+
+CP/CR.
+
+```{r california-bachelors-degree-5}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+### Exercise 6
+
+Let's get some quick stats for each column of the data. 
+
+Run `summary(edu_ca)` in the console.
+
+CP/CR.
+
+
+```{r california-bachelors-degree-6}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+### Exercise 7
+
+We’ll now make a choropleth map of bachelor’s degree attainment across California counties.
+
+Send our code to the console from the previous exercise.
+
+Now, type `edu_ca` in the console.
+
+CP/CR the first few lines.
+
+```{r california-bachelors-degree-7}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Geometry must be `TRUE` if we want to map later.
+
+### Exercise 8
+
+Now copy the first few lines into your AI and say that you are working with tidyverse. Tell it to take the data in `edu_ca` and make a choropleth map of at least bachelor’s degree attainment or higher across California counties and use `mutate()` to calculate the percentage of the population with at least a bachelor’s degree and pipe it into a `ggplot()`
+
+Put what it gives you in a new code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+
+CP/CR
+
+```{r california-bachelors-degree-8}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+Our Code:
+
+````
+edu_ca <- edu_ca %>%
+  group_by(GEOID) %>%
+  summarize(
+    percent = 100 * sum(estimate[variable != "B15003_001"]) / unique(summary_est)
+  )
+
+ggplot(edu_ca) +
+  geom_sf(aes(fill = percent)) +
+  scale_fill_viridis_c(option = "C") +
+  labs(title = "Adult Percentage with at least a Bachelor's in CA (2020)",
+       fill = "% with Degree") +
+  theme_minimal()
+````
+
+
+For educational attainment, we use `B15003_022` through `B15003_025` to sum all individuals with a bachelor’s degree or more, then divide by the total population (variable `B15003_001`). The `scale_fill_viridis_c()` function applies colorblind-friendly color scales to maps, using palettes like viridis, plasma, or magma.
+
+
+
+
+```{r}
+#| message: false
+edu_ca <- edu_ca %>%
+  group_by(GEOID) %>%
+  summarize(
+    percent = 100 * sum(estimate[variable != "B15003_001"]) / unique(summary_est)
+  )
+
+ggplot(edu_ca) +
+  geom_sf(aes(fill = percent)) +
+  scale_fill_viridis_c(option = "C") +
+  labs(title = "Adult Percentage with at least a Bachelor's in CA (2020)",
+       fill = "% with Degree") +
+  theme_minimal()
+```
+
+###
+
+`ggplot2` can handle spatial data directly using `geom_sf()`. Use `mutate()` to calculate percentages, and pipe that into `ggplot()` for a map.
+
+
+### Exercise 9
+
+
+1. In the Console, run the following command to display the last chunk of your `.qmd` file: CP/CR
+
+tutorial.helpers::show_file("CaliforniaBachelors.qmd", chunk = "last")
+
+```{r california-bachelors-degree-9}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 15)
+```
+
+###
+
+The variables in `get_acs()` like `"B19013_001"` are codes that represent specific census survey questions or data points.
+
+ You can use the `load_variables()` function from tidycensus to look up what each code means and explore available variables for a given year and dataset. 
+ 
+ This helps you find exactly the data you need without guessing variable names.
+
+
+## California Median Age
+
+### 
+
+In this exercise, you will collect and plot median age data for all counties in California for the year 2020 using the **tidycensus** package.
+
+Select `File -> New File -> Quarto Document ...`. Provide a title -- `"CaliforniaAge"` -- and an author (you). Render the document and save it as `CaliforniaAge.qmd`.
+
+
+
+
+### Exercise 1
+
+In your QMD, put `library(tidyverse)` and  `library(tidycensus)` in a new code chunk. Press Ctrl/Cmd + Shift + K to render the file
+
+Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also add the following to the YAML header to remove all code echos from the HTML:
+
+```         
+execute: 
+  echo: false
+```
+
+In the Console, run:
+
+```         
+tutorial.helpers::show_file("CaliforniaAge.qmd", chunk = "last")
+```
+
+CP/CR.
+
+```{r california-median-age-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+### 
+
+Render again. Everything looks nice, albeit empty, because we have added code to make the file look better and more professional.
+
+### Exercise 2
+
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line.
+
+Note that this causes `library(tidyverse)` to be copied down to the Console and then executed. 
+
+CP/CR.
+
+```{r california-median-age-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Working in the console like this is how professionals work!
+
+
+
+### Exercise 3
+
+
+Ask AI to generate R code that uses tidycensus data to get both the median age and populations for all counties in California for 2020 in a variable called `age_ca`
+
+Put what it gives you in a new code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+
+
+CP/CR
+
+```{r california-median-age-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+
+### 
+
+Our code:
+
+````
+age_ca <- get_acs(
+  geography = "county",
+  variables = c(median_age = "B01002_001", population = "B01003_001"),
+  state = "CA",
+  year = 2020,
+)
+````
+
+AI is your best friend! Professionals use AI to generate code and plot. You however, need to be careful as it can and will generate much extra code that you may not need.
+
+
+### Exercise 4
+
+Using our code, add `geometry = FALSE`.
+
+Take your code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the Console.
+
+In the Console, run:
+
+```         
+tutorial.helpers::show_file("CaliforniaAge.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r california-median-age-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+````
+age_ca <- get_acs(
+  geography = "county",
+  variables = c(median_age = "B01002_001", population = "B01003_001"),
+  state = "CA",
+  year = 2020,
+  geometry = FALSE
+)
+````
+
+
+The American Community Survey (ACS) provides annual demographic, economic, and housing data based on samples, while the Decennial Census gives a complete count every 10 years.
+
+### Exercise 5
+
+Let's explore the data, run `glimpse(age_ca)` in the console.
+
+CP/CR.
+
+```{r california-median-age-5}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+### Exercise 6
+
+Let's get some quick stats for each column of the data. 
+
+Run `summary(age_ca)` in the console.
+
+CP/CR.
+
+
+```{r california-median-age-6}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+`get_acs()` is your go-to for detailed annual demographic estimates from the American Community Survey. It returns both point estimates and margins of error (MOE) by default.
+
+### Exercise 7
+
+Send our code to the console from the previous exercise.
+
+Now, type `age_ca` in the console.
+
+CP/CR the first few lines.
+
+```{r california-median-age-7}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+###
+
+Helpful info for the next exercise: 
+`geom_col()` from `ggplot2`: Creates bar charts where bar heights correspond to values in the data.
+
+### Exercise 8
+
+Now, copy/paste those few lines into your AI. Tell it to use the `age_ca` data and make a bar plot showing median age by county.
+
+
+
+Put what it gives you in the code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+
+CP/CR
+
+```{r california-median-age-8}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+Our Code:
+
+````
+age_ca_wide <- age_ca %>%
+  select(NAME, variable, estimate) %>%
+  pivot_wider(names_from = variable, values_from = estimate)
+
+
+ggplot(age_ca_wide, aes(x = reorder(NAME, median_age), y = median_age)) +
+  geom_col(fill = "#4daf4a") +
+  coord_flip() 
+````
+
+Annotate charts with `geom_text()` or `labs()` to add clarity about what each axis, facet, or fill represents—especially useful for public-facing work.
+
+### Exercise 9
+
+Now we have a basic bar plot, but we have too much data points.
+
+Tell your AI to filter the dataset to the 15 most populous counties and add informative labels and a title with `labs()`.
+
+Put what it gives you in the  code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+
+CP/CR
+
+```{r california-median-age-9}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+Here is our code. It is okay if your code is different. That will happen when using AI!
+Replace your code with what it gave you using this code: 
+
+````
+age_ca_wide <- age_ca %>%
+  select(NAME, variable, estimate) %>%
+  pivot_wider(names_from = variable, values_from = estimate)
+
+largest_ca <- age_ca_wide %>%
+  arrange(desc(population)) %>%
+  slice_head(n = 15)
+
+ggplot(largest_ca, aes(x = reorder(NAME, median_age), y = median_age)) +
+  geom_col(fill = "#4daf4a") +
+  coord_flip() +
+  labs(
+    title = "2020 California Counties Median Age",
+    x = "County",
+    y = "Median Age",
+    caption = "Source: ACS 5-Year Estimates via tidycensus"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.text.y = element_text(size = 10)
+  )
+````
+
+`theme_minimal()` from `ggplot2`:
+Applies a clean, minimal theme to the plot for better readability.
+
+```{r}
+#| message: false
+age_ca_wide <- age_ca %>%
+  select(NAME, variable, estimate) %>%
+  pivot_wider(names_from = variable, values_from = estimate)
+
+largest_ca <- age_ca_wide %>%
+  arrange(desc(population)) %>%
+  slice_head(n = 15)
+
+ggplot(largest_ca, aes(x = reorder(NAME, median_age), y = median_age)) +
+  geom_col(fill = "#4daf4a") +
+  coord_flip() +
+  labs(
+    title = "2020 California Counties Median Age",
+    x = "County",
+    y = "Median Age",
+    caption = "Source: ACS 5-Year Estimates via tidycensus"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.text.y = element_text(size = 10)
+  )
+```
+
+
+### Exercise 10
+
+
+1. In the Console, run the following command to display the last chunk of your `.qmd` file: CP/CR
+
+tutorial.helpers::show_file("CaliforniaAge.qmd", chunk = "last")
+
+```{r california-median-age-10}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 15)
+```
+
+###
+
+The `show_file()` function from tutorial.helpers is a convenient way to check the contents of files without leaving R. It helps confirm that your edits were saved properly.
+
+
+```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
+```
+
+
+## Summary
+
+This tutorial covered an overview of  [Analyzing US Census Data](https://walker-data.com/census-r/index.html) by Kyle Walker. You learned about using the [**tidycensus**] package for collecting, interacting, and plotting US Census data. You mainly focused on collecting data from the Decennial Census and the American Community Survey (ACS).
+
+
+
+
+
+
+
+
+### Good Knowledge Drops
+
+If the year is not specified, `get_acs()` defaults to the most recent five-year ACS sample. The data returned is similar in structure to that returned by `get_decennial()`, but includes an `estimate` column (for the ACS estimate) and `moe` column (for the margin of error around that estimate) instead of a value column.
+
+The geography parameter in `get_acs()` and `get_decennial()` allows users to request data aggregated to common Census enumeration units.
+Census blocks are available in `get_decennial()` but not in `get_acs()` as block-level data are not available from the American Community Survey. To request data within states and/or counties, state and county names can be supplied to the state and county parameters, respectively, [formatted in the way that they are accepted by the US Census Bureau API](https://walker-data.com/census-r/an-introduction-to-tidycensus.html#geography-and-variables-in-tidycensus).
+
+**tidycensus** accepts state names (e.g. "Wisconsin"), state postal codes (e.g. "WI"), and state FIPS codes (e.g. "55"), so an analyst can use what they are most comfortable with.
+
+This is the typical workflow. First, we figure out what variables we need and download them using a function like `get_acs()` or `get_decennial()`. We save the result to a permanent object like `az_race`. Then, we build pipes starting from that saved object.
+
+The `mutate()` function allows us the create, modify and delete columns. More information about this function can be found [here](https://dplyr.tidyverse.org/reference/mutate.html)
+
+The attractive defaults of [ggplot2](https://ggplot2.tidyverse.org/) visualizations allow for the creation of legible graphics with little to no customization. This helps greatly with exploratory data analysis tasks where the primary audience is the analyst exploring the dataset.This section covers how to take a Census data visualization that is relatively illegible by default and polish it up for eventual presentation and export from R.
+
+While an analyst may be comfortable with the plot as-is, **ggplot2** allows for significant customization with respect to stylistic presentation. This includes styling the bars on the plot with a different color and internal transparency; changing the font; and customizing the axis tick labels.
+
+Once an analyst has settled on a visualization design, they may want to export their image from R to display on a website, in a blog post, or in a report. You can do so by clicking the button **Export** in the plot window and then **Save as Image**
+
+The [ggsave()](https://ggplot2.tidyverse.org/reference/ggsave.html) function in ggplot2 will save the last plot generated to an image file in the user’s current working directory by default. The specified file extension will control the output image format, e.g. .png.
+
+Cleaning up the plot allows us to use some additional visualization options in **ggplot2**. In addition to specifying appropriate chart labels, we can format the axis tick labels by using appropriate `scale_*` functions in **ggplot2** and setting the X-axis limits to show both sides of 0 equally
+
+We’ll also make use of an alternative **ggplot2** theme, `theme_minimal()`, which uses a white background with muted gridlines.
+
+The `separate()` function is used to split the `NAME` column into three separate columns: `TRACT`, `COUNTY`, and `STATE`. The `sep` argument is used to specify the character that separates the values in the `NAME` column.
+
+The `summarize()` function is used to calculate summary statistics for each group. In this case, we are calculating the minimum median home value for each county.
+
+The `scale_x_continuous()` function is used to format the x-axis labels as dollar values. The `breaks` argument is used to specify the breaks on the x-axis.
+
+The `scale_color_viridis_c()` function is used to adjust the color scheme of the plot. The `guide` argument is used to specify the type of legend to display.
+
+The `theme_void()` function strips the background grid and axis labels from the plot accordingly:
+
+`coord_flip()` from ggplot2:
+Flips x and y axes, often used to make horizontal bar charts easier to read.
+
+
+
+

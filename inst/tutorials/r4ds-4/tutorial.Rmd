@@ -1,0 +1,1981 @@
+---
+title: A Fourth Tutorial for R4DS
+author: Sruthi Gandhi and David Kane
+tutorial:
+  id: r4ds-4
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: 'This tutorial for "R for Data Science" covers Chapter 16: Factors, Chapter 17: Dates and Times, Chapter 18: Missing Values, Chapter 19: Joins, and Chapter 22: Arrow.'
+---
+
+```{r setup, include = FALSE}
+library(learnr)
+library(tutorial.helpers)
+
+library(tidyverse)
+library(arrow)      
+library(plotly)     
+library(viridis)   
+library(scales)     
+
+
+knitr::opts_chunk$set(echo = FALSE)
+options(tutorial.exercise.timelimit = 60, 
+        tutorial.storage = "local") 
+
+nba_clean <- open_dataset("data/game.parquet") |>
+  collect() |>
+  left_join(
+    open_dataset("data/line_score.parquet") |> collect(),
+    by = "game_id",
+    relationship = "many-to-many"
+  ) |>
+  mutate(
+    game_date = ymd_hms(game_date),
+    game_date_est = ymd_hms(game_date_est)
+  ) |>
+  drop_na(pts_home.x)|>
+	mutate(
+    game_date = as_datetime(game_date),
+    game_year = year(game_date),
+    season_label = paste0(season_id %/% 10000, "-", str_sub(season_id + 1, 3, 4))
+  ) %>%
+  filter(!is.na(game_date), game_year >= 1946) %>%
+	mutate(
+	wl_home = factor(wl_home, levels = c("W", "L")),
+    game_era = case_when(
+      game_year <= 1979 ~ "Pre-Three Point",
+      game_year <= 1999 ~ "Modern Era", 
+      game_year <= 2019 ~ "Analytics Era",
+      TRUE ~ "Current Era"
+    ),
+    game_era = factor(game_era, levels = c("Pre-Three Point", "Modern Era", "Analytics Era", "Current Era"))
+  ) |>	
+	mutate(
+    	across(contains("pct"), ~replace_na(.x, 0)),
+    	across(c(pts_home.x, pts_away.x), ~replace_na(.x, 0)),
+    	total_points = pts_home.x + pts_away.x
+ 	 ) %>%
+ 	 filter(total_points > 0, !is.na(pts_home.x), !is.na(pts_away.x))|>
+  group_by(game_year, game_era, season_label) %>%
+  summarise(
+    avg_points = mean(total_points, na.rm = TRUE),
+    games_count = n(),
+    home_win_pct = mean(wl_home == "W", na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  arrange(game_year)
+
+time_series_plot <- nba_clean %>%
+  ggplot(aes(x = game_year, y = avg_points, color = game_era)) +
+  geom_line(linewidth = 1.2, alpha = 0.8) +
+  geom_point(aes(size = games_count),
+             alpha = 0.7) +
+  scale_color_viridis_d(option = "plasma") +
+  scale_size_continuous(range = c(2, 6), guide = "none") +
+  labs(
+    title = "NBA Scoring Evolution: 75+ Years of Basketball",
+    subtitle = "Average points per game by season with era classifications",
+    x = "Season Year",
+    y = "Average Points Per Game",
+    color = "NBA Era"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    plot.subtitle = element_text(size = 12, color = "gray60"),
+    legend.position = "bottom",
+    panel.grid.minor = element_blank(),
+    plot.background = element_rect(fill = "white", color = NA)
+  )
+
+final_fifa <- "data/fifa.parquet" |>
+  open_dataset() |>
+  collect() |>
+  mutate(
+    height_cm = as.numeric(str_extract(Height, "\\d+")),
+    weight_kg = as.numeric(str_extract(Weight, "\\d+"))
+  ) |>
+  mutate(across(where(is.character), ~str_replace_all(.x, "\\n", ""))) |>
+  mutate(across(where(is.character), ~str_trim(.x))) |>
+  mutate(
+    joined_date = mdy(Joined),
+    years_at_club = as.numeric(today() - joined_date) / 365.25,
+    long_tenure = years_at_club > 10
+  ) |>
+  drop_na(joined_date) |>
+  mutate(
+    value_numeric = case_when(
+      is.na(Value) | Value == "" | Value == "0" ~ 0,
+      str_detect(Value, "M") ~ as.numeric(str_remove_all(Value, "[€M★-]")) * 1000000,
+      str_detect(Value, "K") ~ as.numeric(str_remove_all(Value, "[€K★-]")) * 1000,
+      str_detect(Value, "^€?[0-9.]+$") ~ as.numeric(str_remove_all(Value, "€")),
+      TRUE ~ 0
+    ),
+    wage_numeric = case_when(
+      is.na(Wage) | Wage == "" | Wage == "0" ~ 0,
+      str_detect(Wage, "K") ~ as.numeric(str_remove_all(Wage, "[€K★-]")) * 1000,
+      str_detect(Wage, "^€?[0-9.]+$") ~ as.numeric(str_remove_all(Wage, "€")),
+      TRUE ~ 0
+    ),
+    release_clause_numeric = case_when(
+      is.na(Release.Clause) | Release.Clause == "" | Release.Clause == "0" ~ 0,
+      str_detect(Release.Clause, "M") ~ as.numeric(str_remove_all(Release.Clause, "[€M★-]")) * 1000000,
+      str_detect(Release.Clause, "K") ~ as.numeric(str_remove_all(Release.Clause, "[€K★-]")) * 1000,
+      str_detect(Release.Clause, "^€?[0-9.]+$") ~ as.numeric(str_remove_all(Release.Clause, "€")),
+      TRUE ~ 0
+    )
+  )
+
+```
+
+```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
+```
+
+
+## Introduction
+### 
+
+This tutorial covers key concepts from [Chapter 16: Factors](https://r4ds.hadley.nz/factors.html), [Chapter 17: Dates and Times](https://r4ds.hadley.nz/datetimes.html), [Chapter 18: Missing Values](https://r4ds.hadley.nz/missing-values.html), [Chapter 19: Joins](https://r4ds.hadley.nz/joins.html), and [Chapter 22: Arrow](https://r4ds.hadley.nz/arrow.html) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+
+You will learn about working with parquet files using **[arrow](https://arrow.apache.org/docs/r/)**, manipulating categorical variables with **[forcats](https://forcats.tidyverse.org/)**, handling date-time data with **[lubridate](https://lubridate.tidyverse.org/)**, managing missing values, and performing joins. Key functions include [`open_dataset()`](https://arrow.apache.org/docs/r/reference/open_dataset.html), [`fct_reorder()`](https://forcats.tidyverse.org/reference/fct_reorder.html), [`ymd_hms()`](https://lubridate.tidyverse.org/reference/ymd.html), [`left_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html), and [`drop_na()`](https://tidyr.tidyverse.org/reference/drop_na.html).
+
+### Exercise 1
+
+Create a Github repo called `r4ds-4`. Make sure to click the "Add a README file" check box.
+
+Connect the repo to a project on your computer using `File -> New Folder from Git ...`. Make sure to select the "Open in a new window" box.
+
+You need two Positron windows: this one for running the tutorial and the one you just created for writing your code and interacting with the Console.
+
+In the new window, select `File -> New File -> Quarto Document ...`. Provide a title -- `"XX"` -- and an author (you). Render the document and save it as `analysis.qmd`.
+
+Create a `.gitignore` file with `analysis_files` on the first line and then a blank line. Save and push.
+
+In the Console, run:
+
+```         
+show_file(".gitignore")
+```
+
+If that fails, it is probably because you have not yet loaded `library(tutorial.helpers)` in the Console.
+
+CP/CR.
+
+```{r introduction-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+Parquet files are “column-oriented”. This means that they’re organized column-by-column, much like R’s data frame. This typically leads to better performance for data analysis tasks compared to CSV files, which are organized row-by-row.
+
+Parquet files are “chunked”, which makes it possible to work on different parts of the file at the same time, and, if you’re lucky, to skip some chunks all together.
+
+### Exercise 2
+
+In your QMD, put `library(tidyverse)`,`library(arrow)`, `library(plotly)`, `library(viridis)` and `library(scales)`  in a new code chunk. Render the file using `Cmd/Ctrl + Shift + K`.
+
+Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also, add the following to the YAML header to remove all code echos from the HTML:
+
+```         
+execute: 
+  echo: false
+```
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r introduction-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+### 
+
+Like CSV, parquet is used for rectangular data, but instead of being a text format that you can read with any file editor, it’s a custom binary format designed specifically for the needs of big data.
+
+### Exercise 3
+
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line. Do this for all the other libraries as well.
+
+Note that this causes `library(tidyverse)` to be copied down to the Console and then executed.
+
+CP/CR.
+
+```{r introduction-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 8)
+```
+
+### 
+
+Both **arrow** and **dbplyr** provide **dplyr** backends, so you might wonder when to use each. In many cases, the choice is made for you, as in the data is already in a database or in parquet files, and you’ll want to work with it as is. But if you’re starting with your own data (perhaps CSV files), you can either load it into a database or convert it to parquet.
+
+### Exercise 4
+
+From the Console, run these three commands:
+
+`getwd()` `dir.create("data")` `list.files()`
+
+This will create a `data` directory in your project. This is a good place to store any data that you are working with.
+
+CP/CR
+
+```{r introduction-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+Your answer should look something like, although your path will be different.
+
+```         
+> getwd()
+[1] "/Users/dkane/Desktop/projects/XX"
+> dir.create("data")
+> list.files()
+ [1] "analysis.qmd"        "data"    "README.md"
+>
+```
+###
+
+Parquet files are usually smaller than the equivalent CSV file. Parquet relies on [efficient encodings](https://parquet.apache.org/docs/file-format/data-pages/encodings/) to keep file size down, and supports file compression. This helps make parquet files fast because there’s less data to move from disk to memory.
+
+
+## NBA
+### 
+
+This section focuses on analyzing NBA game data using **[arrow](https://arrow.apache.org/docs/r/)** for efficient parquet file handling, **[lubridate](https://lubridate.tidyverse.org/)** for date-time manipulation, and **[dplyr](https://dplyr.tidyverse.org/)** for data joins and transformations. You will learn to work with large datasets stored in parquet format, parse game dates and times, create era-based classifications using factors, handle missing values in sports statistics, and join multiple related datasets.
+
+Key functions include [`open_dataset()`](https://arrow.apache.org/docs/r/reference/open_dataset.html) for reading parquet files, [`ymd_hms()`](https://lubridate.tidyverse.org/reference/ymd.html) for parsing datetime strings, [`factor()`](https://forcats.tidyverse.org/reference/fct.html) for creating categorical variables, [`left_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html) for combining datasets, and [`replace_na()`](https://tidyr.tidyverse.org/reference/replace_na.html) for handling missing data.
+
+The [NBA Database](https://www.kaggle.com/datasets/wyattowalsh/basketball) is a **Kaggle** dataset compiled by “wyattowalsh.” It provides a comprehensive, daily-updated collection of NBA game data—including 64,000+ games, 4,800+ players, and all 30 teams, plus box scores, play-by-play data, and more. Our parquet files `data/game.parquet` and `data/line_score.parquet` contain two files (`game.csv` and `line_score.csv`) from this dataset converted into parquet format for the purpose of this tutorial.
+
+### Exercise 1
+
+We begin by downloading our parquet files `data/game.parquet` and `line_score.parquet` directly from GitHub using `download.file()`.
+
+This adds the parquet files, `game.parquet` and `line_score.parquet`, to our working directory so we can use it in this tutorial.
+
+In the Console, run:
+
+```         
+download.file(
+  "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-4/data/game.parquet",
+  destfile = "data/game.parquet"
+)
+download.file(
+  "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-4/data/line_score.parquet",
+  destfile = "data/line_score.parquet"
+)
+```
+
+CP/CR.
+
+```{r nba-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+We’ll pair parquet files with [Apache Arrow](https://arrow.apache.org/), a multi-language toolbox designed for efficient analysis and transport of large datasets. We’ll use Apache Arrow via the the [**arrow**](https://arrow.apache.org/docs/r/) package, which provides a **dplyr** backend allowing you to analyze larger-than-memory datasets using familiar **dplyr** syntax. 
+
+### Exercise 2
+
+Ask AI to write R code that pipes the file `data/game.parquet` and opens the parquet file using `open_dataset()`. Make sure this code is not assigned to a variable and the pipe starts with `data/game.parquet`. Add this code to a new code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r nba-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+Our code:
+
+```{r nba-2-test, echo = TRUE}
+"data/game.parquet" |> 
+  open_dataset()
+```
+
+### 
+
+`open_dataset()` will scan a few thousand rows to figure out the structure of the dataset. We can see what’s actually in it with `glimpse()`.
+
+### Exercise 3
+
+Ask AI to write R code that continues our pipe that opened `data/game.parquet` and selects the columns `game_id`, `game_date`, and `season_id` columns, then collects it into R using `collect()`. After that, ask it to parse `game_date` as a datetime with `ymd_hms()`, extract the `year`, `month` (with labels), and `weekday` (with labels), and then count how many games occurred on each weekday, arranging the result in descending order using `desc()`. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r nba-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+Our code:
+
+```{r nba-3-test, echo = TRUE}
+"data/game.parquet" |> 
+  open_dataset()|>
+  select(game_id, game_date, season_id) |>
+  collect() |>
+  mutate(
+    # Parse the datetime string
+    parsed_date = ymd_hms(game_date),
+    # Extract year
+    game_year = year(parsed_date),
+    # Extract month with labels
+    game_month = month(parsed_date, label = TRUE),
+    # Get day of week with labels
+    game_weekday = wday(parsed_date, label = TRUE)
+  ) |>
+  count(game_weekday) |>
+  arrange(desc(n))
+```
+
+### 
+
+This tibble shows that the most amount of NBA games occur on Friday and Wednesday, while the least amount occurs on Monday.
+
+`ymd()` and friends create dates. To create a date-time, add an underscore and one or more of “h”, “m”, and “s” to the name of the parsing function
+
+### Exercise 4
+
+Paste our pipe into AI and ask AI to change our pipe so that it selects the columns for home and away stats (`reb_home, reb_away, fg3m_home, fg3m_away, stl_home, stl_away, blk_home, blk_away`), then calculates how many missing values each column has. Then, reshape the results with `pivot_longer()` into `column/missing_count` format, add a column for total rows (65,698) and missing percentage, and finally arrange in descending order of missing percentage.
+
+Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r nba-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+```{r nba-4-test, echo = TRUE}
+"data/game.parquet" |> 
+  open_dataset()|>
+  collect() |>
+  select(reb_home, reb_away, fg3m_home, fg3m_away, stl_home, stl_away, blk_home, blk_away) |>
+  summarise_all(~sum(is.na(.))) |>
+  pivot_longer(everything(), names_to = "column", values_to = "missing_count") |>
+  mutate(
+    total_games = 65698,  # total rows in dataset
+    missing_pct = missing_count / total_games * 100
+  ) |>
+  arrange(desc(missing_pct))
+```
+
+### 
+
+On average, 25% of our data is missing from our selected columns of home and away rebounds, 3-pointers, and steals.
+
+In the rare case you need to distinguish an `NA` from a `NaN`, you can use `is.nan(x)`.
+
+### Exercise 5
+
+Ask AI to write R code that changes our pipe so that it parses `game_date` with `ymd_hms()`, and creates a new variable called `decade` by flooring the year to the nearest decade, then filters out missing decades and groups by decade (using `group_by()`) and summarises the total number of games plus the percentage of missing values for `reb_home`, `fg3m_home`, and `stl_home`. Make sure the AI uses `.groups` to drop the grouping at the end.
+
+Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r nba-5}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+```{r nba-5-test, echo = TRUE}
+"data/game.parquet" |> 
+  open_dataset()|>
+  collect() |>
+  mutate(
+    game_date = ymd_hms(game_date),
+    decade = 10 * (year(game_date) %/% 10)
+  ) |>
+  filter(!is.na(decade)) |>
+  group_by(decade) |>
+  summarise(
+    total_games = n(),
+    missing_rebounds_pct = sum(is.na(reb_home)) / n() * 100,
+    missing_3pt_pct = sum(is.na(fg3m_home)) / n() * 100,
+    missing_steals_pct = sum(is.na(stl_home)) / n() * 100,
+    .groups = "drop"
+  )
+```
+
+### 
+
+This helps us understand what data is reliable for different time periods. The `missing_3pt_pct` column shows that data for 3-point shots before 1980 are 90 - 100% missing. This is because the 3-point line was not introduced in the NBA until the 1979 - 1980 season.
+
+A date-time is a date plus a time: it uniquely identifies an instant in time (typically to the nearest second). Tibbles print this as `<dttm>`. Base R calls these POSIXct, but doesn’t exactly trip off the tongue.
+
+### Exercise 6
+
+Ask AI to write R code that changes our pipe and groups it by `team_name_home`, then calculates the average home points per team using `mean()` and `na.rm = TRUE`, sorts the results in descending order using `arrange(desc())`, selects the top 4 teams using `slice_head()`, and then reorders `team_name_home` as a factor by `avg_pts` for plotting using `fct_reorder`. Make sure the AI uses `.groups` to drop the grouping at the end.
+
+Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r nba-6}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+```{r nba-6-test, echo = TRUE}
+"data/game.parquet" |> 
+  open_dataset() |>
+  collect() |>
+  group_by(team_name_home) |>
+  summarise(avg_pts = mean(pts_home, na.rm = TRUE), .groups = "drop") |>
+  arrange(desc(avg_pts)) |>
+  slice_head(n = 4) |>  # select top 10 teams
+  mutate(team_name_home = fct_reorder(team_name_home, avg_pts))
+```
+
+### 
+
+The top four teams that have the highest points seem to be names of players and not actual NBA teams. This is because they are from NBA: All Stars where only star players compete, therefore skewing the data since a team of only star players will likely score more points during a game. This parquet file contains all kinds of NBA game data, not just the standard ones.
+
+To create a date/time  we use `make_date()` for dates, or `make_datetime()` for date-times
+
+### Exercise 7
+
+We are going to clean the data by converting date-time into useful components (`game_year`, `game_month`, `game_weekday`), simplifying team abbreviations (recoding old names and lumping less common ones), and creating a new variable `home_result` to indicate whether the home team won or lost.
+
+Ask AI to write a single-pipe R workflow using `open_dataset()` and `collect()` to read the `line_score.parquet` file. Parse the `game_date_est` column into a date using `ymd_hms()` and `as_date()`, then extract `game_year`, `game_month` (with `label = TRUE`), and `game_weekday` (with `label = TRUE`). Convert `team_abbreviation_home` into a factor with `as_factor()` and rename levels using `fct_recode()` (e.g., `"PHW" = "Warriors"`, `"MNL" = "Lakers"`), then lump all but the top 8 teams with `fct_lump()`. Then create a `home_result` factor from `pts_home` vs `pts_away`.
+
+Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r nba-7}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+```{r nba-7-test, echo = TRUE}
+ open_dataset("data/line_score.parquet") |>
+  collect() |>
+  mutate(
+    game_date = ymd_hms(game_date_est) |> as_date(),
+    game_year = year(game_date),
+    game_month = month(game_date, label = TRUE),
+    game_weekday = wday(game_date, label = TRUE),
+    team_abbreviation_home = as_factor(team_abbreviation_home) |>
+      fct_recode(
+        "Warriors" = "PHW",
+        "Lakers" = "MNL"
+      ) |>
+      fct_lump(n = 8),
+      home_result = factor(
+      ifelse(pts_home > pts_away, "Win", "Loss"),
+      levels = c("Win", "Loss")
+    )
+  )
+```
+
+### 
+
+When using these three formats (ymd, mdy, dmy)  we need to identify the order in which year, month, and day appear in your dates, then arrange “y”, “m”, and “d” in the same order. That gives you the name of the lubridate function that will parse your date.
+
+### Exercise 8
+
+We are going to use the number of wins and points to determine if the game was considered a close win, a moderately close win, or an absolute blowout win then count how many of each type of win occurred in the early era of the NBA.
+
+Ask AI to continue our pipe from the last exercise and categorize `margin_category` based on the absolute point difference using `case_when()`, then order it with `factor()` and `fct_relevel()`. Create an `era` factor using `game_year` with `case_when()` and `fct_relevel()`. Compute `month_start` with `floor_date()`, `days_since_jan1` by subtracting `floor_date(game_date, "year")` from `game_date`, and `next_week` by adding `days(7)`. Finally, arrange the dataset by `game_date` with `arrange()`, limit to 1000 rows with `slice_head()`, and count games by `era` and `margin_category` using `count()`.
+
+Add this code as a continuation to your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r nba-8}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+```{r nba-8-test, echo = TRUE}
+ open_dataset("data/line_score.parquet") |>
+  collect() |>
+  mutate(
+    game_date = ymd_hms(game_date_est) |> as_date(),
+    game_year = year(game_date),
+    game_month = month(game_date, label = TRUE),
+    game_weekday = wday(game_date, label = TRUE),
+    team_abbreviation_home = as_factor(team_abbreviation_home) |>
+      fct_recode(
+        "Warriors" = "PHW",
+        "Lakers" = "MNL"
+      ) |>
+      fct_lump(n = 8),
+      home_result = factor(
+      ifelse(pts_home > pts_away, "Win", "Loss"),
+      levels = c("Win", "Loss")
+    ),
+    margin_category = case_when(
+      abs(pts_home - pts_away) <= 3 ~ "Close",
+      abs(pts_home - pts_away) <= 15 ~ "Moderate", 
+      TRUE ~ "Blowout"
+    ) |> factor() |> fct_relevel("Close", "Moderate", "Blowout"),
+    era = case_when(
+      game_year < 1970 ~ "Early NBA",
+      game_year < 2000 ~ "Classic Era",
+      TRUE ~ "Modern"
+    ) |> factor() |> fct_relevel("Early NBA", "Classic Era", "Modern"),
+    month_start = floor_date(game_date, "month"),
+    days_since_jan1 = as.numeric(game_date - floor_date(game_date, "year")),
+    next_week = game_date + days(7)
+  ) |>
+  arrange(game_date) |>
+  slice_head(n = 1000) |> 
+  count(era, margin_category) |> 
+  print()
+```
+
+### 
+
+
+`make_datetime_100` is a function that takes in the `year`, `month`, `day` and `time` variables to create a datetime. It is not always necessary to make a function like this, but, it does make life easier.
+
+### Exercise 9
+
+Ask AI to use `data/game.parquet` and `data/line_score.parquet` and join them together by `game_id` using `left_join()` and parses `game_date` and `game_date_est` as `datetimes` in one singular pipe without creating intermediate variables. Make sure the `relationship` is set to `many-to-many` and `NA` values are dropped using `drop_na()`.
+
+Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r nba-9}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+```{r nba-9-test, echo = TRUE}
+open_dataset("data/game.parquet") |>
+  collect() |>
+  left_join(
+    open_dataset("data/line_score.parquet") |> collect(),
+    by = "game_id",
+    relationship = "many-to-many"
+  ) |>
+  mutate(
+    game_date = ymd_hms(game_date),
+    game_date_est = ymd_hms(game_date_est)
+  ) |>
+  drop_na(pts_home.x)
+```
+
+### 
+
+If you are doing this deliberately, you can set `relationship = "many-to-many"`, as the warning suggests. This will silence the warning and allow you to see the tibble.
+
+### Exercise 10
+
+Ask AI to write R code that continues your pipe and uses `mutate()` to create three new columns: one called `game_date` by converting the existing `game_date` column with the `as_datetime` function, one called `game_year` by extracting the `year` from `game_date` with the `year()` function, and one called `season_label` by combining parts of `season_id` with the `paste0()` and `str_sub()` functions. Then ask it to use the `filter()` function to remove rows where `game_date` is missing and to keep only rows where `game_year` is greater than or equal to 1946.
+
+Add this code as a continuation to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r nba-10}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+```{r nba-10-test, echo = TRUE}
+open_dataset("data/game.parquet") |>
+  collect() |>
+  left_join(
+    open_dataset("data/line_score.parquet") |> collect(),
+    by = "game_id",
+    relationship = "many-to-many"
+  ) |>
+  mutate(
+    game_date = ymd_hms(game_date),
+    game_date_est = ymd_hms(game_date_est)
+  ) |>
+  drop_na(pts_home.x)|>
+	mutate(
+    game_date = as_datetime(game_date),
+    game_year = year(game_date),
+    season_label = paste0(season_id %/% 10000, "-", str_sub(season_id + 1, 3, 4))
+  ) %>%
+  filter(!is.na(game_date), game_year >= 1946)
+```
+
+### 
+
+You can use the `.direction` argument to fill in missing values that have been generated in more exotic ways.
+
+### Exercise 11
+
+Ask AI to write R code that continues your pipe and uses `mutate()` to convert the `wl_home` column into a factor with levels `W` and `L` so that home wins and losses are treated as categorical data, and to create a new column `game_era` using `case_when()` based on the `game_year` column so that each game is classified into "Pre-Three Point", "Modern Era", "Analytics Era", or "Current Era", and then convert `game_era` into a factor with these same levels to preserve the logical order.
+
+Add this code as a continuation to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r nba-11}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+```{r nba-11-test, echo = TRUE}
+open_dataset("data/game.parquet") |>
+  collect() |>
+  left_join(
+    open_dataset("data/line_score.parquet") |> collect(),
+    by = "game_id",
+    relationship = "many-to-many"
+  ) |>
+  mutate(
+    game_date = ymd_hms(game_date),
+    game_date_est = ymd_hms(game_date_est)
+  ) |>
+  drop_na(pts_home.x)|>
+	mutate(
+    game_date = as_datetime(game_date),
+    game_year = year(game_date),
+    season_label = paste0(season_id %/% 10000, "-", str_sub(season_id + 1, 3, 4))
+  ) %>%
+  filter(!is.na(game_date), game_year >= 1946) %>%
+	mutate(
+	wl_home = factor(wl_home, levels = c("W", "L")),
+    game_era = case_when(
+      game_year <= 1979 ~ "Pre-Three Point",
+      game_year <= 1999 ~ "Modern Era", 
+      game_year <= 2019 ~ "Analytics Era",
+      TRUE ~ "Current Era"
+    ),
+    game_era = factor(game_era, levels = c("Pre-Three Point", "Modern Era", "Analytics Era", "Current Era"))
+  ) 
+```
+
+### 
+
+`tidyr::complete()` allows you to generate explicit missing values by providing a set of variables that define the combination of rows that should exist.
+
+### Exercise 12
+
+Ask AI to write R code that continues your pipe and uses `mutate()` with `across()` to replace missing values with 0 for all columns containing `"pct"` and for the columns `pts_home.x` and `pts_away.x` so that `NA`s are handled. Then, use `mutate()` again to create a new column `total_points` as the sum of `pts_home.x` and `pts_away.x`. Finally, use `filter()` to keep only rows where `total_points` is greater than 0 and neither `pts_home.x` nor `pts_away.x` are `NA`.
+
+Add this code as a continuation to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r nba-12}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+```{r nba-12-test, echo = TRUE}
+open_dataset("data/game.parquet") |>
+  collect() |>
+  left_join(
+    open_dataset("data/line_score.parquet") |> collect(),
+    by = "game_id",
+    relationship = "many-to-many"
+  ) |>
+  mutate(
+    game_date = ymd_hms(game_date),
+    game_date_est = ymd_hms(game_date_est)
+  ) |>
+  drop_na(pts_home.x)|>
+	mutate(
+    game_date = as_datetime(game_date),
+    game_year = year(game_date),
+    season_label = paste0(season_id %/% 10000, "-", str_sub(season_id + 1, 3, 4))
+  ) %>%
+  filter(!is.na(game_date), game_year >= 1946) %>%
+	mutate(
+	wl_home = factor(wl_home, levels = c("W", "L")),
+    game_era = case_when(
+      game_year <= 1979 ~ "Pre-Three Point",
+      game_year <= 1999 ~ "Modern Era", 
+      game_year <= 2019 ~ "Analytics Era",
+      TRUE ~ "Current Era"
+    ),
+    game_era = factor(game_era, levels = c("Pre-Three Point", "Modern Era", "Analytics Era", "Current Era"))
+  ) |>	
+	mutate(
+    	across(contains("pct"), ~replace_na(.x, 0)),
+    	across(c(pts_home.x, pts_away.x), ~replace_na(.x, 0)),
+    	total_points = pts_home.x + pts_away.x
+ 	 ) %>%
+ 	 filter(total_points > 0, !is.na(pts_home.x), !is.na(pts_away.x))
+```
+
+### 
+
+A **mutating join** allows you to combine variables from two data frames: it first matches observations by their keys, then copies across variables from one data frame to the other. Like `mutate()`, the join functions add variables to the right, so if your dataset has many variables, you won’t see the new ones. For these examples, we’ll make it easier to see what’s going on by creating a narrower dataset with just six variables.
+
+### Exercise 13
+
+Ask AI to continue your pipe and write R code that uses `group_by()` to group the data by `game_year`, `game_era`, and `season_label`, then uses `summarise()` to calculate `avg_points` as the mean of `total_points`, `games_count` as the number of games, and `home_win_pct` as the mean of `wl_home` being `"W"` while removing NAs, and finally uses `arrange()` to sort the results by `game_year`.
+
+Add this code as a continuation to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r nba-13}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+```{r nba-13-test, echo = TRUE}
+open_dataset("data/game.parquet") |>
+  collect() |>
+  left_join(
+    open_dataset("data/line_score.parquet") |> collect(),
+    by = "game_id",
+    relationship = "many-to-many"
+  ) |>
+  mutate(
+    game_date = ymd_hms(game_date),
+    game_date_est = ymd_hms(game_date_est)
+  ) |>
+  drop_na(pts_home.x)|>
+	mutate(
+    game_date = as_datetime(game_date),
+    game_year = year(game_date),
+    season_label = paste0(season_id %/% 10000, "-", str_sub(season_id + 1, 3, 4))
+  ) %>%
+  filter(!is.na(game_date), game_year >= 1946) %>%
+	mutate(
+	wl_home = factor(wl_home, levels = c("W", "L")),
+    game_era = case_when(
+      game_year <= 1979 ~ "Pre-Three Point",
+      game_year <= 1999 ~ "Modern Era", 
+      game_year <= 2019 ~ "Analytics Era",
+      TRUE ~ "Current Era"
+    ),
+    game_era = factor(game_era, levels = c("Pre-Three Point", "Modern Era", "Analytics Era", "Current Era"))
+  ) |>	
+	mutate(
+    	across(contains("pct"), ~replace_na(.x, 0)),
+    	across(c(pts_home.x, pts_away.x), ~replace_na(.x, 0)),
+    	total_points = pts_home.x + pts_away.x
+ 	 ) %>%
+ 	 filter(total_points > 0, !is.na(pts_home.x), !is.na(pts_away.x))|>
+  group_by(game_year, game_era, season_label) %>%
+  summarise(
+    avg_points = mean(total_points, na.rm = TRUE),
+    games_count = n(),
+    home_win_pct = mean(wl_home == "W", na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  arrange(game_year)
+```
+
+### 
+
+There are four types of mutating join, but there’s one that you’ll use almost all of the time: `left_join()`. It’s special because the output will always have the same rows as `x`, the data frame you’re joining to. The primary use of `left_join()` is to add in additional metadata. 
+
+### Exercise 14
+
+Before creating a plot, we need to ensure that your data matches our data. In the QMD, replace your code from the previous exercise with our code.
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r nba-14}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+### 
+
+**Anti-joins** are the opposite: they return all rows in x that don’t have a match in y. They’re useful for finding missing values that are **implicit** in the data. Implicitly missing values don’t show up as `NA`s but instead only exist as an absence.
+
+### Exercise 15
+
+Within the latest code chunk, add the option: `#| cache: true`. Assign the result of the pipe to `nba_clean`.
+
+`Cmd/Ctrl + Shift + K`. By including `#| cache: true` you cause Quarto to cache the results of the chunk. The next time you render your QMD, as long as you have not changed the code, Quarto will just load up the saved object.
+
+If you have not done so already, you should add `analysis_cache` to the `.gitginore`. The content of the cache file does not belong on GitHub.
+
+Place your cursor on the line where the pipe is assigned to `nba_clean`, run `Cmd/Ctrl + Enter`, thus ensuring that the workspace also includes a copy of `nba_clean`.
+
+CP/CR.
+
+```{r nba-15}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+### 
+
+Our code:
+
+```{r, echo = TRUE}
+nba_clean <- open_dataset("data/game.parquet") |>
+  collect() |>
+  left_join(
+    open_dataset("data/line_score.parquet") |> collect(),
+    by = "game_id",
+    relationship = "many-to-many"
+  ) |>
+  mutate(
+    game_date = ymd_hms(game_date),
+    game_date_est = ymd_hms(game_date_est)
+  ) |>
+  drop_na(pts_home.x)|>
+	mutate(
+    game_date = as_datetime(game_date),
+    game_year = year(game_date),
+    season_label = paste0(season_id %/% 10000, "-", str_sub(season_id + 1, 3, 4))
+  ) %>%
+  filter(!is.na(game_date), game_year >= 1946) %>%
+	mutate(
+	wl_home = factor(wl_home, levels = c("W", "L")),
+    game_era = case_when(
+      game_year <= 1979 ~ "Pre-Three Point",
+      game_year <= 1999 ~ "Modern Era", 
+      game_year <= 2019 ~ "Analytics Era",
+      TRUE ~ "Current Era"
+    ),
+    game_era = factor(game_era, levels = c("Pre-Three Point", "Modern Era", "Analytics Era", "Current Era"))
+  ) |>	
+	mutate(
+    	across(contains("pct"), ~replace_na(.x, 0)),
+    	across(c(pts_home.x, pts_away.x), ~replace_na(.x, 0)),
+    	total_points = pts_home.x + pts_away.x
+ 	 ) %>%
+ 	 filter(total_points > 0, !is.na(pts_home.x), !is.na(pts_away.x))|>
+  group_by(game_year, game_era, season_label) %>%
+  summarise(
+    avg_points = mean(total_points, na.rm = TRUE),
+    games_count = n(),
+    home_win_pct = mean(wl_home == "W", na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  arrange(game_year)
+```
+
+### 
+
+To describe a specific type of join, we indicate matches with dots. The matches determine the rows in the output, a new data frame that contains the key, the x values, and the y values. 
+
+### Exercise 16
+
+Within the Console, type `nba_clean`, which we previously assigned to a pipe and ran in the Console. Hit `Enter`.
+
+CP/CR.
+
+```{r nba-16}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+### 
+
+Our code:
+
+```{r, echo=TRUE}
+nba_clean
+```
+
+### 
+
+A **right join** keeps all observations in `y` Every row of y is preserved in the output because it can fall back to matching a row of `NAs` in `x`. The output still matches `x` as much as possible; any extra rows from `y` are added to the end.
+
+### Exercise 17
+
+Ask AI to generate R code that uses `nba_clean` to create a time series plot showing how `avg_points` changes across `game_year` for each `game_era`. Mention that you want to use the data from `nba_clean` and include the top 3 rows of the tibble (just enough to show the column names `game_year`, `avg_points`, `games_count`, and `game_era`) copied from the console. The code should use `ggplot()` with `geom_line()` and `geom_point()` (sized by `games_count`), apply a `viridis` color scale, label the axes and title, use `theme_minimal()`, and then convert the plot to an interactive `plotly` graph with tooltips for `x`, `y`, `colour`, and `size`.
+
+Within `labs()`, edit or add a proper title, subtitle, and caption. If axis labels would be useful, add them, but if unnecessary, don't bother. Don't assign the code for the plot to any variable. Put the plot code in a new code chunk. Run `Cmd/Ctrl + Shift + K` to ensure that everything works. Make your plot look nice.
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r nba-17}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 12)
+```
+
+### 
+
+Our code:
+
+```{r, echo=TRUE}
+time_series_plot <- nba_clean %>%
+  ggplot(aes(x = game_year, y = avg_points, color = game_era)) +
+  geom_line(linewidth = 1.2, alpha = 0.8) +
+  geom_point(aes(size = games_count),
+             alpha = 0.7) +
+  scale_color_viridis_d(option = "plasma") +
+  scale_size_continuous(range = c(2, 6), guide = "none") +
+  labs(
+    title = "NBA Scoring Evolution: 75+ Years of Basketball",
+    subtitle = "Average points per game by season with era classifications",
+    x = "Season Year",
+    y = "Average Points Per Game",
+    color = "NBA Era"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    plot.subtitle = element_text(size = 12, color = "gray60"),
+    legend.position = "bottom",
+    panel.grid.minor = element_blank(),
+    plot.background = element_rect(fill = "white", color = NA)
+  )
+
+ggplotly(time_series_plot, 
+                             tooltip = c("x", "y", "colour", "size")) %>%
+  layout(
+    hovermode = "closest",
+    showlegend = TRUE,
+    legend = list(orientation = "h", x = 0.1, y = -0.2),
+    margin = list(b = 100, t = 80, l = 60, r = 40),
+    hoverlabel = list(
+      bgcolor = "white",
+      bordercolor = "gray",
+      font = list(family = "Arial", size = 12)
+    )
+  ) %>%
+  config(displayModeBar = TRUE, displaylogo = FALSE)
+```
+
+### 
+
+A **full join** keeps all observations that appear in `x` or `y`, like the image above. Every row of x and y is included in the output because both `x` and `y` have a fall back row of `NAs`. Again, the output starts with all rows from `x`, followed by the remaining unmatched `y` rows.
+
+## FIFA
+### 
+
+This section demonstrates comprehensive data cleaning and analysis of FIFA player data using **[forcats](https://forcats.tidyverse.org/)** for factor manipulation, **[lubridate](https://lubridate.tidyverse.org/)** for date parsing, and **[stringr](https://stringr.tidyverse.org/)** for text processing. You will learn to clean messy text data, convert financial strings with multipliers (K, M) to numeric values, parse various date formats, and create meaningful categorical variables from continuous data.
+
+Key functions include [`str_replace_all()`](https://stringr.tidyverse.org/reference/str_replace.html) for text cleaning, [`mdy()`](https://lubridate.tidyverse.org/reference/ymd.html) for date parsing, [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html) for conditional transformations, [`fct_reorder()`](https://forcats.tidyverse.org/reference/fct_reorder.html) for factor reordering, and [`str_extract()`](https://stringr.tidyverse.org/reference/str_extract.html) for pattern extraction from strings.
+
+The [FIFA 21 dataset](https://www.kaggle.com/datasets/yagunnersya/fifa-21-messy-raw-dataset-for-cleaning-exploring/data) is a [Kaggle](https://www.kaggle.com) dataset originally scraped from [Sofifa.com](https://sofifa.com), which hosts detailed player statistics from EA Sports’ *FIFA 21*. The dataset was collected by a Kaggle user (“yagunnersya”) and contains raw information about thousands of players, including attributes such as ratings, positions, value, and club. Our parquet file `data/fifa21.parquet` contains this data in a parquet format for the purpose of this tutorial.
+
+### Exercise 1
+
+We begin by downloading our parquet file `data/fifa.parquet` directly from GitHub using `download.file()`.
+
+This adds the parquet file `fifa.parquet` to our working directory so we can use it in this tutorial.
+
+In the Console, run:
+
+```         
+download.file(
+  "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-4/data/fifa.parquet",
+  destfile = "data/fifa.parquet"
+)
+```
+
+CP/CR.
+
+```{r fifa-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+A cross join matches everything, generating the Cartesian product of rows. This means the output will have `nrow(x) * nrow(y)` rows. Cross joins are useful when generating permutations.
+
+### Exercise 2
+
+Ask AI to write R code that opens `data/fifa.parquet` using `open_dataset()` and `collect()`, then uses `glimpse()` to examine the structure of the FIFA dataset. Make sure this code is not assigned to a variable and the pipe starts with `data/fifa.parquet`. Add this code to a new code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+Our code:
+
+```{r fifa-2-test, echo = TRUE}
+"data/fifa.parquet" |> 
+  open_dataset() |>
+  collect() |>
+  glimpse()
+```
+
+### 
+
+This gives us a quick overview of all columns and their data types in the FIFA dataset.
+
+Like `mutate()`, the join functions add variables to the right, so if your dataset has many variables, you won’t see the new ones as we saw in the previous code.
+
+### Exercise 3
+
+Ask AI to write R code that opens the FIFA dataset and uses `select()` to examine just the `Height` and `Weight` columns, then uses `slice_head()` to show the first 10 rows so we can see the format of these columns before cleaning them. This is a separate analysis from the previous exercise - start fresh with `data/fifa.parquet`. Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+Our code:
+
+```{r fifa-3-test, echo = TRUE}
+"data/fifa.parquet" |> 
+  open_dataset() |>
+  collect() |>
+  select(Height, Weight) |>
+  slice_head(n = 10)
+```
+
+### 
+
+This shows us the exact format of height and weight data so we know how to clean it properly.
+
+Factors are used for categorical variables --- variables that have a fixed and known set of possible values. They are also useful when you want to display character vectors in a non-alphabetical order.
+
+### Exercise 4
+
+Ask AI to write R code that opens the FIFA dataset and uses `mutate()` to create clean numeric versions of height and weight. Use `str_extract()` with the pattern `"\\d+"` to extract only the numeric digits from `Height` and `Weight` columns, then convert them to numeric with `as.numeric()`. Create new columns called `height_cm` and `weight_kg`. Use `select()` to show only the original and new height/weight columns, then `slice_head()` to verify the cleaning worked. Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-4}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+Our code:
+
+```{r fifa-4-test, echo = TRUE}
+"data/fifa.parquet" |> 
+  open_dataset() |>
+  collect() |>
+  mutate(
+    height_cm = as.numeric(str_extract(Height, "\\d+")),
+    weight_kg = as.numeric(str_extract(Weight, "\\d+"))
+  ) |>
+  select(Height, Weight, height_cm, weight_kg) |>
+  slice_head(n = 10)
+```
+
+### 
+
+This extracts numeric values from text strings containing units, a common data cleaning task.
+
+One of the nine core packages within the *Tidyverse* is [**forcats**](https://forcats.tidyverse.org/), a package dedicated to working with factors. By loading **tidyverse**, we automatically get access to **forcats** and the other "core" *Tidyverse* packages.
+
+### Exercise 5
+
+Ask AI to write R code that opens the FIFA dataset and examines which columns contain newline characters. Use `select()` with `where()` and `is.character` to get only character columns, then use `summarise()` with `across()` to count how many values in each character column contain `"\\n"` using `str_detect()` and `sum()`. Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-5}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+Our code:
+
+```{r fifa-5-test, echo = TRUE}
+"data/fifa.parquet" |> 
+  open_dataset() |>
+  collect() |>
+  select(where(is.character)) |>
+  summarise(across(everything(), ~sum(str_detect(.x, "\\n"), na.rm = TRUE)))
+```
+
+### 
+
+The `Club` character column contains a lot of problematic newline characters that need cleaning.
+
+**forcats** provides tools for dealing with **cat**egorical variables --- and it’s an anagram of the word "factors" --- using a wide range of helpers for working with factors.
+
+### Exercise 6
+
+Ask AI to write R code that opens the FIFA dataset and focuses on the `Joined` column to understand date formats. Use `select()` to get `Name`, `Club`, and `Joined` columns, then `slice_sample()` to look at 15 random rows so we can see the variety of date formats before parsing. Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-6}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+Our code:
+
+```{r fifa-6-test, echo = TRUE}
+"data/fifa.parquet" |> 
+  open_dataset() |>
+  collect() |>
+  select(Name, Club, Joined) |>
+  slice_sample(n = 15)
+```
+
+### 
+
+This shows us the date format patterns we need to handle when parsing the Joined column.
+
+The function `factor()` is a part of base R, not **forcats**. It creates a factor variable. Notice how, in addition to the values of `x1` being printed, as they are when we print a character variable, we also see the levels, printed out in order.
+
+### Exercise 7
+
+Ask AI to write R code that opens the FIFA dataset from `"data/fifa.parquet"` and parses the `Joined` column as dates using `mdy()` (for Month-Day-Year format). Then calculate `years_at_club` by subtracting `joined_date` from `today()` and dividing by 365.25. Create a logical column `long_tenure` for players with more than 10 years at a club. Use `filter()` to keep only players with `long_tenure == TRUE`, `select()` key columns such as `Name`, `Club`, `Joined`, and `years_at_club`, and `arrange()` the results in descending order of `years_at_club`.
+
+Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-7}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+Our code:
+
+```{r fifa-7-test, echo = TRUE}
+"data/fifa.parquet" |> 
+  open_dataset() |>
+  collect() |>
+ mutate(
+  joined_date = mdy(Joined),           
+  years_at_club = as.numeric(today() - joined_date) / 365.25,
+  long_tenure = years_at_club > 10
+) |>
+  filter(long_tenure == TRUE) |>
+  select(Name, Club, Joined, years_at_club) |>
+  arrange(desc(years_at_club))
+```
+
+### 
+
+This identifies the most loyal players who have stayed at their clubs for over a decade.
+
+Instead of `factor()`, we recommend using the `fct()` function from the **forcats** package, precisely because it generates an explicit error rather than a silent conversion to `NA`.
+
+### Exercise 8
+
+Ask AI to write R code that opens the dataset and examines the format of financial columns. Use `select()` to get `Name`, `Value`, `Wage`, and `Release.Clause` columns, then `slice_head()` to see 20 rows so we understand the string formats with "M", "K", and "€" symbols before converting them to numbers. Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-8}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+Our code:
+
+```{r fifa-8-test, echo = TRUE}
+"data/fifa.parquet" |> 
+  open_dataset() |>
+  collect() |>
+  select(Name, Value, Wage, Release.Clause) |>
+  slice_head(n = 20)
+```
+
+### 
+
+This shows us the variety of financial string formats we need to parse into numeric values.
+
+`col_factor()`, when used within `read_csv()` and similar import functions, is the most common way of creating factor variables.
+
+### Exercise 9
+
+Ask AI to write R code that opens the FIFA dataset and uses `case_when()` with `str_detect()` to convert the `Value` column from text to numeric. Handle "M" (multiply by 1,000,000), "K" (multiply by 1,000), and plain "€" values. Use `str_remove_all()` to clean currency symbols and `as.numeric()` for conversion. Create a `value_numeric` column, then use `select()` to show `Name`, original `Value`, and `value_numeric`, and `arrange()` by descending value to see the most valuable players. Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-9}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+Our code:
+
+```{r fifa-9-test, echo = TRUE}
+"data/fifa.parquet" |>
+  open_dataset() |>
+  collect() |>
+  mutate(
+    Value_clean = str_trim(str_remove_all(Value, "[€★]")),         # remove € and stars, trim spaces
+    Value_clean = ifelse(str_detect(Value_clean, "^[0-9\\.]+[MK]?$"), Value_clean, "0"), # non-numeric → "0"
+    value_numeric = case_when(
+      str_detect(Value_clean, "M") ~ as.numeric(str_remove_all(Value_clean, "M")) * 1e6,
+      str_detect(Value_clean, "K") ~ as.numeric(str_remove_all(Value_clean, "K")) * 1e3,
+      TRUE ~ as.numeric(Value_clean)
+    )
+  ) |>
+  select(Name, Value, value_numeric) |>
+  arrange(desc(value_numeric)) |>
+  slice_head(n = 15)
+```
+
+### 
+
+This converts financial text strings with multipliers into proper numeric values for analysis.
+
+The warnings are coming from `as.numeric()` in `case_when()` because some rows still contain non-numeric characters, like empty strings, spaces, or other symbols not removed by our current `str_remove_all()`.
+
+All statistical functions in R will produce a value of NA if even a single one of the input values is NA, consistent with the rules of mathematics. Most statistical functions have a `na.rm` --- short for NA remove --- which allows us to remove any NA values prior to the calculation.
+
+### Exercise 10
+
+Ask AI to write R code that opens the FIFA dataset and identifies columns with star ("★") characters. Use `select()` with `where()` and a function that checks if any values contain "★" using `any(str_detect(.x, "★"))`. Then use `names()` to show just the column names that contain stars. Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-10}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+Our code:
+
+```{r fifa-10-test, echo = TRUE}
+"data/fifa.parquet" |> 
+  open_dataset() |>
+  collect() |>
+  select(where(~any(str_detect(.x, "★"), na.rm = TRUE))) |>
+  names()
+```
+
+### 
+
+This identifies which columns use star ratings that need to be converted to numeric values.
+
+`fct_reorder2(f, x, y)` reorders the factor `f` by the `y` values associated with the largest `x` values.
+
+### Exercise 11
+
+Ask AI to write R code that opens the FIFA dataset with `open_dataset()` and `collect()`, then begins cleaning with `mutate()` to create numeric height and weight columns using `str_extract()` with pattern `"\\d+"`. Add this code as a replacement to your current code in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-11}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+Our code:
+
+```{r fifa-11-test, echo = TRUE}
+"data/fifa.parquet" |> 
+  open_dataset() |>
+  collect() |>
+  mutate(
+    height_cm = as.numeric(str_extract(Height, "\\d+")),
+    weight_kg = as.numeric(str_extract(Weight, "\\d+"))
+  )
+```
+
+### 
+
+This begins our comprehensive data cleaning pipeline with numeric conversion of physical measurements.
+
+`fct_recode()` will leave the levels that aren’t explicitly mentioned as they are, and will warn you if you accidentally refer to a level that doesn’t exist.
+
+### Exercise 12
+
+Ask AI to write R code that continues our pipeline and adds text cleaning using `mutate()` with `across()`. Remove newline characters from all character columns using `str_replace_all(.x, "\\n", "")`, then in a second `mutate()`, trim whitespace from character columns using `str_trim()`. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-12}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+Our code:
+
+```{r fifa-12-test, echo = TRUE}
+"data/fifa.parquet" |> 
+  open_dataset() |>
+  collect() |>
+  mutate(
+    height_cm = as.numeric(str_extract(Height, "\\d+")),
+    weight_kg = as.numeric(str_extract(Weight, "\\d+"))
+  ) |>
+  mutate(across(where(is.character), ~str_replace_all(.x, "\\n", ""))) |>
+  mutate(across(where(is.character), ~str_trim(.x)))
+```
+
+### 
+
+This continues our pipeline by cleaning text formatting issues across all character columns.
+
+If you want to collapse a lot of levels, `fct_collapse()` is a useful variant of `fct_recode()`. For each new variable, you can provide a vector of old levels.
+
+
+### Exercise 13
+
+Ask AI to write R code that continues our pipeline and adds date parsing with club tenure calculation. Use `mutate()` to parse `Joined` as a date with `mdy()`, calculate `years_at_club` using `today()` and date arithmetic (divide by 365.25), and create a `long_tenure` logical column for players with more than 10 years. Also use `drop_na()` to remove rows where joined date parsing failed. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-13}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+Our code:
+
+```{r fifa-13-test, echo = TRUE}
+"data/fifa.parquet" |> 
+  open_dataset() |>
+  collect() |>
+  mutate(
+    height_cm = as.numeric(str_extract(Height, "\\d+")),
+    weight_kg = as.numeric(str_extract(Weight, "\\d+"))
+  ) |>
+  mutate(across(where(is.character), ~str_replace_all(.x, "\\n", ""))) |>
+  mutate(across(where(is.character), ~str_trim(.x))) |>
+  mutate(
+    joined_date = mdy(Joined),
+    years_at_club = as.numeric(today() - joined_date) / 365.25,
+    long_tenure = years_at_club > 10
+  ) |>
+  drop_na(joined_date)
+```
+
+### 
+
+This adds date processing and tenure analysis while handling missing values appropriately.
+
+`fct_lump_lowfreq()` is a simple starting point that progressively lumps the smallest groups categories into “Other”, always keeping “Other” as the smallest category.
+
+### Exercise 14
+
+Ask AI to write R code that continues our pipeline and converts financial columns to numeric. Use `mutate()` to create `value_numeric`, `wage_numeric`, and `release_clause_numeric` columns. For each, use `case_when()` with `str_detect()` to handle "M" (multiply by 1,000,000), "K" (multiply by 1,000), and plain values, using `str_remove_all()` to clean currency symbols. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-14}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+### 
+
+Our code:
+
+```{r fifa-14-test, echo = TRUE}
+"data/fifa.parquet" |> 
+  open_dataset() |>
+  collect() |>
+  mutate(
+    height_cm = as.numeric(str_extract(Height, "\\d+")),
+    weight_kg = as.numeric(str_extract(Weight, "\\d+"))
+  ) |>
+  mutate(across(where(is.character), ~str_replace_all(.x, "\\n", ""))) |>
+  mutate(across(where(is.character), ~str_trim(.x))) |>
+  mutate(
+    joined_date = mdy(Joined),
+    years_at_club = as.numeric(today() - joined_date) / 365.25,
+    long_tenure = years_at_club > 10
+  ) |>
+  drop_na(joined_date) |>
+  mutate(
+    value_numeric = case_when(
+      str_detect(Value, "M") ~ as.numeric(str_remove_all(Value, "[€M]")) * 1000000,
+      str_detect(Value, "K") ~ as.numeric(str_remove_all(Value, "[€K]")) * 1000,
+      TRUE ~ as.numeric(str_remove_all(Value, "€"))
+    ),
+    wage_numeric = case_when(
+      str_detect(Wage, "K") ~ as.numeric(str_remove_all(Wage, "[€K]")) * 1000,
+      TRUE ~ as.numeric(str_remove_all(Wage, "€"))
+    ),
+    release_clause_numeric = case_when(
+      str_detect(Release.Clause, "M") ~ as.numeric(str_remove_all(Release.Clause, "[€M]")) * 1000000,
+      str_detect(Release.Clause, "K") ~ as.numeric(str_remove_all(Release.Clause, "[€K]")) * 1000,
+      TRUE ~ as.numeric(str_remove_all(Release.Clause, "€"))
+    )
+  )
+```
+
+### 
+
+This converts complex financial strings with various multipliers into clean numeric values.
+
+We can also use the `fct_lump_n()` to specify that we want exactly a number of groups
+
+### Exercise 15
+
+Ask AI to complete our pipeline by adding star rating cleaning and creating an amazing interactive visualization. Continue the pipe to remove stars from skill columns using `mutate()` and `across()` with `contains("Skill")`, then add `#| cache: true` and assign the result to `fifa_clean`. Create an interactive plot with `ggplotly()` that shows the relationship between `value_numeric` and `wage_numeric`, identifying undervalued players (high value, relatively low wages). Filter for players with value \> €5M and wage \< €200K, use point size for `Overall` rating, color for `Age`, add smooth trend lines by `Position` (limit to top 6 positions by count), and include hover text with player names and clubs. Use log scales, viridis colors, and proper labels. Add this code as a continuation and plot creation in the same code chunk.
+
+Place your cursor at the beginning of the line where it says `data/fifa.parquet` and run `Cmd/Ctrl + Enter`.
+
+CP/CR.
+
+```{r fifa-15}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 15)
+```
+
+### 
+
+Our code:
+
+```{r fifa-15-test, echo = TRUE}
+"data/fifa.parquet" |>
+  open_dataset() |>
+  collect() |>
+  mutate(
+    height_cm = as.numeric(str_extract(Height, "\\d+")),
+    weight_kg = as.numeric(str_extract(Weight, "\\d+"))
+  ) |>
+  mutate(across(where(is.character), ~str_replace_all(.x, "\\n", ""))) |>
+  mutate(across(where(is.character), ~str_trim(.x))) |>
+  mutate(
+    joined_date = mdy(Joined),
+    years_at_club = as.numeric(today() - joined_date) / 365.25,
+    long_tenure = years_at_club > 10
+  ) |>
+  drop_na(joined_date) |>
+  mutate(
+    value_numeric = case_when(
+      is.na(Value) | Value == "" | Value == "0" ~ 0,
+      str_detect(Value, "M") ~ as.numeric(str_remove_all(Value, "[€M★-]")) * 1000000,
+      str_detect(Value, "K") ~ as.numeric(str_remove_all(Value, "[€K★-]")) * 1000,
+      str_detect(Value, "^€?[0-9.]+$") ~ as.numeric(str_remove_all(Value, "€")),
+      TRUE ~ 0
+    ),
+    wage_numeric = case_when(
+      is.na(Wage) | Wage == "" | Wage == "0" ~ 0,
+      str_detect(Wage, "K") ~ as.numeric(str_remove_all(Wage, "[€K★-]")) * 1000,
+      str_detect(Wage, "^€?[0-9.]+$") ~ as.numeric(str_remove_all(Wage, "€")),
+      TRUE ~ 0
+    ),
+    release_clause_numeric = case_when(
+      is.na(Release.Clause) | Release.Clause == "" | Release.Clause == "0" ~ 0,
+      str_detect(Release.Clause, "M") ~ as.numeric(str_remove_all(Release.Clause, "[€M★-]")) * 1000000,
+      str_detect(Release.Clause, "K") ~ as.numeric(str_remove_all(Release.Clause, "[€K★-]")) * 1000,
+      str_detect(Release.Clause, "^€?[0-9.]+$") ~ as.numeric(str_remove_all(Release.Clause, "€")),
+      TRUE ~ 0
+    )
+  )
+```
+
+### 
+
+This creates a comprehensive interactive analysis revealing the most undervalued players in world football - those with high market values but surprisingly low wages, representing potential transfer bargains.
+
+Oftentimes when working with non-English dates and `%b` or `%B` you will need to use `locale()`. Check out [**date_names_langs()**](https://readr.tidyverse.org/reference/date_names.html) for more information.
+
+### Exercise 16
+
+Before creating a plot, we need to ensure that your data matches our data. In the QMD, replace your code from the previous exercise with our code.
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r fifa-16}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+### 
+
+We can find out what R thinks our current time zone is with `Sys.timezone()`. If R doesn't know, you will get an `NA`
+
+### Exercise 17
+
+Within the latest code chunk, add the option: `#| cache: true`. Assign the result of the pipe to `final_fifa`.
+
+`Cmd/Ctrl + Shift + K`. By including `#| cache: true` you cause Quarto to cache the results of the chunk. The next time you render your QMD, as long as you have not changed the code, Quarto will just load up the saved object.
+
+If you have not done so already, you should add `analysis_cache` to the `.gitginore`. The content of the cache file does not belong on GitHub.
+
+Place your cursor on the line where the pipe is assigned to `final_fifa`, run `Cmd/Ctrl + Enter`, thus ensuring that the workspace also includes a copy of `final_fifa`.
+
+CP/CR.
+
+```{r fifa-17}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+### 
+
+Our code:
+
+```{r, echo = TRUE}
+final_fifa <- "data/fifa.parquet" |>
+  open_dataset() |>
+  collect() |>
+  mutate(
+    height_cm = as.numeric(str_extract(Height, "\\d+")),
+    weight_kg = as.numeric(str_extract(Weight, "\\d+"))
+  ) |>
+  mutate(across(where(is.character), ~str_replace_all(.x, "\\n", ""))) |>
+  mutate(across(where(is.character), ~str_trim(.x))) |>
+  mutate(
+    joined_date = mdy(Joined),
+    years_at_club = as.numeric(today() - joined_date) / 365.25,
+    long_tenure = years_at_club > 10
+  ) |>
+  drop_na(joined_date) |>
+  mutate(
+    value_numeric = case_when(
+      is.na(Value) | Value == "" | Value == "0" ~ 0,
+      str_detect(Value, "M") ~ as.numeric(str_remove_all(Value, "[€M★-]")) * 1000000,
+      str_detect(Value, "K") ~ as.numeric(str_remove_all(Value, "[€K★-]")) * 1000,
+      str_detect(Value, "^€?[0-9.]+$") ~ as.numeric(str_remove_all(Value, "€")),
+      TRUE ~ 0
+    ),
+    wage_numeric = case_when(
+      is.na(Wage) | Wage == "" | Wage == "0" ~ 0,
+      str_detect(Wage, "K") ~ as.numeric(str_remove_all(Wage, "[€K★-]")) * 1000,
+      str_detect(Wage, "^€?[0-9.]+$") ~ as.numeric(str_remove_all(Wage, "€")),
+      TRUE ~ 0
+    ),
+    release_clause_numeric = case_when(
+      is.na(Release.Clause) | Release.Clause == "" | Release.Clause == "0" ~ 0,
+      str_detect(Release.Clause, "M") ~ as.numeric(str_remove_all(Release.Clause, "[€M★-]")) * 1000000,
+      str_detect(Release.Clause, "K") ~ as.numeric(str_remove_all(Release.Clause, "[€K★-]")) * 1000,
+      str_detect(Release.Clause, "^€?[0-9.]+$") ~ as.numeric(str_remove_all(Release.Clause, "€")),
+      TRUE ~ 0
+    )
+  )
+```
+
+### 
+
+Unless otherwise specified, lubridate always uses UTC. UTC (Coordinated Universal Time) is the standard time zone used by the scientific community and is roughly equivalent to GMT (Greenwich Mean Time). It does not have DST, which makes a convenient representation for computation. Operations that combine date-times, like `c()`, will often drop the time zone. In that case, the date-times will display in the time zone of the first element.
+
+### Exercise 18
+
+Within the Console, type `final_fifa`, which we previously assigned to a pipe and ran in the Console. Hit `Enter`.
+
+CP/CR.
+
+```{r fifa-18}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+### 
+
+Our code:
+
+```{r, echo=TRUE}
+final_fifa
+```
+
+### 
+
+You can recognize ordered factors when printing because they use `<` between the factor levels. We don't recommend using ordered factors unless you have a compelling reason for doing so.
+
+### Exercise 19
+
+"Ask AI to use the `final_fifa` dataset to generate a bubble chart using `geom_line()` and `geom_point()`. Mention that you want to use the data from `final_fifa` and include the top 3 rows of the tibble (just enough to show the column names). Use `filter()` to keep only rows where `value_numeric > 0` and `X.OVA > 60`. Map `Age` to the x-axis and `X.OVA` to the y-axis. Use `geom_point()` to plot bubbles with `size` and `color` both mapped to `value_numeric`. Then use `scale_size_continuous()` with `label_currency()` to format market values in millions of euros, and `scale_color_viridis_c()` with the `"plasma"` option to color the points. Add labels and subtitles with `labs()`. Finally, apply `theme_minimal()` and customize the chart using `theme()` to adjust title, subtitle, legend position, panel grid, and background."
+
+Within `labs()`, edit or add a proper title, subtitle, and caption. If axis labels would be useful, add them, but if unnecessary, don't bother. Don't assign the code for the plot to any variable. Put the plot code in a new code chunk. Run `Cmd/Ctrl + Shift + K` to ensure that everything works. Make your plot look nice.
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r fifa-19}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 12)
+```
+
+### 
+
+Our code:
+
+```{r, echo=TRUE}
+final_fifa %>%
+  filter(value_numeric > 0, X.OVA > 60) %>%
+  ggplot(aes(x = Age, y = X.OVA, size = value_numeric, color = value_numeric)) +
+  geom_point(alpha = 0.7) +
+  scale_size_continuous(range = c(0.5, 8), 
+                       labels = label_currency(prefix = "€", suffix = "M", scale = 1e-6),
+                       name = "Market Value") +
+  scale_color_viridis_c(option = "plasma", 
+                       labels = label_currency(prefix = "€", suffix = "M", scale = 1e-6),
+                       name = "Market Value") +
+  labs(
+    title = "FIFA Player Performance vs Age",
+    subtitle = "Size and color represent market value • Larger bubbles = higher value",
+    x = "Age", 
+    y = "Overall Rating",
+    caption = "Data: FIFA Player Dataset"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold", color = "#2C3E50"),
+    plot.subtitle = element_text(size = 12, color = "#7F8C8D"),
+    legend.position = "right",
+    panel.grid.minor = element_blank(),
+    plot.background = element_rect(fill = "#FAFAFA", color = NA)
+  )
+```
+
+### 
+
+Ordered factors, created with `ordered()`, imply a strict ordering and equal distance between levels: the first level is “less than” the second level by the same amount that the second level is “less than” the third level, and so on.
+
+## Summary
+### 
+
+This tutorial covered key concepts from [Chapter 16: Factors](https://r4ds.hadley.nz/factors.html), [Chapter 17: Dates and Times](https://r4ds.hadley.nz/datetimes.html), [Chapter 18: Missing Values](https://r4ds.hadley.nz/missing-values.html), [Chapter 19: Joins](https://r4ds.hadley.nz/joins.html), and [Chapter 22: Arrow](https://r4ds.hadley.nz/arrow.html) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+
+You learned about working with parquet files using **[arrow](https://arrow.apache.org/docs/r/)**, manipulating categorical variables with **[forcats](https://forcats.tidyverse.org/)**, handling date-time data with **[lubridate](https://lubridate.tidyverse.org/)**, managing missing values, and performing joins. Key functions included [`open_dataset()`](https://arrow.apache.org/docs/r/reference/open_dataset.html), [`fct_reorder()`](https://forcats.tidyverse.org/reference/fct_reorder.html), [`ymd_hms()`](https://lubridate.tidyverse.org/reference/ymd.html), [`left_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html), and [`drop_na()`](https://tidyr.tidyverse.org/reference/drop_na.html).
+
+### Exercise 1
+
+`Cmd/Ctrl + Shift + K` to ensure that everything works. The resulting HTML page should be attractive, showing clean versions of your plots.
+
+At the Console, run:
+
+```         
+tutorial.helpers::show_file("analysis.qmd")
+```
+
+CP/CR.
+
+```{r summary-1}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 30)
+```
+
+### 
+
+`tempdir()` returns the same directory each time you run it, at least until you restart your R session. To learn more about temporary files and directories, check out `?tempdir`.
+
+### Exercise 2
+
+Publish your rendered QMD to GitHub Pages. In the Terminal --- not the Console! --- run:
+
+```         
+quarto publish gh-pages XX.qmd
+```
+
+Copy/paste the resulting URL below.
+
+```{r summary-2}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 1)
+```
+
+### 
+
+We recommend using `curl::multi_download()` to get very large files as it’s built for exactly this purpose: it gives you a progress bar and it can resume the download if it's interrupted. 
+
+### Exercise 3
+
+Commit and push all your files. Copy/paste the URL to your Github repo.
+
+```{r summary-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 3)
+```
+
+### 
+
+Like `dbplyr`, `arrow` only understands some R expressions, so you may not be able to write exactly the same code you usually would. However, the list of operations and functions supported is fairly extensive and continues to grow; find a complete list of currently supported functions in `?acero`.
+
+```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
+```
