@@ -17,11 +17,15 @@ Tutorial times from 2025
 
 Should longer tutorials like 1, 4 and 7 have one of their exercises removed?
 
-`Cmd/Ctrl + Enter` no longer does a whole pipe or plot. Explain that you now need `Cmd/Ctrl + Shift + Enter`.
+
 
 Does source'ing a script work on Postitron?
 
+* Make GitHub Actions more like tutorial.helpers. Using renv instead of r-dependencies, for example.
+
 * Keep package help page and README page in sync better.
+
+* What do we do with skeleton.Rmd in tutorial.helpers package?
 
 * Posit introduction website has a better image for naming elements of the screen.
 

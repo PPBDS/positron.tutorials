@@ -652,7 +652,7 @@ Instead of both lines in the script executing, only the second line does. And th
 
 ### Exercise 7
 
-The shortcut key for running a single line of code is `Cmd/Ctrl + Enter`. In your R script, place your cursor on the same line as `5 + 5` and hit `Cmd/Ctrl + Enter`. CP/CR.
+The shortcut key for running a single line of code is `Cmd/Ctrl + Shift + Enter`. In your R script, place your cursor on the same line as `5 + 5` and hit `Cmd/Ctrl + Shift + Enter`. CP/CR.
 
 ```{r script-1-7}
 question_text(NULL,
@@ -671,9 +671,9 @@ question_text(NULL,
 >
 ````
 
-Only the first line of the script is executed. `Cmd/Ctrl + Enter` is probably the single most commonly used shortcut key because it is very handy to execute your code line-by-line.
+Only the first line of the script is executed. `Cmd/Ctrl + Shift + Enter` is probably the single most commonly used shortcut key because it is very handy to execute your code line-by-line.
 
-`Cmd/Ctrl + Enter` is "smart" in two ways. First, if you highlight more than one line of code, and then place your cursor within the highlighted area, it will execute all the code in that area. Second, even if nothing is highlighted,  if the line with the cursor is part of a block of code which extends over multiple lines --- like creating a plot --- it will execute all the code in that block.
+`Cmd/Ctrl + Shift + Enter` is "smart" in two ways. First, if you highlight more than one line of code, and then place your cursor within the highlighted area, it will execute all the code in that area. Second, even if nothing is highlighted,  if the line with the cursor is part of a block of code which extends over multiple lines --- like creating a plot --- it will execute all the code in that block.
 
 <!-- Add a question which shows this by adding an example to the file, like addition over two lines, and then shows it? -->
 
@@ -977,7 +977,7 @@ Figuring out *why* something was done is much more difficult than understanding 
 
 Skip a line after your comment. Call `ggplot()`, setting `data` to `diamonds` and mapping `x` to `carat` within `aes()`. 
 
-Run the entire file again. Note the sloppiness of the word "run" in this instruction. It is not always clear what "run" means. In general, "run" means to "execute" all the code in the file, most commonly by either using `Cmd/Ctrl + Enter` line-by-line or by using `Cmd/Ctrl + Shift + Enter` for the whole file at once or by pressing the "Source" button.
+Run the entire file again. Note the sloppiness of the word "run" in this instruction. It is not always clear what "run" means. In general, "run" means to "execute" all the code in the file, most commonly by either using `Cmd/Ctrl + Shift + Enter` line-by-line or by using `Cmd/Ctrl + Shift + Enter` for the whole file at once or by pressing the "Source" button.
 
 ### 
 
@@ -1012,7 +1012,7 @@ question_text(NULL,
 
 Add a layer with `geom_histogram()`. Change the border color in our graph by setting `color` to `"white"` within `geom_histogram`, and change the number of columns in our plot by setting the `bins` argument to `100`. Remember that, to connect the `ggplot()` call to `geom_histogram()`, we need a `+`. 
 
-Run the file. Again, to "run" a script generally means to "execute" it, meaning sending it to the R process. We have learned two ways to (easily) execute an entire file: pressing the "Source" button or hitting the associated shortcut key: `Cmd/Ctrl + Shift + Enter`. In interactive work, however, the most common approach is to use `Cmd/Ctrl + Enter` and go through the file line-by-line, while also occasionally restarting R with `Cmd/Ctrl + Shift + 0`.
+Run the file. Again, to "run" a script generally means to "execute" it, meaning sending it to the R process. We have learned two ways to (easily) execute an entire file: pressing the "Source" button or hitting the associated shortcut key: `Cmd/Ctrl + Shift + Enter`. In interactive work, however, the most common approach is to use `Cmd/Ctrl + Shift + Enter` and go through the file line-by-line, while also occasionally restarting R with `Cmd/Ctrl + Shift + 0`.
 
 <!-- DK: Does `Cmd/Ctrl + Shift + Enter` work on Windows? -->
 
@@ -1329,7 +1329,7 @@ Instead of creating a new file, you could have just saved the *`Untitled-1`* fil
 
 Go back to editing `script-3.R`. Remove `5 + 5`.  Ask your favorite AI to make a nice looking plot using data from one of the packages in the **tidyverse** package.
 
-Paste the code from the AI into `script-3.R`. Run the script interactively, line-by-line, using `Cmd/Ctrl + Enter`. If there are problems, ask the AI for help. It will probably take several iterations to get something you like.
+Paste the code from the AI into `script-3.R`. Run the script interactively, line-by-line, using `Cmd/Ctrl + Shift + Enter`. If there are problems, ask the AI for help. It will probably take several iterations to get something you like.
 
 Advice -- and you should feel free to tell this to the AI:
 

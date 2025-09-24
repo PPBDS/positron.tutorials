@@ -1646,7 +1646,7 @@ Of course, the best approach is to use these two methods during your analysis, d
 
 ### Exercise 8
 
-Place your cursor in `process_data.R` at `filter(z != 0) |>`. Hit `Cmd/Ctrl + Enter`. This will cause the pipe to be pasted to the Console and then executed there. (Note that this should generate an error.) CP/CR.
+Place your cursor in `process_data.R` at `filter(z != 0) |>`. Hit `Cmd/Ctrl + Shift + Enter`. This will cause the pipe to be pasted to the Console and then executed there. (Note that this should generate an error.) CP/CR.
 
 ```{r website-3-8}
 question_text(NULL,

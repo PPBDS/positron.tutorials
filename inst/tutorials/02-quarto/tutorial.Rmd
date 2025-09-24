@@ -678,7 +678,7 @@ Right now, the **tidyverse** package has not been loaded into the current R sess
 
 * `Cmd/Ctrl + Shift + Enter` will run all the code in the code chunk.
 
-* `Cmd/Ctrl + Enter` will run just the code at the line in which the cursor is located.
+* `Cmd/Ctrl + Shift + Enter` will run just the code at the line in which the cursor is located.
 
 * Press the small triangle --- labeled "Run Cell" --- directly above the code chunk. This runs all the code in the chunk/cell. (Again, the terms cell and chunk are used interchangeably.)
 
@@ -1160,9 +1160,9 @@ Put `library(tidyverse)` in the code chunk.
 
 ### 
 
-Putting the character string `library(tidyverse)` inside the `setup` code chunk is enough to "load" this package in QMD World because, whenever we render a file, every line of code in the file is sent to R for processing. Those characters, however, have no connection to Console World until we explicitly execute them by hand, generally with `Cmd/Ctrl + Enter`, run once for each line of R code we want executed in the Console.
+Putting the character string `library(tidyverse)` inside the `setup` code chunk is enough to "load" this package in QMD World because, whenever we render a file, every line of code in the file is sent to R for processing. Those characters, however, have no connection to Console World until we explicitly execute them by hand, generally with `Cmd/Ctrl + Shift + Enter`, run once for each line of R code we want executed in the Console.
 
-Do that now. Place the cursor next to the `library(tidyverse)` call and hit `Cmd/Ctrl + Enter`.
+Do that now. Place the cursor next to the `library(tidyverse)` call and hit `Cmd/Ctrl + Shift + Enter`.
 
 ### 
 
@@ -1181,7 +1181,7 @@ question_text(NULL,
 
 The output of the call to `search()` should include the string `package:tidyverse`, indicating that the **tidyverse** package is loaded.
 
-The key lesson is that we are operating in two worlds simultaneously: QMD World and Console World. We are responsible for keeping them in sync with commands like `Cmd/Ctrl + Enter`.
+The key lesson is that we are operating in two worlds simultaneously: QMD World and Console World. We are responsible for keeping them in sync with commands like `Cmd/Ctrl + Shift + Enter`.
 
 ### Exercise 4
 

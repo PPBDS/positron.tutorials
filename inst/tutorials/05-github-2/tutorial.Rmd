@@ -958,7 +958,7 @@ But in Console world, we haven't done those things. We restarted R at the beginn
 
 ### Exercise 11
 
-Put your cursor in `quarto-2.qmd` on the `library(tidyverse)` line. Hit `Cmd/Ctrl + Enter`. Note how the code is pasted down in the Console and then run there. Your cursor automatically moves down one line in `quarto-2.qmd` to the `library(palmerpenguins)` line. Hit `Cmd/Ctrl + Enter` again.
+Put your cursor in `quarto-2.qmd` on the `library(tidyverse)` line. Hit `Cmd/Ctrl + Shift + Enter`. Note how the code is pasted down in the Console and then run there. Your cursor automatically moves down one line in `quarto-2.qmd` to the `library(palmerpenguins)` line. Hit `Cmd/Ctrl + Shift + Enter` again.
 
 From the Console, run `search()`. CP/CR.
 

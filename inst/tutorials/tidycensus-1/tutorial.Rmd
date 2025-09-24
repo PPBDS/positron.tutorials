@@ -146,7 +146,7 @@ Render again. Everything looks nice, albeit empty, because we have added code to
 
 ### Exercise 3
 
-Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line.
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line.
 
 Note that this causes `library(tidyverse)` to be copied down to the Console and then executed. 
 
@@ -484,7 +484,7 @@ Render again. Everything looks nice, albeit empty, because we have added code to
 
 ### Exercise 2
 
-Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line.
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line.
 
 Note that this causes `library(tidyverse)` to be copied down to the Console and then executed. 
 
@@ -768,7 +768,7 @@ Render again. Everything looks nice, albeit empty, because we have added code to
 
 ### Exercise 2
 
-Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line.
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line.
 
 Note that this causes `library(tidyverse)` to be copied down to the Console and then executed. 
 
