@@ -21,6 +21,8 @@ Should longer tutorials like 1, 4 and 7 have one of their exercises removed?
 
 Does source'ing a script work on Postitron?
 
+* Keep package help page and README page in sync better.
+
 * Posit introduction website has a better image for naming elements of the screen.
 
 * Add Positron Assistant introduction.
