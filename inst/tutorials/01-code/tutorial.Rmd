@@ -23,23 +23,14 @@ options(tutorial.exercise.timelimit = 60,
         tutorial.storage = "local")
 ```
 
-```{r copy-code-chunk, child = system.file("child_documents/copy_button.Rmd", package = "tutorial.helpers")}
-```
-
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- From Luit:
+<!-- DK: Use positron-interface.jpeg image. -->
 
-For tutorial code 01
-Could we add that 
-If I wanted to choose my own file name to put the project into I should put dir.create("filename", recursive = TRUE) -->
+<!-- DK: See other DK notes below. -->
 
-<!-- DK: Revisit since I moved so many questions from the Checking Setup section to Getting Started tutorial. -->
-
-<!-- DK: Get rid of Start New Session. Only use New Window. -->
-
-<!-- Use positron-interface.jpeg image. -->
+<!-- DK: If too long, could get rid of Script 3. -->
 
 
 ## Introduction
@@ -65,18 +56,14 @@ include_graphics("images/start-up.png")
 
 Your Console is currently "busy" running the tutorial. But, you will still want to run R commands, so you will need a second Console. Start a new Positron window with `File -> New Window`. You then move back and forth between the two windows. 
 
-
-
-
 ## Checking your setup
 ### 
 
-Let's turn our attention to working with Positron and R.
+Again, you should have completed the "Getting Started" tutorial from the [**tutorial.helpers**](https://ppbds.github.io/tutorial.helpers/) package. If not, this section will go poorly for you.
 
 ### Exercise 1
 
 In the Terminal, run `echo $0`. Copy/paste both the command and the response below.  We will ask you to **C**opy/**P**aste the **C**ommand/**R**esponse so often, we shorten this instruction to CP/CR.
-
 
 ```{r checking-your-setup-1}
 question_text(NULL,
@@ -119,7 +106,6 @@ dkane@MacBookPro positron.tutorials %
 ```
 
 If Git is not installed, figure out how to install it and then restart this tutorial.
-
 
 ### Exercise 3
 
@@ -234,8 +220,8 @@ question_text(NULL,
 ###
 
 ````
-R 4.5.0 - 2 exited (preparing for restart)
-R 4.5.0 - 2 restarted.
+R 4.5.1 exited (preparing for restart)
+R 4.5.1 restarted.
 >
 ````
 
@@ -346,7 +332,7 @@ question_text(NULL,
 
 ````
 > R.version$version.string
-[1] "R version 4.5.0 (2025-04-11)"
+[1] "R version 4.5.1 (2025-06-13)"
 ````
 
 This should be the same as the version you see at the top left of the Console screen and at the top right on the Positron window. Make sure it is the [most recently released](https://cran.r-project.org/) version of R.
@@ -383,7 +369,7 @@ The "Set up project configuration" screen should appear. Accept the default opti
 include_graphics("images/set-project-3.png")
 ```
 
-DK: Update image.
+<!-- DK: Update image. -->
 
 **Choose "Current Window."** You only need two Positron windows to work on tutorials. The first one --- this one --- runs the tutorial. The second one is where you do the work. 
 
@@ -433,7 +419,7 @@ include_graphics("images/set-project-5.png")
 
 <!-- DK: Is the below correct? -->
 
-There is a blank, unsaved file named *`Untitled-1`* in the Editor pane. You can tell it is unsaved because its name is *italicized*. By default, the Explorer button in the Activity Bar on the far left has been activated, showing us that the `analysis-1` directory has no files in it yet.
+There may be a blank, unsaved file named *`Untitled-1`* in the Editor pane. You can tell it is unsaved because its name is *italicized*. By default, the Explorer button in the Activity Bar on the far left has been activated, showing us that the `analysis-1` directory has no files in it yet.
 
 ### 
 
@@ -568,6 +554,8 @@ The file is sourced, as before. But, this time, each line in the file is "echoed
 
 ### Exercise 4
 
+<!-- DK: Is this true? -->
+
 There are often "shortcut key" combinations which perform the same task as clicking a button. Placing your cursor inside the R script window and using the keyboard shortcut `(Cmd/Ctrl) + Shift + (Return/Enter)` is the same as hitting the "Source R File with Echo" option. 
 
 Note that `Return` is the name of a Mac key and `Enter` the name of the corresponding Windows key, just like `Cmd` ("Command") is a Mac key and `Ctrl` ("Control") is the equivalent Windows key. In other words, on the Mac, we hit `Cmd + Shift + Return` while on Windows it is `Ctrl + Shift + Enter`. However, typing `Return/Enter` when writing these tutorials is annoying, so, going forward, we will just use `Enter`. Mac users are expected to remember that this means the `Return` key.
@@ -589,7 +577,7 @@ Using shortcut keys is quicker and more professional than clicking buttons.
 
 ### Exercise 5
 
-In your R script, type `6 * 3` in the line after `5 + 5`. Save the file with `Cmd/Ctrl + s`. 
+In your R script, type `6 * 3` in the line after `5 + 5`. Save the file with `Cmd/Ctrl + S`. 
 
 Source this file with echo. CP/CR.
 
@@ -652,7 +640,7 @@ Instead of both lines in the script executing, only the second line does. And th
 
 ### Exercise 7
 
-The shortcut key for running a single line of code is `Cmd/Ctrl + Shift + Enter`. In your R script, place your cursor on the same line as `5 + 5` and hit `Cmd/Ctrl + Shift + Enter`. CP/CR.
+The simplest shortcut key for running a single line of code is `Cmd/Ctrl + Enter`. However, we recommend using `Cmd/Ctrl + Shift + Enter` because it handles both single line and multi-line commands. In your R script, place your cursor on the same line as `5 + 5` and hit `Cmd/Ctrl + Shift + Enter`. CP/CR.
 
 ```{r script-1-7}
 question_text(NULL,
@@ -674,8 +662,6 @@ question_text(NULL,
 Only the first line of the script is executed. `Cmd/Ctrl + Shift + Enter` is probably the single most commonly used shortcut key because it is very handy to execute your code line-by-line.
 
 `Cmd/Ctrl + Shift + Enter` is "smart" in two ways. First, if you highlight more than one line of code, and then place your cursor within the highlighted area, it will execute all the code in that area. Second, even if nothing is highlighted,  if the line with the cursor is part of a block of code which extends over multiple lines --- like creating a plot --- it will execute all the code in that block.
-
-<!-- Add a question which shows this by adding an example to the file, like addition over two lines, and then shows it? -->
 
 ### Exercise 8
 
@@ -773,7 +759,7 @@ Click `File -> New File ... -> R File`. At the top of the Editor, the file shoul
 
 ### 
 
-Click the "Save current document" icon -- the disk image to the right of the Open dropdown menu. Or use the shortcut `Cmd/Ctrl + s` to save the script. Let's call this file `script-2.R`. The `.R` suffix is not always added automatically. Make sure it is there.
+Click the "Save current document" icon -- the disk image to the right of the Open dropdown menu. Or use the shortcut `Cmd/Ctrl + S` to save the script. Let's call this file `script-2.R`. The `.R` suffix is not always added automatically. Make sure it is there.
 
 In the Console, run `list.files()`. CP/CR.
 
@@ -1302,7 +1288,7 @@ By `path = ".."` tells `list.files()` to look in the directory which is one abov
 
 Create a script which we will use to make our plot.
 
-In the Positron menu bar on the top of the screen, select `File -> New File ... -> R File`. Type `5 + 5` and a newline into the file and hit `Cmd/Ctrl + s` to save it. Save it as `script-3.R`. 
+In the Positron menu bar on the top of the screen, select `File -> New File ... -> R File`. Type `5 + 5` and a newline into the file and hit `Cmd/Ctrl + S` to save it. Save it as `script-3.R`. 
 
 In the console, run `list.files()`. CP/CR. 
 
