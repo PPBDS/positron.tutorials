@@ -46,6 +46,9 @@
 #' Available tutorial names include: 01-code, 02-quarto, 03-terminal, 04-github-1, 
 #' 05-github-2, 06-websites-1, 07-websites-2, r4ds-1, r4ds-2, r4ds-3, r4ds-4, 
 #' r4ds-5, and tidycensus-1.
+#' 
+#' @importFrom tutorial.helpers show_file
+#' @importFrom usethis use_git_config
 #'
 #' @keywords internal
 "_PACKAGE"
