@@ -25,8 +25,7 @@ options(tutorial.exercise.timelimit = 60,
         tutorial.storage = "local") 
 ```
 
-```{r copy-code-chunk, child = system.file("child_documents/copy_button.Rmd", package = "tutorial.helpers")}
-```
+
 
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```

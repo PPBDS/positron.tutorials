@@ -24,7 +24,7 @@ options(tutorial.exercise.timelimit = 600,
         tutorial.storage = "local") 
 
 
-cheese_tibble<- read_excel("data/cheeses.xlsx") |>
+cheese_tibble <- read_excel("data/cheeses.xlsx") |>
   filter(!is.na(country)) |>
   add_count(country, name = "country_total") |>
   filter(country_total >= sort(unique(country_total), decreasing = TRUE)[3]) |>
@@ -35,9 +35,6 @@ cheese_tibble<- read_excel("data/cheeses.xlsx") |>
 
 wine_tibble <- read_excel("data/wine.xlsx")|>
   select(Phenols, Color, Flavanoids)
-```
-
-```{r copy-code-chunk, child = system.file("child_documents/copy_button.Rmd", package = "tutorial.helpers")}
 ```
 
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}

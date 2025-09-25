@@ -57,8 +57,7 @@ departure_data <- data |>
   ) |>
   count(sched_hour, dep_hour, wt = true_dep_delay, name = "total_delay")
 ```
-```{r copy-code-chunk, child = system.file("child_documents/copy_button.Rmd", package = "tutorial.helpers")}
-```
+
 
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
