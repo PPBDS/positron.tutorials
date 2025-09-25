@@ -57,7 +57,7 @@ Connect the repo to a project on your computer using `File -> New Folder from Gi
 
 You need two Positon windows: this one for running the tutorial and the one you just created for writing your code and interacting with the Console.
 
-Select `File -> New File -> Quarto Document ...`. Provide a title -- `"Analyzing Cheese and Wine"` -- and an author (you). Render the document and save it as `analysis.qmd`.
+Select `File -> New File -> Quarto Document ...`. Provide a title -- `"Analyzing Cheese and Wine"` -- and an author (you). Save the file as `analysis.qmd`. Render the document. 
 
 Create a `.gitignore` file with `analysis_files` on the first line and then a blank line. Save and push.
 

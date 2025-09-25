@@ -58,18 +58,15 @@ departure_data <- data |>
   count(sched_hour, dep_hour, wt = true_dep_delay, name = "total_delay")
 ```
 
-
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
-
-
 
 ## Introduction
 ### 
 
 This section covers key concepts from [Chapter 13: Numbers](https://r4ds.hadley.nz/numbers.html), [Chapter 14: Strings](https://r4ds.hadley.nz/strings.html), [Chapter 15: Regular Expressions](https://r4ds.hadley.nz/regexps.html), [Chapter 12: Logical Vectors](https://r4ds.hadley.nz/logicals.html), and [Chapter 21: Databases](https://r4ds.hadley.nz/databases.html) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
-You will learn about working with numeric data and text patterns using core tidyverse packages like **readr**, **dplyr**, and **stringr**, as well as database interaction using **dbplyr**. Important functions include: [parse_number()](https://readr.tidyverse.org/reference/parse_number.html), [is.na()](https://rdrr.io/r/base/NA.html), [str_detect()](https://stringr.tidyverse.org/reference/str_detect.html), [pmax()](https://rdrr.io/r/base/Extremes.html), [`str_c()`](https://stringr.tidyverse.org/reference/str_c.html), [`str_flatten()`](https://stringr.tidyverse.org/reference/str_flatten.html), [`dbWriteTable()`](https://rdrr.io/cran/DBI/man/dbWriteTable.html), and [`dbConnect()`](https://rdrr.io/cran/DBI/man/dbConnect.html). 
+You will learn about working with numeric data and text patterns using core *Tidyverse* packages like **readr**, **dplyr**, and **stringr**, as well as database interaction using **dbplyr**. Important functions include: [parse_number()](https://readr.tidyverse.org/reference/parse_number.html), [is.na()](https://rdrr.io/r/base/NA.html), [str_detect()](https://stringr.tidyverse.org/reference/str_detect.html), [pmax()](https://rdrr.io/r/base/Extremes.html), [`str_c()`](https://stringr.tidyverse.org/reference/str_c.html), [`str_flatten()`](https://stringr.tidyverse.org/reference/str_flatten.html), [`dbWriteTable()`](https://rdrr.io/cran/DBI/man/dbWriteTable.html), and [`dbConnect()`](https://rdrr.io/cran/DBI/man/dbConnect.html). 
 
 You will also explore logical operations with `if_else()`, and concepts like integer division and modulo. This knowledge will help you manipulate numbers, strings, logical vectors, and connect with DuckDB databases using SQL from within R.
 
