@@ -1,5 +1,5 @@
 Package: positron.tutorials
-Title: Tutorials for Learning 'Positron' and Related Tools
+Title: Tutorials for Learning 'Positron' and for Using AI
 Version: 0.2.0.9004
 Authors@R: 
     c(
@@ -8,9 +8,11 @@ Authors@R:
            role = c("aut", "cre", "cph"),
            email = "dave.kane@gmail.com",
            comment = c(ORCID = "0000-0002-6660-3934")))    
-Description: Collection of tutorials for working with 'Positron'. Covers scripts, 
-    'Quarto' documents, 'Git', 'GitHub', and 'Quarto' websites. Makes extensive use of 
-    the tools in the 'tutorial.helpers' package. 
+Description: Collection of tutorials for working with 'Positron' 
+    and for learning how to apply generative AI when coding with R. 
+    Covers scripts, 'Quarto' documents, 'Git', 'GitHub', and 
+    'Quarto' websites. Makes extensive use of the tools in the 
+    'tutorial.helpers' package. 
 Depends: R (>= 4.1.0) 
 License: MIT + file LICENSE
 Encoding: UTF-8

@@ -208,23 +208,9 @@ Your answer should look something like this, although your path will be differen
 
 The [`billboard`](https://tidyr.tidyverse.org/reference/billboard.html) tibble is a built-in dataset from the [**tidyr**](https://tidyr.tidyverse.org/index.html) package. `billboard` contains data from 317 songs and their weekly rankings in the Billboard top 100 for 76 weeks after they were released.
 
-Key functions you'll learn:
-
-[`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html) - Initializes a ggplot object and can be used to declare the input data frame for a graph
-
-[`facet_wrap()`](https://ggplot2.tidyverse.org/reference/facet_wrap.html) - Wraps a 1d sequence of panels into 2d
-
-[`filter()`](https://dplyr.tidyverse.org/reference/filter.html) - Subses a data frame, retaining all rows that satisfy your conditions
-
-[`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) - Creates new columns that are functions of existing variables
-
-[`summarize()`](https://dplyr.tidyverse.org/reference/summarise.html) - Creates a new data frame and returns one row for each combination of grouping variables
-
 ### Exercise 1
 
-Since we have already loaded **tidyverse**, we have therefore loaded **tidyr**, **ggplot2**, and **dplyr**, along with the other packages which are part of the "core" *Tidyverse*. 
-
-`billboard` is a dataset within **tidyr**.
+Loading the **tidyverse** package automatically loaded the packages which are part of the "core" *Tidyverse*, including **tidyr**, **ggplot2**, and **dplyr**.
 
 Type `billboard` into the Console.
 
@@ -248,7 +234,7 @@ billboard
 
 ###
 
-In the realm of data analysis, a fundamental concept is the notion of a variable. A variable represents a quantity, quality, or property that can be measured or observed. Variables can take different forms, depending on the nature of the data being studied. They can be numeric or categorical, continuous or discrete, qualitative or quantitative.
+A "variable" represents a quantity, quality, or property that can be measured or observed. Variables can take different forms, depending on the nature of the data being studied. They can be numeric or categorical, continuous or discrete, qualitative or quantitative.
 
 **Tabular data** is data organized in a table. A table is a group of cells, organized in rows and columns. Tabular data is considered *tidy* if and only if it satisfies the following rules:
 
@@ -374,7 +360,6 @@ question_text(NULL,
 ```
 
 ###
-
 
 
 ```{r billboards-5-test, echo = TRUE}
