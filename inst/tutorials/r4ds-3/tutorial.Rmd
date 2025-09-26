@@ -103,13 +103,11 @@ question_text(NULL,
 
 ### 
 
-We will be working with databases in this tutorial. There are three high level differences between data frames and database tables:
+We will be working with databases in this tutorial. There are two key differences between data frames and database tables:
 
 -   Database tables are stored on disk and can be arbitrarily large. Data frames are stored in memory, and are fundamentally limited (although that limit is still plenty large for many problems).
 
 -   Database tables almost always have indexes. Much like the index of a book, a database index makes it possible to quickly find rows of interest without having to look at every single row. Data frames and tibbles don’t have indexes, but data.tables (from the [**data.table**](https://rdatatable.gitlab.io/data.table/) package) do, which is one of the reasons that they’re so fast.
-
--   Most classical databases are optimized for rapidly collecting data, not analyzing existing data. These databases are called row-oriented because the data is stored row-by-row, rather than column-by-column like R. More recently, there’s been much development of column-oriented databases that make analyzing the existing data much faster.
 
 ### Exercise 2
 

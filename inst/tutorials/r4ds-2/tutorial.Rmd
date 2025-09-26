@@ -40,7 +40,6 @@ wine_tibble <- read_excel("data/wine.xlsx")|>
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-
 ## Introduction
 ###
 
@@ -179,9 +178,7 @@ The [cheese.csv](https://github.com/rfordatascience/tidytuesday/blob/main/data/2
 
 ### Exercise 1
 
-We begin by downloading our spreadsheet `data/cheeses.xlsx` directly from GitHub using `download.file()`. 
-
-This adds the spreadsheet, `data/cheeses.xlsx`, to our working directory so we can use it in this tutorial.
+We begin by downloading our spreadsheet `cheeses.xlsx` directly from GitHub to the `data` directory using `download.file()`. 
 
 In the Console, run:
 
@@ -200,7 +197,7 @@ question_text(NULL,
 	allow_retry = TRUE,
 	try_again_button = "Edit Answer",
 	incorrect = NULL,
-	rows = 3)
+	rows = 8)
 ```
 
 ###
@@ -232,15 +229,11 @@ read_excel("data/cheeses.xlsx")
 
 ###
 
-Most of **readxl**’s functions allow you to load Excel spreadsheets into R:
-
-`read_xls()` reads Excel files with `xls` format.
-`read_xlsx()` read Excel files with `xlsx` format.
-`read_excel(`) can read files with both `xls` and `xlsx` format. It guesses the file type based on the input.
+`read_excel()` can read files with either `xls` and `xlsx` format. It guesses the file type based on the input.
 
 ### Exercise 3
 
-Ask AI to give you code to make a stacked bar plot using `geom_bar()` to explore the relationship between countries and the milks they use to produce different cheeses by using the `country` and `milk` columns. Mention you want to use the data from `data/cheeses.xlsx` and copy and paste the `read_excel("data/cheeses.xlsx")` you ran in the Console with the resulting dataframe. You only need the top 3 lines, mainly to include column names.
+Ask AI to give you code to make a stacked bar plot using `geom_bar()` to explore the relationship between countries and the milks they use to produce different cheeses by using the `country` and `milk` columns. Show the output from `read_excel("data/cheeses.xlsx")`. You only need the top 3 lines, mainly to include column names.
 
 Add this code as a replacement to your current code in the same code cell in your QMD. Run `Cmd/Ctrl + Shift + Enter`.
 
@@ -280,8 +273,7 @@ The stacking is performed automatically using the position adjustment specified 
 
 ### Exercise 4
 
-Our plot is crowded because it includes all countries and has many `NA`values. We need to identify the top 3 countries by filter our data accordingly.
-Paste our prompt into your favorite AI to filter the top 3 countries in the data through a single pipe.
+Our plot is crowded because it includes all countries and has many `NA`values. We need to identify the top 3 countries and then filter our data accordingly. Paste our prompt into your favorite AI to filter the top 3 countries in the data through a single pipe.
 
 Here's the prompt we used: 
 
@@ -879,9 +871,7 @@ The `wine` dataset contains the results of a chemical analysis of wines grown in
 
 ### Exercise 1
 
-We begin by downloading our spreadsheet `data/wine.xlsx` directly from GitHub using `download.file()`. 
-
-This adds the spreadsheet, `data/wine.xlsx`, to our working directory so we can use it in this tutorial.
+We begin by downloading our spreadsheet `wine.xlsx` directly from GitHub to the `data` directory using `download.file()`. 
 
 In the Console, run:
 
@@ -969,7 +959,7 @@ If two variables covary, you can use the values of one variable to make better p
 
 ### Exercise 4
 
-Ask AI to pipe `read_excel("data/wine.xlsx")` into a bar plot with `aes` only mapped to `x = Type` using `geom_bar()`. Add this code to a new code chunk in your QMD. Place your cursor on the first line of the code in your current code chunk at the start of `read_excel` and run `Cmd/Ctrl + Shift + Enter`.
+Ask AI to pipe `read_excel("data/wine.xlsx")` into a bar plot with `aes` only mapped to `x = Type` using `geom_bar()`. Add this code to a new code chunk in your QMD. Place your cursor on the first line of the code in your current code chunk at the start of `read_excel()` and run `Cmd/Ctrl + Shift + Enter`.
 
 
 CP/CR.
@@ -1028,7 +1018,7 @@ Once you map an aesthetic, **ggplot2** takes care of the rest. It selects a reas
 
 ### Exercise 6
 
-Ask AI to continue this pipe and change the size of the points to 2 and set the transparancy to .5 using `alpha()`. Add this code as a continuation of your pipe to the same chunk in your QMD.  Place your cursor on the first line of the code in your current code chunk at the start of `read_excel("data/wine.xlsx")` and run `Cmd/Ctrl + Shift + Enter`.
+Ask AI to continue this pipe and change the size of the points to 2 and set the transparancy to .5 using `alpha`. Add this code as a continuation of your pipe to the same chunk in your QMD.  Place your cursor on the first line of the code in your current code chunk at the start of `read_excel("data/wine.xlsx")` and run `Cmd/Ctrl + Shift + Enter`.
 
 CP/CR.
 
@@ -1348,7 +1338,7 @@ question_text(NULL,
 	allow_retry = TRUE,
 	try_again_button = "Edit Answer",
 	incorrect = NULL,
-	rows = 3)
+	rows = 12)
 ```
 
 ###
