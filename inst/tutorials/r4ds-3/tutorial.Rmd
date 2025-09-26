@@ -149,7 +149,9 @@ Databases are run by database management systems (DBMS’s for short), which com
 
 ### Exercise 3
 
-Place your cursor in the QMD file at the starting of the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line.
+Place your cursor in the QMD file at the start of the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line.
+
+<!-- DK: Don't we want to execute all the libraries? What command does that? -->
 
 Note that this causes `library(tidyverse)` to be copied down to the Console and then executed.
 
@@ -220,7 +222,6 @@ Key functions you'll learn:
 
 `dbGetQuery()` - Executes a SQL query and returns the results as a data frame
 
- <!--SG: Should I list them out like this? -->
 
 ### Exercise 1
 

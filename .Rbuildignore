@@ -11,3 +11,6 @@
 ^README.html$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^inst/tutorials/.*data$
+^inst/tutorials/.*\.html$
+^inst/tutorials/.*_files(/.*)?$
