@@ -32,11 +32,13 @@ To install the package from CRAN:
 install.packages("positron.tutorials")
 ```
 
-You can install the development version from [GitHub](https://github.com/) with:
+However, the CRAN package does not include the data necessary for running the tutorials. The best solution is to install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 remotes::install_github("PPBDS/positron.tutorials")
 ```
+
+However, if you want to use the CRAN version, then, when you first load the library, you will be prompted to run `setup_tutorial_data()` at the Console in order to download the necessary data.
 
 ## Tutorials
 
