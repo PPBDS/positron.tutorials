@@ -12,6 +12,8 @@
 
 * Complete tidycensus-1 yourself. 9/30
 
+
+
 Tutorial times from 2025
 
 # A tibble: 7 × 3

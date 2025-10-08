@@ -5,6 +5,7 @@ tutorial:
   id: r4ds-4
 output: 
   learnr::tutorial:
+    df_print: default
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
@@ -20,7 +21,6 @@ library(arrow)
 library(plotly)     
 library(viridis)   
 library(scales)     
-
 
 knitr::opts_chunk$set(echo = FALSE)
 options(tutorial.exercise.timelimit = 60, 
@@ -135,13 +135,12 @@ final_fifa <- "data/fifa.parquet" |>
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-
 ## Introduction
 ### 
 
 This tutorial covers key concepts from [Chapter 16: Factors](https://r4ds.hadley.nz/factors.html), [Chapter 17: Dates and Times](https://r4ds.hadley.nz/datetimes.html), [Chapter 18: Missing Values](https://r4ds.hadley.nz/missing-values.html), [Chapter 19: Joins](https://r4ds.hadley.nz/joins.html), and [Chapter 22: Arrow](https://r4ds.hadley.nz/arrow.html) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
-You will learn about working with parquet files using **[arrow](https://arrow.apache.org/docs/r/)**, manipulating categorical variables with **[forcats](https://forcats.tidyverse.org/)**, handling date-time data with **[lubridate](https://lubridate.tidyverse.org/)**, managing missing values, and performing joins. Key functions include [`open_dataset()`](https://arrow.apache.org/docs/r/reference/open_dataset.html), [`fct_reorder()`](https://forcats.tidyverse.org/reference/fct_reorder.html), [`ymd_hms()`](https://lubridate.tidyverse.org/reference/ymd.html), [`left_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html), and [`drop_na()`](https://tidyr.tidyverse.org/reference/drop_na.html).
+You will learn about working with parquet files using **[arrow](https://arrow.apache.org/docs/r/)**, manipulating categorical variables with **[forcats](https://forcats.tidyverse.org/)**, handling date/time data with **[lubridate](https://lubridate.tidyverse.org/)**, managing missing values, and performing joins. Key functions include [`open_dataset()`](https://arrow.apache.org/docs/r/reference/open_dataset.html), [`fct_reorder()`](https://forcats.tidyverse.org/reference/fct_reorder.html), [`ymd_hms()`](https://lubridate.tidyverse.org/reference/ymd.html), [`left_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html), and [`drop_na()`](https://tidyr.tidyverse.org/reference/drop_na.html).
 
 ### Exercise 1
 
@@ -151,7 +150,7 @@ Connect the repo to a project on your computer using `File -> New Folder from Gi
 
 You need two Positron windows: this one for running the tutorial and the one you just created for writing your code and interacting with the Console.
 
-In the new window, select `File -> New File -> Quarto Document ...`. Provide a title -- `"XX"` -- and an author (you). Render the document and save it as `analysis.qmd`.
+In the new window, select `File -> New File -> Quarto Document ...`. Provide a title -- `"NBA and FIFA"` -- and an author (you). Render the document and save it as `analysis.qmd`.
 
 Create a `.gitignore` file with `analysis_files` on the first line and then a blank line. Save and push.
 
@@ -161,7 +160,7 @@ In the Console, run:
 show_file(".gitignore")
 ```
 
-If that fails, it is probably because you have not yet loaded `library(tutorial.helpers)` in the Console.
+If that fails, it is probably because you have not yet loaded `library(tutorial.helpers) in the Console.
 
 CP/CR.
 
@@ -184,7 +183,21 @@ Parquet files are “chunked”, which makes it possible to work on different pa
 
 In your QMD, put `library(tidyverse)`,`library(arrow)`, `library(plotly)`, `library(viridis)` and `library(scales)`  in a new code chunk. Render the file using `Cmd/Ctrl + Shift + K`.
 
-Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also, add the following to the YAML header to remove all code echos from the HTML:
+Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, wrap the calls to library within a call to `suppressPackageStartupMessages()` like so:
+
+```
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(arrow)
+  library(plotly)
+  library(viridis)
+  library(scales)
+})
+```
+
+Don't forget the curly braces.
+
+Also, add the following to the YAML header to remove all code echos from the HTML:
 
 ```         
 execute: 
@@ -214,9 +227,7 @@ Like CSV, parquet is used for rectangular data, but instead of being a text form
 
 ### Exercise 3
 
-Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line. Do this for all the other libraries as well.
-
-Note that this causes `library(tidyverse)` to be copied down to the Console and then executed.
+Place your cursor in the QMD file on the `suppressPackageStartupMessages()` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line. This should load up all the libraries in the Console.
 
 CP/CR.
 
@@ -237,7 +248,9 @@ Both **arrow** and **dbplyr** provide **dplyr** backends, so you might wonder wh
 
 From the Console, run these three commands:
 
-`getwd()` `dir.create("data")` `list.files()`
+`getwd()`  
+`dir.create("data")`  
+`list.files()`  
 
 This will create a `data` directory in your project. This is a good place to store any data that you are working with.
 
@@ -258,12 +271,13 @@ Your answer should look something like, although your path will be different.
 
 ```         
 > getwd()
-[1] "/Users/dkane/Desktop/projects/XX"
+[1] "/Users/dkane/Desktop/projects/r4ds-4"
 > dir.create("data")
 > list.files()
  [1] "analysis.qmd"        "data"    "README.md"
 >
 ```
+
 ###
 
 Parquet files are usually smaller than the equivalent CSV file. Parquet relies on [efficient encodings](https://parquet.apache.org/docs/file-format/data-pages/encodings/) to keep file size down, and supports file compression. This helps make parquet files fast because there’s less data to move from disk to memory.
@@ -272,7 +286,7 @@ Parquet files are usually smaller than the equivalent CSV file. Parquet relies o
 ## NBA
 ### 
 
-This section focuses on analyzing NBA game data using **[arrow](https://arrow.apache.org/docs/r/)** for efficient parquet file handling, **[lubridate](https://lubridate.tidyverse.org/)** for date-time manipulation, and **[dplyr](https://dplyr.tidyverse.org/)** for data joins and transformations. You will learn to work with large datasets stored in parquet format, parse game dates and times, create era-based classifications using factors, handle missing values in sports statistics, and join multiple related datasets.
+This section focuses on analyzing NBA game data using **[arrow](https://arrow.apache.org/docs/r/)** for efficient parquet file handling, **[lubridate](https://lubridate.tidyverse.org/)** for date-time manipulation, and **[dplyr](https://dplyr.tidyverse.org/)** for data joins and transformations. 
 
 Key functions include [`open_dataset()`](https://arrow.apache.org/docs/r/reference/open_dataset.html) for reading parquet files, [`ymd_hms()`](https://lubridate.tidyverse.org/reference/ymd.html) for parsing datetime strings, [`factor()`](https://forcats.tidyverse.org/reference/fct.html) for creating categorical variables, [`left_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html) for combining datasets, and [`replace_na()`](https://tidyr.tidyverse.org/reference/replace_na.html) for handling missing data.
 
@@ -314,9 +328,9 @@ We’ll pair parquet files with [Apache Arrow](https://arrow.apache.org/), a mul
 
 ### Exercise 2
 
-Ask AI to write R code that pipes the file `data/game.parquet` and opens the parquet file using `open_dataset()`. Make sure this code is not assigned to a variable and the pipe starts with `data/game.parquet`. Add this code to a new code chunk in the same QMD.
+Ask AI to write R code that pipes the file `data/game.parquet` and opens the parquet file using `open_dataset()`. Make sure this code is not assigned to a variable and the pipe starts with `data/game.parquet`. Add this code to a new code chunk in the  QMD.
 
-Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the first line of this code and run `Cmd/Ctrl + Shift + Enter`.
 
 CP/CR.
 
@@ -344,9 +358,28 @@ Our code:
 
 ### Exercise 3
 
-Ask AI to write R code that continues our pipe that opened `data/game.parquet` and selects the columns `game_id`, `game_date`, and `season_id` columns, then collects it into R using `collect()`. After that, ask it to parse `game_date` as a datetime with `ymd_hms()`, extract the `year`, `month` (with labels), and `weekday` (with labels), and then count how many games occurred on each weekday, arranging the result in descending order using `desc()`. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+Ask AI to write R code that continues our pipe that opened `data/game.parquet` and selects the columns `game_id`, `game_date`, and `season_id` columns, then collects it into R using `collect()`. After that, ask it to parse `game_date` as a datetime with `ymd_hms()`, extract the `year`, `month` (with labels), and `weekday` (with labels), and then count how many games occurred on each weekday, arranging the result in descending order using `desc()`. Add this code as a continuation of your current pipe in the same code chunk in the same QMD. Your output should look something like:
 
-Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Shift + Enter`.
+```{r}
+"data/game.parquet" |> 
+  open_dataset()|>
+  select(game_id, game_date, season_id) |>
+  collect() |>
+  mutate(
+    # Parse the datetime string
+    parsed_date = ymd_hms(game_date),
+    # Extract year
+    game_year = year(parsed_date),
+    # Extract month with labels
+    game_month = month(parsed_date, label = TRUE),
+    # Get day of week with labels
+    game_weekday = wday(parsed_date, label = TRUE)
+  ) |>
+  count(game_weekday) |>
+  arrange(desc(n))
+```
+
+Place your cursor at the beginning of the line where it says `data/game.parquet` and run `Cmd/Ctrl + Shift + Enter`. 
 
 CP/CR.
 
@@ -384,7 +417,7 @@ Our code:
 
 ### 
 
-This tibble shows that the most amount of NBA games occur on Friday and Wednesday, while the least amount occurs on Monday.
+This tibble shows that the largest number of NBA games occur on Friday and Wednesday, while the fewest games occurs on Monday.
 
 `ymd()` and friends create dates. To create a date-time, add an underscore and one or more of “h”, “m”, and “s” to the name of the parsing function
 

@@ -3,10 +3,11 @@ title: A Third Tutorial for R4DS
 author: Luke Li, David Kane, and Sruthi Gandhi
 tutorial:
   id: r4ds-3
-output:
+output: 
   learnr::tutorial:
-    progressive: yes
-    allow_skip: yes
+    df_print: default
+    progressive: true
+    allow_skip: true
 runtime: shiny_prerendered
 description: 'This tutorial for "R for Data Science" covers Chapter 12: Logical vectors, Chapter 13: Numbers, Chapter 14: Strings, Chapter 15: Regular expressions, and Chapter 21: Databases.'
 ---

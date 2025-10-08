@@ -5,6 +5,7 @@ tutorial:
   id: r4ds-1
 output: 
   learnr::tutorial:
+    df_print: default
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
@@ -80,7 +81,7 @@ You will learn about importing, organizing, and visualizing data using core pack
 
 Create a Github repo called `r4ds-1`. Make sure to click the "Add a README file" check box.
 
-Connect the repo to a project on your computer using `File -> New Folder from Git ...`.  Make sure to select the "Open in a new window" box. 
+Connect the repo to a project on your computer using `File -> New Folder from Git ...`.  Make sure to select the "Open in a new window" box. Start an R interpreter, if necessary.
 
 You need two Positron windows: this one for running the tutorial and the one you just created for writing your code and interacting with the Console.
 
@@ -122,6 +123,8 @@ execute:
   echo: false
 ```
 
+Using `Cmd/Ctrl + Shift + K`, render the file again. Only the title and author should appear in the HTML.
+
 In the Console, run:
 
 ```         
@@ -141,7 +144,14 @@ question_text(NULL,
 
 ### 
 
-Render again. Everything looks nice, albeit empty, because we have added code to make the file look better and more professional.
+You you get a warning like:
+
+```
+Warning message:
+In readLines(path) : incomplete final line found on 'analysis.qmd'
+```
+
+It means that `analysis.qmd` lacks an empty last line. Add one.
 
 ### Exercise 3
 
@@ -166,15 +176,15 @@ You should practice moving from QMD World to Console World and back.
 
 Note that **ggplot2** is loaded with **tidyverse**.
 
-R has several systems for making graphs, but [**ggplot2**](https://ggplot2.tidyverse.org/index.html) is one of the most elegant and most versatile. **ggplot2** implements the *grammar of graphics*, a coherent system for describing and building graphs. 
+R has several systems for making graphs, but [**ggplot2**](https://ggplot2.tidyverse.org/index.html) is the best. **ggplot2** implements the *grammar of graphics*, a coherent system for describing and building graphs. 
 
 ### Exercise 4
 
 From the Console, run these three commands:
 
-`getwd()`
-`dir.create("data")`
-`list.files()`
+`getwd()`  
+`dir.create("data")`  
+`list.files()`  
 
 This will create a `data` directory in your project. This is a good place to store any data that you are working with.
 
@@ -198,7 +208,7 @@ Your answer should look something like this, although your path will be differen
 [1] "/Users/dkane/Desktop/projects/r4ds-1"
 > dir.create("data")
 > list.files()
- [1] "analysis.qmd"        "data"    "README.md"
+ [1] "analysis_files" "analysis.html"  "analysis.qmd"   "data"           "README.md"  
 >
 ````
 
@@ -481,7 +491,9 @@ question_text(NULL,
 
 ###
 
-```{r billboards-8-test, echo = TRUE}
+Your code should look something like this:
+
+```
 line_graph <- billboard |>
   filter(track %in% c("Dancing Queen", "Loser", "Try Again")) |>
   pivot_longer(
@@ -496,6 +508,8 @@ line_graph <- billboard |>
 
 ggsave(filename = "billboard_tracks.png", plot = line_graph)
 ```
+
+<!-- We don't run this code because we don't like leaving a random png file lying around. We could delete it after creating it, but that also seems hacky. -->
 
 ###
 

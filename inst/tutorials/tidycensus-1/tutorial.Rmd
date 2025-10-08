@@ -3,10 +3,11 @@ title: Overview
 author: David Kane and Ansh Pathak
 tutorial:
   id: tidycensus-1
-output:
+output: 
   learnr::tutorial:
-    progressive: yes
-    allow_skip: yes
+    df_print: default
+    progressive: true
+    allow_skip: true
 runtime: shiny_prerendered
 description: 'Overview tutorial for entire book'
 ---

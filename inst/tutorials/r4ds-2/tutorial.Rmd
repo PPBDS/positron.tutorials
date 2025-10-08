@@ -3,10 +3,11 @@ title: A Second Tutorial for R4DS
 author: Sruthi Gandhi and David Kane
 tutorial:
   id: r4ds-2
-output:
+output: 
   learnr::tutorial:
-    progressive: yes
-    allow_skip: yes
+    df_print: default
+    progressive: true
+    allow_skip: true
 runtime: shiny_prerendered
 description: 'This tutorial for "R for Data Science" covers Chapter 9: Layers, Chapter 10: Exploratory Data Analysis, Chapter 11: Communication, and Chapter 20: Spreadsheets.'
 ---

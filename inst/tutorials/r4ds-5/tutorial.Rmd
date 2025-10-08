@@ -5,6 +5,7 @@ tutorial:
   id: r4ds-5
 output: 
   learnr::tutorial:
+    df_print: default
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
@@ -185,13 +186,13 @@ You will learn about working with nested data structures, web scraping technique
 
 ### Exercise 1
 
-Create a Github repo called `XX`. Make sure to click the "Add a README file" check box.
+Create a Github repo called `r4ds-5`. Make sure to click the "Add a README file" check box.
 
 Connect the repo to a project on your computer using `File -> New Folder from Git ...`.  Make sure to select the "Open in a new window" box. 
 
 You need two Positon windows: this one for running the tutorial and the one you just created for writing your code and interacting with the Console.
 
-In the new window, select `File -> New File -> Quarto Document ...`. Provide a title -- `"XX"` -- and an author (you). Render the document and save it as `analysis.qmd`.
+In the new window, select `File -> New File -> Quarto Document ...`. Provide a title -- `"Earthquakes and Movies"` -- and an author (you). Render the document and save it as `analysis.qmd`.
 
 Create a `.gitignore` file with `analysis_files` on the first line and then a blank line. Save and push.
 
@@ -230,9 +231,10 @@ library(rvest)
 library(httr2)
 library(ggrepel)   
 ```
+
 Render the file using `Cmd/Ctrl + Shift + K`.
 
-Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also, add the following to the YAML header to remove all code echos from the HTML:
+Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to the code chunk in order to remove all the messages in this `setup` chunk. Also, add the following to the YAML header to remove all code echos from the HTML:
 
 ```         
 execute: 
@@ -262,9 +264,7 @@ Explicit missing values usually show up as NA, but missing values can also be im
 
 ### Exercise 3
 
-Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line. Do this for the consecutive lines as well.
-
-Note that this causes `library(tidyverse)` to be copied down to the Console and then executed. 
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line. This causes `library(tidyverse)` to be copied down to the Console and then executed. Do this for the other libraries as well.
 
 CP/CR.
 
@@ -285,9 +285,9 @@ JSON is a simple format designed to be easily read and written by machines, not 
 
 From the Console, run these three commands:
 
-`getwd()`
-`dir.create("data")`
-`list.files()`
+`getwd()`  
+`dir.create("data")`  
+`list.files()`  
 
 This will create a `data` directory in your project. This is a good place to store any data that you are working with.
 
@@ -308,13 +308,15 @@ You answer should look something like, although your path will be different.
 
 ````
 > getwd()
-[1] "/Users/dkane/Desktop/projects/XX"
+[1] "/Users/dkane/Desktop/projects/r4ds-5"
 > dir.create("data")
 > list.files()
  [1] "analysis.qmd"        "data"    "README.md"
 >
 ````
 ###
+
+<!-- DK: Suspect comment. -->
 
  **jsonlite** has another important function called `fromJSON()`. We don’t use it here because it performs automatic simplification `(simplifyVector = TRUE)`. This often works well, particularly in simple cases, but we think you’re better off doing the rectangling yourself so you know exactly what’s happening and can more easily handle the most complicated nested structures.
 
@@ -329,7 +331,7 @@ For this tutorial, we use `earthquakes.geojson` which comes from the **USGS real
 
 We begin by downloading our JSON file `data/earthquakes.geojson` directly from GitHub using `download.file()`. 
 
-This adds the JSON file `earthquakes.geojson` to our working directory so we can use it in this tutorial.
+This adds the JSON file `earthquakes.geojson` to our `data` directory so we can use it in this tutorial.
 
 In the Console, run:
 
