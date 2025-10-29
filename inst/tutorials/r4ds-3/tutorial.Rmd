@@ -1,5 +1,5 @@
 ---
-title: A Third Tutorial for R4DS
+title: Third Tutorial for R4DS
 author: Luke Li, David Kane, and Sruthi Gandhi
 tutorial:
   id: r4ds-3
@@ -73,7 +73,7 @@ You will also explore logical operations with `if_else()`, and concepts like int
 
 ### Exercise 1
 
-Create a Github repo called `r4ds-3`. Make sure to click the "Add a README file" check box.
+Create a Github repo called `r4ds-3`. Set the "Add README" toggle switch to "On."
 
 Connect the repo to a project on your computer using `File -> New Folder from Git ...`. Make sure to select the "Open in a new window" box.
 

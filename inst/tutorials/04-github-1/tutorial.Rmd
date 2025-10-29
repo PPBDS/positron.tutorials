@@ -305,7 +305,7 @@ Name your repository `First-Repo`. Then, select the "public" option for your rep
 include_graphics("images/new-repo-1.png")
 ```
 
-Then, check the box saying "Add a README file". A [README](https://en.wikipedia.org/wiki/README) is a document where programmers explain details of their project. When in doubt follow [these instructions](https://happygitwithr.com/push-pull-github.html#make-a-repo-on-github).
+Set the "Add README" toggle switch to "On." A [README](https://en.wikipedia.org/wiki/README) is a document where programmers explain details of their project. When in doubt follow [these instructions](https://happygitwithr.com/push-pull-github.html#make-a-repo-on-github).
 
 
 ```{r}
@@ -568,7 +568,7 @@ README.md
 dkane@MacBookPro First-Repo % 
 ````
 
-There is only one (non-hidden) file in the directory, `README.md`. It was created when we initially started the repo. Recall how we checked the box saying "Add a README file". If we had not done so, there would not be any files in the directory. 
+There is only one (non-hidden) file in the directory, `README.md`. It was created when we initially started the repo. Recall how we set the "Add README" toggle switch to "On." If we had not done so, there would not be any files in the directory. 
 
 ### Exercise 3
 

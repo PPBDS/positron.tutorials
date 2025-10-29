@@ -1,5 +1,5 @@
 ---
-title: The First Tutorial for R4DS
+title: First Tutorial for R4DS
 author: Luke Li and David Kane
 tutorial:
   id: r4ds-1
@@ -17,6 +17,12 @@ library(learnr)
 library(tutorial.helpers)
 library(tidyverse)
 library(quarto) # Total hack to shut up renv! Really need to put this in the package help file.
+
+knitr::opts_chunk$set(echo = FALSE)
+options(tutorial.exercise.timelimit = 60, 
+        tutorial.storage = "local") 
+
+# DK: Do we need all these objects?
 
 line_graph <- billboard |>
   filter(track %in% c("Dancing Queen", "Loser", "Try Again")) |>
@@ -61,10 +67,6 @@ billboard_longer <- billboard |>
     values_drop_na = TRUE
   ) |>
   mutate(week = parse_number(week))
-
-knitr::opts_chunk$set(echo = FALSE)
-options(tutorial.exercise.timelimit = 60, 
-        tutorial.storage = "local") 
 ```
 
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
@@ -79,7 +81,7 @@ You will learn about importing, organizing, and visualizing data using core pack
 
 ### Exercise 1
 
-Create a Github repo called `r4ds-1`. Make sure to click the "Add a README file" check box.
+Create a Github repo called `r4ds-1`. Set the "Add README" toggle switch to "On."
 
 Connect the repo to a project on your computer using `File -> New Folder from Git ...`.  Make sure to select the "Open in a new window" box. Start an R interpreter, if necessary.
 
@@ -144,14 +146,14 @@ question_text(NULL,
 
 ### 
 
-You you get a warning like:
+You may get a warning like:
 
 ```
 Warning message:
 In readLines(path) : incomplete final line found on 'analysis.qmd'
 ```
 
-It means that `analysis.qmd` lacks an empty last line. Add one.
+This means that `analysis.qmd` lacks an empty last line. Add one. Text files should usually have a blank line at the end.
 
 ### Exercise 3
 
@@ -188,7 +190,7 @@ From the Console, run these three commands:
 
 This will create a `data` directory in your project. This is a good place to store any data that you are working with.
 
-CP/CR
+CP/CR.
 
 ```{r introduction-4}
 question_text(NULL,
@@ -216,7 +218,7 @@ Your answer should look something like this, although your path will be differen
 ## Billboard 100
 ###
 
-The [`billboard`](https://tidyr.tidyverse.org/reference/billboard.html) tibble is a built-in dataset from the [**tidyr**](https://tidyr.tidyverse.org/index.html) package. `billboard` contains data from 317 songs and their weekly rankings in the Billboard top 100 for 76 weeks after they were released.
+The [`billboard`](https://tidyr.tidyverse.org/reference/billboard.html) tibble is a dataset in the [**tidyr**](https://tidyr.tidyverse.org/index.html) package. `billboard` contains data from 317 songs and their weekly rankings in the Billboard top 100 for 76 weeks after they were released.
 
 ### Exercise 1
 
@@ -225,7 +227,6 @@ Loading the **tidyverse** package automatically loaded the packages which are pa
 Type `billboard` into the Console.
 
 CP/CR.
-
 
 ```{r billboards-1}
 question_text(NULL,
@@ -244,13 +245,9 @@ billboard
 
 ###
 
-A "variable" represents a quantity, quality, or property that can be measured or observed. Variables can take different forms, depending on the nature of the data being studied. They can be numeric or categorical, continuous or discrete, qualitative or quantitative.
+A "variable" represents a quantity, quality, or property that can be measured or observed. Variables can be numeric or categorical, continuous or discrete, qualitative or quantitative.
 
-**Tabular data** is data organized in a table. A table is a group of cells, organized in rows and columns. Tabular data is considered *tidy* if and only if it satisfies the following rules:
-
-1.  Each variable is a column; each column is a variable.
-2.  Each observation is a row, each row is an observation.
-3.  Each value is a cell, each cell is a single value.
+**Tabular data** is data organized in a table. A table is a group of cells, organized in rows and columns. 
 
 ### Exercise 2
 
@@ -371,7 +368,6 @@ question_text(NULL,
 
 ###
 
-
 ```{r billboards-5-test, echo = TRUE}
 ggplot(billboard, aes(x = wk1, y = wk2)) +
   geom_point() +
@@ -409,8 +405,6 @@ question_text(NULL,
 ```
 
 ###
-
-
 
 ```{r billboards-6-test, echo = TRUE}
 billboard |>
@@ -476,7 +470,7 @@ Provide the AI with your current code.
 
 Ask AI: Continue the code by assigning the plot to the variable `line_graph`, and then save `line_graph` with `ggsave()`.
 
-Copy and paste this code to continue the previous code and save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Update your code in `analysis.qmd`. Place your cursor on the first line of this code and run `Cmd/Ctrl + Shift + Enter` in order to run the code in the Console. You may need to do this twice so that both the plot creation code and `ggsave()` are executed.
 
 CP/CR.
 
@@ -981,7 +975,7 @@ billboard_clean
 
 `billboard` is a tibble, a special type of data frame used by the tidyverse to avoid some common gotchas. The most important difference between tibbles and data frames is the way tibbles print; they are designed for large datasets, so they only show the first few rows and only the columns that fit on one screen.
 
-`billboard_clean` is also a tibble as **tidyverse** functions return tibbles by default.
+`billboard_clean` is also a tibble since **tidyverse** functions return tibbles by default.
 
 ### Exercise 21
 
@@ -1073,9 +1067,6 @@ There exist many `theme_*()` functions within **ggplot2** that create different 
 
 The function `theme()` is only used if you just need to tweak the display of an existing theme, like the sizes of the `title` and `subtitle`.
 
-<!-- DK: Change this knowledge drop to just tell me the  most important things to know about theme(). DONE --> 
-
-
 ## Music
 ###
 
@@ -1124,7 +1115,7 @@ question_text(NULL,
 
 Ask AI: Read a `.csv` dataset called `data/music.csv` using `read_csv()`. 
 
-Add this code to a new code chunk in your QMD. Make sure the code is not assigned to a variable. 
+Add this code to a new code chunk in your QMD. Make sure the result of the function is not assigned to a variable. 
 
 Place your cursor at the beginning of the line and run `Cmd/Ctrl + Shift + Enter`.
 
@@ -1140,7 +1131,6 @@ question_text(NULL,
 ```
 
 ###
-
 
 
 ```{r music-2-hint-1, echo = TRUE, eval = FALSE}
@@ -1185,8 +1175,6 @@ question_text(NULL,
 ```
 
 ###
-
-
 
 ```{r music-3-test, echo = TRUE}
 read_csv("data/music.csv", skip = 5)
@@ -1303,7 +1291,6 @@ read_csv("data/music.csv", show_col_types = FALSE)
 
 Within `read_csv()`, the argument `show_col_types = FALSE` will get rid of the message before the tibble, and this is helpful in professional settings when you want to print out a clean looking version of your data tibble.
 
-<!-- DK: Question which forces student to use show_col_types = FALSE argument to read_csv(). DONE -->
 
 ### Exercise 7
 
@@ -1844,7 +1831,7 @@ You will learn about importing, organizing, and visualizing data using core pack
 
 ### Exercise 1
 
-`Cmd/Ctrl + Shift + K` to ensure that everything works.  The resulting HTML page should be attractive, showing clean versions of your plots.
+`Cmd/Ctrl + Shift + K` to ensure that everything works.  The resulting HTML page should be attractive, showing clean versions of your two plots.
 
 At the Console, run:
 
@@ -1865,7 +1852,11 @@ question_text(NULL,
 
 ### 
 
-When creating a data science project, plots are essential to visualize data and show trends to the audience. They catch the eye and are much more attractive than a big block of text.
+Tabular data is considered *tidy* if and only if it satisfies the following rules:
+
+1.  Each variable is a column; each column is a variable.
+2.  Each observation is a row, each row is an observation.
+3.  Each value is a cell, each cell is a single value.
 
 ### Exercise 2
 

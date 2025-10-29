@@ -1,5 +1,5 @@
 ---
-title: Overview
+title: Analyzing US Census Data 
 author: David Kane and Ansh Pathak
 tutorial:
   id: tidycensus-1
@@ -79,7 +79,7 @@ This tutorial covers an overview of [Analyzing US Census Data](https://walker-da
 
 ### Exercise 1
 
-Create a Github repo called `tidycensus-plots`. Make sure to click the "Add a README file" check box.
+Create a Github repo called `tidycensus-plots`. Set the "Add README" toggle switch to "On."
 
 Connect the repo to a project on your computer using `File -> New Folder from Git ...`. Make sure to select the "Open in a new window" box. 
 

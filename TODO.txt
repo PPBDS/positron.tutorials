@@ -31,7 +31,7 @@ Update images in 01-code.
 
 Should longer tutorials like 1, 4 and 7 have one of their exercises removed?
 
-
+* Should we be using duckdplyr more and/or in place of other databases?
 
 * Finish skeleton in tutorial.helpers
 

@@ -1,5 +1,5 @@
 ---
-title: A Fifth Tutorial for R4DS
+title: Fifth Tutorial for R4DS
 author: Sruthi Gandhi and David Kane
 tutorial:
   id: r4ds-5
@@ -186,7 +186,7 @@ You will learn about working with nested data structures, web scraping technique
 
 ### Exercise 1
 
-Create a Github repo called `r4ds-5`. Make sure to click the "Add a README file" check box.
+Create a Github repo called `r4ds-5`. Set the "Add README" toggle switch to "On."
 
 Connect the repo to a project on your computer using `File -> New Folder from Git ...`.  Make sure to select the "Open in a new window" box. 
 

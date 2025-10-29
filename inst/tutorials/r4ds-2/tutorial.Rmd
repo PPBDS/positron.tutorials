@@ -1,5 +1,5 @@
 ---
-title: A Second Tutorial for R4DS
+title: Second Tutorial for R4DS
 author: Sruthi Gandhi and David Kane
 tutorial:
   id: r4ds-2
@@ -51,7 +51,7 @@ You will learn about working with categorical and continuous variables using dif
 
 ### Exercise 1
 
-Create a Github repo called `r4ds-2`. Make sure to click the "Add a README file" check box.
+Create a Github repo called `r4ds-2`. Set the "Add README" toggle switch to "On."
 
 Connect the repo to a project on your computer using `File -> New Folder from Git ...`.  Make sure to select the "Open in a new window" box. 
 

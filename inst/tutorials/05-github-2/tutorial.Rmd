@@ -62,7 +62,7 @@ We don't need to set up Git and Github again, having already done so. In this pr
 
 ### Exercise 1
 
-Create a Github repo (called `project-1`). Make sure to click the "Add a README file" check box. Copy/paste the URL for its Github location.
+Create a Github repo (called `project-1`). Set the "Add README" toggle switch to "On." Copy/paste the URL for its Github location.
 
 ```{r project-1-1}
 question_text(NULL,
@@ -607,7 +607,7 @@ Restart the R session in the other Positron window with `Cmd/Ctrl + Shift + 0`.
 
 ### Exercise 1
 
-Create a Github repo called `project-2`. Make sure to click the "Add a README file" check box. Copy/paste the URL for its Github location.
+Create a Github repo called `project-2`. Set the "Add README" toggle switch to "On." Copy/paste the URL for its Github location.
 
 ```{r project-2-1}
 question_text(NULL,

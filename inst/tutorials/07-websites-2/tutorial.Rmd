@@ -48,7 +48,7 @@ Let's create and publish a [Quarto website](https://quarto.org/docs/websites/).
 
 ### Exercise 1
 
-Create a public GitHub repo (called `website-1`). Make sure to click the "Add a README file" check box. Copy/paste the URL for its GitHub location.
+Create a public GitHub repo (called `website-1`). Set the "Add README" toggle switch to "On." Copy/paste the URL for its GitHub location.
 
 ```{r website-1-1}
 question_text(NULL,
@@ -504,7 +504,7 @@ Let's create a new website with a beautiful plot of the data from the `billboard
 
 ### Exercise 1
 
-Create a public GitHub repo called `website-2`. Make sure to click the "Add a README file" check box.
+Create a public GitHub repo called `website-2`. Set the "Add README" toggle switch to "On."
 
 Connect the `website-2` GitHub repo to a project on your computer. 
 
@@ -1397,7 +1397,7 @@ Let's make one more website using the same repo/project/quarto approach as above
 
 ### Exercise 1
 
-Create a public GitHub repo called `website-3`. Make sure to click the "Add a README file" check box.
+Create a public GitHub repo called `website-3`. Set the "Add README" toggle switch to "On."
 
 Connect the `website-3` GitHub repo to a project on your computer. 
 

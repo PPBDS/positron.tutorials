@@ -1,5 +1,5 @@
 ---
-title: A Fourth Tutorial for R4DS
+title: Fourth Tutorial for R4DS
 author: Sruthi Gandhi and David Kane
 tutorial:
   id: r4ds-4
@@ -144,7 +144,7 @@ You will learn about working with parquet files using **[arrow](https://arrow.ap
 
 ### Exercise 1
 
-Create a Github repo called `r4ds-4`. Make sure to click the "Add a README file" check box.
+Create a Github repo called `r4ds-4`. Set the "Add README" toggle switch to "On."
 
 Connect the repo to a project on your computer using `File -> New Folder from Git ...`. Make sure to select the "Open in a new window" box.
 
