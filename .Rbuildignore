@@ -18,3 +18,4 @@
 # Uncomment this line when submitting to CRAN. We do so to remove
 # the data/ directories from the tutorials. These files are large.
 # ^inst/tutorials/.*/data(/.*)?$
+^positron\.tutorials\.Rproj$
