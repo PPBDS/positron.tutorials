@@ -45,10 +45,12 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Set R options to prefer binaries
-        shell: Rscript {0}
+      - name: Create .Rprofile to force binary packages
         run: |
-          cat('options(install.packages.compile.from.source = "never")\n', file = "~/.Rprofile", append = TRUE)
+          echo 'options(pkgType = "binary")' > .Rprofile
+          echo 'options(install.packages.compile.from.source = "never")' >> .Rprofile
+          cat .Rprofile
+        shell: bash
 
       - uses: r-lib/actions/setup-renv@v2
         with:
