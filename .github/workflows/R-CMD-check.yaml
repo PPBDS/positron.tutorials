@@ -36,6 +36,28 @@ jobs:
           r-version: ${{ matrix.config.r }}
           use-public-rspm: true
 
+      # For Linux, install ALL spatial and system dependencies
+      - name: Install system dependencies on Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libcurl4-openssl-dev \
+            libssl-dev \
+            libxml2-dev \
+            libharfbuzz-dev \
+            libfribidi-dev \
+            libudunits2-dev \
+            libgdal-dev \
+            libgeos-dev \
+            libproj-dev \
+            libsqlite3-dev \
+            libtiff-dev \
+            libgeotiff-dev \
+            libicu-dev \
+            libjpeg-dev \
+            libpng-dev
+
       # For Windows, ensure we use binaries and install duckdb separately
       - name: Install duckdb binary on Windows
         if: runner.os == 'Windows'
@@ -44,14 +66,7 @@ jobs:
           options(pkgType = "binary")
           install.packages("duckdb", repos = c("https://cloud.r-project.org"), type = "binary")
 
-      # For Linux, install system dependencies
-      - name: Install system dependencies
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev
-
-      # Use renv but skip duckdb in renv restore for Windows
+      # Setup renv
       - name: Setup renv
         shell: Rscript {0}
         run: |
