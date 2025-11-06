@@ -45,7 +45,14 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      - name: Set R options to prefer binaries
+        shell: Rscript {0}
+        run: |
+          cat('options(install.packages.compile.from.source = "never")\n', file = "~/.Rprofile", append = TRUE)
+
       - uses: r-lib/actions/setup-renv@v2
+        with:
+          cache-version: 2
 
       - name: Install rcmdcheck
         shell: Rscript {0}
