@@ -3,12 +3,8 @@
     "Version": "4.5.1",
     "Repositories": [
       {
-        "Name": "r-universe",
-        "URL": "https://duckdb.r-universe.dev"
-      },
-      {
         "Name": "CRAN",
-        "URL": "https://cloud.r-project.org"
+        "URL": "https://cran.rstudio.com"
       }
     ]
   },
