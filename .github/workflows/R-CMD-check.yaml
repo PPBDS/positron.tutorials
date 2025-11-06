@@ -24,7 +24,6 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      RENV_CONFIG_PAK_ENABLED: FALSE
 
     steps:
       - uses: actions/checkout@v4
@@ -46,17 +45,18 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Configure renv to prefer binaries on Windows
+      - name: Setup renv (manual restore for Windows)
         if: runner.os == 'Windows'
         shell: Rscript {0}
         run: |
-          dir.create("~/.config/R", recursive = TRUE, showWarnings = FALSE)
-          writeLines(c(
-            'options(pkgType = "binary")',
-            'options(install.packages.compile.from.source = "never")'
-          ), "~/.Rprofile")
+          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+          Sys.setenv(RENV_PATHS_CACHE = Sys.getenv("RENV_PATHS_ROOT", "~/.cache/R/renv"))
+          options(pkgType = "binary")
+          options(install.packages.compile.from.source = "never")
+          renv::restore(prompt = FALSE)
 
       - uses: r-lib/actions/setup-renv@v2
+        if: runner.os != 'Windows'
         with:
           cache-version: 2
 
