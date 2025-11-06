@@ -1,5 +1,4 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
     branches: [main]
@@ -32,37 +31,44 @@ jobs:
 
       - uses: quarto-dev/quarto-actions/setup@v2
 
-      # Install system dependencies for Linux
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          use-public-rspm: true
+
+      # For Windows, ensure we use binaries and install duckdb separately
+      - name: Install duckdb binary on Windows
+        if: runner.os == 'Windows'
+        shell: Rscript {0}
+        run: |
+          options(pkgType = "binary")
+          install.packages("duckdb", repos = c("https://cloud.r-project.org"), type = "binary")
+
+      # For Linux, install system dependencies
       - name: Install system dependencies
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libproj-dev libgdal-dev libgeos-dev libudunits2-dev
+          sudo apt-get install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev
 
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: ${{ matrix.config.r }}
-          http-user-agent: ${{ matrix.config.http-user-agent }}
-          use-public-rspm: true
-
-      - name: Setup renv (manual restore for Windows)
-        if: runner.os == 'Windows'
+      # Use renv but skip duckdb in renv restore for Windows
+      - name: Setup renv
         shell: Rscript {0}
         run: |
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
-          Sys.setenv(RENV_PATHS_CACHE = Sys.getenv("RENV_PATHS_ROOT", "~/.cache/R/renv"))
-          options(pkgType = "binary")
-          options(install.packages.compile.from.source = "never")
-          renv::restore(prompt = FALSE)
-
-      - uses: r-lib/actions/setup-renv@v2
-        if: runner.os != 'Windows'
-        with:
-          cache-version: 2
+          # On Windows, exclude duckdb from renv restore since we installed it separately
+          if (Sys.info()[["sysname"]] == "Windows") {
+            renv::restore(exclude = "duckdb", prompt = FALSE)
+          } else {
+            renv::restore(prompt = FALSE)
+          }
 
       - name: Install rcmdcheck
         shell: Rscript {0}
-        run: renv::install("rcmdcheck")
+        run: |
+          if (!requireNamespace("rcmdcheck", quietly = TRUE)) {
+            install.packages("rcmdcheck", type = "binary")
+          }
 
       - uses: r-lib/actions/check-r-package@v2
         with:
