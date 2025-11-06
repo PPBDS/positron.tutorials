@@ -24,6 +24,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+      RENV_CONFIG_PAK_ENABLED: FALSE
 
     steps:
       - uses: actions/checkout@v4
@@ -45,12 +46,15 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Create .Rprofile to force binary packages
+      - name: Configure renv to prefer binaries on Windows
+        if: runner.os == 'Windows'
+        shell: Rscript {0}
         run: |
-          echo 'options(pkgType = "binary")' > .Rprofile
-          echo 'options(install.packages.compile.from.source = "never")' >> .Rprofile
-          cat .Rprofile
-        shell: bash
+          dir.create("~/.config/R", recursive = TRUE, showWarnings = FALSE)
+          writeLines(c(
+            'options(pkgType = "binary")',
+            'options(install.packages.compile.from.source = "never")'
+          ), "~/.Rprofile")
 
       - uses: r-lib/actions/setup-renv@v2
         with:
