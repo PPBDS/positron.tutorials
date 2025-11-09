@@ -72,6 +72,10 @@ billboard_longer <- billboard |>
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
+<!-- DK: The central flaw in this tutorial is that the knowledge drops are too long. (They are also sometimes sloppy!) The problem is that much of the material is good! We would love students to read it. But they won't!. They are lazy. So, you need to decide what to keep and what to delete. There is not much room to add . . . Please fix all this. Just edit. No need to check with me. -->
+
+<!-- DK: Cut out at least 10 questions. Not from the Introduction or Summary, and not the "standard" questions from the template. -->
+
 ## Introduction
 ###
 
@@ -111,12 +115,10 @@ question_text(NULL,
 ```
 
 ### 
-<!-- PG: Maybe add a line that after that says: One way to do that is by using GitHub -->
 
 Professionals keep their data science work in the cloud because laptops fail.
 
 ### Exercise 2
-<!-- PG: Maybe add a reminder like "Remember that a new code chunk can be created by using Cmd/Ctrl + Shift + I" -->
 
 In your QMD, put `library(tidyverse)` in a new code chunk. Render the file using `Cmd/Ctrl + Shift + K`.
 
@@ -190,7 +192,8 @@ From the Console, run these three commands:
 `dir.create("data")`  
 `list.files()`  
 
-<!-- PG: We should add explanations to why we are using these commands. First, getwd() gives us our working directory, or the place the user is located. dir.create("data") creates the data folder within our working directory, or WD. list.files() displays the files inside whatever directory is inside the parenthesis. Since the area inside the parenthesis is blank, the command is executed for the current WD.
+
+<!-- DK: We should add explanations to why we are using these commands. First, getwd() gives us our working directory, or the place the user is located. dir.create("data") creates the data folder within our working directory, or WD. list.files() displays the files inside whatever directory is inside the parenthesis. Since the area inside the parenthesis is blank, the command is executed for the current WD.
 ``` -->
 
 This will create a `data` directory in your project. This is a good place to store any data that you are working with.
@@ -243,7 +246,8 @@ question_text(NULL,
 ```
 
 ###
-<!-- PG: Add a line that says "You should get a tibble that looks like:" -->
+
+You should get a tibble that looks like the below. Note that the code that appears after your submit a question is our answer to the question. It is OK if it differs from your answer.
 
 ```{r billboards-1-test, echo = TRUE}
 billboard
@@ -252,15 +256,14 @@ billboard
 ###
 
 A "variable" represents a quantity, quality, or property that can be measured or observed. Variables can be numeric or categorical, continuous or discrete, qualitative or quantitative.
-<!-- PG: Are we going to explain the meanings of these variable category examples. If so, we should add those. Otherwise, we should say "We will discuss more about these in future tutorials" or give a link or something that the tutorial user can click on to learn more. So, something like "The LINK is a great way to learn more about this." -->
 
 **Tabular data** is data organized in a table. A table is a group of cells, organized in rows and columns. 
 
 ### Exercise 2
 
-<!-- PG: Personally, the first line was confusing to read. We might need to change this for users that aren't as fluent in English by breaking it down. We should replace it with "Choose an AI to use and in the chat, send a tibble of "billboard". " -->
+<!-- DK: Personally, the first line was confusing to read. We might need to change this for users that aren't as fluent in English by breaking it down. We should replace it with "Choose an AI to use and in the chat, send a tibble of "billboard". " -->
+
 In a prompt for AI provide a tibble of `billboard`. You only need the top 3 lines or so.
-<!-- PG: I feel like giving the prompt to the tutorial user will remove the oppurtunity for the user to learn how to prompt AI, which is an essential skill. We should replace "Ask AI...and `geom_point()`." with "Using AI, create a simple graph plotting `wk1` against `wk2`. For the code, only use the functions `ggplot()`, `aes()`, and `geom_point()`." Additionally, since we are using `wk1` and `wk2`, we should explain what these variables mean & what we aim to do with the plot. -->
 
 Ask AI: Create a simple graph plotting `wk1` against `wk2` while only using the functions `ggplot()`, `aes()`, and `geom_point()`. 
 
@@ -280,19 +283,21 @@ question_text(NULL,
 ###
 
 ```{r billboards-2-test, echo = TRUE}
-ggplot(billboard, aes(x = wk1, y = wk2)) +
+ggplot(data = billboard, 
+	   mapping = aes(x = wk1, y = wk2)) +
   geom_point()
 ```
 
-<!--PG: Should we add #|message : false to remove message. If not, we should explain why we didn't remove the warning message.  -->
+<!--DK: Explain the warning message.  -->
+
 ###
 
 For now, we will be working with functions from the **ggplot2** package.
 
-When you're working with `ggplot()`, you typically won't be using just the `data` **parameter** (input into a function). You'll be using the `mapping` parameter as well. The `mapping` parameter lets you set, among other things, variables for the x- and y-axis.
+When you're working with `ggplot()`, you typically won't use the `data` and `mapping` *arguments*. Instead, you will just rely on *position mapping* by which `ggplot()` assumes that the first item you pass in is the value for the `data` argument and the second item is the value for the `mapping` argument.
 
 To use the `mapping` parameter, you have to give `ggplot()` an *aesthetic*, which you get by calling the `aes()` function. For example, if you wanted to set the variable for the x-axis to be `wk1`, you would add `mapping = aes(x = wk1)` in your call to `ggplot()`. 
-<!-- PG: Also, the sample code didn't have `mapping = aes(x = wk1)` exactly, so, we should add a line that addresses that and explains that in ggplot() command, first space is default set for data, then after comma, second space is set for mapping by default. -->
+<!-- DK: Also, the sample code didn't have `mapping = aes(x = wk1)` exactly, so, we should add a line that addresses that and explains that in ggplot() command, first space is default set for data, then after comma, second space is set for mapping by default. -->
 
 The aesthetic function, `aes()`, has more parameters than just `x` and `y`. `aes()` has parameters like `color`, `shape`, and `size` as well! You can add them in the same way you added the `x` and `y` parameters: add `color = foo` or `shape = bar(baz)` to your `aes()` call in `ggplot()`. 
 
@@ -355,6 +360,7 @@ ggplot(billboard, aes(x = wk1, y = wk2)) +
 ###
 
 `geom_smooth()` creates a fitted line or curve which can help identify trends and patterns in data. It offers different smoothing methods like linear or polynomial regression and *loess* smoothing. The shaded error around the fitted line represents uncertainty about the estimate.
+
 <!-- PG: Capitalize the italicized LOESS -->
 
 Within `geom_smooth()`, you can specify the smoothing `method` to be `"lm"`, `"glm"`, or `"loess"`, the specific model `formula` to be a relationship between `y` and `x` like `y ~ x` (default) or `y ~ log(x)`, and `se` to be `TRUE` or `FALSE` to shown the confidence interval for the fitted line or not.
@@ -395,7 +401,9 @@ ggplot(billboard, aes(x = wk1, y = wk2)) +
 
 ###
 
-The `labs()` function takes in several arguments to modify the plot labels, including `x`, `y`, `title`, `subtitle`, and `caption`. The `x` and `y` arguments are used to modify the axis labels, while the `title`, `subtitle`, and `caption` arguments are used to modify the plot title, subtitle, and caption, respectively. 
+<!-- DK: You decide what to remove, what to move and what to add. -->
+
+ The `x` and `y` arguments are used to modify the axis labels,
 
 ### Exercise 6
 
@@ -434,6 +442,7 @@ billboard |>
 ###
 
 The code that the AI produced like contained the symbol `%>%` or `|>`, which are pipe operators. We aim to use the `|>` operator because it is a base R function, leading to fewer dependencies and potentially better performance for these simple cases. If your code has `%>%`, replace it with `|>`.
+
 <!-- PG: Since we are telling the user to replace `%>%` with `|>`, we should tell them to use "Ctrl/Cmd + H", which could be a useful shortcut for larger codechunks or projects. -->
 
 `XX` on the left of the pipe becomes the input to the function on the right side. This generates the same output as `function(data = XX)`. While indentation may not affect how the code performs, it does make the code more readable. We start each command in a pipe on a new line. Each line of code in a pipe ends with the pipe itself: `|>`.
@@ -704,8 +713,6 @@ question_text(NULL,
 
 ###
 
-
-
 ```{r billboards-13-test, echo = TRUE}
 billboard |>
   filter(wk1 < 101) |>
@@ -923,7 +930,8 @@ question_text(NULL,
 	rows = 6)
 ```
 
-<!--PG: Add part that says, if show_file gives error about function not existing, add library(tutorial.helpers) to first code chunk, the same one where library(tidyverse) is located. Also, give code that we used for the last code chunk.-->
+<!--DK: Add part that says, if show_file gives error about function not existing, add library(tutorial.helpers) to first code chunk, the same one where library(tidyverse) is located. Also, give code that we used for the last code chunk. -->
+
 ###
 
 A function we didn't talk about was `relocate()`. We use `relocate()` to move variables around. You might want to collect related variables together or move important variables to the front of your tibble. By default `relocate()` moves variables to the front. 
