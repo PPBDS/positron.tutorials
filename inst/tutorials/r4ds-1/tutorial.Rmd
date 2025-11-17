@@ -673,12 +673,7 @@ billboard |>
 
 ###
 
-`mutate()` creates new columns that are derived from the existing columns. 
-
-The `.` is a sign that `.after` is an argument to the function, not the name of a third new variable we are creating.
-
-`.after`, like .`before` and many **tidyverse** functions, uses the [`<tidy-select>`](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html) argument modifier which enables multiple ways of selecting columns other than just providing a column name.
-
+`mutate()` creates new columns derived from existing columns. The `.after` argument positions new columns after specified variables.
 
 ### Exercise 14
 
