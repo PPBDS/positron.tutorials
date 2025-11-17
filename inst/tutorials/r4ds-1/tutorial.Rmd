@@ -22,8 +22,6 @@ knitr::opts_chunk$set(echo = FALSE)
 options(tutorial.exercise.timelimit = 60, 
         tutorial.storage = "local") 
 
-# DK: Do we need all these objects?
-
 line_graph <- billboard |>
   filter(track %in% c("Dancing Queen", "Loser", "Try Again")) |>
   pivot_longer(
@@ -71,10 +69,6 @@ billboard_longer <- billboard |>
 
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
-
-<!-- DK: The central flaw in this tutorial is that the knowledge drops are too long. (They are also sometimes sloppy!) The problem is that much of the material is good! We would love students to read it. But they won't!. They are lazy. So, you need to decide what to keep and what to delete. There is not much room to add . . . Please fix all this. Just edit. No need to check with me. -->
-
-<!-- DK: Cut out at least 10 questions. Not from the Introduction or Summary, and not the "standard" questions from the template. -->
 
 ## Introduction
 ###
