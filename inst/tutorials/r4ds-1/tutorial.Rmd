@@ -236,7 +236,7 @@ Type `billboard` into the Console.
 
 CP/CR.
 
-```{r billboards-1}
+```{r billboard-100-1}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -249,7 +249,7 @@ question_text(NULL,
 
 You should get a tibble that looks like the below. Note that the code that appears after your submit a question is our answer to the question. It is OK if it differs from your answer.
 
-```{r billboards-1-test, echo = TRUE}
+```{r billboard-100-1-test, echo = TRUE}
 billboard
 ```
 
@@ -271,7 +271,7 @@ Copy and paste the AI generated code into a new code chunk with your QMD. Run `C
 
 CP/CR.
 
-```{r billboards-2}
+```{r billboard-100-2}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -282,7 +282,7 @@ question_text(NULL,
 
 ###
 
-```{r billboards-2-test, echo = TRUE}
+```{r billboard-100-2-test, echo = TRUE}
 ggplot(data = billboard, 
 	   mapping = aes(x = wk1, y = wk2)) +
   geom_point()
@@ -309,7 +309,7 @@ Now, within the code in your QMD, remove the `geom_point()`.
 
 Place your cursor on the line of code and run `Cmd/Ctrl + Shift + Enter`.
 
-```{r billboards-3}
+```{r billboard-100-3}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -320,7 +320,7 @@ question_text(NULL,
 
 ###
 
-```{r billboards-3-test, echo = TRUE}
+```{r billboard-100-3-test, echo = TRUE}
 ggplot(billboard, aes(x = wk1, y = wk2))
 ```
 
@@ -340,7 +340,7 @@ Ask AI: Continue the code with `+` and add a trendline with `geom_smooth()`.
 
 Copy and paste this code to continue the previous code and save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
 
-```{r billboards-4}
+```{r billboard-100-4}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -351,7 +351,7 @@ question_text(NULL,
 
 ###
 
-```{r billboards-4-test, echo = TRUE}
+```{r billboard-100-4-test, echo = TRUE}
 ggplot(billboard, aes(x = wk1, y = wk2)) +
   geom_point() +
   geom_smooth()
@@ -375,7 +375,7 @@ Copy and paste this code to continue the previous code and save the file. Place 
 
 CP/CR.
 
-```{r billboards-5}
+```{r billboard-100-5}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -386,7 +386,7 @@ question_text(NULL,
 
 ###
 
-```{r billboards-5-test, echo = TRUE}
+```{r billboard-100-5-test, echo = TRUE}
 ggplot(billboard, aes(x = wk1, y = wk2)) +
   geom_point() +
   geom_smooth() +
@@ -415,7 +415,7 @@ Copy and paste the AI generated code into a new code chunk with your QMD. Run `C
 
 CP/CR.
 
-```{r billboards-6}
+```{r billboard-100-6}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -426,7 +426,7 @@ question_text(NULL,
 
 ###
 
-```{r billboards-6-test, echo = TRUE}
+```{r billboard-100-6-test, echo = TRUE}
 billboard |>
   filter(track %in% c("Dancing Queen", "Loser", "Try Again")) |>
   pivot_longer(
@@ -457,7 +457,7 @@ Copy and paste this code to continue the previous code and save the file. Place 
 
 CP/CR.
 
-```{r billboards-7}
+```{r billboard-100-7}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -468,7 +468,7 @@ question_text(NULL,
 
 ###
 
-```{r billboards-7-test, echo = TRUE}
+```{r billboard-100-7-test, echo = TRUE}
 billboard |>
   filter(track %in% c("Dancing Queen", "Loser", "Try Again")) |>
   pivot_longer(
@@ -496,7 +496,7 @@ Update your code in `analysis.qmd`. Place your cursor on the first line of this 
 
 CP/CR.
 
-```{r billboards-8}
+```{r billboard-100-8}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -545,7 +545,7 @@ Copy and paste the AI generated code into a new code chunk with your QMD. Run `C
 
 CP/CR.
 
-```{r billboards-9}
+```{r billboard-100-9}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -556,7 +556,7 @@ question_text(NULL,
 
 ###
 
-```{r billboards-9-test, echo = TRUE}
+```{r billboard-100-9-test, echo = TRUE}
 billboard |>
   filter(track %in% c("Kryptonite", "Loser", "Try Again")) |>
   pivot_longer(
@@ -591,7 +591,7 @@ Copy and paste the AI generated code into a new code chunk with your QMD. Run `C
 
 CP/CR.
 
-```{r billboards-10}
+```{r billboard-100-10}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -604,7 +604,7 @@ question_text(NULL,
 
 
 
-```{r billboards-10-test, echo = TRUE}
+```{r billboard-100-10-test, echo = TRUE}
 billboard |>
   filter(track %in% c("Kryptonite", "Loser", "Try Again")) |>
   pivot_longer(
@@ -634,7 +634,7 @@ Copy and paste the AI generated code into a new code chunk with your QMD. Run `C
 
 CP/CR.
 
-```{r billboards-11}
+```{r billboard-100-11}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -645,7 +645,7 @@ question_text(NULL,
 
 ###
 
-```{r billboards-11-test, echo = TRUE}
+```{r billboard-100-11-test, echo = TRUE}
 billboard |>
   filter(wk1 < 101)
 ```
@@ -668,7 +668,7 @@ Copy and paste the AI generated code in the place to continue the previous code.
 
 CP/CR.
 
-```{r billboards-12}
+```{r billboard-100-12}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -681,7 +681,7 @@ question_text(NULL,
 
 
 
-```{r billboards-12-test, echo = TRUE}
+```{r billboard-100-12-test, echo = TRUE}
 billboard |>
   filter(wk1 < 101) |>
   arrange(wk1)
@@ -702,7 +702,7 @@ Copy and paste the AI generated code in the place to continue the previous code.
 
 CP/CR.
 
-```{r billboards-13}
+```{r billboard-100-13}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -713,7 +713,7 @@ question_text(NULL,
 
 ###
 
-```{r billboards-13-test, echo = TRUE}
+```{r billboard-100-13-test, echo = TRUE}
 billboard |>
   filter(wk1 < 101) |>
   arrange(wk1) |>
@@ -740,7 +740,7 @@ Copy and paste the AI generated code in the place to continue the previous code.
 
 CP/CR.
 
-```{r billboards-14}
+```{r billboard-100-14}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -753,7 +753,7 @@ question_text(NULL,
 
 
 
-```{r billboards-14-test, echo = TRUE}
+```{r billboard-100-14-test, echo = TRUE}
 billboard |>
   filter(wk1 < 101) |>
   arrange(wk1) |>
@@ -795,7 +795,7 @@ Copy and paste the AI generated code in the place to continue the previous code.
 
 CP/CR.
 
-```{r billboards-15}
+```{r billboard-100-15}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -808,7 +808,7 @@ question_text(NULL,
 
 
 
-```{r billboards-15-test, echo = TRUE}
+```{r billboard-100-15-test, echo = TRUE}
 billboard |>
   filter(wk1 < 101) |>
   arrange(wk1) |>
@@ -834,7 +834,7 @@ Copy and paste the AI generated code in the place to continue the previous code.
 
 CP/CR.
 
-```{r billboards-16}
+```{r billboard-100-16}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -845,7 +845,7 @@ question_text(NULL,
 
 ###
 
-```{r billboards-16-test, echo = TRUE}
+```{r billboard-100-16-test, echo = TRUE}
 billboard |>
   filter(wk1 < 101) |>
   arrange(wk1) |>
@@ -882,7 +882,7 @@ Copy and paste the AI generated code in the place to continue the previous code.
 
 CP/CR.
 
-```{r billboards-17}
+```{r billboard-100-17}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -893,7 +893,7 @@ question_text(NULL,
 
 ###
 
-```{r billboards-17-test, echo = TRUE}
+```{r billboard-100-17-test, echo = TRUE}
 billboard |>
   filter(wk1 < 101) |>
   arrange(wk1) |>
@@ -921,7 +921,7 @@ show_file("analysis.qmd", chunk = "Last")
 
 CP/CR.
 
-```{r billboards-18}
+```{r billboard-100-18}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -951,7 +951,7 @@ Place your cursor on the line where the pipe is assigned to `billboard_clean`, r
 
 CP/CR.
 
-```{r billboards-19}
+```{r billboard-100-19}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -983,7 +983,7 @@ Within the Console, type `billboard_clean`, which we previously assigned to a pi
 
 CP/CR.
 
-```{r billboards-20}
+```{r billboard-100-20}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -1024,7 +1024,7 @@ show_file("analysis.qmd", chunk = "Last")
 
 CP/CR.
 
-```{r billboards-21}
+```{r billboard-100-21}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1066,7 +1066,7 @@ show_file("analysis.qmd", chunk = "Last")
 
 CP/CR.
 
-```{r billboards-22}
+```{r billboard-100-22}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1077,7 +1077,7 @@ question_text(NULL,
 
 ###
 
-```{r billboards-22-test, echo = TRUE}
+```{r billboard-100-22-test, echo = TRUE}
 ggplot(billboard_clean, aes(x = improvement)) +
   geom_histogram(binwidth = 5, fill = "skyblue", color = "black") + 
   labs(
