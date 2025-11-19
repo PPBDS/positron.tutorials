@@ -1,18 +1,19 @@
 ## Paramanyu
 
-Send a PR with your name at the bottom.
 
-Complete the r4ds-1 tutorial yourself and send me the HTML answers via email, after installing the latest version from GitHub. Keep track of comments/questions as you go, editing the tutorial.Rmd file. Make corrections and ask questions.
+Complete the r4ds-2 tutorial yourself and send me the HTML answers via email, after installing the latest version from GitHub. Do this honestly as a (smart) student so we get a good sense of the workload.
 
-Submit a PR with all your changes. (This is a second, and different, PR.)
+Keep track of comments/questions as you go, on paper!
+
+Then, once done, edit the tutorial.Rmd file. Make corrections and ask questions, delete as you see fit, but no requirement to do so.
+
+Submit a PR with all your changes.
 
 
 
 
 
 ## Priorities
-
-* Complete r4ds-1 yourself. 9/27
 
 * Complete r4ds-2 yourself. 9/25
 
