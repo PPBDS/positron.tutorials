@@ -677,7 +677,7 @@ Right now, the **tidyverse** package has not been loaded into the current R sess
 
 * `Cmd/Ctrl + Shift + Enter` will run all the code in the code chunk.
 
-* `Cmd/Ctrl + Shift + Enter` will run just the code at the line in which the cursor is located.
+* `Cmd/Ctrl + Enter` will run just the code at the line in which the cursor is located.
 
 * Press the small triangle --- labeled "Run Cell" --- directly above the code chunk. This runs all the code in the chunk/cell. (Again, the terms cell and chunk are used interchangeably.)
 
