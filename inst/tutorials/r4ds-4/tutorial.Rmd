@@ -197,7 +197,7 @@ suppressPackageStartupMessages({
 
 Don't forget the curly braces.
 
-Also, add the following to the YAML header to remove all code echos from the HTML:
+Also, add the following to the YAML header to remove all code echoes from the HTML:
 
 ```         
 execute: 

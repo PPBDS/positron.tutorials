@@ -1,7 +1,10 @@
 ## Paramanyu
 
+Fix all the download.file() calls to use `mode = "wb"`.
 
-Complete the r4ds-2 tutorial yourself and send me the HTML answers via email, after installing the latest version from GitHub. Do this honestly as a (smart) student so we get a good sense of the workload.
+Finish edits for r4ds-2.
+
+Complete the r4ds-3 tutorial yourself and send me the HTML answers via email, after installing the latest version from GitHub. Do this honestly as a (smart) student so we get a good sense of the workload.
 
 Keep track of comments/questions as you go, on paper!
 

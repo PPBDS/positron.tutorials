@@ -116,7 +116,7 @@ Professionals keep their data science work in the cloud because laptops fail.
 
 In your QMD, put `library(tidyverse)` and  `library(tidycensus)` in a new code chunk. Press `Ctrl/Cmd + Shift + K` to render the file
 
-Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also add the following to the YAML header to remove all code echos from the HTML:
+Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also add the following to the YAML header to remove all code echoes from the HTML:
 
 ```         
 execute: 
@@ -454,7 +454,7 @@ In this exercise, we’ll get the percentage of adults with a bachelor’s degre
 
 In your QMD, put `library(tidyverse)` and  `library(tidycensus)` in a new code chunk. Press Ctrl/Cmd + Shift + K to render the file
 
-Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also add the following to the YAML header to remove all code echos from the HTML:
+Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also add the following to the YAML header to remove all code echoes from the HTML:
 
 ```         
 execute: 
@@ -738,7 +738,7 @@ Select `File -> New File -> Quarto Document ...`. Provide a title -- `"Californi
 
 In your QMD, put `library(tidyverse)` and  `library(tidycensus)` in a new code chunk. Press Ctrl/Cmd + Shift + K to render the file
 
-Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also add the following to the YAML header to remove all code echos from the HTML:
+Notice that the file does not look good because the code is visible and there are annoying messages. To take care of this, add `#| message: false` to remove all the messages in this `setup` chunk. Also add the following to the YAML header to remove all code echoes from the HTML:
 
 ```         
 execute: 
