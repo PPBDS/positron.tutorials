@@ -11,13 +11,13 @@ Source:
 [`DESCRIPTION`](https://github.com/PPBDS/positron.tutorials/blob/main/DESCRIPTION)
 
 Kane D (2025). *positron.tutorials: Tutorials for Learning 'Positron'
-and for Using AI*. R package version 0.2.0.9007,
+and for Using AI*. R package version 0.2.0.9008,
 <https://ppbds.github.io/positron.tutorials/>.
 
     @Manual{,
       title = {positron.tutorials: Tutorials for Learning 'Positron' and for Using AI},
       author = {David Kane},
       year = {2025},
-      note = {R package version 0.2.0.9007},
+      note = {R package version 0.2.0.9008},
       url = {https://ppbds.github.io/positron.tutorials/},
     }
