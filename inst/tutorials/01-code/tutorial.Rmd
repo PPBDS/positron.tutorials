@@ -1000,8 +1000,6 @@ Add a layer with `geom_histogram()`. Change the border color in our graph by set
 
 Run the file. Again, to "run" a script generally means to "execute" it, meaning sending it to the R process. We have learned two ways to (easily) execute an entire file: pressing the "Source" button or hitting the associated shortcut key: `Cmd/Ctrl + Enter`. In interactive work, however, the most common approach is to use `Cmd/Ctrl + Enter` and go through the file line-by-line, while also occasionally restarting R with `Cmd/Ctrl + Shift + 0`.
 
-<!-- DK: Does `Cmd/Ctrl + Enter` work on Windows? -->
-
 ### 
 
 This should generate bars on your plot. Did you remember to place a `+` after the `ggplot()` call and before the `geom_histogram()` layer?

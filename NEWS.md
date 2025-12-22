@@ -2,6 +2,8 @@
 
 * Fix errors in tutorials.
 
+* Use Cmd/Ctrl + Enter, not Cmd/Ctrl + Shift + Enter.
+
 # positron.tutorials 0.2.0
 
 * Clean up functions and tests.
