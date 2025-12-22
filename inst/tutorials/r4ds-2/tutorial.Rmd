@@ -266,12 +266,11 @@ read_excel("data/cheeses.xlsx") |>
 ```
 
 ###
-<!-- PG: Shorten knowledge drop -->
-The stacking is performed automatically using the position adjustment specified by the position argument. If you don’t want a stacked bar chart, you can use one of three other options: `identity`, `dodge`, or `fill`.
+By default, bars are stacked using the position adjustment specified by the position argument.
 
-`position = "dodge"` places overlapping objects directly beside one another.
-`position = "fill"` works like stacking, but makes each set of stacked bars the same height.
-`position = "identity"` will place each object exactly where it falls in the context of the graph. This is not very useful for bars, because it overlaps them.
+* `position = "dodge"` places overlapping objects directly beside one another.
+* `position = "fill"` makes each set of stacked bars the same height.
+* `position = "identity"` places each object exactly where it falls, overlapping bars.
 
 ### Exercise 4
 
@@ -310,10 +309,7 @@ read_excel("data/cheeses.xlsx") |>
 ```
 
 ###
-<!-- PG: Shorten knowledge drop -->
-`count()` outputs a tibble with values of the variable(s) you selected, along with the number of observations corresponding to each value. We can pipe this output directly into `ggplot()`, along with `aes(x = cut, y = n)`.
-
-To visualize the covariation between categorical variables, you’ll need to count the number of observations for each combination of levels of these categorical variables. One way to do that is to rely on the built-in `geom_count()`
+`count()` outputs a tibble with variable values and their observation counts, which can be piped directly into `ggplot()` with `aes(x = cut, y = n)`. To visualize covariation between categorical variables, use `geom_count()` to count observations for each combination of levels.
 
 ### Exercise 5
 
@@ -357,14 +353,11 @@ read_excel("data/cheeses.xlsx") |>
 ```
 
 ###
-<!-- PG: Shorten knowledge drop -->
-Many graphs, like scatterplots, plot the raw values of your dataset. Other graphs, like bar charts, calculate new values to plot:
+Many graphs plot raw values, while others calculate new values first.
 
-* Bar charts, histograms, and frequency polygons bin your data and then plot bin counts, the number of points that fall in each bin.
-
-* Smoothers fit a model to your data and then plot predictions from the model.
-
-* Boxplots compute the five-number summary of the distribution and then display that summary as a specially formatted box.
+* Bar charts, histograms, and frequency polygons bin data and plot the counts in each bin.
+* Smoothers plot model predictions.
+* Boxplots display a five-number summary of the distribution.
 
 ### Exercise 6
 
@@ -514,8 +507,7 @@ read_excel("data/cheeses.xlsx") |>
 To facet your plot by a single variable, use `facet_wrap()`. The first argument of `facet_wrap()` is a formula, which you create with `~` followed by a variable name. The variable that you pass to `facet_wrap()` should be categorical, i.e., either character or factor.
 
 ### Exercise 9
-<!-- PG: remove "add" between "and" and "use" -->
-Ask AI to delete the`facet_wrap()` and continue the pipe by adding `coord_flip()` and add use `show.legend = FALSE` so that there is no legend. Add this code as a continuation of your pipe to the same chunk in your QMD. Place your cursor at the beginning of the line where it says `cheese_tibble|> ` and run `Cmd/Ctrl + Enter`.
+Ask AI to delete the `facet_wrap()` and continue the pipe by adding `coord_flip()` and use `show.legend = FALSE` so that there is no legend. Add this code as a continuation of your pipe to the same chunk in your QMD. Place your cursor at the beginning of the line where it says `cheese_tibble|> ` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -607,10 +599,7 @@ read_excel("data/cheeses.xlsx") |>
 ```
 
 ###
-<!-- PG: Shorten knowledge drop -->
-`coord_quickmap()` sets the aspect ratio correctly for geographic maps. This is very important if you’re plotting spatial data with `ggplot2`.
-
-This plot is make it diffcult to see the relationship between the countries and types of milk. Polar plots should be used sparingly in data analysis because they can make it harder to compare values accurately. The human eye is better at comparing lengths (as in regular bar charts) than angles or areas (as in polar charts). Reserve polar plots for when the circular representation adds meaningful context to your data.
+`coord_quickmap()` sets the aspect ratio correctly for geographic maps, which is important for spatial data. Polar plots should be used sparingly because the human eye is better at comparing lengths than angles or areas. Reserve polar plots for when the circular representation adds meaningful context to your data.
 
 ### Exercise 11
 
@@ -656,12 +645,7 @@ read_excel("data/cheeses.xlsx") |>
 ```
 
 ###
-<!-- PG: Shorten knowledge drop -->
-The `coord_polar()` function transforms your plot from Cartesian coordinates to polar coordinates, creating circular plots like pie charts and donut charts. The key parameter is `theta`, which determines which aesthetic gets wrapped around the circle.
-
-When `theta = "x"` (the default), the x-axis variable gets wrapped around the circle's circumference, creating a traditional pie chart where each slice represents a different x-value.
-
-When `theta = "y"`, the y-axis values get wrapped around the circle. This creates a donut-style plot where the radius represents the x-axis and the angle represents the y-values. 
+The `coord_polar()` function transforms your plot to polar coordinates, creating circular plots. The `theta` parameter determines which aesthetic wraps around the circle: `theta = "x"` wraps the x-axis around the circumference (traditional pie chart), while `theta = "y"` wraps y-values around the circle (donut-style plot).
 
 ### Exercise 12
 
@@ -706,10 +690,7 @@ read_excel("data/cheeses.xlsx") |>
 ```
 
 ###
-<!-- PG: Shorten knowledge drop -->
-You can use labels in the same way (a character vector the same length as breaks), but you can also set it to NULL to suppress the labels altogether. This can be useful for maps, or for publishing plots where you do want to share the absolute numbers.
-
-The [**ggrepel**](https://ggrepel.slowkow.com) package will automatically adjust labels so that they don’t overlap. To help others quickly build up a good mental model of the data, you will need to invest considerable effort in making your plots as self-explanatory as possible.
+You can use labels the same way as breaks (a character vector), or set it to `NULL` to suppress labels altogether, which is useful for maps or when you don't want to share absolute numbers. The [**ggrepel**](https://ggrepel.slowkow.com) package automatically adjusts labels so they don't overlap, helping make plots easier to read.
 
 ### Exercise 13
 
@@ -861,10 +842,7 @@ cheese_tibble|>
 ```
 
 ###
-<!-- PG: Shorten knowledge drop -->
-Note the naming scheme for scales: `scale_` followed by the name of the aesthetic, then `_`, then the name of the scale. The default scales are named according to the type of variable they align with: `continuous`, `discrete`, `datetime`, or `date`.
-
-Another scale that is frequently customized is color. The default categorical scale picks colors that are evenly spaced around the color wheel. Useful alternatives are the ColorBrewer and Viridis scales which have been hand-tuned to work better for people with common types of color blindness
+Scale functions follow the pattern `scale_aesthetic_scaletype`, where scaletype matches the variable: `continuous`, `discrete`, `datetime`, or `date`. Also, color scales are frequently customized, with ColorBrewer and Viridis being better alternatives as they work for people with color blindness.
 
 ## Wine
 ###
@@ -874,13 +852,13 @@ The `wine` dataset contains the results of a chemical analysis of wines grown in
 ### Exercise 1
 
 We begin by downloading our spreadsheet `wine.xlsx` directly from GitHub to the `data` directory using `download.file()`. 
-<!-- PG: add mode = "wb" to ensure that the sheet is seen as a binary file when installed b/c R assumes it is a text file by default. This will prevent corruption of the file, requiring the student to go back and forth with AI multiple times to get the solution.-->
-In the Console, run:
 
+In the Console, run:
 ```         
 download.file(
   "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-2/data/wine.xlsx",
-  destfile = "data/wine.xlsx"
+  destfile = "data/wine.xlsx",
+  mode = "wb"
 )
 ```
 
@@ -954,10 +932,7 @@ summary(read_excel("data/wine.xlsx"))
 ```
 
 ###
-<!-- PG: Shorten knowledge drop -->
-You can also create a brand new Google sheet using with `gs4_create()` or write to an existing sheet with `sheet_write()` using the **googlesheets4** package.
-
-If two variables covary, you can use the values of one variable to make better predictions about the values of the second. If the covariation is due to a causal relationship (a special case), then you can use the value of one variable to control the value of the second.z
+You can create a new Google sheet with `gs4_create()` or write to an existing sheet with `sheet_write()` using the **googlesheets4** package. If two variables covary, you can use one variable's values to make better predictions about the other, or control the second if the relationship is causal.
 
 ### Exercise 4
 
@@ -1015,8 +990,7 @@ read_excel("data/wine.xlsx") |>
 ```
 
 ###
-<!-- PG: Shorten knowledge drop -->
-Once you map an aesthetic, **ggplot2** takes care of the rest. It selects a reasonable scale to use with the aesthetic, and it constructs a legend that explains the mapping between levels and values. For x and y aesthetics, **ggplot2** does not create a legend, but it creates an axis line with tick marks and a label. The axis line provides the same information as a legend; it explains the mapping between locations and values.
+Once you map an aesthetic, **ggplot2** selects a reasonable scale and constructs a legend explaining the mapping between levels and values. For x and y aesthetics, **ggplot2** creates an axis line with tick marks and labels instead of a legend.
 
 ### Exercise 6
 
@@ -1321,8 +1295,8 @@ Covariation is the tendency for the values of two or more variables to vary toge
 Ask AI to write R code to create a scatter plot form `wine_tibble` to explore the relationship of `Phenols` and `Flavanoids`, two categorical variables with a loess smoothing curve that shows the outlier.
 
 Copy and paste our specific prompt into the AI:
-<!-- PG: Replace AI prompt with "Create a scatter plot from wine_tibble with Phenols vs Flavanoids, colored by Color. Include jittered points, a LOESS smooth curve, and label the maximum Flavanoids value as 'Outlier' in magenta. Use blue-to-orange color gradient and classic theme." -->
-"Please write R code using `ggplot2` to create a scatter plot from the `wine_tibble` dataset. Use `ggplot(aes(x = Phenols, y = Flavanoids, color = Color))` and add points with `geom_point(size = 2, alpha = 0.5)` followed by `geom_jitter()` to spread overlapping points. Add a LOESS smoothing curve using `geom_smooth(method = "loess", se = TRUE, color = "black")`. Use `geom_text()` with `dplyr::filter()` inside a lambda function to label only the row where `Flavanoids` is equal to its maximum, setting `label = "Outlier"`, `nudge_y = 0.2`, `color = "magenta"`, and `fontface = "bold"`. Apply `scale_color_gradient(low = "blue", high = "orange")`, then format the plot with `theme_classic()` and `labs(title = "Wine: Flavanoids vs Phenols", x = "Phenols", y = "Flavanoids")`."
+
+"Create a scatter plot from wine_tibble with Phenols vs Flavanoids, with color aesthetic mapped to Color. Include jittered points, a LOESS smooth curve, and label the maximum Flavanoids value as 'Outlier' in magenta. Use blue-to-orange color gradient and classic theme."
 
  Add this code into a new code chunk in your QMD.  Place your cursor on the first line of the code in your current code chunk at the start of `wine_tibble` and run `Cmd/Ctrl + Shift + K` to render.
 
@@ -1370,8 +1344,7 @@ wine_tibble |>
 ```
 
 ###
-<!-- PG: Shorten knowledge drop -->
-In addition to `geom_text()` and `geom_label()`, you have many other geoms in **ggplot2** available to help annotate your plot. For example, you can use `geom_hline()` and `geom_vline()` to add reference lines. We often make them thick (`linewidth = 2`) and white (`color = "white"`), and draw them underneath the primary data layer. That makes them easy to see, without drawing attention away from the data.
+Beyond `geom_text()` and `geom_label()`, **ggplot2** offers many annotation geoms like `geom_hline()` and `geom_vline()` for reference lines. These are often made thick and white (`linewidth = 2`, `color = "white"`) and drawn underneath the primary data layer to remain visible without distracting from the data.
 
 ## Summary
 ###
