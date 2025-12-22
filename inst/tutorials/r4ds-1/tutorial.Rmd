@@ -155,7 +155,7 @@ This means that `analysis.qmd` lacks an empty last line. Add one. Text files sho
 
 ### Exercise 3
 
-Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line.
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line.
 
 Note how this command causes `library(tidyverse)` to be copied down to the Console and then executed. 
 
@@ -255,7 +255,7 @@ Choose an AI to use and in the chat, provide a tibble of `billboard`. You only n
 
 Ask AI: Create a simple graph plotting `wk1` against `wk2` while only using the functions `ggplot()`, `aes()`, and `geom_point()`. 
 
-Copy and paste the AI generated code into a new code chunk with your QMD. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code into a new code chunk with your QMD. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -284,7 +284,7 @@ The warning about 'removed rows containing missing values' means `ggplot()` auto
 
 Ask AI: Continue the code with `+` and add a trendline with `geom_smooth()`. Add a `title`, `subtitle`, `caption`, and axis labels using the `labs()` function.
 
-Copy and paste this code to continue the previous code and save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste this code to continue the previous code and save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 ```{r billboard-100-3}
 question_text(NULL,
@@ -320,7 +320,7 @@ In a new prompt for AI provide a tibble of `billboard` again.
 
 Ask AI: Create a simple graph plotting a line graph showing the rank of 3 songs over the first 5 weeks, mainly using the functions `ggplot()`, `aes()`, and `geom_line()`. 
 
-Copy and paste the AI generated code into a new code chunk with your QMD. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code into a new code chunk with your QMD. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -357,7 +357,7 @@ The code that the AI produced like contained the symbol `%>%` or `|>`, which are
 
 Ask AI: Continue the code to split the graph into 3 graphs, 1 per track, using `facet_wrap()`. 
 
-Copy and paste this code to continue the previous code and save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste this code to continue the previous code and save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -396,7 +396,7 @@ Provide the AI with your current code.
 
 Ask AI: Continue the code by assigning the plot to the variable `line_graph`, and then save `line_graph` with `ggsave()`.
 
-Update your code in `analysis.qmd`. Place your cursor on the first line of this code and run `Cmd/Ctrl + Shift + Enter` in order to run the code in the Console. You may need to do this twice so that both the plot creation code and `ggsave()` are executed.
+Update your code in `analysis.qmd`. Place your cursor on the first line of this code and run `Cmd/Ctrl + Enter` in order to run the code in the Console. You may need to do this twice so that both the plot creation code and `ggsave()` are executed.
 
 CP/CR.
 
@@ -437,7 +437,7 @@ In a new prompt for AI provide a tibble of `billboard` again.
 
 Ask AI: Create a simple graph with boxplots showing the distribution of ranks of 3 songs, mainly using the functions `ggplot()`, `aes()`, and `geom_boxplot()`. 
 
-Copy and paste the AI generated code into a new code chunk with your QMD. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code into a new code chunk with your QMD. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -475,7 +475,7 @@ In a new prompt for AI provide a tibble of `billboard` again.
 
 Ask AI: Create a simple bar graph with bars showing the count of weeks 3 songs were ranked in the top 100, mainly using the functions `ggplot()`, `aes()`, and `geom_bar()`. 
 
-Copy and paste the AI generated code into a new code chunk with your QMD. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code into a new code chunk with your QMD. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -518,7 +518,7 @@ In a new prompt for AI provide a tibble of `billboard` again.
 
 Ask AI: Create a pipe with `billboard` to filter for the rows where the values in `wk1` are less than 101. Continue the pipe with `billboard` to arrange the rows by `wk1` rank values.
 
-Copy and paste the AI generated code into a new code chunk with your QMD. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code into a new code chunk with your QMD. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -549,7 +549,7 @@ Ask AI: Continue the pipe with `billboard` to create a new column titled `improv
 
 If you're using a different AI, provide the `billboard` tibble again and the previous code.
 
-Copy and paste the AI generated code in the place to continue the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code in the place to continue the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -581,7 +581,7 @@ Ask AI: Continue the pipe with `billboard` to select the columns `artist` throug
 
 If you're using a different AI, provide the `billboard` tibble again and the previous code.
 
-Copy and paste the AI generated code in the place to continue the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code in the place to continue the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -616,7 +616,7 @@ Ask AI: Continue the pipe with `billboard` to rename the columns `wk1` and `wk2`
 
 If you're using a different AI, provide the `billboard` tibble again and the previous code.
 
-Copy and paste the AI generated code in the place to continue the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code in the place to continue the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -681,7 +681,7 @@ Within the latest code chunk, add the option: `#| cache: true`. Assign the resul
 
 If you have not done so already, you should add `analysis_cache` to the `.gitginore`. The content of the cache file does not belong on GitHub.
 
-Place your cursor on the line where the pipe is assigned to `billboard_clean`, run `Cmd/Ctrl + Shift + Enter`, thus ensuring that the workspace also includes a copy of `billboard_clean`.
+Place your cursor on the line where the pipe is assigned to `billboard_clean`, run `Cmd/Ctrl + Enter`, thus ensuring that the workspace also includes a copy of `billboard_clean`.
 
 CP/CR.
 
@@ -876,7 +876,7 @@ Ask AI: Read a `.csv` dataset called `data/music.csv` using `read_csv()`.
 
 Add this code to a new code chunk in your QMD. Make sure the result of the function is not assigned to a variable. 
 
-Place your cursor at the beginning of the line and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -906,7 +906,7 @@ Provide AI with the line of code from the question above, as well as the tibble 
 
 Ask AI: Edit the code so that the `read_csv()` skips the first 5 lines. Continue the code so that the `read_csv()` will also not read the first row as headings.
 
-Copy and paste the AI generated code in the place to edit the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code in the place to edit the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -937,7 +937,7 @@ Ask AI: Edit the code so that the `read_csv()` is assigned to an object `df` and
 
 If you're using a different AI, provide the `music.csv` tibble again and the previous code.
 
-Copy and paste the AI generated code in the place to edit the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code in the place to edit the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -977,7 +977,7 @@ Ask AI: Edit the code `read_csv("data/music.csv")` so that the `read_csv()` only
 
 If you're using a different AI, provide the `music.csv` tibble again and the previous code.
 
-Copy and paste the AI generated code into the empty chunk. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code into the empty chunk. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1021,7 +1021,7 @@ Provide AI with a tibble of `music_1`.
 
 Ask AI: Based off of the `music_1` tibble previously provided, create a similar tibble with only 3 rows of data using `tibble()`, and with the same 3 columns. Don't assign the tibble to an object.
 
-Copy and paste the AI generated code below the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code below the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1058,7 +1058,7 @@ If you're using a different AI, provide the previous code.
 
 Manually, using the same command, do the same for the `music_1` tibble.
 
-Copy and paste the AI generated code into the appropriate place. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code into the appropriate place. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1094,7 +1094,7 @@ Ask AI: Creating a vector of both CSV files, use `read_csv()` to read both CSV f
 
 If you're using a different AI, provide the `music.csv` tibble again and the previous code.
 
-Copy and paste the AI generated code in the place following the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code in the place following the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1131,7 +1131,7 @@ We are returning to our previous data frame `billboard`. Within your AI, copy/pa
 
 Ask AI: Using the `billboard` tibble, create a pipe to change the columns starting with `wk` to all go in a single column titled `week`, and another column titled `rank` with all the values from the `wk` columns.
 
-Copy and paste the AI generated code in the place following the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code in the place following the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1174,7 +1174,7 @@ Ask AI: Continue the previous code with `billboard` so that NA values are droppe
 
 If you're using a different AI, provide the `billboard` tibble again and the previous code.
 
-Copy and paste the AI generated code to continue the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code to continue the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1214,7 +1214,7 @@ Provide AI with the first 3 lines of the `household` tibble.
 
 Ask AI: Using the `household` tibble, create code that changes the columns so that there are only 4 columns, `family`, `child`, `dob`, and `name`.
 
-Copy and paste the AI generated code in the place following the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Shift + Enter`.
+Copy and paste the AI generated code in the place following the previous code. Run `Cmd/Ctrl + S` to save the file. Place your cursor on the first line of code and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1282,7 +1282,7 @@ Within the latest code chunk, add the option: `#| cache: true`. Assign the resul
 
 If you have not done so already, you should add `analysis_cache` to the `.gitginore`. The content of the cache file does not belong on GitHub.
 
-Place your cursor on the line where the pipe is assigned to `billboard_longer`, run `Cmd/Ctrl + Shift + Enter`, thus ensuring that the workspace also includes a copy of `billboard_longer`.
+Place your cursor on the line where the pipe is assigned to `billboard_longer`, run `Cmd/Ctrl + Enter`, thus ensuring that the workspace also includes a copy of `billboard_longer`.
 
 CP/CR.
 

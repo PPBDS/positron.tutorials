@@ -264,7 +264,7 @@ Explicit missing values usually show up as NA, but missing values can also be im
 
 ### Exercise 3
 
-Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line. This causes `library(tidyverse)` to be copied down to the Console and then executed. Do this for the other libraries as well.
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line. This causes `library(tidyverse)` to be copied down to the Console and then executed. Do this for the other libraries as well.
 
 CP/CR.
 
@@ -359,7 +359,7 @@ question_text(NULL,
 
 Ask AI to help you read the JSON file `data/earthquakes.geojson` by using `jsonlite::read_json()` and then piping it into `str()` to explore its structure. Add this code to a new code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -387,7 +387,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 
 "Ask AI to use `jsonlite::read_json()` to read the `data/earthquakes.geojson` file, then use `pluck()` to extract the `features` list. Convert it into a tibble with `tibble(data = _)`. Use `unnest_wider()` to expand the `data` column, and then use `unnest_wider(properties, names_sep = "_")` to expand the `properties` list into separate columns such as `properties_mag`, `properties_place`, and `properties_time`. Add this code as a replacement to your current code in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -421,7 +421,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 
 Ask AI to continue our pipe using `hoist()` to extract the coordinates directly from the geometry column without fully unnesting it.Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -455,7 +455,7 @@ Another interesting function associated with `across()` is `pivot_longer()`, whi
 
 The coordinates column now contains lists with `longitude`,`latitude`, and `depth`. Ask AI to continue your pipe using `unnest_wider()` to separate these into individual columns, naming them appropriately using the `rename()` function. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -495,7 +495,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 
 Ask AI to use `across()` with `where()` to identify all character columns that might contain missing values coded as "null" strings, and convert them to actual NA values. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -536,7 +536,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 
 Ask AI to continue the pipe using `filter()` and `if_any()` to filter rows that have missing values in critical columns (`properties_mag`, `latitude`, `longitude`). Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -578,7 +578,7 @@ filter(!if_any(c(properties_mag, longitude, latitude), is.na))
 
 You can write your own functions. We need to convert the time values from milliseconds since epoch to proper datetime. Ask AI to write a custom function called `convert_earthquake_time()` that converts milliseconds since Unix epoch to a datetime object using `as.POSIXct()`. Tell AI that the function should take a numeric vector of milliseconds and return a POSIXct datetime vector. Add this code to as a replacement to your current code in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `convert_eathquake_time...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `convert_eathquake_time...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -609,7 +609,7 @@ Writing custom functions helps you encapsulate logic that you'll use repeatedly.
 
 Ask AI to create another custom function called `categorize_magnitude()` that takes magnitude values and returns categories like "Minor" (< 3.0), "Light" (3.0-3.9), "Moderate" (4.0-4.9), "Strong" (5.0-5.9), "Major" (6.0-6.9), and "Great" (7.0+). Use your function to add a magnitude category column to the data. Add this code as a addition to your current code in the code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `categorize_magnitude...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `categorize_magnitude...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -669,7 +669,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 
 Paste our pipe from Exercise 7 into AI and ask AI to continue our pipe and apply our `convert_earthquake_time()` and `categorize_magnitude()` functions to create datetime and magnitude category columns. Make sure to use `as.numeric()`.  Add this code to a new code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -715,7 +715,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 
 Ask AI to continue your pipe using `across()` and convert magnitude and depth to numeric if they aren't already and then filter earthquakes from the last 7 days using `filter()` and `datetime >= Sys.Date() - 7`. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -761,7 +761,7 @@ mutate(across(c(properties_mag, depth), as.numeric)) |>
 
 Ask AI to continue your pipe by using `filter()` function on `longitude` and `latitude` variables to restrict data to continental US bounds, then use `mutate()` to extract time features from `datetime` and categorize `depth` into shallow, intermediate, and deep groups. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -822,7 +822,7 @@ There are two more functions that combine list elements into a single data struc
 
 Ask AI to continue your pipe by using the `select()` function on `longitude, latitude, properties_mag, properties_place, datetime, depth, mag_category, depth_category`, then use `mutate()` to create a `tooltip_text` column that combines `magnitude, location, time, and depth` information into HTML-formatted text. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -889,7 +889,7 @@ mutate(
 
 Ask AI to continue your pipe by using `filter()`  on `longitude`,` latitude`, and `properties_mag`  to ensure all values are within valid geographic bounds. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1068,7 +1068,7 @@ Within the latest code chunk, add the option: `#| cache: true`. Assign the resul
 
 If you have not done so already, you should add `analysis_cache` to the `.gitginore`. The content of the cache file does not belong on GitHub.
 
-Place your cursor on the line where the pipe is assigned to `earthquake_df`, run `Cmd/Ctrl + Shift + Enter`, thus ensuring that the workspace also includes a copy of `earthquake_df`.
+Place your cursor on the line where the pipe is assigned to `earthquake_df`, run `Cmd/Ctrl + Enter`, thus ensuring that the workspace also includes a copy of `earthquake_df`.
 
 CP/CR.
 
@@ -1247,7 +1247,7 @@ request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/t
   resp_body_html()
 ```
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1270,7 +1270,7 @@ Ask AI to help you scrape the IMDb Top 250 page by using `resp_body_html()` to r
 
 Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1304,7 +1304,7 @@ Lists can also live inside a tibble, where we call them list-columns. List-colum
 Ask AI to continue the pipe using `select()` to choose just the `Rank & Title` and `IMDb Rating` columns, renaming them to `rank_title_year` and `rating` respectively. 
 Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1341,7 +1341,7 @@ Both arrays and objects are similar to lists in R; the difference is whether or 
 
 Ask AI to continue the pipe using `mutate()` and `str_replace_all()` to clean up the `rank_title_year` column by replacing newlines and multiple spaces with single spaces. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1381,7 +1381,7 @@ When each row has the same number of elements with the same names, it’s natura
 
 Ask AI to continue the pipe using `separate_wider_regex()` to split the `rank_title_year` column into separate `rank`, `title`, and `year` columns using regex patterns to match the structure. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1429,7 +1429,7 @@ When each row contains an unnamed list, it’s most natural to put each element 
 
 Ask AI to write a custom function called `extract_rating_info()` that takes a URL as input and returns the cleaned tibble with `rank`, `title`, `year`, and `rating` columns. The function should encapsulate all the scraping and cleaning steps. Add this code as a replacement of your current code in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1507,7 +1507,7 @@ extract_rating_info("https://web.archive.org/web/20220201012049/https://www.imdb
 
 Ask AI to start a new pipe that reads the IMDb HTML and uses `html_elements()` with the `td strong` selector to extract rating elements, then use `html_attr()` to get the `title` attribute containing rating details. Add this code as a replacement of your current code in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1541,7 +1541,7 @@ request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/t
 
 Ask AI to change our pipe by creating a tibble that combines the table data with the rating details, using your previous table extraction code and adding the rating attribute data as a new column using `html_element()` and `mutate()`.  Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1586,7 +1586,7 @@ request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/t
 
 Ask AI to continue the pipe using `separate_wider_regex()` on the `rank_title_year` column to extract `rank`, `title`, and `year`, and then apply another `separate_wider_regex()` on `rating_detail` and `patterns = ...` to extract the number of user ratings. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1647,7 +1647,7 @@ request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/t
 
 Ask AI to continue the pipe using `mutate()` and `parse_number()` to convert the `number` column from character to numeric, removing commas and other formatting.  Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1711,7 +1711,7 @@ request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/t
 
 Ask AI to continue the pipe using `mutate()` with `across()` to convert `rank` and `year` columns to numeric, and create a new `decade` column based on the year.  Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1775,7 +1775,7 @@ request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/t
 
 Ask AI to continue the pipe using `mutate()` and `case_when()` to create rating categories based on the rating values, and add a popularity category based on the number of ratings. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1853,7 +1853,7 @@ request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/t
 
 Ask AI to continue the pipe using `select()` to keep only the `rank`, `title`, `year`, `rating`, and `number` columns, and `arrange()` to ensure the data is sorted by rank. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Shift + Enter`.
+Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1962,7 +1962,7 @@ Within the latest code chunk, add the option: `#| cache: true`. Assign the resul
 
 If you have not done so already, you should add `analysis_cache` to the `.gitginore`. The content of the cache file does not belong on GitHub.
 
-Place your cursor on the line where the pipe is assigned to `top_movies`, run `Cmd/Ctrl + Shift + Enter`, thus ensuring that the workspace also includes a copy of `top_movies`.
+Place your cursor on the line where the pipe is assigned to `top_movies`, run `Cmd/Ctrl + Enter`, thus ensuring that the workspace also includes a copy of `top_movies`.
 
 CP/CR.
 

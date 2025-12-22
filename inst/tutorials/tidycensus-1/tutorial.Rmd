@@ -146,7 +146,7 @@ Render again. Everything looks nice, albeit empty, because we have added code to
 
 ### Exercise 3
 
-Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line.
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line.
 
 Note that this causes `library(tidyverse)` to be copied down to the Console and then executed. 
 
@@ -178,7 +178,7 @@ A critical part of the Census data analysis process is data visualization, where
 
 Ask AI to use **tidycensus** to get data on the median household income for all counties in Texas for 2020.
 
-Put what it gives you in a new code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the Console.
+Put what it gives you in a new code chunk and do `Cmd/Ctrl + Enter` to send it to the Console.
 
 CP/CR.
 
@@ -238,7 +238,7 @@ question_text(NULL,
 
 Edit your QMD, to change the value of `geometry` to `TRUE`.
 
-Take your code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the Console.
+Take your code chunk and do `Cmd/Ctrl + Enter` to send it to the Console.
 
 In the Console, run:
 
@@ -340,7 +340,7 @@ question_text(NULL,
 Now copy the first few lines into your AI and say that you are working with **tidyverse**. Tell it to take the data in `income_tx` and make a choropleth map of median household income.
 
 
-Put what it gives you in a new code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+Put what it gives you in a new code chunk and do `Cmd/Ctrl + Enter` to send it to the console
 
 CP/CR.
 
@@ -367,7 +367,7 @@ ggplot(income_tx) +
 Now, tell the AI to color counties by the estimate column and add an approprite title and theme. 
 
 
-Replace your code with this code in your chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+Replace your code with this code in your chunk and do `Cmd/Ctrl + Enter` to send it to the console
 
 CP/CR.
 
@@ -484,7 +484,7 @@ Render again. Everything looks nice, albeit empty, because we have added code to
 
 ### Exercise 2
 
-Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line.
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line.
 
 Note that this causes `library(tidyverse)` to be copied down to the Console and then executed. 
 
@@ -507,7 +507,7 @@ Working in the console like this is how professionals work!
 
 Ask AI to generate R code that uses tidycensus to get educational attainment variables for all California counties in 2020 and save it in a variable called `edu_ca`
 
-Put what it gives you in a new code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+Put what it gives you in a new code chunk and do `Cmd/Ctrl + Enter` to send it to the console
 
 CP/CR
 
@@ -541,7 +541,7 @@ edu_ca <- get_acs(
 
 Using our code, set `geometry = TRUE`.
 
-Take your code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the Console.
+Take your code chunk and do `Cmd/Ctrl + Enter` to send it to the Console.
 
 In the Console, run:
 
@@ -639,7 +639,7 @@ Geometry must be `TRUE` if we want to map later.
 
 Now copy the first few lines into your AI and say that you are working with tidyverse. Tell it to take the data in `edu_ca` and make a choropleth map of at least bachelor’s degree attainment or higher across California counties and use `mutate()` to calculate the percentage of the population with at least a bachelor’s degree and pipe it into a `ggplot()`
 
-Put what it gives you in a new code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+Put what it gives you in a new code chunk and do `Cmd/Ctrl + Enter` to send it to the console
 
 CP/CR
 
@@ -768,7 +768,7 @@ Render again. Everything looks nice, albeit empty, because we have added code to
 
 ### Exercise 2
 
-Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute that line.
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line.
 
 Note that this causes `library(tidyverse)` to be copied down to the Console and then executed. 
 
@@ -794,7 +794,7 @@ Working in the console like this is how professionals work!
 
 Ask AI to generate R code that uses tidycensus data to get both the median age and populations for all counties in California for 2020 in a variable called `age_ca`
 
-Put what it gives you in a new code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+Put what it gives you in a new code chunk and do `Cmd/Ctrl + Enter` to send it to the console
 
 
 CP/CR
@@ -829,7 +829,7 @@ AI is your best friend! Professionals use AI to generate code and plot. You howe
 
 Using our code, add `geometry = FALSE`.
 
-Take your code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the Console.
+Take your code chunk and do `Cmd/Ctrl + Enter` to send it to the Console.
 
 In the Console, run:
 
@@ -930,7 +930,7 @@ Now, copy/paste those few lines into your AI. Tell it to use the `age_ca` data a
 
 
 
-Put what it gives you in the code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+Put what it gives you in the code chunk and do `Cmd/Ctrl + Enter` to send it to the console
 
 CP/CR
 
@@ -966,7 +966,7 @@ Now we have a basic bar plot, but we have too much data points.
 
 Tell your AI to filter the dataset to the 15 most populous counties and add informative labels and a title with `labs()`.
 
-Put what it gives you in the  code chunk and do `Cmd/Ctrl + Shift + Enter` to send it to the console
+Put what it gives you in the  code chunk and do `Cmd/Ctrl + Enter` to send it to the console
 
 CP/CR
 
