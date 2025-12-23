@@ -56,12 +56,9 @@ edu_ca <- read_rds("data/edu_ca.rds")
 
 age_ca <- read_rds("data/age_ca.rds")
 
-
-
-
 knitr::opts_chunk$set(echo = FALSE)
 options(tutorial.exercise.timelimit = 600, 
-        tutorial.storage = "local") 
+        tutorial.storage = "local") 	
 ```
 
 

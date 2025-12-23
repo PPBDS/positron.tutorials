@@ -28,7 +28,7 @@ Submit a PR with all your changes.
 
 * Complete tidycensus-1 yourself. 9/30
 
-
+* Would options(pillar.print_max = Inf, pillar.print_min = Inf)	 make the use of     df_print: default not necessary? Which is best?
 
 Tutorial times from 2025
 
