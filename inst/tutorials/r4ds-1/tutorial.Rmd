@@ -851,7 +851,8 @@ In the Console, run:
 ```         
 download.file(
   "https://corgis-edu.github.io/corgis/datasets/csv/music/music.csv",
-  destfile = "data/music.csv"
+  destfile = "data/music.csv",
+  mode = "wb"
 )
 ```
 

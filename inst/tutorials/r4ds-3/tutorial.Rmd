@@ -874,12 +874,11 @@ question_text(NULL,
 Lazy tables let you explore database structure without loading data. When you print a lazy table, dbplyr shows you column names, types, and a preview of rows - all retrieved with a lightweight SQL query. This is crucial for understanding unfamiliar databases before writing complex queries.
 
 ### Exercise 5
-<!-- DK: It would be dbplyr_fly not flights! Also, then "flights$tailnum" wouldn't work, so maybe just remove that chunk completely and/or just keep the ask AI, which will use dbplyr_fly? I had to use class(pull(dbplyr_fly, tailnum)). Go with Claude. Check R4DS. -->
 
 View the `tailnum` column by pasting this in your console:
 
 ```         
-flights$tailnum
+class(pull(dbplyr_fly, tailnum))
 ```
 
 Ask AI: how to check the column type of `tailnum` from the `flights` table using `class()`. Add the code to your Console and hit `Enter`.
@@ -900,7 +899,7 @@ question_text(NULL,
 
 
 ```{r flights-5-test, echo = TRUE}
-class(flights$tailnum)
+class(pull(dbplyr_fly, tailnum))
 ```
 
 ### 
@@ -911,7 +910,7 @@ class(flights$tailnum)
 
 The column type of `tailnum` is character. 
 
-Ask AI: to clean the `flights` table by selecting the columns `dep_time`, `sched_dep_time`, `dep_delay`, and `tailnum`. Then, create a new column called `tail_number` by extracting numeric values from the character column `tailnum` using the `parse_number()` function. Add the code to your QMD in a new chunk. Assign this pipe to `departure_data`. Place your cursor on the first line of the code and run `Cmd/Ctrl + Enter`.
+Ask AI: Clean the `dbplyr_fly` table by selecting the columns `dep_time`, `sched_dep_time`, `dep_delay`, and `tailnum`. Then, create a new column called `tail_number` by extracting numeric values from the character column `tailnum` using the `parse_number()` function. Add the code to your QMD in a new chunk. Assign this pipe to `departure_data`. Place your cursor on the first line of the code and run `Cmd/Ctrl + Enter`.
 
 In the Console, run:
 
@@ -933,7 +932,7 @@ question_text(NULL,
 
 
 ```{r flights-6-test, echo = TRUE}
-departure_data <- flights |>
+departure_data <- dbplyr_fly |>
   select(dep_time, sched_dep_time, dep_delay, tailnum) |>
   mutate(tail_number = parse_number(tailnum)) 
 ```
@@ -966,7 +965,7 @@ question_text(NULL,
 
 
 ```{r flights-7-test, echo = TRUE}
-flights |> 
+dbplyr_fly |> 
   summarise(
     missing_dep = sum(is.na(dep_time)),
     missing_arr = sum(is.na(arr_time))
@@ -982,11 +981,7 @@ We have a lot of missing values that needs to be cleaned.  `is.na(x)` works with
 ### Exercise 8
 
 Ask AI: how you can continue your previous pipe and filters out rows where dep_time is missing using `!is.na()`. Add the code to your QMD in the same chunk as an addition to the pipe that is assigned to `departure_data`. Place your cursor on the first line of the code and run `Cmd/Ctrl + Enter`. View your new cleaned data.
-<!-- I used dbplyr_fly and this is the code that worked for me "departure_data <- dbplyr_fly |>
-  select(dep_time, sched_dep_time, dep_delay, tailnum) |>
-  mutate(tail_number = as.numeric(regexp_extract(tailnum, '[0-9]+'))) |>
-  filter(!is.na(dep_time)) |>
-  collect()" -->
+
 In the Console, run:
 
 ```         
@@ -1005,10 +1000,11 @@ question_text(NULL,
 ### 
 
 ```{r flights-8-test, echo = TRUE}
-departure_data <- flights |>
+departure_data <- dbplyr_fly |>
   select(dep_time, sched_dep_time, dep_delay, tailnum) |>
-  mutate(tail_number = parse_number(tailnum)) |>
-  filter(!is.na(dep_time))
+  mutate(tail_number = as.numeric(regexp_extract(tailnum, '[0-9]+'))) |>
+  filter(!is.na(dep_time)) |>
+  collect()
 
 departure_data
 ```
