@@ -103,12 +103,11 @@ question_text(NULL,
 ```
 
 ### 
+We will be working with databases in this tutorial. Two key differences between data frames and database tables:
 
-We will be working with databases in this tutorial. There are two key differences between data frames and database tables:
+* Database tables are stored on disk and can be arbitrarily large. Data frames are stored in memory and are fundamentally limited.
 
--   Database tables are stored on disk and can be arbitrarily large. Data frames are stored in memory, and are fundamentally limited (although that limit is still plenty large for many problems).
-
--   Database tables almost always have indexes. Much like the index of a book, a database index makes it possible to quickly find rows of interest without having to look at every single row. Data frames and tibbles don’t have indexes, but data.tables (from the [**data.table**](https://rdatatable.gitlab.io/data.table/) package) do, which is one of the reasons that they’re so fast.
+* Database tables almost always have indexes, making it possible to quickly find rows without looking at every single row. Data frames and tibbles don't have indexes.
 
 ### Exercise 2
 
@@ -139,20 +138,17 @@ question_text(NULL,
 ```
 
 ### 
+Databases are run by database management systems (DBMS's), which come in three basic forms:
 
-Databases are run by database management systems (DBMS’s for short), which come in three basic forms:
+* Client-server DBMS's run on a powerful central server that you connect to from your computer. Great for sharing data with multiple people in an organization.
 
--   Client-server DBMS’s run on a powerful central server, which you connect from your computer (the client). They are great for sharing data with multiple people in an organization.
+* Cloud DBMS's run in the cloud, easily handling extremely large datasets and automatically scaling compute resources as needed.
 
--   Cloud DBMS’s, are similar to client server DBMS’s, but they run in the cloud. This means that they can easily handle extremely large datasets and can automatically provide more compute resources as needed.
-
--   In-process DBMS’s run entirely on your computer. They’re great for working with large datasets where you’re the primary user.
+* In-process DBMS's run entirely on your computer. Great for working with large datasets where you're the primary user.
 
 ### Exercise 3
 
-Place your cursor in the QMD file at the start of the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line.
-
-<!-- DK: Don't we want to execute all the libraries? What command does that? -->
+Place your cursor in the QMD file at the start of the `library(tidyverse)` line. Use `Cmd/Ctrl + Shift + Enter` to execute all the libraries in the code chunk.
 
 Note that this causes `library(tidyverse)` to be copied down to the Console and then executed.
 
@@ -235,7 +231,8 @@ In the Console, run:
 ```         
 download.file(
   "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-3/data/nameby_year.duckdb",
-  destfile = "data/nameby_year.duckdb"
+  destfile = "data/nameby_year.duckdb",
+  mode = "wb"
 )
 ```
 
@@ -289,12 +286,14 @@ con_names <- DBI::dbConnect(
 This creates a connection to the database and assigns it to the variable con, short for connection. This connection acts like a bridge between R and the DuckDB file. **DBI** is a low-level interface that connects to databases and executes SQL; **dbplyr** is a high-level interface that translates your **dplyr** code to SQL queries then executes them with **DBI**.
 
 
+<!-- PG: Addressed this, but created new exercise so that the student can find this out themselves -->
+<!-- DK: Going to fast. What are the tables in this database? -->
+
 ### Exercise 3
 
-<!-- DK: Going to fast. What are the tables in this database? -->
-The `nameby_year.duckdb` database contains one table: `babynames`.
+Before we can read data from a database, we need to know what tables it contains.
 
-Ask AI: how to start a pipe from `con_names` to retrieve the contents of the `babynames` table from the `nameby_year.duckdb` database using `dbReadTable()` and read it using `as_tibble()`. Make sure the result is not assigned to a variable. Add this code in a new code chunk to the QMD. Place your cursor on the first line of the code and run `Cmd/Ctrl + Enter`. 
+Ask AI: How to use `dbListTables()` with `con_names` to see what tables are available in the `nameby_year.duckdb` database. Add this code in a new code chunk to the QMD. Place your cursor on the first line of the code and run `Cmd/Ctrl + Enter`.
 
 ```{r baby-names-3}
 question_text(NULL,
@@ -302,24 +301,27 @@ question_text(NULL,
 	allow_retry = TRUE,
 	try_again_button = "Edit Answer",
 	incorrect = NULL,
-	rows = 5)
+	rows = 3)
 ```
 
 ###
-
 ```{r baby-names-3-test, echo = TRUE}
-con_names |> 
-    dbReadTable("babynames") |> 
-    as_tibble()
+dbListTables(con_names)
 ```
 
 ###
 
-`dbReadTable()`returns a data frame, not a tibble, so we pipe it into `as_tibble()` for the result to be a tibble.
+The database contains one table: `babynames`.
 
 ### Exercise 4
 
-Using your favorite AI, prompt it to generate SQL code that takes `babynames` and filters the dataset to show all names that have a first name starting with A after the year 2000. Make sure to provide some lines of **babynames** for the AI to use. If necessary, change the code so that the result of the pipe is assigned to a variable called "sql". Add the code as a replacement to the current code in your current chuck in the QMD. Place your cursor on the first line of the code and run `Cmd/Ctrl + Enter`.
+Now that we know the table name, let's read its contents.
+
+Ask AI: Generate SQL code that takes `babynames` and filters the dataset to show all names that have a first name starting with A after the year 2000. Make sure to provide some lines of **babynames** for the AI to use. If necessary, change the code so that the result of the pipe is assigned to a variable called "sql". 
+
+Add the code as a replacement to the current code in your current chuck in the QMD. 
+
+Place your cursor on the first line of the code and run `Cmd/Ctrl + Enter`.
 
 In the Console, run:
 
@@ -390,9 +392,9 @@ as_tibble(dbGetQuery(con_names, sql))
 You just used SQL to filter the babynames database directly and ran a query to see your results. Although, instead of writing raw SQL yourself, we can do the exact same task with R code using `dbplyr`. `dbplyr` is a `dplyr` backend, which means that you keep writing `dplyr` code but the backend executes it differently. In this, `dbplyr` translates to SQL; other backends include `dbplyr` which translates to `data.table`, and `multidplyr` which executes your code on multiple cores. 
 
 Replace the code in your current code chunk in your new QMD by pasting this code instead:
-
+<!-- PG: Shouldn't they run "show_file("analysis.qmd", chunk = "Last")" or type dbplyr_names after running `Cmd/Ctrl + Enter` -->
 ```         
- dbplyr_names <- tbl(con, "babynames")
+ dbplyr_names <- tbl(con_names, "babynames")
 ```
 
 CP/CR.
@@ -407,8 +409,7 @@ question_text(NULL,
 ```
 
 ### 
-
-To use `dbplyr`, you must first use `tbl()` to create an object that represents a database table. This is called a lazy table, which is a representation of a database table or query result that is not immediately materialized in R's memory. Instead, `dbplyr` translates `dplyr` operations performed on this lazy table into SQL queries. These queries are then sent to the database and executed there, with the results only being retrieved into R when explicitly requested (e.g., using `collect()`). 
+To use `dbplyr`, you must first use `tbl()` to create an object that represents a database table. This creates a lazy table - operations on it are translated into SQL queries and executed in the database, not in R's memory. Results are only retrieved into R when explicitly requested using `collect()`. 
 
 ### Exercise 7
 
@@ -613,9 +614,9 @@ CP/CR.
 	rows = 5)
 ```
 
-### 
+###
 
-
+<!-- PG: When did we add collect()? -->
 
 ```{r baby-names-12-test, echo = TRUE}
  x <-  dbplyr_names |>
@@ -629,7 +630,7 @@ CP/CR.
 
 ### 
 
-<!-- XX: Insert a knowledge drop related to this project. -->
+The `collect()` function is the bridge between database operations and in-memory R operations. Everything before `collect()` in a `dbplyr` pipeline runs as SQL in the database. Once you call `collect()`, the results transfer into R as a tibble, allowing you to use any R function on the data - but be mindful of the data size you're bringing into memory.
 
 ### Exercise 13
 
@@ -654,15 +655,14 @@ x
 
 ### 
 
-<!-- XX: Insert a knowledge drop related to this project. -->
-
+The `.by` argument in `summarize()` performs grouped operations without modifying your data structure. Unlike `group_by()`, which creates a grouped data frame that stays grouped for subsequent operations, `.by` only groups for that specific operation. This makes your code clearer and prevents accidentally carrying grouping structure through your analysis pipeline.
 
 ### Exercise 14
 
 Ask AI: to generate R code that plots a basic line graph showing the proportion of "Short" vs. "Long" names starting with A over the years (after 2000). Mention you want to use the data from `x` and copy and paste the `x` you ran in the Console with the resulting dataframe. You only need the top 3 lines, mainly to include column names.
 
 Within `labs()` edit or add a proper title, subtitle, and caption. If axis labels are appropriate, add them, but if unnecessary, don't bother. Don't assign the code to any variable. Add this code as a replacement to the code in your current code cell. Run `Cmd/Ctrl + Shift + K`.
-
+<!-- PG: Why would we replace code in current cell, wouldn't it be in a new cell, otherwise the tibble for x would get removed. -->
 In the Console, run:
 
 ```         
@@ -700,7 +700,7 @@ ggplot(x, aes(x = year, y = total, color = length_class)) +
 
 ### 
 
-<!-- XX: Insert a knowledge drop related to this project. -->
+Creating categorical variables like `length_class` transforms continuous data (name length in characters) into discrete groups that are easier to interpret and visualize. This classification reveals broader patterns - like whether short or long names are trending - that might be obscured by analyzing individual name lengths.
 
 ### Exercise 15
 
@@ -759,7 +759,8 @@ In the Console, run:
 ```         
 download.file(
   "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-3/data/nycflights13.duckdb",
-  destfile = "data/nycflights13.duckdb"
+  destfile = "data/nycflights13.duckdb",
+  mode = "wb"
 )
 ```
 
@@ -812,7 +813,7 @@ con_air <- DBI::dbConnect(
 
 ### 
 
-Run `dbListTables()` on `con_air` to lists all tables in the database.
+Run `dbListTables()` on `con_air` to list all tables in the database.
 
 
 ### Exercise 3
@@ -874,10 +875,10 @@ question_text(NULL,
 
 ### 
 
-<!-- XX: Insert a knowledge drop related to this project. -->
+Lazy tables let you explore database structure without loading data. When you print a lazy table, dbplyr shows you column names, types, and a preview of rows - all retrieved with a lightweight SQL query. This is crucial for understanding unfamiliar databases before writing complex queries.
 
 ### Exercise 5
-
+<!-- PG: It would be dbplyr_fly not flights, right? Also, then "flights$tailnum" wouldn't work, so maybe just remove that chunk completely and/or just keep the ask AI, which will use dbplyr_fly? I had to use class(pull(dbplyr_fly, tailnum)) -->
 View the `tailnum` column by pasting this in your console:
 
 ```         
@@ -984,7 +985,11 @@ We have a lot of missing values that needs to be cleaned.  `is.na(x)` works with
 ### Exercise 8
 
 Ask AI: how you can continue your previous pipe and filters out rows where dep_time is missing using `!is.na()`. Add the code to your QMD in the same chunk as an addition to the pipe that is assigned to `departure_data`. Place your cursor on the first line of the code and run `Cmd/Ctrl + Enter`. View your new cleaned data.
-
+<!-- I used dbplyr_fly and this is the code that worked for me "departure_data <- dbplyr_fly |>
+  select(dep_time, sched_dep_time, dep_delay, tailnum) |>
+  mutate(tail_number = as.numeric(regexp_extract(tailnum, '[0-9]+'))) |>
+  filter(!is.na(dep_time)) |>
+  collect()" -->
 In the Console, run:
 
 ```         
@@ -1135,7 +1140,7 @@ Now that we have filtered our dataset through a pipe, we need to be on track wit
 In the Console, run:
 
 ```         
-show_file("XX.qmd", chunk = "Last")
+show_file("analysis.qmd", chunk = "Last")
 ```
 
 CP/CR.
@@ -1165,7 +1170,7 @@ departure_data |>
 
 ### 
 
-<!-- XX: Insert a knowledge drop related to this project. -->
+The `pmax()` function computes the parallel maximum across vectors element-wise, unlike `max()` which finds the single maximum value. By using `pmax(dep_delay, 0)`, we replace any negative delays (early departures) with 0, ensuring we only sum actual delay time rather than letting early departures offset late ones.
 
 ### Exercise 13
 
@@ -1202,7 +1207,7 @@ x <- departure_data |>
 
 ### 
 
-<!-- XX: Insert a knowledge drop related to this project. -->
+Weighted counts with `count(wt = ...)` transform a frequency table into a sum table. Instead of counting how many flights fall into each scheduled/actual hour combination, we're summing the total minutes of delay. This aggregation reveals which time combinations contribute most to overall delays.
 
 ### Exercise 14
 
@@ -1229,7 +1234,7 @@ x
 
 ### 
 
-<!-- XX: Insert a knowledge drop related to this project. -->
+In the next exercise, you will see a crosstabulation structure - with two grouping variables creating a grid of values - is ideal for heatmap visualization. Each cell represents a unique combination of scheduled and actual departure hours, and the fill color will reveal patterns like whether certain scheduled hours consistently lead to later departures.
 
 ### Exercise 15
 
@@ -1240,7 +1245,7 @@ Within `labs()` edit or add a proper title, subtitle, and caption. If axis label
 In the Console, run:
 
 ```         
-show_file("XX.qmd", chunk = "Last")
+show_file("analysis.qmd", chunk = "Last")
 ```
 
 CP/CR.
@@ -1294,6 +1299,7 @@ You learned about some of the power of the [**stringr**](https://stringr.tidyver
 ```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
 ```
 
+<!-- PG: What are the string knowledge drops and the paragraphs after that for? -->
 ```         
 STRING KNOWLEDGE DROPS
 
