@@ -285,10 +285,6 @@ con_names <- DBI::dbConnect(
 
 This creates a connection to the database and assigns it to the variable con, short for connection. This connection acts like a bridge between R and the DuckDB file. **DBI** is a low-level interface that connects to databases and executes SQL; **dbplyr** is a high-level interface that translates your **dplyr** code to SQL queries then executes them with **DBI**.
 
-
-<!-- PG: Addressed this, but created new exercise so that the student can find this out themselves -->
-<!-- DK: Going to fast. What are the tables in this database? -->
-
 ### Exercise 3
 
 Before we can read data from a database, we need to know what tables it contains.
@@ -392,9 +388,15 @@ as_tibble(dbGetQuery(con_names, sql))
 You just used SQL to filter the babynames database directly and ran a query to see your results. Although, instead of writing raw SQL yourself, we can do the exact same task with R code using `dbplyr`. `dbplyr` is a `dplyr` backend, which means that you keep writing `dplyr` code but the backend executes it differently. In this, `dbplyr` translates to SQL; other backends include `dbplyr` which translates to `data.table`, and `multidplyr` which executes your code on multiple cores. 
 
 Replace the code in your current code chunk in your new QMD by pasting this code instead:
-<!-- PG: Shouldn't they run "show_file("analysis.qmd", chunk = "Last")" or type dbplyr_names after running `Cmd/Ctrl + Enter` -->
+
 ```         
  dbplyr_names <- tbl(con_names, "babynames")
+```
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
 ```
 
 CP/CR.
@@ -409,6 +411,7 @@ question_text(NULL,
 ```
 
 ### 
+
 To use `dbplyr`, you must first use `tbl()` to create an object that represents a database table. This creates a lazy table - operations on it are translated into SQL queries and executed in the database, not in R's memory. Results are only retrieved into R when explicitly requested using `collect()`. 
 
 ### Exercise 7
@@ -420,6 +423,7 @@ In the Console, run:
 ```         
 show_file("analysis.qmd", chunk = "Last")
 ```
+
 CP/CR.
 
 ```{r baby-names-7}
@@ -432,8 +436,6 @@ question_text(NULL,
 ```
 
 ### 
-
-
 
 ```{r baby-names-7-test, echo = TRUE}
 dbplyr_names |>
@@ -557,7 +559,7 @@ Ordering rows involves a straightforward translation from `arrange()` to the SQL
 
 ### Exercise 11
 
-Now that we have filtered our dataset through a pipe, we need to be on track with the same, correct, code. Replace your last code chunk with our code in your QMD.
+Now that we have filtered our dataset through a pipe, we need to be on track with the same, correct, code. Replace your last code chunk with our code in your QMD. Add `collect()` to the end of the pipe.
 
 In the Console, run:
 
@@ -591,7 +593,7 @@ dbplyr_names |>
 
 ### 
 
-To get all the data back into R, you call `collect()`. Behind the scenes, this generates the SQL, calls `dbGetQuery()` to get the data, then turns the result into a tibble.
+To get all the data back into R, you call `collect()`. Behind the scenes, this generates the SQL, calls `dbGetQuery()` to get the data, then turns the result into a tibble. 
 
 ### Exercise 12
 
@@ -603,9 +605,7 @@ Place your cursor on the line where the pipe is assigned to x, run `Cmd/Ctrl + E
 
 CP/CR.
 
-  
 ```{r baby-names-12}
- 
  question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -616,8 +616,6 @@ CP/CR.
 
 ###
 
-<!-- PG: When did we add collect()? -->
-
 ```{r baby-names-12-test, echo = TRUE}
  x <-  dbplyr_names |>
 	filter(name %like% "A%", year > 2000, n >= 10) |>
@@ -625,7 +623,6 @@ CP/CR.
   	summarize(total = sum(n), .by = c(year, length_class)) |> 
 	arrange(year) |>
    	collect()
-
 ```
 
 ### 
@@ -661,8 +658,8 @@ The `.by` argument in `summarize()` performs grouped operations without modifyin
 
 Ask AI: to generate R code that plots a basic line graph showing the proportion of "Short" vs. "Long" names starting with A over the years (after 2000). Mention you want to use the data from `x` and copy and paste the `x` you ran in the Console with the resulting dataframe. You only need the top 3 lines, mainly to include column names.
 
-Within `labs()` edit or add a proper title, subtitle, and caption. If axis labels are appropriate, add them, but if unnecessary, don't bother. Don't assign the code to any variable. Add this code as a replacement to the code in your current code cell. Run `Cmd/Ctrl + Shift + K`.
-<!-- PG: Why would we replace code in current cell, wouldn't it be in a new cell, otherwise the tibble for x would get removed. -->
+Within `labs()` edit or add a proper title, subtitle, and caption. If axis labels are appropriate, add them, but if unnecessary, don't bother. Don't assign the code to any variable. Put this code into a new code chunk. Run `Cmd/Ctrl + Shift + K`.
+
 In the Console, run:
 
 ```         
@@ -672,7 +669,6 @@ show_file("analysis.qmd", chunk = "Last")
 CP/CR.
 
 ```{r baby-names-14}
- 
  question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -682,7 +678,6 @@ CP/CR.
 ```
 
 ### 
-
 
 ```{r baby-names-14-test, fig.keep = FALSE, echo = TRUE}
 ggplot(x, aes(x = year, y = total, color = length_class)) +

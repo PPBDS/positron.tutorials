@@ -18,17 +18,7 @@ Submit a PR with all your changes.
 
 ## Priorities
 
-* Complete r4ds-2 yourself. 9/25
-
-* Complete r4ds-3 yourself. 9/26
-
-* Complete r4ds-4 yourself. 9/28
-
-* Complete r4ds-5 yourself. 9/29
-
-* Complete tidycensus-1 yourself. 9/30
-
-* Would options(pillar.print_max = Inf, pillar.print_min = Inf)	 make the use of     df_print: default not necessary? Which is best?
+* Would options(pillar.print_max = Inf, pillar.print_min = Inf)	 make the use of  df_print: default not necessary? Which is best? Again, goal is for printed out tibbles to look the same in the tutorial html as they look in the Console.
 
 Tutorial times from 2025
 
@@ -57,12 +47,7 @@ Should longer tutorials like 1, 4 and 7 have one of their exercises removed?
 
 * Rewrite "Instructions"
 
-
-
 * Do we need an AI Getting Started tutorial which would highlight things like don't use install.packages() in your scripts and other generic lessons for working with AI?
-
-
-
 
 # Introductions
 
@@ -71,12 +56,6 @@ This package will hold all of our new breed AI tutorials.
 
 ## Plan for R4DS
 
-
-### R4DS tutorial structure
-
-The introduction and summary are like any AI tutorial: Github, GH Pages and so on.
-
-There are 3 to 5 Sections, each begins with some data processing and/or manipulation, questions which cover the important packages and functions in the relevant chapters. 
 
 ### Data storage
 
