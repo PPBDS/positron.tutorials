@@ -338,7 +338,8 @@ In the Console, run:
 ```         
 download.file(
   "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-5/data/earthquakes.geojson",
-  destfile = "data/earthquakes.geojson"
+  destfile = "data/earthquakes.geojson",
+  mode = "wb"
 )
 ```
 
