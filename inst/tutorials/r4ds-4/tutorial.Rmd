@@ -1784,7 +1784,7 @@ question_text(NULL,
 We can find out what R thinks our current time zone is with `Sys.timezone()`. If R doesn't know, you will get an `NA`
 
 ### Exercise 17
-
+<!-- PG: Also, should we add part to add #| warning: false to remove warning and make the result of the QMD look cleaner? -->
 Within the latest code chunk, add the option: `#| cache: true`. Assign the result of the pipe to `final_fifa`.
 
 `Cmd/Ctrl + Shift + K`. By including `#| cache: true` you cause Quarto to cache the results of the chunk. The next time you render your QMD, as long as you have not changed the code, Quarto will just load up the saved object.

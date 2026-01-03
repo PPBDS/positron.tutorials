@@ -712,6 +712,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 `if_any()` is the same as using `|` in-between the arguments.
 
 ### Exercise 11
+<!-- PG: Since the the earthquakes are from last 7  days, and there havent been any in the US, there are no dots. Should we switch to 30 days or maybe 365 days? -->
 
 Ask AI to continue your pipe using `across()` and convert magnitude and depth to numeric if they aren't already and then filter earthquakes from the last 7 days using `filter()` and `datetime >= Sys.Date() - 7`. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
