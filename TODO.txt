@@ -1,14 +1,7 @@
 ## Paramanyu
 
-Finish edits for r4ds-3.
+Finish edits for tidycensus-1 and submit PR.
 
-Complete the r4ds-4 and r4ds-5 and tidycensus-1 tutorials yourself and send me the HTML answers via email, after installing the latest version from GitHub. Do this honestly as a (smart) student so we get a good sense of the workload.
-
-Keep track of comments/questions as you go, on paper!
-
-Then, once done, edit the tutorial.Rmd file. Make corrections and ask questions, delete as you see fit, but no requirement to do so.
-
-Submit a PR with all your changes.
 
 ## Priorities
 

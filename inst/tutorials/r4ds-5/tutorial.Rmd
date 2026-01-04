@@ -358,6 +358,8 @@ question_text(NULL,
 
 ### Exercise 2
 
+<!-- DK: This is a poorly designed question, precisely because it results in lots of garbage being printed out. -->
+
 Ask AI to help you read the JSON file `data/earthquakes.geojson` by using `jsonlite::read_json()` and then piping it into `str()` to explore its structure. Add this code to a new code chunk in the same QMD.
 
 Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
@@ -370,19 +372,21 @@ question_text(NULL,
 	allow_retry = TRUE,
 	try_again_button = "Edit Answer",
 	incorrect = NULL,
-	rows = 5)
+	rows = 10)
 ```
 
 ###
 
 Our code:
-<!-- PG: The result is extremely long, like I was scrolling for like 10 seconds to get down. -->
+
 ```{r earthquakes-2-test, echo = TRUE}
 jsonlite::read_json("data/earthquakes.geojson") |>
 	str(max.levels = 2)
 ```
 
 ###
+
+<!-- DK: Knowledge drop! -->
 
 ### Exercise 3
 
@@ -713,7 +717,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 `if_any()` is the same as using `|` in-between the arguments.
 
 ### Exercise 11
-<!-- PG: Since the the earthquakes are from last 7  days, and there havent been any in the US, there are no dots. Should we switch to 30 days or maybe 365 days? -->
+<!-- DK: Do whatever necessary so that the plot looks cool. Background: Since the the earthquakes are from last 7  days, and there havent been any in the US, there are no dots. Should we switch to 30 days or maybe 365 days? -->
 
 Ask AI to continue your pipe using `across()` and convert magnitude and depth to numeric if they aren't already and then filter earthquakes from the last 7 days using `filter()` and `datetime >= Sys.Date() - 7`. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
@@ -1507,6 +1511,8 @@ extract_rating_info("https://web.archive.org/web/20220201012049/https://www.imdb
 
 ### Exercise 8
 
+<!-- DK: Note that, for this question, the result is extremely long for this too, like it took 7 seconds to scroll down. Do something to fix. Example: Make sure the last line if the pipe uses `pull()` to grab rows 50 to 60, or whatever. -->
+
 Ask AI to start a new pipe that reads the IMDb HTML and uses `html_elements()` with the `td strong` selector to extract rating elements, then use `html_attr()` to get the `title` attribute containing rating details. Add this code as a replacement of your current code in the same code chunk in the same QMD.
 
 Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
@@ -1523,7 +1529,7 @@ question_text(NULL,
 ```
 
 ###
-<!-- PG: The result is extremely long for this too, like it took 7 seconds to scroll down. -->
+
 Our code:
 
 ```{r top-movies-8-test, echo = TRUE}

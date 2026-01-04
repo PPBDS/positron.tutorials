@@ -1,6 +1,6 @@
 ---
 title: Analyzing US Census Data 
-author: David Kane and Ansh Pathak
+author: David Kane, Ansh Pathak, and Paramanyu Gupta
 tutorial:
   id: tidycensus-1
 output: 
@@ -166,7 +166,7 @@ This is how professionals work, they type code in the quarto document and send i
 
 <!-- DK: Clean up as we discussed. No wasted words. -->
 
-A critical part of the Census data analysis process is data visualization, where an analyst examines patterns and trends found in their data graphically. This first section illustrates some examples for getting started with exploratory Census data visualization with [ggplot2](https://ggplot2.tidyverse.org/). You will be using the `get_acs()` and the `geom_sf()` functions as well.
+A critical part of the Census data analysis process is data visualization, where an analyst examines patterns and trends found in their data graphically. This first section illustrates some examples for getting started with exploratory Census data visualization with [**ggplot2**](https://ggplot2.tidyverse.org/). You will be using the `get_acs()` and the `geom_sf()` functions as well.
 
 
 
@@ -204,6 +204,7 @@ income_tx <- get_acs(
 
 ###
 
+<!-- DK: Knowledge drop. -->
 
 ### Exercise 2
 
@@ -289,6 +290,8 @@ question_text(NULL,
 ```
 
 ###
+
+<!-- DK: Knowledge drop? -->
 
 ### Exercise 5
 
