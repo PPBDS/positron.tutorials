@@ -1978,7 +1978,7 @@ question_text(NULL,
 Publish your rendered QMD to GitHub Pages. In the Terminal --- not the Console! --- run:
 
 ```         
-quarto publish gh-pages XX.qmd
+quarto publish gh-pages analysis.qmd
 ```
 
 Copy/paste the resulting URL below.
