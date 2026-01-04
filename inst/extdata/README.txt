@@ -1,4 +1,4 @@
-This file documents the sources of the files in this directory.
+This file documents the sources of the data files that are kept in the data/ directories of the respective tutorials. Maybe move these over to those directories . . .
 
 Making babynames into a duckdb:
 

@@ -35,37 +35,16 @@ Should longer tutorials like 1, 4 and 7 have one of their exercises removed?
 
 * Finish skeleton in tutorial.helpers
 
-* Create function for downloading data from extdata on GitHub and installing the relevant data in the correct data directory. Really want to put this package on CRAN! Or maybe we just ensure that each student downloads the data by hand.
-
 * Finish "Tutorials in the Age of AI" in tutorial.helpers.
 
 * Rewrite "Instructions"
 
-* Do we need an AI Getting Started tutorial which would highlight things like don't use install.packages() in your scripts and other generic lessons for working with AI?
+* Do we need an AI Getting Started tutorial which would highlight things like don't use install.packages() in your scripts and other generic lessons for working with AI? Maybe this is an "Introduction to AI" tutorial in tutorial.helpers?
 
-# Introductions
-
-This package will hold all of our new breed AI tutorials.
+* Clean up data documentation, especially for r4ds tutorials. Note that the files should be much less than 100 megabytes each because we want students to be able to easily download them and back them up in their personal repos.
 
 
-## Plan for R4DS
-
-
-### Data storage
-
-Most R4DS tutorials require the use of some strange data structures, like arrow files, spreadsheets and what not. We want to maintain our own copies of those starter files, even though they originally come from the web somewhere. 
-
-* These are stored in the `data` directory of the tutorial in which they are used. 
-
-* Document where these files come from in a brief note in `inst/extdata/README.txt`. (Maybe this should be elsewhere?) Or maybe there should be a .R script which recreates the files in that directory? Then, if you want to use the new ones, you move them over by hand to the relevant data directory.
-
-* The files should be much less than 100 megabytes each because we want students to be able to easily download them and back them up in their personal repos.
-
-* The big problem is that if we keep the datasets in the `data` directories, then we can't put the package on CRAN because it will be too big. Solution? Maybe we just keep all the data in extdata, then there is a script which downloads the files and puts them in the correct `data` directories. That script might be run by hand, sort of like the script which sets up tinytex. Appropriate checks would then need to be added to the tutorials so that they might report if the data is not there.
-
-
-
-Does source'ing a script work on Postitron?
+* Does source'ing a script work on Postitron?
 
 * Revisit Description
 
@@ -160,4 +139,4 @@ What about Chromebooks??!! Too much to worry about.
 
 We could do all the example repos in PPBDS and then leave them up forever, so they would be available to students doing the work.
 
-Paramanyu Gupta
+
