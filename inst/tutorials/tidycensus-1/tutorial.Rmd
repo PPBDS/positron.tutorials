@@ -145,7 +145,7 @@ Render again. Everything looks nice, albeit empty, because we have added code to
 
 Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line.
 
-Note that this causes `library(tidyverse)` to be copied down to the Console and then executed. 
+Note that this causes the entire code cell to be copied down to the Console and then executed. 
 
 CP/CR.
 
@@ -697,10 +697,13 @@ ggplot(edu_ca) +
 
 ### Exercise 9
 
+In the Console, run the following command to display the last chunk of your `.qmd` file
 
-1. In the Console, run the following command to display the last chunk of your `.qmd` file: CP/CR
+```
+tutorial.helpers::show_file("CaliforniaBachelors.qmd", chunk = "Last")
+```
 
-tutorial.helpers::show_file("CaliforniaBachelors.qmd", chunk = "last")
+CP/CR
 
 ```{r california-bachelors-degree-9}
 question_text(NULL,
@@ -745,7 +748,7 @@ execute:
 In the Console, run:
 
 ```         
-tutorial.helpers::show_file("CaliforniaAge.qmd", chunk = "last")
+tutorial.helpers::show_file("CaliforniaAge.qmd", chunk = "Last")
 ```
 
 CP/CR.
@@ -925,9 +928,7 @@ Helpful info for the next exercise:
 
 Now, copy/paste those few lines into your AI. Tell it to use the `age_ca` data and make a bar plot showing median age by county.
 
-
-
-Put what it gives you in the code chunk and do `Cmd/Ctrl + Enter` to send it to the console
+Put what it gives you in a new code chunk and do `Cmd/Ctrl + Enter` to send it to the console
 
 CP/CR
 
@@ -1038,10 +1039,13 @@ ggplot(largest_ca, aes(x = reorder(NAME, median_age), y = median_age)) +
 
 ### Exercise 10
 
+In the Console, run the following command to display the last chunk of your `.qmd` file.
 
-1. In the Console, run the following command to display the last chunk of your `.qmd` file: CP/CR
+```
+tutorial.helpers::show_file("CaliforniaAge.qmd", chunk = "Last")
+```
 
-tutorial.helpers::show_file("CaliforniaAge.qmd", chunk = "last")
+CP/CR
 
 ```{r california-median-age-10}
 question_text(NULL,

@@ -264,7 +264,7 @@ Explicit missing values usually show up as NA, but missing values can also be im
 
 ### Exercise 3
 
-Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that line. This causes `library(tidyverse)` to be copied down to the Console and then executed. Do this for the other libraries as well.
+Place your cursor in the QMD file on the `library(tidyverse)` line. Use `Cmd/Ctrl + Enter` to execute that chunk. This causes `library(tidyverse)` to be copied down to the Console and then executed.
 
 CP/CR.
 
@@ -279,7 +279,7 @@ question_text(NULL,
 
 ###
 
-JSON is a simple format designed to be easily read and written by machines, not humans. It has six key data types. Four of them are scalars. 1. Null Type: plays the same role as NA in R.2. String:  much like a string in R, but must always use double quotes.3. Number: similar to R’s numbers: they can use integer (e.g., 123), decimal (e.g., 123.45), or scientific (e.g., 1.23e3) notation. JSON doesn’t support `Inf`, `-Inf`, or `NaN`4. Boolean: similar to R’s `TRUE` and `FALSE`, but uses lowercase `true` and `false`.
+JSON is a machine-readable format with six data types. Four scalars: null (like R's NA), string (double quotes required), number (integer, decimal, or scientific notation; no Inf/NaN), and boolean (lowercase true/false).
 
 ### Exercise 4
 
@@ -376,7 +376,7 @@ question_text(NULL,
 ###
 
 Our code:
-
+<!-- PG: The result is extremely long, like I was scrolling for like 10 seconds to get down. -->
 ```{r earthquakes-2-test, echo = TRUE}
 jsonlite::read_json("data/earthquakes.geojson") |>
 	str(max.levels = 2)
@@ -713,6 +713,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 `if_any()` is the same as using `|` in-between the arguments.
 
 ### Exercise 11
+<!-- PG: Since the the earthquakes are from last 7  days, and there havent been any in the US, there are no dots. Should we switch to 30 days or maybe 365 days? -->
 
 Ask AI to continue your pipe using `across()` and convert magnitude and depth to numeric if they aren't already and then filter earthquakes from the last 7 days using `filter()` and `datetime >= Sys.Date() - 7`. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
@@ -1430,7 +1431,7 @@ When each row contains an unnamed list, it’s most natural to put each element 
 
 Ask AI to write a custom function called `extract_rating_info()` that takes a URL as input and returns the cleaned tibble with `rank`, `title`, `year`, and `rating` columns. The function should encapsulate all the scraping and cleaning steps. Add this code as a replacement of your current code in the same code chunk in the same QMD.
 
-Place your cursor at the beginning of the line where it says `request...` and run `Cmd/Ctrl + Enter`.
+Place your cursor at the beginning of the line where it says `extract_rating...` and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -1522,7 +1523,7 @@ question_text(NULL,
 ```
 
 ###
-
+<!-- PG: The result is extremely long for this too, like it took 7 seconds to scroll down. -->
 Our code:
 
 ```{r top-movies-8-test, echo = TRUE}
