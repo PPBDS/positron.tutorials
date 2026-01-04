@@ -121,17 +121,28 @@ Understand fully how Windows will work in the terminal in Positron, at least for
 
 ## Other tutorials
 
-Maybe an Advanced Positron tutorial? Covers topics like multiple Terminals and Consoles. Advanced Git/GitHub trickery, especially for when the Git history is rich. Branching
+Tutorial Github codespaces, called 08-codespaces. How does R work in a codespace? You don't have Positron! You have VScode. 
 
-Add tutorial about ellmer and other AI issues.
+Subject area tutorials:
+
+* baseball
+
+* stocks
+
+* bitcoin
+
+* ?
+
+Maybe an Advanced Positron tutorial? Covers topics like multiple Terminals and Consoles. Advanced Git/GitHub trickery, especially for when the Git history is rich. Branching
 
 Add a tutorial about working with large, complex projects? Each topic would involve forking an already existing project and then making a bunch of changes, perhaps including getting the raw data.
 
-Maybe we need another tutorial about putting large projects together. Might cover things like the **here** package. Cover material in book titled something like R Stuff that it is not in the manual.
+Cover material in book titled something like R Stuff that it is not in the manual: https://rstats.wtf/ Might cover things like the **here** package.
 
 Maybe a different tutorial which walked through a bunch of different Quarto project types, not because we are especially interested in Dashboards, but because we want to give students more practice dealing with projects with lots of different files doing different things.
 
-What they forgot to teach you tutorial: https://rstats.wtf/
+
+
 
 ## For Later
 
