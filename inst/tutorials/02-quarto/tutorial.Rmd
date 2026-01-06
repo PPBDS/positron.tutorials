@@ -45,7 +45,7 @@ Quarto is a file format for making dynamic documents with R and other languages,
 
 Always do your data science work in a project. Read these instructions and then follow them **in the other Positron window**, the one not running this tutorial.
 
-From the Positron menu, select `File -> New Project ...`. 
+From the Positron menu, select `File -> New Folder From Template ...`. 
 
 Select "R Project" and click "Next."
 

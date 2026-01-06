@@ -347,9 +347,9 @@ Good data scientists keep their work organized. You should place your work in di
 
 **Read all the instructions before starting the steps.**
 
-From the `File` menu, select `New Project ...`. 
+From the `File` menu, select `New Folder From Template ...`. 
 
-From the "Project Type" screen, select "R Project." Click "Next." Doing so brings up the "Create New Project" screen:
+From the "Folder Template" screen, select "R Project." Click "Next." Doing so brings up the "Create New Project" screen:
 
 ```{r}
 include_graphics("images/set-project-1.png")
@@ -1238,7 +1238,7 @@ For the most part, the names of projects and the directories in which they resid
 
 ### Exercise 2
 
-From the Positron menu, select `File -> New Project ...`. (Again, all of this occurs in the Positron window in which you are **not** running this tutorial.) Select  "R Project" and click "Next." 
+From the Positron menu, select `File -> New Folder From Template ...`. (Again, all of this occurs in the Positron window in which you are **not** running this tutorial.) Select  "R Project" and click "Next." 
 
 Use `analysis-2` for the "Project Name." Ensure that "Parent Directory" is set to the location of your `projects` directory. Click "Next" and then "Create." (You might need to select the R version, although it would be best to only have one version installed.)
 
