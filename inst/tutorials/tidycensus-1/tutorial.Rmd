@@ -168,9 +168,6 @@ This is how professionals work, they type code in the quarto document and send i
 
 A critical part of the Census data analysis process is data visualization, where an analyst examines patterns and trends found in their data graphically. This first section illustrates some examples for getting started with exploratory Census data visualization with [**ggplot2**](https://ggplot2.tidyverse.org/). You will be using the `get_acs()` and the `geom_sf()` functions as well.
 
-
-
-
 ### Exercise 1
 
 Ask AI to use **tidycensus** to get data on the median household income for all counties in Texas for 2020.
@@ -205,6 +202,8 @@ income_tx <- get_acs(
 ###
 
 <!-- DK: Knowledge drop. -->
+
+The `geometry` argument in `get_acs()` controls whether spatial boundary data is downloaded. Setting `geometry = TRUE` downloads county/tract shapes as polygons, which allows you to create maps with `geom_sf()`.
 
 ### Exercise 2
 
@@ -272,7 +271,9 @@ Using FIPS code '48' for state 'TX'
 >
 ````
 
- The `geometry = TRUE` argument returns spatial polygons, useful for maps and spatial analysis.
+###
+
+The `geometry = TRUE` argument returns spatial polygons, useful for maps and spatial analysis.
 
 ### Exercise 4
 
@@ -292,6 +293,8 @@ question_text(NULL,
 ###
 
 <!-- DK: Knowledge drop? -->
+
+The `glimpse()` function from **dplyr** shows the structure of your data frame transposed, making it easy to scan all column names and types at once. For Census data, this helps you quickly verify you got the right variables and see what additional columns like `GEOID` and `NAME` were automatically included.
 
 ### Exercise 5
 
@@ -313,7 +316,7 @@ question_text(NULL,
 
 <!-- DK: Chance to define the estimate and moe. -->
 
-
+ACS data includes both an `estimate` column (the survey's best guess) and a `moe` column (margin of error). The margin of error tells you the range of uncertainty. Smaller margins mean more reliable estimates, which typically occurs in areas with larger populations.
 
 ### Exercise 6
 
@@ -501,7 +504,7 @@ question_text(NULL,
 
 ###
 
-Working in the console like this is how professionals work!
+Educational attainment variables in the Census are nested hierarchically—table B15003 contains 25 separate variables from "No schooling" through "Doctorate degree." To calculate percentages for bachelor's degree or higher, you need to identify and sum the specific variable codes (B15003_022 through B15003_025) that represent those education levels.
 
 ### Exercise 3
 
@@ -592,6 +595,8 @@ question_text(NULL,
 
 ###
 
+When requesting multiple variables from the same table, **tidycensus** returns data in long format with one row per geography-variable combination. The `summary_var` argument adds a column with totals, useful for calculating percentages later.
+
 ### Exercise 6
 
 Let's get some quick stats for each column of the data. 
@@ -611,6 +616,8 @@ question_text(NULL,
 ```
 
 ###
+
+Census education tables report completed degrees, not enrollment. Someone with a master's degree appears in both the bachelor's and master's variables, so you must be careful not to double-count when summing across education levels.
 
 ### Exercise 7
 
@@ -657,8 +664,8 @@ question_text(NULL,
 Our Code:
 
 ````
-edu_ca <- edu_ca %>%
-  group_by(GEOID) %>%
+edu_ca <- edu_ca |>
+  group_by(GEOID) |>
   summarize(
     percent = 100 * sum(estimate[variable != "B15003_001"]) / unique(summary_est)
   )
@@ -679,8 +686,8 @@ For educational attainment, we use `B15003_022` through `B15003_025` to sum all 
 
 ```{r}
 #| message: false
-edu_ca <- edu_ca %>%
-  group_by(GEOID) %>%
+edu_ca <- edu_ca |>
+  group_by(GEOID) |>
   summarize(
     percent = 100 * sum(estimate[variable != "B15003_001"]) / unique(summary_est)
   )
@@ -883,6 +890,8 @@ question_text(NULL,
 
 ###
 
+Unlike the education data which had multiple variables per geography, requesting named variables like `median_age = "B01002_001"` creates a `variable` column with your custom names instead of Census codes. This makes the data easier to work with when pivoting to wide format later.
+
 ### Exercise 6
 
 Let's get some quick stats for each column of the data. 
@@ -949,8 +958,8 @@ question_text(NULL,
 Our Code:
 
 ````
-age_ca_wide <- age_ca %>%
-  select(NAME, variable, estimate) %>%
+age_ca_wide <- age_ca |>
+  select(NAME, variable, estimate) |>
   pivot_wider(names_from = variable, values_from = estimate)
 
 
@@ -986,12 +995,12 @@ Here is our code. It is okay if your code is different. That will happen when us
 Replace your code with what it gave you using this code: 
 
 ````
-age_ca_wide <- age_ca %>%
-  select(NAME, variable, estimate) %>%
+age_ca_wide <- age_ca |>
+  select(NAME, variable, estimate) |>
   pivot_wider(names_from = variable, values_from = estimate)
 
-largest_ca <- age_ca_wide %>%
-  arrange(desc(population)) %>%
+largest_ca <- age_ca_wide |>
+  arrange(desc(population)) |>
   slice_head(n = 15)
 
 ggplot(largest_ca, aes(x = reorder(NAME, median_age), y = median_age)) +
@@ -1015,12 +1024,12 @@ Applies a clean, minimal theme to the plot for better readability.
 
 ```{r}
 #| message: false
-age_ca_wide <- age_ca %>%
-  select(NAME, variable, estimate) %>%
+age_ca_wide <- age_ca |>
+  select(NAME, variable, estimate) |>
   pivot_wider(names_from = variable, values_from = estimate)
 
-largest_ca <- age_ca_wide %>%
-  arrange(desc(population)) %>%
+largest_ca <- age_ca_wide |>
+  arrange(desc(population)) |>
   slice_head(n = 15)
 
 ggplot(largest_ca, aes(x = reorder(NAME, median_age), y = median_age)) +
@@ -1071,13 +1080,6 @@ The `show_file()` function from tutorial.helpers is a convenient way to check th
 ## Summary
 
 This tutorial covered an overview of  [Analyzing US Census Data](https://walker-data.com/census-r/index.html) by Kyle Walker. You learned about using the [**tidycensus**] package for collecting, interacting, and plotting US Census data. You mainly focused on collecting data from the Decennial Census and the American Community Survey (ACS).
-
-
-
-
-
-
-
 
 ### Good Knowledge Drops
 
