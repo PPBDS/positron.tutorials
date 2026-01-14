@@ -174,7 +174,7 @@ top_movies <- request("https://web.archive.org/web/20220201012049/https://www.im
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- DK: Package takes too long to compile, especially earthquake stuff. -->
+<!-- DK: Package takes a bit too long to compile. -->
 
 ## Introduction
 ###
@@ -1068,17 +1068,103 @@ question_text(NULL,
 
 ### Exercise 17
 
+Before creating a plot, we need to ensure that your data matches our data. In the QMD, replace your code from the previous exercise with our code.
+
+In the Console, run:
+
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
+
+CP/CR.
+
+```{r earthquakes-17}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+Our code:
+
+```{r earthquakes-17-test, echo = TRUE}
+jsonlite::read_json("data/earthquakes.geojson") |>
+  pluck("features") |> 
+  tibble(data = _) |> 
+  unnest_wider(data) |> 
+  unnest_wider(properties, names_sep = "_") |> 
+  hoist(geometry, coordinates = "coordinates") |> 
+  unnest_wider(coordinates, names_sep = "_") |> 
+  rename(
+    longitude = coordinates_1,
+    latitude  = coordinates_2,
+    depth     = coordinates_3
+  )|>
+ 	mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x))) |>
+ 	filter(!if_any(c(properties_mag, longitude, latitude), is.na))|>
+		mutate(
+  			datetime = convert_earthquake_time(as.numeric(properties_time)),
+  			mag_category = categorize_magnitude(as.numeric(properties_mag))
+		)|>
+mutate(across(c(properties_mag, depth), as.numeric)) |>
+  filter(datetime >= Sys.Date() - 7) |>
+  filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
+  mutate(
+    hour = hour(datetime),
+    day_of_week = wday(datetime, label = TRUE),
+    depth_category = case_when(
+      depth < 70 ~ "Shallow",
+      depth < 300 ~ "Intermediate", 
+      depth < 600 ~ "Deep"
+    )
+  )|>
+  select(longitude, latitude, properties_mag, properties_place, datetime, depth, mag_category, depth_category) |>
+  mutate(
+    tooltip_text = paste0(
+      "Magnitude: ", properties_mag, " (", mag_category, ")<br>",
+      "Location: ", properties_place, "<br>",
+      "Time: ", format(datetime, "%Y-%m-%d %H:%M"), "<br>",
+      "Depth: ", round(depth, 1), " km (", depth_category, ")"
+    )
+  )|>
+  filter(
+    longitude >= -180, longitude <= 180,
+    latitude >= -90, latitude <= 90,
+    properties_mag >= 0, properties_mag <= 10
+  ) |>
+  mutate(
+    color = case_when(
+      properties_mag >= 6 ~ "red",
+      properties_mag >= 5 ~ "orange", 
+      properties_mag >= 4 ~ "yellow",
+      properties_mag >= 3 ~ "green",
+      TRUE ~ "blue"
+    )
+  ) |>
+  arrange(desc(properties_mag))
+```
+
+###
+
+It’s great for rapid exploration, but ultimately it’s a bad idea because it doesn’t force you to understand how your data is structured, and makes your code harder to understand.
+
+### Exercise 18
+
 Within the latest code chunk, add the option: `#| cache: true`. Assign the result of the pipe to `earthquake_df`. 
 
 `Cmd/Ctrl + Shift + K`. By including `#| cache: true` you cause Quarto to cache the results of the chunk. The next time you render your QMD, as long as you have not changed the code, Quarto will just load up the saved object.
 
-If you have not done so already, you should add `analysis_cache` to the `.gitginore`. The content of the cache file does not belong on GitHub.
+If you have not done so already, you should add `analysis_cache` to the `.gitignore`. The content of the cache file does not belong on GitHub.
 
 Place your cursor on the line where the pipe is assigned to `earthquake_df`, run `Cmd/Ctrl + Enter`, thus ensuring that the workspace also includes a copy of `earthquake_df`.
 
 CP/CR.
 
-```{r earthquakes-17}
+```{r earthquakes-18}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -1150,15 +1236,15 @@ mutate(across(c(properties_mag, depth), as.numeric)) |>
 
 ###
 
-`possibly()` is a function operator: it takes a function and returns a function with modified behavior. 
+It is always good practice to inspect your data before plotting it.
 
-### Exercise 18
+### Exercise 19
 
 Within the Console, type `earthquake_df`, which we previously assigned to a pipe and ran in the Console. Hit `Enter`.
 
 CP/CR.
 
-```{r earthquakes-18}
+```{r earthquakes-19}
 question_text(NULL,
     answer(NULL, correct = TRUE),
     allow_retry = TRUE,
@@ -1169,18 +1255,13 @@ question_text(NULL,
 
 ###
 
-
 Our code:
 
 ```{r, echo=TRUE}
 earthquake_df
 ```
 
-###
-
-`group_nest()` is used to nest a tibble using a grouping specification. The output is a tibble with as many rows as there are values for the grouping variable. 
-
-### Exercise 19
+### Exercise 20
 
 Ask AI to generate R code that uses the `earthquake_df` tibble to create an interactive map showing earthquakes in the U.S. Mention that you want to use the data from `earthquake_df` and include the top 3 rows (mainly to show column names). The map should use `leaflet()` with `addTiles()` and `addCircleMarkers()` to plot points with `longitude` and `latitude`, sized by `properties_mag`, colored by `color`, and showing `tooltip_text` on popups. Also, add a legend with `addLegend()` to label earthquake magnitudes with colors and categories.
 
@@ -1194,7 +1275,7 @@ show_file("analysis.qmd", chunk = "Last")
 
 CP/CR.
 
-```{r earthquakes-19}
+```{r earthquakes-20}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
