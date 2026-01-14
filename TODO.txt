@@ -1,9 +1,9 @@
-## Paramanyu
-
-Finish edits for tidycensus-1 and submit PR.
-
-
 ## Priorities
+
+r4ds-4 is probably too long. Maybe split it up into two tutorials?
+r4ds-5 takes too long to compile.
+
+All r4ds tutorials should be like r4ds-4 in that they should all create a data directory and download some stuff to it. Getting good at downloading and keepingf track of things is very valuable.
 
 * Would options(pillar.print_max = Inf, pillar.print_min = Inf)	 make the use of  df_print: default not necessary? Which is best? Again, goal is for printed out tibbles to look the same in the tutorial html as they look in the Console.
 
@@ -142,5 +142,3 @@ Maybe a different tutorial which walked through a bunch of different Quarto proj
 What about Chromebooks??!! Too much to worry about. 
 
 We could do all the example repos in PPBDS and then leave them up forever, so they would be available to students doing the work.
-
-
