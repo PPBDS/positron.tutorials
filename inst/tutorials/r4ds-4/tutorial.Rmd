@@ -1,6 +1,6 @@
 ---
 title: Fourth Tutorial for R4DS
-author: Sruthi Gandhi and David Kane
+author: David Kane
 tutorial:
   id: r4ds-4
 output: 
@@ -1942,20 +1942,21 @@ final_fifa %>%
 Ordered factors, created with `ordered()`, imply a strict ordering and equal distance between levels: the first level is “less than” the second level by the same amount that the second level is “less than” the third level, and so on.
 
 ## Summary
+
 ### 
 
 This tutorial covered key concepts from [Chapter 16: Factors](https://r4ds.hadley.nz/factors.html), [Chapter 17: Dates and Times](https://r4ds.hadley.nz/datetimes.html), [Chapter 18: Missing Values](https://r4ds.hadley.nz/missing-values.html), [Chapter 19: Joins](https://r4ds.hadley.nz/joins.html), and [Chapter 22: Arrow](https://r4ds.hadley.nz/arrow.html) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
 
-You learned about working with parquet files using **[arrow](https://arrow.apache.org/docs/r/)**, manipulating categorical variables with **[forcats](https://forcats.tidyverse.org/)**, handling date-time data with **[lubridate](https://lubridate.tidyverse.org/)**, managing missing values, and performing joins. Key functions included [`open_dataset()`](https://arrow.apache.org/docs/r/reference/open_dataset.html), [`fct_reorder()`](https://forcats.tidyverse.org/reference/fct_reorder.html), [`ymd_hms()`](https://lubridate.tidyverse.org/reference/ymd.html), [`left_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html), and [`drop_na()`](https://tidyr.tidyverse.org/reference/drop_na.html).
+You learned about working with parquet files using **[arrow](https://arrow.apache.org/docs/r/)**, manipulating categorical variables with **[forcats](https://forcats.tidyverse.org/)**, handling date/time data with **[lubridate](https://lubridate.tidyverse.org/)**, managing missing values, and performing joins. Key functions include [`open_dataset()`](https://arrow.apache.org/docs/r/reference/open_dataset.html), [`fct_reorder()`](https://forcats.tidyverse.org/reference/fct_reorder.html), [`ymd_hms()`](https://lubridate.tidyverse.org/reference/ymd.html), [`left_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html), and [`drop_na()`](https://tidyr.tidyverse.org/reference/drop_na.html).
 
 ### Exercise 1
 
-`Cmd/Ctrl + Shift + K` to ensure that everything works. The resulting HTML page should be attractive, showing clean versions of your plots.
+`Cmd/Ctrl + Shift + K` to ensure that everything works.  The resulting HTML page should be attractive, showing clean versions of your plot(s).
 
 At the Console, run:
 
-```         
-tutorial.helpers::show_file("analysis.qmd")
+```
+show_file("analysis.qmd")
 ```
 
 CP/CR.
@@ -1975,32 +1976,9 @@ question_text(NULL,
 
 ### Exercise 2
 
-Publish your rendered QMD to GitHub Pages. In the Terminal --- not the Console! --- run:
-
-```         
-quarto publish gh-pages analysis.qmd
-```
-
-Copy/paste the resulting URL below.
-
-```{r summary-2}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 1)
-```
-
-### 
-
-We recommend using `curl::multi_download()` to get very large files as it’s built for exactly this purpose: it gives you a progress bar and it can resume the download if it's interrupted. 
-
-### Exercise 3
-
 Commit and push all your files. Copy/paste the URL to your Github repo.
 
-```{r summary-3}
+```{r summary-2}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -2011,7 +1989,30 @@ question_text(NULL,
 
 ### 
 
-Like `dbplyr`, `arrow` only understands some R expressions, so you may not be able to write exactly the same code you usually would. However, the list of operations and functions supported is fairly extensive and continues to grow; find a complete list of currently supported functions in `?acero`.
+We recommend using `curl::multi_download()` to get very large files as it’s built for exactly this purpose: it gives you a progress bar and it can resume the download if it's interrupted. 
+
+### Exercise 3
+
+Publish your rendered QMD to GitHub Pages. In the Terminal --- not the Console! --- run:
+
+```
+quarto publish gh-pages analysis.qmd
+```
+
+Copy/paste the resulting URL below.
+
+```{r summary-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 1)
+```
+
+### 
+
+Like `dbplyr`, `arrow` only understands some R expressions, so you may not be able to write exactly the same code you usually would. However, the list of operations and functions supported is fairly extensive and continues to grow; find a complete list of currently supported functions in `?acero_compute`.
 
 ```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
 ```
