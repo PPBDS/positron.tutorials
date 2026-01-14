@@ -2041,27 +2041,27 @@ question_text(NULL,
 
 ###
 
-`unnest()` expands both rows and columns. It’s useful when you have a list-column that contains a 2d structure like a data frame.
+You can often get the same results from `across()` by first using `pivot_longer()`, summarizing by groups, and then reshaping back with `pivot_wider()`. This approach is especially powerful when you need to work with paired columns (e.g., values and weights) that across() can’t currently handle, such as calculating weighted means.
 
 ### Exercise 16
 
-Within the latest code chunk, add the option: `#| cache: true`. Assign the result of the pipe to `top_movies`. 
+Before creating a plot, we need to ensure that your data matches our data. In the QMD, replace your code from the previous exercise with our code.
 
-`Cmd/Ctrl + Shift + K`. By including `#| cache: true` you cause Quarto to cache the results of the chunk. The next time you render your QMD, as long as you have not changed the code, Quarto will just load up the saved object.
+In the Console, run:
 
-If you have not done so already, you should add `analysis_cache` to the `.gitginore`. The content of the cache file does not belong on GitHub.
-
-Place your cursor on the line where the pipe is assigned to `top_movies`, run `Cmd/Ctrl + Enter`, thus ensuring that the workspace also includes a copy of `top_movies`.
+```         
+show_file("analysis.qmd", chunk = "Last")
+```
 
 CP/CR.
 
 ```{r top-movies-16}
 question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 8)
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
 ```
 
 ###
@@ -2069,7 +2069,7 @@ question_text(NULL,
 Our code:
 
 ```{r top-movies-16-test, echo = TRUE}
-top_movies <- request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+request("[https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/](https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/)") |> 
   req_perform() |> 
   resp_body_html() |> 
   html_element("table") |>
@@ -2080,7 +2080,7 @@ top_movies <- request("https://web.archive.org/web/20220201012049/https://www.im
   ) |>
   mutate(
     rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
-    rating_details = request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
+    rating_details = request("[https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/](https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/)") |> 
   req_perform() |> 
   resp_body_html() |> 
       html_elements("td strong") |>
@@ -2125,11 +2125,15 @@ top_movies <- request("https://web.archive.org/web/20220201012049/https://www.im
 
 ###
 
-You can often get the same results from `across()` by first using `pivot_longer()`, summarizing by groups, and then reshaping back with `pivot_wider()`. This approach is especially powerful when you need to work with paired columns (e.g., values and weights) that across() can’t currently handle, such as calculating weighted means.
+`unnest()` expands both rows and columns. It’s useful when you have a list-column that contains a 2d structure like a data frame.
 
 ### Exercise 17
 
-Within the Console, type `top_movies`, which we previously assigned to a pipe and ran in the Console. Hit `Enter`.
+Within the latest code chunk, add the option: `#| cache: true`. Assign the result of the pipe to `top_movies`. 
+
+`Cmd/Ctrl + Shift + K`. By including `#| cache: true` you cause Quarto to cache the results of the chunk. The next time you render your QMD, as long as you have not changed the code, Quarto will just load up the saved object.
+
+Place your cursor on the line where the pipe is assigned to `top_movies`, run `Cmd/Ctrl + Enter`, thus ensuring that the workspace also includes a copy of `top_movies`.
 
 CP/CR.
 
@@ -2146,7 +2150,108 @@ question_text(NULL,
 
 Our code:
 
-```{r top-movies-17-test, echo=TRUE}
+```{r, echo = TRUE}
+top_movies <- request("[https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/](https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/)") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+  html_element("table") |>
+  html_table() |>
+  select(
+    rank_title_year = `Rank & Title`,
+    rating = `IMDb Rating`
+  ) |>
+  mutate(
+    rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
+    rating_details = request("[https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/](https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/)") |> 
+  req_perform() |> 
+  resp_body_html() |> 
+      html_elements("td strong") |>
+      html_attr("title")
+  ) |>
+  separate_wider_regex(
+    rank_title_year,
+    patterns = c(
+      rank = "\\d+", "\\. ",
+      title = ".+", " +\\(",
+      year = "\\d+", "\\)"
+    )
+  ) |>
+  separate_wider_regex(
+    rating_details,
+    patterns = c(
+      "[0-9.]+ based on ",
+      number = "[0-9,]+",
+      " user ratings"
+    )
+  ) |>
+  mutate(
+    number = parse_number(number),
+    across(c(rank, year), as.numeric),
+    decade = paste0(floor(year/10)*10, "s"),
+    rating_category = case_when(
+      rating >= 9.0 ~ "Masterpiece (9.0+)",
+      rating >= 8.5 ~ "Excellent (8.5-8.9)", 
+      rating >= 8.0 ~ "Great (8.0-8.4)",
+      TRUE ~ "Good (<8.0)"
+    ),
+    popularity = case_when(
+      number >= 2000000 ~ "Very Popular (2M+)",
+      number >= 1000000 ~ "Popular (1M-2M)",
+      number >= 500000 ~ "Moderate (500K-1M)",
+      TRUE ~ "Niche (<500K)"
+    )
+  ) |>
+  select(rank, title, year, rating, number) |>
+  arrange(rank)
+```
+
+###
+
+It is always good practice to inspect your data before plotting it.
+
+### Exercise 18
+
+Within the Console, type `top_movies`, which we previously assigned to a pipe and ran in the Console. Hit `Enter`.
+
+CP/CR.
+
+```{r top-movies-18}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+###
+
+Our code:
+
+```{r, echo=TRUE}
+top_movies
+```
+
+### Exercise 19
+
+Within the Console, type `top_movies`, which we previously assigned to a pipe and ran in the Console. Hit `Enter`.
+
+CP/CR.
+
+```{r top-movies-19}
+question_text(NULL,
+    answer(NULL, correct = TRUE),
+    allow_retry = TRUE,
+    try_again_button = "Edit Answer",
+    incorrect = NULL,
+    rows = 8)
+```
+
+###
+
+Our code:
+
+```{r top-movies-19-test, echo=TRUE}
 top_movies
 ```
 
@@ -2154,7 +2259,7 @@ top_movies
 
 Note that JSON doesn’t have any native way to represent dates or date-times, so they’re often stored as strings, and you’ll need to use `readr::parse_date()` or `readr::parse_datetime(`) to turn them into the correct data structure. Similarly, JSON’s rules for representing floating point numbers in JSON are a little imprecise, so you’ll also sometimes find numbers stored in strings. Apply `readr::parse_double()` as needed to get the correct variable type.
 
-### Exercise 18
+### Exercise 20
 
 Ask AI to generate R code that uses `top_movies` to plot a basic graph showing the relationship between `year` and `rating` from 1990 - 2010 using `geom_point()` and `geom_smooth()`. Map `size` to `number/1000` and `color` to `rating_category` within `geom_point()`. Add scale breaks on the x and y axis and `theme_minimal()`. Mention you want to use the data from `top_movies` and copy/paste the `top_movies` you ran in the Console with the resulting tibble. You only need the top 3 lines, mainly to include column names.
 
@@ -2168,7 +2273,7 @@ show_file("analysis.qmd", chunk = "Last")
 
 CP/CR.
 
-```{r top-movies-18}
+```{r top-movies-20}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -2183,7 +2288,7 @@ Our code:
 
 <!-- DK: Revisit this graph. Need to color something . . . -->
 
-```{r top-movies-18-test, echo=TRUE}
+```{r top-movies-20-test, echo=TRUE}
 top_movies |>
 filter(year >= 1990, year <= 2010) |>
  ggplot(aes(x = year, y = rating)) +
