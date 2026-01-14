@@ -2069,7 +2069,7 @@ question_text(NULL,
 Our code:
 
 ```{r top-movies-16-test, echo = TRUE}
-request("[https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/](https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/)") |> 
+request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top") |> 
   req_perform() |> 
   resp_body_html() |> 
   html_element("table") |>
@@ -2080,7 +2080,7 @@ request("[https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/
   ) |>
   mutate(
     rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
-    rating_details = request("[https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/](https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/)") |> 
+    rating_details = request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
   req_perform() |> 
   resp_body_html() |> 
       html_elements("td strong") |>
@@ -2151,7 +2151,7 @@ question_text(NULL,
 Our code:
 
 ```{r, echo = TRUE}
-top_movies <- request("[https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/](https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/)") |> 
+top_movies <- request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top") |> 
   req_perform() |> 
   resp_body_html() |> 
   html_element("table") |>
@@ -2162,7 +2162,7 @@ top_movies <- request("[https://web.archive.org/web/20220201012049/https://www.i
   ) |>
   mutate(
     rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
-    rating_details = request("[https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/](https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/)") |> 
+    rating_details = request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
   req_perform() |> 
   resp_body_html() |> 
       html_elements("td strong") |>
@@ -2342,19 +2342,18 @@ filter(year >= 1990, year <= 2010) |>
 ## Summary
 ###
 
-This section covered key concepts from [Chapter 23: Hierarchical Data](https://r4ds.hadley.nz/hierarchical), [Chapter 24: Web Scraping](https://r4ds.hadley.nz/webscraping), [Chapter 25: Functions](https://r4ds.hadley.nz/functions), and [Chapter 26: Iterations](https://r4ds.hadley.nz/iteration) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
+This section covered key concepts from [Chapter 23: Hierarchical Data](https://r4ds.hadley.nz/hierarchical), [Chapter 24: Web Scraping](https://r4ds.hadley.nz/webscraping), [Chapter 25: Functions](https://r4ds.hadley.nz/functions), and [Chapter 26: Iterations](https://r4ds.hadley.nz/iteration) from [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. 
 
-You learned about working with nested data structures, web scraping techniques, and creating custom functions using core packages such as **[jsonlite](https://cran.r-project.org/package=jsonlite)**, **[rvest](https://rvest.tidyverse.org/)**, **[httr2](https://httr2.r-lib.org/)**, and **[purrr](https://purrr.tidyverse.org/)**. Important functions included [`pluck()`](https://purrr.tidyverse.org/reference/pluck.html), [`unnest_wider()`](https://tidyr.tidyverse.org/reference/unnest_wider.html), [`html_table()`](https://rvest.tidyverse.org/reference/html_table.html), and [`separate_wider_regex()`](https://tidyr.tidyverse.org/reference/separate_wider_delim.html).
-
+You learned about working with nested data structures, web scraping techniques, and creating custom functions using core packages such as **[jsonlite](https://cran.r-project.org/package=jsonlite)**, **[rvest](https://rvest.tidyverse.org/)**, **[httr2](https://httr2.r-lib.org/)**, and **[purrr](https://purrr.tidyverse.org/)**. Important functions include: [`pluck()`](https://purrr.tidyverse.org/reference/pluck.html), [`unnest_wider()`](https://tidyr.tidyverse.org/reference/unnest_wider.html), [`html_table()`](https://rvest.tidyverse.org/reference/html_table.html), and [`separate_wider_regex()`](https://tidyr.tidyverse.org/reference/separate_wider_delim.html).
 
 ### Exercise 1
 
-`Cmd/Ctrl + Shift + K` to ensure that everything works.  The resulting HTML page should be attractive, showing clean versions of your plots.
+`Cmd/Ctrl + Shift + K` to ensure that everything works.  The resulting HTML page should be attractive, showing clean versions of your plot(s).
 
 At the Console, run:
 
 ```
-tutorial.helpers::show_file("analysis.qmd")
+show_file("analysis.qmd")
 ```
 
 CP/CR.
@@ -2374,32 +2373,9 @@ If you want to collapse a lot of levels, `fct_collapse()` is a useful variant of
 
 ### Exercise 2
 
-Publish your rendered QMD to GitHub Pages. In the Terminal --- not the Console! --- run:
-
-````
-quarto publish gh-pages analysis.qmd
-````
-
-Copy/paste the resulting URL below.
-
-```{r summary-2}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 1)
-```
-
-### 
-
-There’s one special type of missing value that you’ll encounter from time to time: a NaN (pronounced “nan”), or **n**ot **a** **n**umber. In the rare case you need to distinguish an NA from a NaN, you can use `is.nan(x)`.
-
-### Exercise 3
-
 Commit and push all your files. Copy/paste the URL to your Github repo.
 
-```{r summary-3}
+```{r summary-2}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -2410,7 +2386,28 @@ question_text(NULL,
 
 ### 
 
-<!-- XX: The tutorial is now over. Add any necessary acknowledgements and/or provide a link to further high quality readings, ideally readings which you mentioned in at least one knowledge drop above. -->
+There’s one special type of missing value that you’ll encounter from time to time: a NaN (pronounced “nan”), or **n**ot **a** **n**umber. In the rare case you need to distinguish an NA from a NaN, you can use `is.nan(x)`.
+
+### Exercise 3
+
+Publish your rendered QMD to GitHub Pages. In the Terminal --- not the Console! --- run:
+
+```
+quarto publish gh-pages analysis.qmd
+```
+
+Copy/paste the resulting URL below.
+
+```{r summary-3}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 1)
+```
+
+### 
 
 ```{r download-answers, child = system.file("child_documents/download_answers.Rmd", package = "tutorial.helpers")}
 ```
