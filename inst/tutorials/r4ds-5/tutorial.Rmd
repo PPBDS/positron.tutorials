@@ -1,6 +1,6 @@
 ---
 title: Fifth Tutorial for R4DS
-author: Sruthi Gandhi and David Kane
+author: David Kane
 tutorial:
   id: r4ds-5
 output: 
