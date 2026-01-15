@@ -42,8 +42,8 @@ nba_clean <- open_dataset("data/game.parquet") |>
     game_date = as_datetime(game_date),
     game_year = year(game_date),
     season_label = paste0(season_id %/% 10000, "-", str_sub(season_id + 1, 3, 4))
-  ) %>%
-  filter(!is.na(game_date), game_year >= 1946) %>%
+  ) |>
+  filter(!is.na(game_date), game_year >= 1946) |>
 	mutate(
 	wl_home = factor(wl_home, levels = c("W", "L")),
     game_era = case_when(
@@ -58,18 +58,18 @@ nba_clean <- open_dataset("data/game.parquet") |>
     	across(contains("pct"), ~replace_na(.x, 0)),
     	across(c(pts_home.x, pts_away.x), ~replace_na(.x, 0)),
     	total_points = pts_home.x + pts_away.x
- 	 ) %>%
+ 	 ) |>
  	 filter(total_points > 0, !is.na(pts_home.x), !is.na(pts_away.x))|>
-  group_by(game_year, game_era, season_label) %>%
+  group_by(game_year, game_era, season_label) |>
   summarise(
     avg_points = mean(total_points, na.rm = TRUE),
     games_count = n(),
     home_win_pct = mean(wl_home == "W", na.rm = TRUE),
     .groups = "drop"
-  ) %>%
+  ) |>
   arrange(game_year)
 
-time_series_plot <- nba_clean %>%
+time_series_plot <- nba_clean |>
   ggplot(aes(x = game_year, y = avg_points, color = game_era)) +
   geom_line(linewidth = 1.2, alpha = 0.8) +
   geom_point(aes(size = games_count),
@@ -740,7 +740,7 @@ open_dataset("data/game.parquet") |>
     game_date = as_datetime(game_date),
     game_year = year(game_date),
     season_label = paste0(season_id %/% 10000, "-", str_sub(season_id + 1, 3, 4))
-  ) %>%
+  ) |>
   filter(!is.na(game_date), game_year >= 1946)
 ```
 
@@ -786,8 +786,8 @@ open_dataset("data/game.parquet") |>
     game_date = as_datetime(game_date),
     game_year = year(game_date),
     season_label = paste0(season_id %/% 10000, "-", str_sub(season_id + 1, 3, 4))
-  ) %>%
-  filter(!is.na(game_date), game_year >= 1946) %>%
+  ) |>
+  filter(!is.na(game_date), game_year >= 1946) |>
 	mutate(
 	wl_home = factor(wl_home, levels = c("W", "L")),
     game_era = case_when(
@@ -842,8 +842,8 @@ open_dataset("data/game.parquet") |>
     game_date = as_datetime(game_date),
     game_year = year(game_date),
     season_label = paste0(season_id %/% 10000, "-", str_sub(season_id + 1, 3, 4))
-  ) %>%
-  filter(!is.na(game_date), game_year >= 1946) %>%
+  ) |>
+  filter(!is.na(game_date), game_year >= 1946) |>
 	mutate(
 	wl_home = factor(wl_home, levels = c("W", "L")),
     game_era = case_when(
@@ -858,7 +858,7 @@ open_dataset("data/game.parquet") |>
     	across(contains("pct"), ~replace_na(.x, 0)),
     	across(c(pts_home.x, pts_away.x), ~replace_na(.x, 0)),
     	total_points = pts_home.x + pts_away.x
- 	 ) %>%
+ 	 ) |>
  	 filter(total_points > 0, !is.na(pts_home.x), !is.na(pts_away.x))
 ```
 
@@ -904,8 +904,8 @@ open_dataset("data/game.parquet") |>
     game_date = as_datetime(game_date),
     game_year = year(game_date),
     season_label = paste0(season_id %/% 10000, "-", str_sub(season_id + 1, 3, 4))
-  ) %>%
-  filter(!is.na(game_date), game_year >= 1946) %>%
+  ) |>
+  filter(!is.na(game_date), game_year >= 1946) |>
 	mutate(
 	wl_home = factor(wl_home, levels = c("W", "L")),
     game_era = case_when(
@@ -920,15 +920,15 @@ open_dataset("data/game.parquet") |>
     	across(contains("pct"), ~replace_na(.x, 0)),
     	across(c(pts_home.x, pts_away.x), ~replace_na(.x, 0)),
     	total_points = pts_home.x + pts_away.x
- 	 ) %>%
+ 	 ) |>
  	 filter(total_points > 0, !is.na(pts_home.x), !is.na(pts_away.x))|>
-  group_by(game_year, game_era, season_label) %>%
+  group_by(game_year, game_era, season_label) |>
   summarise(
     avg_points = mean(total_points, na.rm = TRUE),
     games_count = n(),
     home_win_pct = mean(wl_home == "W", na.rm = TRUE),
     .groups = "drop"
-  ) %>%
+  ) |>
   arrange(game_year)
 ```
 
@@ -1003,8 +1003,8 @@ nba_clean <- open_dataset("data/game.parquet") |>
     game_date = as_datetime(game_date),
     game_year = year(game_date),
     season_label = paste0(season_id %/% 10000, "-", str_sub(season_id + 1, 3, 4))
-  ) %>%
-  filter(!is.na(game_date), game_year >= 1946) %>%
+  ) |>
+  filter(!is.na(game_date), game_year >= 1946) |>
 	mutate(
 	wl_home = factor(wl_home, levels = c("W", "L")),
     game_era = case_when(
@@ -1019,15 +1019,15 @@ nba_clean <- open_dataset("data/game.parquet") |>
     	across(contains("pct"), ~replace_na(.x, 0)),
     	across(c(pts_home.x, pts_away.x), ~replace_na(.x, 0)),
     	total_points = pts_home.x + pts_away.x
- 	 ) %>%
+ 	 ) |>
  	 filter(total_points > 0, !is.na(pts_home.x), !is.na(pts_away.x))|>
-  group_by(game_year, game_era, season_label) %>%
+  group_by(game_year, game_era, season_label) |>
   summarise(
     avg_points = mean(total_points, na.rm = TRUE),
     games_count = n(),
     home_win_pct = mean(wl_home == "W", na.rm = TRUE),
     .groups = "drop"
-  ) %>%
+  ) |>
   arrange(game_year)
 ```
 
@@ -1064,7 +1064,7 @@ A **right join** keeps all observations in `y` Every row of y is preserved in th
 
 ### Exercise 17
 
-Ask AI to generate R code that uses `nba_clean` to create a time series plot showing how `avg_points` changes across `game_year` for each `game_era`. Mention that you want to use the data from `nba_clean` and include the top 3 rows of the tibble (just enough to show the column names `game_year`, `avg_points`, `games_count`, and `game_era`) copied from the console. The code should use `ggplot()` with `geom_line()` and `geom_point()` (sized by `games_count`), apply a `viridis` color scale, label the axes and title, use `theme_minimal()`, and then convert the plot to an interactive `plotly` graph with tooltips for `x`, `y`, `colour`, and `size`.
+Ask AI to generate R code that uses `nba_clean` to create an interesting plot. Include the top 3 rows of the tibble --- just enough to show the column names. 
 
 Within `labs()`, edit or add a proper title, subtitle, and caption. If axis labels would be useful, add them, but if unnecessary, don't bother. Don't assign the code for the plot to any variable. Put the plot code in a new code chunk. Run `Cmd/Ctrl + Shift + K` to ensure that everything works. Make your plot look nice.
 
@@ -1090,7 +1090,7 @@ question_text(NULL,
 Our code:
 
 ```{r, echo=TRUE}
-time_series_plot <- nba_clean %>%
+time_series_plot <- nba_clean |>
   ggplot(aes(x = game_year, y = avg_points, color = game_era)) +
   geom_line(linewidth = 1.2, alpha = 0.8) +
   geom_point(aes(size = games_count),
@@ -1114,7 +1114,7 @@ time_series_plot <- nba_clean %>%
   )
 
 ggplotly(time_series_plot, 
-                             tooltip = c("x", "y", "colour", "size")) %>%
+                             tooltip = c("x", "y", "colour", "size")) |>
   layout(
     hovermode = "closest",
     showlegend = TRUE,
@@ -1125,7 +1125,7 @@ ggplotly(time_series_plot,
       bordercolor = "gray",
       font = list(family = "Arial", size = 12)
     )
-  ) %>%
+  ) |>
   config(displayModeBar = TRUE, displaylogo = FALSE)
 ```
 
@@ -1884,7 +1884,7 @@ You can recognize ordered factors when printing because they use `<` between the
 
 ### Exercise 19
 
-"Ask AI to use the `final_fifa` dataset to generate a bubble chart using `geom_line()` and `geom_point()`. Mention that you want to use the data from `final_fifa` and include the top 3 rows of the tibble (just enough to show the column names). Use `filter()` to keep only rows where `value_numeric > 0` and `X.OVA > 60`. Map `Age` to the x-axis and `X.OVA` to the y-axis. Use `geom_point()` to plot bubbles with `size` and `color` both mapped to `value_numeric`. Then use `scale_size_continuous()` with `label_currency()` to format market values in millions of euros, and `scale_color_viridis_c()` with the `"plasma"` option to color the points. Add labels and subtitles with `labs()`. Finally, apply `theme_minimal()` and customize the chart using `theme()` to adjust title, subtitle, legend position, panel grid, and background."
+Ask AI to use the `final_fifa` dataset to generate an interesting chart. Include the top 3 rows of the tibble (just enough to show the column names). Deal with any warnings or messages in a sensible fashion.
 
 Within `labs()`, edit or add a proper title, subtitle, and caption. If axis labels would be useful, add them, but if unnecessary, don't bother. Don't assign the code for the plot to any variable. Put the plot code in a new code chunk. Run `Cmd/Ctrl + Shift + K` to ensure that everything works. Make your plot look nice.
 
@@ -1910,8 +1910,8 @@ question_text(NULL,
 Our code:
 
 ```{r, echo=TRUE}
-final_fifa %>%
-  filter(value_numeric > 0, X.OVA > 60) %>%
+final_fifa |>
+  filter(value_numeric > 0, X.OVA > 60) |>
   ggplot(aes(x = Age, y = X.OVA, size = value_numeric, color = value_numeric)) +
   geom_point(alpha = 0.7) +
   scale_size_continuous(range = c(0.5, 8), 

@@ -1263,7 +1263,7 @@ earthquake_df
 
 ### Exercise 20
 
-Ask AI to generate R code that uses the `earthquake_df` tibble to create an interactive map showing earthquakes in the U.S. Mention that you want to use the data from `earthquake_df` and include the top 3 rows (mainly to show column names). The map should use `leaflet()` with `addTiles()` and `addCircleMarkers()` to plot points with `longitude` and `latitude`, sized by `properties_mag`, colored by `color`, and showing `tooltip_text` on popups. Also, add a legend with `addLegend()` to label earthquake magnitudes with colors and categories.
+Ask AI to generate R code that uses the `earthquake_df` tibble to create an interactive map showing earthquakes in the U.S. Mention that you want to use the data from `earthquake_df` and include the top 3 rows (mainly to show column names). 
 
 Within `labs()`, edit or add a proper title, subtitle, and caption. If axis labels would be useful, add them, but if unnecessary, don't bother. Don't assign the code for the plot to any variable. Put the plot code in a new code chunk. Run `Cmd/Ctrl + Shift + K` to ensure that everything works. Make your plot look nice.
 
@@ -2261,9 +2261,9 @@ Note that JSON doesn’t have any native way to represent dates or date-times, s
 
 ### Exercise 20
 
-Ask AI to generate R code that uses `top_movies` to plot a basic graph showing the relationship between `year` and `rating` from 1990 - 2010 using `geom_point()` and `geom_smooth()`. Map `size` to `number/1000` and `color` to `rating_category` within `geom_point()`. Add scale breaks on the x and y axis and `theme_minimal()`. Mention you want to use the data from `top_movies` and copy/paste the `top_movies` you ran in the Console with the resulting tibble. You only need the top 3 lines, mainly to include column names.
+Ask AI to generate R code that uses `top_movies` to make an interesting plot. Show the AI the top 3 lines, so it knows the column names.
 
-Within `labs()`, edit or add a proper title, subtitle, and caption. If axis labels would be useful, add them, but if unnecessary, don't bother. Don't assign the code for the plot to any variable. Put the plot code in a new code chunk. Run `Cmd/Ctrl + Shift + K` to ensure that everything works. Make your plot look nice.
+Within `labs()`, edit or add a proper title, subtitle, and caption. Don't assign the code for the plot to any variable. Put the plot code in a new code chunk. Run `Cmd/Ctrl + Shift + K` to ensure that everything works. Make your plot look nice.
 
 In the Console, run:
 

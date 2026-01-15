@@ -561,6 +561,8 @@ Ordering rows involves a straightforward translation from `arrange()` to the SQL
 
 Now that we have filtered our dataset through a pipe, we need to be on track with the same, correct, code. Replace your last code chunk with our code in your QMD. Add `collect()` to the end of the pipe.
 
+**Change the start letter from `A` to a letter of your choice.**
+
 In the Console, run:
 
 ```         
@@ -594,6 +596,8 @@ dbplyr_names |>
 ### 
 
 To get all the data back into R, you call `collect()`. Behind the scenes, this generates the SQL, calls `dbGetQuery()` to get the data, then turns the result into a tibble. 
+
+Again, you should filter for names which start with any other letter except for `A`.
 
 ### Exercise 12
 
@@ -656,7 +660,7 @@ The `.by` argument in `summarize()` performs grouped operations without modifyin
 
 ### Exercise 14
 
-Ask AI: to generate R code that plots a basic line graph showing the proportion of "Short" vs. "Long" names starting with A over the years (after 2000). Mention you want to use the data from `x` and copy and paste the `x` you ran in the Console with the resulting dataframe. You only need the top 3 lines, mainly to include column names.
+Ask AI to generate R code that plots a basic line graph showing the proportion of "Short" vs. "Long" names starting with a specific letter --- the letter you choose to replace `A`--- over the years. Mention you want to use the data from `x` and copy and paste the `x` you ran in the Console with the resulting dataframe. You only need the top 3 lines, mainly to include column names.
 
 Within `labs()` edit or add a proper title, subtitle, and caption. If axis labels are appropriate, add them, but if unnecessary, don't bother. Don't assign the code to any variable. Put this code into a new code chunk. Run `Cmd/Ctrl + Shift + K`.
 
@@ -1231,7 +1235,9 @@ In the next exercise, you will see a crosstabulation structure - with two groupi
 
 ### Exercise 15
 
-Go to the AI and ask it to generate R code that plots a beautiful heatmap using `geom_tile()` that shows where delays cluster by scheduled vs. actual departure hour. Mention you want to use the data from `x` and copy and paste the `x` you ran in the Console with the resulting tibble. You only need the top 3 lines, mainly to include column names.
+Ask AI to generate R code that creates a beautiful heatmap using `geom_tile()`. (You can make a different plot than a heatmap, if you like.) The plot must make sense. It must be something which tells us about the world. It can't just be nonsense. You need to look at the output.
+
+Mention you want to use the data from `x` and copy and paste the `x` you ran in the Console with the resulting tibble. You only need the top 3 lines, mainly to include column names.
 
 Within `labs()` edit or add a proper title, subtitle, and caption. If axis labels are appropriate, add them, but if unnecessary, don't bother. Don't assign the code for the plot to any variable. Add this code to a new code cell. Run `Cmd/Ctrl + Shift + K`.
 
