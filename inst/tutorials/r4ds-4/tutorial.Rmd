@@ -302,12 +302,12 @@ In the Console, run:
 
 ```         
 download.file(
-  "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-4/data/game.parquet",
+  "https://github.com/PPBDS/positron.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-4/data/game.parquet",
   destfile = "data/game.parquet",
   mode = "wb"
 )
 download.file(
-  "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-4/data/line_score.parquet",
+  "https://github.com/PPBDS/positron.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-4/data/line_score.parquet",
   destfile = "data/line_score.parquet",
   mode = "wb"
 )
@@ -1152,7 +1152,7 @@ In the Console, run:
 
 ```         
 download.file(
-  "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-4/data/fifa.parquet",
+  "https://github.com/PPBDS/positron.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-4/data/fifa.parquet",
   destfile = "data/fifa.parquet",
   mode = "wb"
 )

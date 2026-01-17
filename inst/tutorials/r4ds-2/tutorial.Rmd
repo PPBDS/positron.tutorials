@@ -185,7 +185,7 @@ In the Console, run:
 
 ```         
 download.file(
-  "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-2/data/cheeses.xlsx",
+  "https://github.com/PPBDS/positron.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-2/data/cheeses.xlsx",
   destfile = "data/cheeses.xlsx",
   mode = "wb"
 )
@@ -856,7 +856,7 @@ We begin by downloading our spreadsheet `wine.xlsx` directly from GitHub to the 
 In the Console, run:
 ```         
 download.file(
-  "https://github.com/PPBDS/ai.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-2/data/wine.xlsx",
+  "https://github.com/PPBDS/positron.tutorials/raw/refs/heads/main/inst/tutorials/r4ds-2/data/wine.xlsx",
   destfile = "data/wine.xlsx",
   mode = "wb"
 )
