@@ -1,22 +1,5 @@
 ## Priorities
 
-### How does this even work??
-
-I am confused about how anything works! Consider r4ds-4 which has a data directory in which data like game.parquet lives. So far, so good. We have students create data directories and then download that data from GitHub. That works! But we also have code like this in the tutorial.Rmd:
-
-nba_clean <- open_dataset("data/game.parquet") |>
-  collect() 
-
-How does that work? It lives in the `setup` chunk. It runs when the tutorial is knitted, before students download anything. Presumably, run_tutorial() must be doing some stuff behind the scenes. I bet that it moves the process to the directory in which the `tutorial.Rmd` file lives. As long as that directory has `data/game.parquet`, then everything should work. 
-
-But how did `data/game.parquet` get installed in the first place! We can't put that data on CRAN because it is too big. So, you only get that data if you install from GitHub. But, if so, then we should not have a version on CRAN!
-
-One solution is to give a big warning when the CRAN version is installed, telling people that the tutorials won't run. Then, provide a script which downloads and installs all the data. But that script might be annoying to write/run since there are so many data directories in so many locations. Maybe in `inst/extdata`?
-
-Second solution is to centralize all the data which the tutorials use. Then, it would be much easier to have a script which downloaded that data. The problem (?) is that, when a tutorial is knitted, it can only see the data in its directory or below. It can't see elsewhere.
-
-Third solution is for each tutorial to, in its setup chunk, create the data directory and download data into it. Maybe those steps could be turned into a simple function which might live in tutorial.helpers? I always worry about permission issues in these situations, especially with Windows. Tutorials are installed in some libPaths() directory somewhere . . . Anyway, the function which check the existence of the data directory, create if necessary, download all the files from the data/ directory in the matching GitHub repo. It would report sucess. It would check permissions.
-
 ### Other Stuff
 
 r4ds-4 is probably too long. Maybe split it up into two tutorials?
