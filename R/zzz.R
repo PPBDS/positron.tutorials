@@ -14,6 +14,9 @@
 # permission to write into its directory. The manifest below must be updated
 # whenever data files are added or removed from any tutorial.
 
+#' @importFrom utils download.file
+NULL
+
 data_manifest <- list(
   "r4ds-1" = c("music_1.csv", "music_fake.csv", "music.csv"),
   "r4ds-2" = c("cheeses.xlsx", "wine.xlsx"),
