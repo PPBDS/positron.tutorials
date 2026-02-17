@@ -25,9 +25,8 @@ remotes::install_github("PPBDS/positron.tutorials")
 ```
 
 However, if you want to use the CRAN version, then, when you first load
-the library, you will be prompted to run
-[`setup_tutorial_data()`](https://ppbds.github.io/positron.tutorials/reference/setup_tutorial_data.md)
-at the Console in order to download the necessary data.
+the library, you will be prompted to run `setup_tutorial_data()` at the
+Console in order to download the necessary data.
 
 ## Tutorials
 

@@ -2,6 +2,9 @@
 
 ## positron.tutorials (development version)
 
+- Use .onAttach() to download any needed tutorial data which is not
+  currently installed.
+
 - Fix errors in tutorials.
 
 - Use Cmd/Ctrl + Enter, not Cmd/Ctrl + Shift + Enter.
