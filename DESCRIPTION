@@ -1,6 +1,6 @@
 Package: positron.tutorials
 Title: Tutorials for Learning 'Positron' and for Using AI
-Version: 0.2.0.9015
+Version: 0.2.1
 Authors@R: 
     c(
     person(given = "David",

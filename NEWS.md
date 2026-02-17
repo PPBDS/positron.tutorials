@@ -1,4 +1,4 @@
-# positron.tutorials (development version)
+# positron.tutorials 0.2.1
 
 * Use .onAttach() to download any needed tutorial data which is not currently installed.
 
