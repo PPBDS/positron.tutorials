@@ -59,7 +59,7 @@ earthquake_df <- jsonlite::read_json("data/earthquakes.geojson") |>
   			mag_category = categorize_magnitude(as.numeric(properties_mag))
 		)|>
 mutate(across(c(properties_mag, depth), as.numeric)) |>
-  filter(datetime >= Sys.Date() - 7) |>
+  filter(datetime >= Sys.Date() - 365) |>
   filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
   mutate(
     hour = hour(datetime),
@@ -216,7 +216,7 @@ question_text(NULL,
 ```
 
 ### 
-
+<!-- AR: These final knowledge drop paragraphs at the ends of most exercises seem unrelated and often, distracting. -->
 List-columns tend to come in two basic forms: named and unnamed. When the children are named, they tend to have the same names in every row.
 When the children are unnamed, the number of elements tends to vary from row-to-row. **`tidyr`** provides two functions for these two cases: `unnest_wider()` and `unnest_longer()`.
 
@@ -259,7 +259,7 @@ question_text(NULL,
 ```
 
 ### 
-
+<!-- AR: Irrelevant comment. -->
 Explicit missing values usually show up as NA, but missing values can also be implicitly missing, if an entire row of data is simply absent from the data.
 
 ### Exercise 3
@@ -279,6 +279,7 @@ question_text(NULL,
 
 ###
 
+<!-- AR: How does this comment connect? -->
 JSON is a machine-readable format with six data types. Four scalars: null (like R's NA), string (double quotes required), number (integer, decimal, or scientific notation; no Inf/NaN), and boolean (lowercase true/false).
 
 ### Exercise 4
@@ -360,9 +361,15 @@ question_text(NULL,
 
 <!-- DK: This is a poorly designed question, precisely because it results in lots of garbage being printed out. -->
 
-Ask AI to help you read the JSON file `data/earthquakes.geojson` by using `jsonlite::read_json()` and then piping it into `str()` to explore its structure. Add this code to a new code chunk in the same QMD.
+<!-- AR: This question inspired a good deal of confusion for me. I felt compelled to sketch out a possible change. To me, asking AI to do this -->
 
-Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
+Use `jsonlite::read_json()` to read the GeoJSON file `data/earthquakes.geojson` and save the result to `geojson_obj`. This function downloads GeoJSON files as `FeatureCollection` object. This object contains features associated with names. 
+
+We can access the features of a `FeatureCollection` using `$`. Access the data frame associated with the `features` name by calling `geojson_obj$features` and assigning the result to `features_df`.
+
+Use glimpse() to review the columns of this data frame.
+
+Place your cursor at the beginning of the code chunk and run `Cmd/Ctrl + Enter`.
 
 CP/CR.
 
@@ -380,13 +387,17 @@ question_text(NULL,
 Our code:
 
 ```{r earthquakes-2-test, echo = TRUE}
-jsonlite::read_json("data/earthquakes.geojson") |>
-	str(max.levels = 2)
+geojson_obj <- jsonlite::read_json("data/earthquakes.geojson")
+
+features_df <- geojson_obj$features
+
+glimpse(features_df)
 ```
 
 ###
 
 <!-- DK: Knowledge drop! -->
+We can use the `names()` function to get the names of the all the features in `geojson-obj` and then use `$` to access the associated features. This handy function is also used to get or set the names attributes data frame, vector, and matrix.
 
 ### Exercise 3
 
@@ -419,12 +430,13 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 ```
 
 ###
+<!-- AR: Irrelevant comment. -->
 
 `expand_dates()` uses **lubridate** functions to expand all date columns within a tibble into year, month, and day columns.
 
 ### Exercise 4
 
-Ask AI to continue our pipe using `hoist()` to extract the coordinates directly from the geometry column without fully unnesting it.Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+Ask AI to continue our pipe using `hoist()` to extract the coordinates directly from the geometry column without fully unnesting it. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
 Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
@@ -453,6 +465,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 ```
 
 ###
+<!-- AR: Irrelevant comment. -->
 
 Another interesting function associated with `across()` is `pivot_longer()`, which makes data sets longer by increasing the number of rows and decreasing the number of columns.
 
@@ -494,6 +507,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 
 ###
 
+<!-- AR: Irrelevant comment. -->
 `list_rbind()` combines elements into a data frame by row-binding them together with `vctrs::vec_rbind()`.
 
 ### Exercise 6
@@ -577,7 +591,8 @@ filter(!if_any(c(properties_mag, longitude, latitude), is.na))
 
 ###
 
-`!where(is.numeric)` selects all non-numeric columns.
+<!-- AR: Update to use what is in the code above?. -->
+`where(is.character)` selects all character columns.
 
 ### Exercise 8
 
@@ -612,7 +627,8 @@ Writing custom functions helps you encapsulate logic that you'll use repeatedly.
 
 ### Exercise 9
 
-Ask AI to create another custom function called `categorize_magnitude()` that takes magnitude values and returns categories like "Minor" (< 3.0), "Light" (3.0-3.9), "Moderate" (4.0-4.9), "Strong" (5.0-5.9), "Major" (6.0-6.9), and "Great" (7.0+). Use your function to add a magnitude category column to the data. Add this code as a addition to your current code in the code chunk in the same QMD.
+<!-- AR: Removed an instruction to create a magnitude column. It's already  included and fits better in step 10. -->
+Ask AI to create another custom function called `categorize_magnitude()` that takes magnitude values and returns categories like "Minor" (< 3.0), "Light" (3.0-3.9), "Moderate" (4.0-4.9), "Strong" (5.0-5.9), "Major" (6.0-6.9), and "Great" (7.0+). Add this code as a addition to your current code in the code chunk in the same QMD.
 
 Place your cursor at the beginning of the line where it says `categorize_magnitude...` and run `Cmd/Ctrl + Enter`.
 
@@ -648,6 +664,7 @@ categorize_magnitude <- function(mag) {
 ```
 
 ###
+<!-- AR: Irrelevant comment: coalesce() not used. -->
 
 The function `coalesce()` replaces NAs with 0.
 
@@ -718,8 +735,9 @@ jsonlite::read_json("data/earthquakes.geojson") |>
 
 ### Exercise 11
 <!-- DK: Do whatever necessary so that the plot looks cool. Background: Since the the earthquakes are from last 7  days, and there havent been any in the US, there are no dots. Should we switch to 30 days or maybe 365 days? -->
+<!-- AR: 365 looks pretty cool to me. -->
 
-Ask AI to continue your pipe using `across()` and convert magnitude and depth to numeric if they aren't already and then filter earthquakes from the last 7 days using `filter()` and `datetime >= Sys.Date() - 7`. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
+Ask AI to continue your pipe using `across()` and convert magnitude and depth to numeric if they aren't already and then filter earthquakes from the last 365 days using `filter()` and `datetime >= Sys.Date() - 365`. Add this code as a continuation of your current pipe in the same code chunk in the same QMD.
 
 Place your cursor at the beginning of the line where it says `jsonlite...` and run `Cmd/Ctrl + Enter`.
 
@@ -758,7 +776,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
   			mag_category = categorize_magnitude(as.numeric(properties_mag))
 		)|>
 mutate(across(c(properties_mag, depth), as.numeric)) |>
-  filter(datetime >= Sys.Date() - 7) 
+  filter(datetime >= Sys.Date() - 365) 
 ```
 
 ###
@@ -804,7 +822,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
   			mag_category = categorize_magnitude(as.numeric(properties_mag))
 		)|>
 mutate(across(c(properties_mag, depth), as.numeric)) |>
-  filter(datetime >= Sys.Date() - 7) |>
+  filter(datetime >= Sys.Date() - 365) |>
 filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
 mutate(
   hour = hour(datetime),
@@ -818,6 +836,7 @@ mutate(
 ```
 
 ###
+<!-- AR: Irrelevant comment. -->
 
 There are two more functions that combine list elements into a single data structure than just `list_rbind()`:
 1. `list_c()` combines elements into a vector by **concatenating them together** with `vctrs::vec_c()`.
@@ -888,6 +907,7 @@ mutate(
 ```
 
 ###
+<!-- AR: Irrelevant comment. -->
 
 `parse_number` parses the first number it finds, dropping any non-numeric characters before the first number and all characters after the first number. The grouping mark specified by the locale is ignored inside the number.
 
@@ -932,7 +952,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
   			mag_category = categorize_magnitude(as.numeric(properties_mag))
 		)|>
 mutate(across(c(properties_mag, depth), as.numeric)) |>
-  filter(datetime >= Sys.Date() - 7) |>
+  filter(datetime >= Sys.Date() - 365) |>
 filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
 mutate(
   hour = hour(datetime),
@@ -961,6 +981,7 @@ mutate(
 
 ###
 
+<!-- AR: Irrelevant comment. -->
 `is.na()` is used to deal with missing values in the dataset or data frame.
 
 ### Exercise 15
@@ -1000,7 +1021,7 @@ jsonlite::read_json("data/earthquakes.geojson") |>
   			mag_category = categorize_magnitude(as.numeric(properties_mag))
 		)|>
 mutate(across(c(properties_mag, depth), as.numeric)) |>
-  filter(datetime >= Sys.Date() - 7) |>
+  filter(datetime >= Sys.Date() - 365) |>
 filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
 mutate(
   hour = hour(datetime),
@@ -1039,7 +1060,8 @@ arrange(desc(properties_mag))
 
 ###
 
- There are two additional functions worth mentioning.`map_if()` allows you to selectively modify elements of a list based on their values.`map_at()` allows you to selectively modify elements based on their names.
+<!-- AR: Irrelevant comment. -->
+There are two additional functions worth mentioning.`map_if()` allows you to selectively modify elements of a list based on their values.`map_at()` allows you to selectively modify elements based on their names.
 
 ### Exercise 16
 
@@ -1064,95 +1086,12 @@ question_text(NULL,
 
 ###
 
+<!-- AR: Irrelevant comment. -->
 `unnest_auto()` automatically picks between `unnest_longer()` and `unnest_wider()` based on the structure of the list-column. It’s great for rapid exploration, but ultimately it’s a bad idea because it doesn’t force you to understand how your data is structured, and makes your code harder to understand.
 
+<!-- AR: Duplicate Exercise 16 -->
+
 ### Exercise 17
-
-Before creating a plot, we need to ensure that your data matches our data. In the QMD, replace your code from the previous exercise with our code.
-
-In the Console, run:
-
-```         
-show_file("analysis.qmd", chunk = "Last")
-```
-
-CP/CR.
-
-```{r earthquakes-17}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 6)
-```
-
-###
-
-Our code:
-
-```{r earthquakes-17-test, echo = TRUE}
-jsonlite::read_json("data/earthquakes.geojson") |>
-  pluck("features") |> 
-  tibble(data = _) |> 
-  unnest_wider(data) |> 
-  unnest_wider(properties, names_sep = "_") |> 
-  hoist(geometry, coordinates = "coordinates") |> 
-  unnest_wider(coordinates, names_sep = "_") |> 
-  rename(
-    longitude = coordinates_1,
-    latitude  = coordinates_2,
-    depth     = coordinates_3
-  )|>
- 	mutate(across(where(is.character), ~ifelse(.x == "null", NA, .x))) |>
- 	filter(!if_any(c(properties_mag, longitude, latitude), is.na))|>
-		mutate(
-  			datetime = convert_earthquake_time(as.numeric(properties_time)),
-  			mag_category = categorize_magnitude(as.numeric(properties_mag))
-		)|>
-mutate(across(c(properties_mag, depth), as.numeric)) |>
-  filter(datetime >= Sys.Date() - 7) |>
-  filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
-  mutate(
-    hour = hour(datetime),
-    day_of_week = wday(datetime, label = TRUE),
-    depth_category = case_when(
-      depth < 70 ~ "Shallow",
-      depth < 300 ~ "Intermediate", 
-      depth < 600 ~ "Deep"
-    )
-  )|>
-  select(longitude, latitude, properties_mag, properties_place, datetime, depth, mag_category, depth_category) |>
-  mutate(
-    tooltip_text = paste0(
-      "Magnitude: ", properties_mag, " (", mag_category, ")<br>",
-      "Location: ", properties_place, "<br>",
-      "Time: ", format(datetime, "%Y-%m-%d %H:%M"), "<br>",
-      "Depth: ", round(depth, 1), " km (", depth_category, ")"
-    )
-  )|>
-  filter(
-    longitude >= -180, longitude <= 180,
-    latitude >= -90, latitude <= 90,
-    properties_mag >= 0, properties_mag <= 10
-  ) |>
-  mutate(
-    color = case_when(
-      properties_mag >= 6 ~ "red",
-      properties_mag >= 5 ~ "orange", 
-      properties_mag >= 4 ~ "yellow",
-      properties_mag >= 3 ~ "green",
-      TRUE ~ "blue"
-    )
-  ) |>
-  arrange(desc(properties_mag))
-```
-
-###
-
-It’s great for rapid exploration, but ultimately it’s a bad idea because it doesn’t force you to understand how your data is structured, and makes your code harder to understand.
-
-### Exercise 18
 
 Within the latest code chunk, add the option: `#| cache: true`. Assign the result of the pipe to `earthquake_df`. 
 
@@ -1197,7 +1136,7 @@ earthquake_df <- jsonlite::read_json("data/earthquakes.geojson") |>
   			mag_category = categorize_magnitude(as.numeric(properties_mag))
 		)|>
 mutate(across(c(properties_mag, depth), as.numeric)) |>
-  filter(datetime >= Sys.Date() - 7) |>
+  filter(datetime >= Sys.Date() - 365) |>
   filter(longitude >= -125, longitude <= -66, latitude >= 20, latitude <= 50) |>
   mutate(
     hour = hour(datetime),
@@ -1349,6 +1288,7 @@ question_text(NULL,
 
 ###
 
+<!-- AR: Irrelevant comment. Doesn't work in Positron. -->
 The RStudio `view()` lets you interactively explore a complex list. The viewer opens showing only the top level of the list.
 
 ### Exercise 2
@@ -1384,6 +1324,7 @@ request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/t
 
 ###
 
+<!-- AR: I'm confused... is this happening in the tibble above? -->
 Lists can also live inside a tibble, where we call them list-columns. List-columns are useful because they allow you to place objects in a tibble that wouldn’t usually belong in there. In particular, list-columns are used a lot in the [tidymodels](https://www.tidymodels.org/) ecosystem, because they allow you to store things like model outputs or resamples in a data frame.
 
 ### Exercise 3
@@ -1421,7 +1362,7 @@ request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/t
 ```
 
 ###
-
+<!-- AR: Unrelated comment? -->
 Both arrays and objects are similar to lists in R; the difference is whether or not they’re named. An array is like an unnamed list, and is written with `[]`. For example `[1, 2, 3]` is an array containing 3 numbers, and `[null, 1, "string", false]` is an array that contains a null, a number, a string, and a boolean.
 
 ### Exercise 4
@@ -1462,6 +1403,7 @@ request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/t
 
 ###
 
+<!-- AR: Unrelated comment? -->
 When each row has the same number of elements with the same names, it’s natural to put each component into its own column with `unnest_wider()` 
 
 ### Exercise 5
@@ -1510,6 +1452,7 @@ request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/t
 
 ###
 
+<!-- AR: Unrelated comment? -->
 When each row contains an unnamed list, it’s most natural to put each element into its own row with `unnest_longer()`
 
 ### Exercise 6
@@ -1587,6 +1530,7 @@ extract_rating_info("https://web.archive.org/web/20220201012049/https://www.imdb
 ```
 
 ###
+<!-- AR: consider moving earlier when html_elements() is first called -->
 
 `html_elements()` pulls out all the elements that match the selector, which is provided to the `css` argument. "Elements" consist of a start tag (e.g. \<p\>), optional attributes (id='first'), an end tag4 (like \</p\>). The "contents" of an element are everything in between the start and end tag.
 
@@ -2043,91 +1987,8 @@ question_text(NULL,
 
 You can often get the same results from `across()` by first using `pivot_longer()`, summarizing by groups, and then reshaping back with `pivot_wider()`. This approach is especially powerful when you need to work with paired columns (e.g., values and weights) that across() can’t currently handle, such as calculating weighted means.
 
+<!-- AR exercise 15 was duplicated -->
 ### Exercise 16
-
-Before creating a plot, we need to ensure that your data matches our data. In the QMD, replace your code from the previous exercise with our code.
-
-In the Console, run:
-
-```         
-show_file("analysis.qmd", chunk = "Last")
-```
-
-CP/CR.
-
-```{r top-movies-16}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 6)
-```
-
-###
-
-Our code:
-
-```{r top-movies-16-test, echo = TRUE}
-request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top") |> 
-  req_perform() |> 
-  resp_body_html() |> 
-  html_element("table") |>
-  html_table() |>
-  select(
-    rank_title_year = `Rank & Title`,
-    rating = `IMDb Rating`
-  ) |>
-  mutate(
-    rank_title_year = str_replace_all(rank_title_year, "\n +", " "),
-    rating_details = request("https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/") |> 
-  req_perform() |> 
-  resp_body_html() |> 
-      html_elements("td strong") |>
-      html_attr("title")
-  ) |>
-  separate_wider_regex(
-    rank_title_year,
-    patterns = c(
-      rank = "\\d+", "\\. ",
-      title = ".+", " +\\(",
-      year = "\\d+", "\\)"
-    )
-  ) |>
-  separate_wider_regex(
-    rating_details,
-    patterns = c(
-      "[0-9.]+ based on ",
-      number = "[0-9,]+",
-      " user ratings"
-    )
-  ) |>
-  mutate(
-    number = parse_number(number),
-    across(c(rank, year), as.numeric),
-    decade = paste0(floor(year/10)*10, "s"),
-    rating_category = case_when(
-      rating >= 9.0 ~ "Masterpiece (9.0+)",
-      rating >= 8.5 ~ "Excellent (8.5-8.9)", 
-      rating >= 8.0 ~ "Great (8.0-8.4)",
-      TRUE ~ "Good (<8.0)"
-    ),
-    popularity = case_when(
-      number >= 2000000 ~ "Very Popular (2M+)",
-      number >= 1000000 ~ "Popular (1M-2M)",
-      number >= 500000 ~ "Moderate (500K-1M)",
-      TRUE ~ "Niche (<500K)"
-    )
-  ) |>
-  select(rank, title, year, rating, number) |>
-  arrange(rank)
-```
-
-###
-
-`unnest()` expands both rows and columns. It’s useful when you have a list-column that contains a 2d structure like a data frame.
-
-### Exercise 17
 
 Within the latest code chunk, add the option: `#| cache: true`. Assign the result of the pipe to `top_movies`. 
 
@@ -2209,7 +2070,7 @@ top_movies <- request("https://web.archive.org/web/20220201012049/https://www.im
 
 It is always good practice to inspect your data before plotting it.
 
-### Exercise 18
+### Exercise 17
 
 Within the Console, type `top_movies`, which we previously assigned to a pipe and ran in the Console. Hit `Enter`.
 
@@ -2232,34 +2093,7 @@ Our code:
 top_movies
 ```
 
-### Exercise 19
-
-Within the Console, type `top_movies`, which we previously assigned to a pipe and ran in the Console. Hit `Enter`.
-
-CP/CR.
-
-```{r top-movies-19}
-question_text(NULL,
-    answer(NULL, correct = TRUE),
-    allow_retry = TRUE,
-    try_again_button = "Edit Answer",
-    incorrect = NULL,
-    rows = 8)
-```
-
-###
-
-Our code:
-
-```{r top-movies-19-test, echo=TRUE}
-top_movies
-```
-
-###
-
-Note that JSON doesn’t have any native way to represent dates or date-times, so they’re often stored as strings, and you’ll need to use `readr::parse_date()` or `readr::parse_datetime(`) to turn them into the correct data structure. Similarly, JSON’s rules for representing floating point numbers in JSON are a little imprecise, so you’ll also sometimes find numbers stored in strings. Apply `readr::parse_double()` as needed to get the correct variable type.
-
-### Exercise 20
+### Exercise 18
 
 Ask AI to generate R code that uses `top_movies` to make an interesting plot. Show the AI the top 3 lines, so it knows the column names.
 
@@ -2333,6 +2167,7 @@ filter(year >= 1990, year <= 2010) |>
 
 ###
 
+<!-- AR: Irrelevant comment? -->
 `fct_reorder()` takes three arguments:
 
 1. `.f`, the factor whose levels you want to modify.
