@@ -1,5 +1,32 @@
 ## Priorities
 
+Options for VScode/Codespaces?
+
+* One key difference is that there is no Console in VScode, so lots of text needs to change.
+
+* Key issue is the different starting directories. 
+
+* Put an introductory section in r4ds-1 which reminds people how the Positron and Codespace/VS Code approaches differ, most importantly in which directory you start in, both for bash and for R.
+
+* Design changes which make all r4ds tutorials work well for both IDEs.
+
+* Change the names from 01-code to positron-01-code, and so on.
+
+* Create copies of all 7 of the 0* tutorials, named vscode-01-code and so on. Or maybe we don't need to do that since they are very similar for both IDEs.
+
+* Errors when r4ds-4 is run as a tutorial:
+
+Output created: tutorial.html
+Warning: There were 7 warnings in `mutate()`.
+The first warning was:
+ℹ In argument: `value_numeric = case_when(...)`.
+Caused by warning:
+! NAs introduced by coercion
+ℹ Run `dplyr::last_dplyr_warnings()` to see the 6 remaining warnings.
+
+
+* Make extension take an "exclusion" argument which accepts a comma-separated list of packages to exclude, most importantly learnr.
+
 ### Other Stuff
 
 There is a NOTE on a couple of the CRAN checks. Seems like the .Rbuildignore is not being referenced in those checks, leaving the package as 48 MB. How can this be?
